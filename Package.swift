@@ -7,6 +7,7 @@ let package = Package(
     products: [
         .library(name: "STKit", targets: ["STKit"]),
         .library(name: "STDOCX", targets: ["STDOCX", "SwiftDocX", "STKit", "_ZIPFoundation"]),
+        .library(name: "SwiftDocX", targets: ["SwiftDocX"]),
         .library(name: "STExcel", targets: ["STExcel", "STKit", "_ZIPFoundation"]),
         .library(name: "STTXT", targets: ["STTXT", "STKit"]),
     ],
