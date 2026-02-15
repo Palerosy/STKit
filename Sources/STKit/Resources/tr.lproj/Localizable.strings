@@ -1,0 +1,30 @@
+/* Common */
+"stkit.done" = "Tamam";
+"stkit.cancel" = "İptal";
+"stkit.save" = "Kaydet";
+"stkit.share" = "Paylaş";
+"stkit.export" = "Dışa Aktar";
+"stkit.delete" = "Sil";
+"stkit.close" = "Kapat";
+"stkit.untitled" = "İsimsiz";
+"stkit.search" = "Ara";
+"stkit.undo" = "Geri Al";
+"stkit.redo" = "Yinele";
+
+/* License */
+"stkit.unlicensed" = "STKit — Lisanssız";
+
+/* Word Count */
+"stkit.wordCount" = "Kelime Sayısı";
+"stkit.words" = "Kelime";
+"stkit.characters" = "Karakter";
+"stkit.charactersWithSpaces" = "Karakter (boşluklu)";
+"stkit.paragraphs" = "Paragraf";
+"stkit.lines" = "Satır";
+
+/* Document */
+"stkit.newDocument" = "Yeni Belge";
+"stkit.unsavedChanges" = "Kaydedilmemiş Değişiklikler";
+"stkit.unsavedChangesMessage" = "Kaydedilmemiş değişiklikleriniz var. Ne yapmak istersiniz?";
+"stkit.discard" = "Değişiklikleri At";
+"stkit.saveAndClose" = "Kaydet ve Kapat";

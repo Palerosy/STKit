@@ -1,0 +1,6 @@
+/* STExcel */
+"stexcel.sheet" = "Sheet";
+"stexcel.cell" = "Cell";
+"stexcel.row" = "Row";
+"stexcel.column" = "Column";
+"stexcel.value" = "Value";
