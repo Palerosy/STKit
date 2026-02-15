@@ -4,6 +4,11 @@
 /*.xcodeproj
 xcuserdata/
 DerivedData/
-.swiftpm/configuration/registries.json
-.swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
+.swiftpm/
 .netrc
+
+# Source code (distributed as XCFramework binary)
+/Sources
+/Tests
+/scripts
+/dist

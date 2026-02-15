@@ -79,7 +79,7 @@ import STKit
 @main
 struct MyApp: App {
     init() {
-        STKit.initialize(licenseKey: "YOUR_LICENSE_KEY")
+        STKitSDK.initialize(licenseKey: "YOUR_LICENSE_KEY")
     }
 
     var body: some Scene {
@@ -385,21 +385,21 @@ The core module provides shared functionality used by all format modules.
 import STKit
 
 // Initialize with license key
-STKit.initialize(licenseKey: "YOUR_LICENSE_KEY")
+STKitSDK.initialize(licenseKey: "YOUR_LICENSE_KEY")
 
 // Check license status
-if STKit.isLicensed {
-    print("Plan: \(STKit.licensePlan?.rawValue ?? "none")")
-    print("Expiry: \(STKit.licenseExpiry?.description ?? "none")")
-    print("Features: \(STKit.licensedFeatures)")
+if STKitSDK.isLicensed {
+    print("Plan: \(STKitSDK.licensePlan?.rawValue ?? "none")")
+    print("Expiry: \(STKitSDK.licenseExpiry?.description ?? "none")")
+    print("Features: \(STKitSDK.licensedFeatures)")
 }
 
 // Check specific module license
-if STKit.isFeatureLicensed("docx") {
+if STKitSDK.isFeatureLicensed("docx") {
     // DOCX module unlocked
 }
 
-if STKit.isFeatureLicensed("excel") {
+if STKitSDK.isFeatureLicensed("excel") {
     // Excel module unlocked
 }
 ```

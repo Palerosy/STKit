@@ -3,54 +3,33 @@ import PackageDescription
 
 let package = Package(
     name: "STKit",
-    defaultLocalization: "en",
     platforms: [.iOS(.v16)],
     products: [
         .library(name: "STKit", targets: ["STKit"]),
-        .library(name: "STDOCX", targets: ["STDOCX"]),
-        .library(name: "STExcel", targets: ["STExcel"]),
-        .library(name: "STTXT", targets: ["STTXT"]),
-    ],
-    dependencies: [
-        .package(path: "Packages/SwiftDocX"),
-        .package(url: "https://github.com/weichsel/ZIPFoundation.git", from: "0.9.0"),
+        .library(name: "STDOCX", targets: ["STDOCX", "STKit"]),
+        .library(name: "STExcel", targets: ["STExcel", "STKit"]),
+        .library(name: "STTXT", targets: ["STTXT", "STKit"]),
     ],
     targets: [
-        .target(
+        .binaryTarget(
             name: "STKit",
-            dependencies: [],
-            resources: [.process("Resources")]
+            url: "https://github.com/Palerosy/STKit/releases/download/0.1.0/STKit.xcframework.zip",
+            checksum: "8c0e0c837b174212b1c08c646af7b0c5a28cc809fca9146ad4afa1015e1f3ed4"
         ),
-        .target(
+        .binaryTarget(
             name: "STDOCX",
-            dependencies: ["STKit", "SwiftDocX"],
-            resources: [.process("Resources")]
+            url: "https://github.com/Palerosy/STKit/releases/download/0.1.0/STDOCX.xcframework.zip",
+            checksum: "4dd58761f4e09e0384b1110c12c0abf23ebb0199bcc38b5455383dbca1b5218e"
         ),
-        .target(
+        .binaryTarget(
             name: "STExcel",
-            dependencies: ["STKit", "ZIPFoundation"],
-            resources: [.process("Resources")]
+            url: "https://github.com/Palerosy/STKit/releases/download/0.1.0/STExcel.xcframework.zip",
+            checksum: "deb52a469acca66c9b785b2487e35c367fc2ee50d4be2ede5376a951ee527dc8"
         ),
-        .target(
+        .binaryTarget(
             name: "STTXT",
-            dependencies: ["STKit"],
-            resources: [.process("Resources")]
-        ),
-        .testTarget(
-            name: "STKitTests",
-            dependencies: ["STKit"]
-        ),
-        .testTarget(
-            name: "STDOCXTests",
-            dependencies: ["STDOCX"]
-        ),
-        .testTarget(
-            name: "STExcelTests",
-            dependencies: ["STExcel"]
-        ),
-        .testTarget(
-            name: "STTXTTests",
-            dependencies: ["STTXT"]
+            url: "https://github.com/Palerosy/STKit/releases/download/0.1.0/STTXT.xcframework.zip",
+            checksum: "e802224bbf894af06d4821ea2b3beccedbc62d9d6c8273aca88b6add074275e4"
         ),
     ]
 )
