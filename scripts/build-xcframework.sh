@@ -170,12 +170,14 @@ EOF
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>CFBundleExecutable</key>
+    <string>${MODULE}</string>
     <key>CFBundleIdentifier</key>
     <string>com.stkit.${BUNDLE_ID}</string>
     <key>CFBundleName</key>
     <string>${MODULE}</string>
     <key>CFBundleVersion</key>
-    <string>0.2.1</string>
+    <string>0.2.2</string>
     <key>CFBundlePackageType</key>
     <string>FMWK</string>
 </dict>
