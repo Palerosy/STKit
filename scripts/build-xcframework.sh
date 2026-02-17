@@ -177,7 +177,7 @@ EOF
     <key>CFBundleName</key>
     <string>${MODULE}</string>
     <key>CFBundleVersion</key>
-    <string>0.2.2</string>
+    <string>0.3.0</string>
     <key>CFBundlePackageType</key>
     <string>FMWK</string>
 </dict>
@@ -215,12 +215,17 @@ for MODULE in "${ALL_XCFRAMEWORKS[@]}"; do
     local_name="$MODULE"
     [ "$MODULE" = "_ZIPFoundation" ] && local_name="ZIPFoundation"
 
-    RESOURCE_BUNDLE=$(find "$DERIVED_DATA" -name "${local_name}_${local_name}.bundle" -path "*/Release-iphoneos/*" 2>/dev/null | head -1)
+    # SPM resource bundles use PackageName_TargetName pattern
+    RESOURCE_BUNDLE=$(find "$DERIVED_DATA" -name "STKit_${local_name}.bundle" -path "*/Release-iphoneos/*" 2>/dev/null | head -1)
+    if [ -z "$RESOURCE_BUNDLE" ]; then
+        RESOURCE_BUNDLE=$(find "$DERIVED_DATA" -name "${local_name}_${local_name}.bundle" -path "*/Release-iphoneos/*" 2>/dev/null | head -1)
+    fi
     if [ -n "$RESOURCE_BUNDLE" ]; then
+        BUNDLE_NAME=$(basename "$RESOURCE_BUNDLE")
         for SLICE in "$BUILD_DIR/$MODULE.xcframework"/*/$MODULE.framework; do
-            cp -RL "$RESOURCE_BUNDLE" "$SLICE/${local_name}_${local_name}.bundle"
+            cp -RL "$RESOURCE_BUNDLE" "$SLICE/$BUNDLE_NAME"
         done
-        echo "   $MODULE: resource bundle embedded"
+        echo "   $MODULE: resource bundle embedded ($BUNDLE_NAME)"
     fi
 
     cd "$BUILD_DIR"
