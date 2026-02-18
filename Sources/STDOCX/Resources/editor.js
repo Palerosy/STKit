@@ -1438,6 +1438,7 @@
         if (!_trackChanges) return;
         if (e.inputType === 'insertText' && e.data) {
             e.preventDefault();
+            var savedScrollY = window.scrollY;
             var span = document.createElement('span');
             span.className = 'st-insertion';
             span.textContent = e.data;
@@ -1451,6 +1452,7 @@
                 sel.removeAllRanges();
                 sel.addRange(range);
             }
+            window.scrollTo({ top: savedScrollY, behavior: 'instant' });
         }
     }
 
