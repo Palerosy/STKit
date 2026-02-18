@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+* { box-sizing: border-box; }
+html, body {
+    margin: 0;
+    padding: 0;
+    -webkit-text-size-adjust: none;
+    -webkit-tap-highlight-color: transparent;
+}
+body {
+    font-family: 'Calibri', -apple-system, sans-serif;
+    font-size: 11pt;
+    line-height: 1.15;
+    color: #000;
+    background: #fff;
+}
+
+/* Editor container */
+#editor {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    outline: none;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+#editor:empty::before {
+    content: attr(data-placeholder);
+    color: #999;
+    pointer-events: none;
+}
+
+/* Page: continuous scroll (no page breaks) */
+.st-page {
+    background: #fff;
+    padding: 36px 20px;
+    outline: none;
+}
+
+/* Page separator — hidden in continuous mode */
+.st-page-gap {
+    display: none;
+}
+
+/* iPad / wide screens */
+@media (min-width: 768px) {
+    .st-page {
+        max-width: 816px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 36px 48pt;
+    }
+}
+
+/* Paragraph defaults */
+#editor p { margin: 0 0 2pt 0; line-height: 1.15; }
+#editor h1 { font-size: 24pt; margin: 12pt 0 4pt 0; line-height: 1.2; }
+#editor h2 { font-size: 18pt; margin: 10pt 0 4pt 0; line-height: 1.2; }
+#editor h3 { font-size: 14pt; margin: 8pt 0 4pt 0; line-height: 1.2; }
+#editor h4 { font-size: 12pt; margin: 6pt 0 4pt 0; line-height: 1.2; }
+#editor h5 { font-size: 11pt; margin: 6pt 0 4pt 0; font-weight: bold; line-height: 1.2; }
+#editor h6 { font-size: 11pt; margin: 6pt 0 4pt 0; font-weight: bold; font-style: italic; line-height: 1.2; }
+
+/* Table styles */
+#editor table {
+    border-collapse: collapse;
+    max-width: 100%;
+    width: auto;
+    margin: 6pt 0;
+    table-layout: auto;
+    font-size: inherit;
+    line-height: 1.15;
+    empty-cells: show;
+}
+#editor td, #editor th {
+    padding: 3px 6px;
+    min-width: 20px;
+    vertical-align: top;
+    line-height: 1.15;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+#editor th {
+    font-weight: bold;
+}
+/* Paragraphs inside table cells: no extra margins */
+#editor td p, #editor th p {
+    margin: 0;
+    padding: 0;
+    line-height: inherit;
+}
+#editor td p + p, #editor th p + p {
+    margin-top: 1pt;
+}
+
+@media (max-width: 767px) {
+    #editor table { font-size: 9pt; }
+    #editor td, #editor th { padding: 2px 4px; min-width: 16px; }
+}
+
+/* List styles */
+#editor ul, #editor ol { margin: 4pt 0; padding-left: 24pt; }
+#editor li { margin: 2pt 0; }
+
+/* Image styles */
+#editor img {
+    max-width: 100%;
+    height: auto;
+    cursor: pointer;
+}
+
+/* Link styles */
+#editor a { color: #0563C1; text-decoration: underline; }
+
+/* Selection highlight */
+::selection { background: #B4D5FE; }
+
+/* Active table cell highlight */
+#editor td.st-active-cell,
+#editor th.st-active-cell {
+    outline: 2px solid #2B579A;
+    outline-offset: -2px;
+}
+
+/* Selected table — blue outline */
+#editor table.st-table-selected {
+    outline: 2px solid #2B579A;
+    outline-offset: 2px;
+    position: relative;
+}
+
+/* Table resize wrapper */
+.st-table-wrapper {
+    position: relative;
+    display: block;
+    width: 100%;
+    margin: 6pt 0;
+}
+.st-table-wrapper table {
+    margin: 0 !important;
+}
+
+/* Table resize handle — bottom-right corner */
+.st-table-resize-handle {
+    position: absolute;
+    bottom: -6px;
+    right: -6px;
+    width: 14px;
+    height: 14px;
+    background: #2B579A;
+    border: 2px solid #fff;
+    border-radius: 3px;
+    cursor: nwse-resize;
+    z-index: 20;
+    touch-action: none;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    display: none;
+}
+.st-table-wrapper.st-table-active .st-table-resize-handle {
+    display: block;
+}
+
+/* Column resize indicator */
+.st-col-resize-indicator {
+    position: absolute;
+    top: 0;
+    width: 3px;
+    background: #2B579A;
+    cursor: col-resize;
+    z-index: 21;
+    pointer-events: auto;
+    opacity: 0;
+    transition: opacity 0.15s;
+}
+.st-col-resize-indicator:hover,
+.st-col-resize-indicator.st-col-dragging {
+    opacity: 1;
+}
+
+/* Chart container styles */
+.st-chart-container {
+    position: relative;
+    margin: 12px 0;
+    padding: 8px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    background: #fafafa;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.st-chart-container:hover {
+    border-color: #2B579A;
+    box-shadow: 0 0 0 1px #2B579A;
+}
+.st-chart-container canvas {
+    display: block;
+    width: 100% !important;
+    max-height: 300px;
+}
+.st-chart-container::after {
+    content: 'Tap to edit';
+    position: absolute;
+    top: 4px;
+    right: 8px;
+    font-size: 9pt;
+    color: #999;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+.st-chart-container:hover::after {
+    opacity: 1;
+}
+
+/* Shape styles — block-level, in document flow */
+.st-shape {
+    display: block;
+    margin: 8px auto;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    page-break-inside: avoid;
+}
+.st-shape.st-shape-selected {
+    outline: 2px solid #2B579A;
+    outline-offset: 2px;
+}
+/* Lifted state during drag-to-reorder */
+.st-shape.st-shape-lifting {
+    position: fixed;
+    z-index: 9999;
+    opacity: 0.9;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+    pointer-events: none;
+}
+.st-shape-handle {
+    position: absolute;
+    bottom: -8px;
+    right: -8px;
+    width: 24px;
+    height: 24px;
+    background: #2B579A;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    cursor: nwse-resize;
+    z-index: 11;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    display: none;
+    touch-action: none;
+}
+.st-shape.st-shape-selected .st-shape-handle {
+    display: block;
+}
+/* Drag placeholder — shows where shape will land */
+.st-drag-placeholder {
+    border: 2px dashed #2B579A;
+    border-radius: 4px;
+    background: rgba(43,87,154,0.06);
+    margin: 8px auto;
+    transition: height 0.15s ease;
+}
+.st-shape-line {
+    height: 0;
+    border-top: 2px solid #2B579A;
+}
+/* Arrow shape */
+.st-shape-arrow {
+    overflow: visible;
+    border: none !important;
+    background: transparent !important;
+}
+.st-shape-arrow svg {
+    display: block;
+    pointer-events: none;
+}
+/* Image shape */
+.st-shape-image {
+    border: none !important;
+    background: transparent !important;
+    overflow: hidden;
+    position: relative;
+}
+.st-shape-image img {
+    display: block;
+    width: 100%;
+    height: auto;
+    -webkit-touch-callout: none;
+    pointer-events: none;
+}
+
+/* Shape context menu (long-press) */
+.st-shape-menu {
+    display: flex;
+    gap: 1px;
+    background: #333;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+    z-index: 100;
+    width: fit-content;
+    margin: 4px auto;
+}
+.st-shape-menu-btn {
+    background: #333;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-family: -apple-system, sans-serif;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+.st-shape-menu-btn:active {
+    background: #555;
+}
+.st-shape-menu-delete {
+    color: #FF453A;
+}
+
+/* Bookmark marker */
+.st-bookmark {
+    display: inline-block;
+    width: 0;
+    height: 1em;
+    border-left: 2px solid #4472C4;
+    margin: 0 1px;
+    vertical-align: text-bottom;
+}
+
+/* Comment highlight */
+.st-comment-highlight {
+    background: rgba(255, 212, 0, 0.3);
+    border-bottom: 2px solid #FFC000;
+    cursor: pointer;
+    position: relative;
+}
+
+/* Track Changes */
+.st-insertion {
+    color: #00B050;
+    text-decoration: underline;
+    text-decoration-color: #00B050;
+}
+.st-deletion {
+    color: #FF0000;
+    text-decoration: line-through;
+    opacity: 0.75;
+}
+
+/* Print: hide UI elements */
+@media print {
+    .st-shape-handle,
+    .st-shape-menu,
+    .st-drag-placeholder {
+        display: none !important;
+    }
+    .st-shape.st-shape-selected {
+        outline: none !important;
+    }
+}
+
+</style>
+</head>
+<body>
+<div id="editor" contenteditable="true" data-placeholder="Start typing..."></div>
+<script src="chart.min.js"></script>
+<script src="editor.js"></script>
+</body>
+</html>
