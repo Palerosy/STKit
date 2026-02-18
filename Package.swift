@@ -11,9 +11,9 @@ let package = Package(
         .library(name: "STTXT", targets: ["STTXT", "STKit"]),
     ],
     targets: [
-        .binaryTarget(name: "STKit", url: "https://github.com/Palerosy/STKit/releases/download/0.7.20/STKit.xcframework.zip", checksum: "5817945f00392d672d54c5d929dca7f6a74138c0dfc894410d8df3df9b6c3669"),
-        .binaryTarget(name: "STDOCX", url: "https://github.com/Palerosy/STKit/releases/download/0.7.20/STDOCX.xcframework.zip", checksum: "94001e7e6b3fa4034352373d9d4ff355a37b4496fa439b8a13496907ba855178"),
-        .binaryTarget(name: "STExcel", url: "https://github.com/Palerosy/STKit/releases/download/0.7.20/STExcel.xcframework.zip", checksum: "cf0810dc8a1e573e23f366c66adbbe47cb8ca256d9b79c4f095e52d418896b14"),
-        .binaryTarget(name: "STTXT", url: "https://github.com/Palerosy/STKit/releases/download/0.7.20/STTXT.xcframework.zip", checksum: "aa7b194bcf0e9ec267e912f57afb1b72b0af3aa4715ddb7cf88efc5838a6227b"),
+        .binaryTarget(name: "STKit", url: "https://github.com/Palerosy/STKit/releases/download/0.7.21/STKit.xcframework.zip", checksum: "77255d8a50be1887574923e981d4bf8364432122acc641221a937152ac2dddc2"),
+        .binaryTarget(name: "STDOCX", url: "https://github.com/Palerosy/STKit/releases/download/0.7.21/STDOCX.xcframework.zip", checksum: "405aa27ee8cdad269def6a9c89c1eff470ecd96305df01985fa7193bb360e5cd"),
+        .binaryTarget(name: "STExcel", url: "https://github.com/Palerosy/STKit/releases/download/0.7.21/STExcel.xcframework.zip", checksum: "24817715c546b6a44a07cb1715b2b1e518af085c79eaa6967d4e8a2c421e3d80"),
+        .binaryTarget(name: "STTXT", url: "https://github.com/Palerosy/STKit/releases/download/0.7.21/STTXT.xcframework.zip", checksum: "fb4210277edd97a77a6d7d7fd0bc7c4fba899606ce300a37b13728c03173d949"),
     ]
 )
