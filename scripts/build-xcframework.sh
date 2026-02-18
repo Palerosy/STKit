@@ -177,9 +177,22 @@ EOF
     <key>CFBundleName</key>
     <string>${MODULE}</string>
     <key>CFBundleVersion</key>
-    <string>0.3.0</string>
+    <string>0.7.12</string>
+    <key>CFBundleShortVersionString</key>
+    <string>0.7.12</string>
     <key>CFBundlePackageType</key>
     <string>FMWK</string>
+    <key>MinimumOSVersion</key>
+    <string>16.0</string>
+    <key>CFBundleSupportedPlatforms</key>
+    <array>
+        <string>iPhoneOS</string>
+    </array>
+    <key>UIDeviceFamily</key>
+    <array>
+        <integer>1</integer>
+        <integer>2</integer>
+    </array>
 </dict>
 </plist>
 PLIST
