@@ -7,9 +7,9 @@ let package = Package(
     platforms: [.iOS(.v16)],
     products: [
         .library(name: "STKit", targets: ["STKit"]),
-        .library(name: "STDOCX", targets: ["STDOCX"]),
-        .library(name: "STExcel", targets: ["STExcel"]),
-        .library(name: "STTXT", targets: ["STTXT"]),
+        .library(name: "STDOCX", targets: ["STDOCX", "STKit", "_ZIPFoundation"]),
+        .library(name: "STExcel", targets: ["STExcel", "STKit", "_ZIPFoundation"]),
+        .library(name: "STTXT", targets: ["STTXT", "STKit"]),
     ],
     targets: [
         .binaryTarget(name: "STKit", url: "https://github.com/Palerosy/STKit/releases/download/0.7.15/STKit.xcframework.zip", checksum: "8112c4f3f7f08463f66de92d6d14dae6e46e8d6ae4fcca2ec3e276d302181e05"),
