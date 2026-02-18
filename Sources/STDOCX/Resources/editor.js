@@ -2415,8 +2415,39 @@
     // EVENT LISTENERS
     // ============================================================
 
+    // Fix: iOS WKWebView selects the entire .st-page container when the user
+    // taps on its padding area (not directly on text). Intercept these taps
+    // by saving the intended caret position, then restoring it if a
+    // non-collapsed selection appears immediately after.
+    var _tapCaretRange = null;
+    editor.addEventListener('touchstart', function(e) {
+        if (_isSelectMode) return;
+        var target = e.target;
+        if (target === editor || (target.classList && target.classList.contains('st-page'))) {
+            if (e.touches.length === 1 && document.caretRangeFromPoint) {
+                var t = e.touches[0];
+                _tapCaretRange = document.caretRangeFromPoint(t.clientX, t.clientY);
+            }
+        } else {
+            _tapCaretRange = null;
+        }
+    }, { passive: true });
+
     // Track selection changes for formatting state
     document.addEventListener('selectionchange', function() {
+        // If we saved a caret position from a container tap, restore it now
+        // (prevents the whole-document selection caused by tapping empty space)
+        if (_tapCaretRange) {
+            var sel = window.getSelection();
+            if (sel && !sel.isCollapsed) {
+                var savedRange = _tapCaretRange;
+                _tapCaretRange = null;
+                sel.removeAllRanges();
+                sel.addRange(savedRange);
+                return;
+            }
+            _tapCaretRange = null;
+        }
         updateFormattingState();
     });
 
