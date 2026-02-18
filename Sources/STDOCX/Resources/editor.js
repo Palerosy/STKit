@@ -2512,6 +2512,28 @@
         }
     });
 
+    // Track comment taps — show comment text popup
+    editor.addEventListener('click', function(e) {
+        var target = e.target;
+        while (target && target !== editor) {
+            if (target.classList && target.classList.contains('st-comment-highlight')) {
+                var commentId = target.getAttribute('data-comment-id');
+                var commentText = target.getAttribute('data-comment-text');
+                var contextText = (target.textContent || '').substring(0, 80);
+                try {
+                    webkit.messageHandlers.commentTapped.postMessage({
+                        commentId: commentId,
+                        text: commentText,
+                        contextText: contextText
+                    });
+                } catch(ex) {}
+                e.stopPropagation();
+                return;
+            }
+            target = target.parentElement;
+        }
+    });
+
     // Track active table cell and fix cursor placement on iOS using touch events
     var _pendingTouchCell = null;
 
