@@ -231,6 +231,7 @@ public enum STStrings {
     public static var ribbonRectangle: String { loc("stkit.ribbon.rectangle") }
     public static var ribbonCircle: String { loc("stkit.ribbon.circle") }
     public static var ribbonLine: String { loc("stkit.ribbon.line") }
+    public static var ribbonArrow: String { loc("stkit.ribbon.arrow") }
 
     // MARK: - Ribbon Insert Tab (additional)
     public static var ribbonPageBreak: String { loc("stkit.ribbon.pageBreak") }
@@ -255,6 +256,21 @@ public enum STStrings {
     public static var ribbonTrackChanges: String { loc("stkit.ribbon.trackChanges") }
     public static var ribbonAcceptChange: String { loc("stkit.ribbon.acceptChange") }
     public static var ribbonRejectChange: String { loc("stkit.ribbon.rejectChange") }
+
+    // MARK: - Ribbon Table Tab
+    public static var ribbonAddRow: String { loc("stkit.ribbon.addRow") }
+    public static var ribbonDeleteRow: String { loc("stkit.ribbon.deleteRow") }
+    public static var ribbonAddColumn: String { loc("stkit.ribbon.addColumn") }
+    public static var ribbonDeleteColumn: String { loc("stkit.ribbon.deleteColumn") }
+    public static var ribbonCellColor: String { loc("stkit.ribbon.cellColor") }
+    public static var ribbonBorderColor: String { loc("stkit.ribbon.borderColor") }
+
+    // MARK: - Ribbon Review Tab (comments)
+    public static var ribbonComments: String { loc("stkit.ribbon.comments") }
+
+    // MARK: - General
+    public static var comingSoon: String { loc("stkit.comingSoon") }
+    public static var custom: String { loc("stkit.custom") }
 
     // MARK: - Ribbon View Tab
     public static var ribbonZoom: String { loc("stkit.ribbon.zoom") }

@@ -1,0 +1,35 @@
+// swift-tools-version: 5.9
+import PackageDescription
+
+let package = Package(
+    name: "STKit",
+    platforms: [.iOS(.v16)],
+    products: [
+        .library(name: "STKit", targets: ["STKit"]),
+        .library(name: "STDOCX", targets: ["STDOCX", "STKit", "_ZIPFoundation"]),
+        .library(name: "STExcel", targets: ["STExcel", "STKit", "_ZIPFoundation"]),
+        .library(name: "STTXT", targets: ["STTXT", "STKit"]),
+    ],
+    targets: [
+        .binaryTarget(
+            name: "STKit",
+            path: "dist/STKit.xcframework.zip"
+        ),
+        .binaryTarget(
+            name: "STDOCX",
+            path: "dist/STDOCX.xcframework.zip"
+        ),
+        .binaryTarget(
+            name: "STExcel",
+            path: "dist/STExcel.xcframework.zip"
+        ),
+        .binaryTarget(
+            name: "STTXT",
+            path: "dist/STTXT.xcframework.zip"
+        ),
+        .binaryTarget(
+            name: "_ZIPFoundation",
+            path: "dist/_ZIPFoundation.xcframework.zip"
+        ),
+    ]
+)

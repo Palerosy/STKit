@@ -13,28 +13,28 @@ let package = Package(
     targets: [
         .binaryTarget(
             name: "STKit",
-            url: "https://github.com/Palerosy/STKit/releases/download/0.7.0/STKit.xcframework.zip",
-            checksum: "41cc31afc35c56b646ce82861e2861841c3b2a475840d82f4d9242fb9d38b102"
+            url: "https://github.com/Palerosy/STKit/releases/download/0.7.1/STKit.xcframework.zip",
+            checksum: "5a4cd9b6e904cb1a38898fc7d42bd088f0154a865ea3df8d27126b0dc1e71736"
         ),
         .binaryTarget(
             name: "STDOCX",
-            url: "https://github.com/Palerosy/STKit/releases/download/0.7.0/STDOCX.xcframework.zip",
-            checksum: "286ca8c686cdf1323eabac0ac8083706ef79eea371583080970c3abc39d3db4d"
+            url: "https://github.com/Palerosy/STKit/releases/download/0.7.1/STDOCX.xcframework.zip",
+            checksum: "5a3dd6acbee1731525220dc49f819754c603027e09cf32e03e405d513f9bc157"
         ),
         .binaryTarget(
             name: "STExcel",
-            url: "https://github.com/Palerosy/STKit/releases/download/0.7.0/STExcel.xcframework.zip",
-            checksum: "352ce65335b2e63a3a77a176fb710e14f788c5237b957dc1e0958508e8d8b30d"
+            url: "https://github.com/Palerosy/STKit/releases/download/0.7.1/STExcel.xcframework.zip",
+            checksum: "74321869d4e56c3d1013b8b6fc6d124421578cd125b42d2f7bbde683b03fa2f7"
         ),
         .binaryTarget(
             name: "STTXT",
-            url: "https://github.com/Palerosy/STKit/releases/download/0.7.0/STTXT.xcframework.zip",
-            checksum: "27aab7942a75b0e24c6a0dff37aadace9ddb7164afc78c6e1d0f40872aacd46d"
+            url: "https://github.com/Palerosy/STKit/releases/download/0.7.1/STTXT.xcframework.zip",
+            checksum: "19df6d8c268feb82c77424c723bf366cd847a6eb8c353f8ed8d5ab8d87d89c82"
         ),
         .binaryTarget(
             name: "_ZIPFoundation",
-            url: "https://github.com/Palerosy/STKit/releases/download/0.7.0/_ZIPFoundation.xcframework.zip",
-            checksum: "eaa50e89d5b0b9c9104f3d10442d100e22b940d7571c7fb485df45f2c1369859"
+            url: "https://github.com/Palerosy/STKit/releases/download/0.7.1/_ZIPFoundation.xcframework.zip",
+            checksum: "250fb19cbf6052145d550cea05cea4abf53d2540713ffcf7fafc3cb0758ae401"
         ),
     ]
 )
