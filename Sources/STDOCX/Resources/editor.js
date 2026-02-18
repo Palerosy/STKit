@@ -1430,6 +1430,64 @@
         } catch(e) {}
     };
 
+    // MARK: - Track Changes
+
+    var _trackChanges = false;
+
+    function _onTrackedInput(e) {
+        if (!_trackChanges) return;
+        if (e.inputType === 'insertText' && e.data) {
+            e.preventDefault();
+            var span = document.createElement('span');
+            span.className = 'st-insertion';
+            span.textContent = e.data;
+            var sel = window.getSelection();
+            if (sel && sel.rangeCount > 0) {
+                var range = sel.getRangeAt(0);
+                range.deleteContents();
+                range.insertNode(span);
+                range.setStartAfter(span);
+                range.collapse(true);
+                sel.removeAllRanges();
+                sel.addRange(range);
+            }
+        }
+    }
+
+    window.setTrackChanges = function(enabled) {
+        _trackChanges = enabled;
+        if (enabled) {
+            editor.addEventListener('beforeinput', _onTrackedInput);
+            editor.style.caretColor = '#00B050';
+        } else {
+            editor.removeEventListener('beforeinput', _onTrackedInput);
+            editor.style.caretColor = '';
+        }
+        return enabled;
+    };
+
+    window.acceptAllChanges = function() {
+        document.querySelectorAll('.st-insertion').forEach(function(el) {
+            var frag = document.createDocumentFragment();
+            while (el.firstChild) frag.appendChild(el.firstChild);
+            el.parentNode.replaceChild(frag, el);
+        });
+        document.querySelectorAll('.st-deletion').forEach(function(el) {
+            el.parentNode.removeChild(el);
+        });
+    };
+
+    window.rejectAllChanges = function() {
+        document.querySelectorAll('.st-insertion').forEach(function(el) {
+            el.parentNode.removeChild(el);
+        });
+        document.querySelectorAll('.st-deletion').forEach(function(el) {
+            var frag = document.createDocumentFragment();
+            while (el.firstChild) frag.appendChild(el.firstChild);
+            el.parentNode.replaceChild(frag, el);
+        });
+    };
+
     /// Called from Swift before any formatting command (bold, font, color…)
     /// Restores focus + cursor to the active cell so formatting applies there, not outside
     window.prepareForFormat = function() {

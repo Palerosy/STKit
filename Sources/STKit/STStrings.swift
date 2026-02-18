@@ -177,6 +177,7 @@ public enum STStrings {
 
     // MARK: - Ribbon Tabs
     public static var ribbonHome: String { loc("stkit.ribbon.home") }
+    public static var ribbonPara: String { loc("stkit.ribbon.para") }
     public static var ribbonInsert: String { loc("stkit.ribbon.insert") }
     public static var ribbonDraw: String { loc("stkit.ribbon.draw") }
     public static var ribbonDesign: String { loc("stkit.ribbon.design") }
