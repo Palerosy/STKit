@@ -13,7 +13,7 @@ DERIVED_DATA="$BUILD_DIR/DerivedData"
 
 export DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer
 
-ALL_XCFRAMEWORKS=("STKit" "STDOCX" "STExcel" "STTXT" "_ZIPFoundation")
+ALL_XCFRAMEWORKS=("STKit" "STDOCX" "STExcel" "STTXT")
 
 echo "=== STKit Static XCFramework Builder ==="
 echo "Root: $ROOT_DIR"
@@ -89,7 +89,7 @@ echo "[3/7] Verifying build artifacts..."
 for PLATFORM in "iphoneos" "iphonesimulator"; do
     PRODUCTS="$DERIVED_DATA/Build/Products/Release-$PLATFORM"
     echo "   === $PLATFORM ==="
-    for TARGET in "STKit" "STDOCX" "STExcel" "STTXT" "ZIPFoundation"; do
+    for TARGET in "STKit" "STDOCX" "STExcel" "STTXT" "ZIPFoundation" ; do
         OBJ="$PRODUCTS/$TARGET.o"
         if [ -f "$OBJ" ]; then
             SIZE=$(ls -lh "$OBJ" | awk '{print $5}')
@@ -115,11 +115,12 @@ create_framework() {
     local SOURCE_NAME="$MODULE"
 
     case "$MODULE" in
-        "STKit"|"STTXT"|"STExcel"|"STDOCX")
+        "STKit"|"STTXT")
             [ -f "$PRODUCTS/$MODULE.o" ] && OBJS_TO_MERGE+=("$PRODUCTS/$MODULE.o")
             ;;
-        "_ZIPFoundation")
-            SOURCE_NAME="ZIPFoundation"
+        "STDOCX"|"STExcel")
+            # Embed ZIPFoundation.o directly so the xcframework is self-contained
+            [ -f "$PRODUCTS/$MODULE.o" ] && OBJS_TO_MERGE+=("$PRODUCTS/$MODULE.o")
             [ -f "$PRODUCTS/ZIPFoundation.o" ] && OBJS_TO_MERGE+=("$PRODUCTS/ZIPFoundation.o")
             ;;
     esac
@@ -177,9 +178,9 @@ EOF
     <key>CFBundleName</key>
     <string>${MODULE}</string>
     <key>CFBundleVersion</key>
-    <string>0.7.12</string>
+    <string>0.7.16</string>
     <key>CFBundleShortVersionString</key>
-    <string>0.7.12</string>
+    <string>0.7.16</string>
     <key>CFBundlePackageType</key>
     <string>FMWK</string>
     <key>MinimumOSVersion</key>
