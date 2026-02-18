@@ -3,7 +3,6 @@ import PackageDescription
 
 let package = Package(
     name: "STKit",
-    defaultLocalization: "en",
     platforms: [.iOS(.v16)],
     products: [
         .library(name: "STKit", targets: ["STKit"]),
