@@ -1438,21 +1438,14 @@
         if (!_trackChanges) return;
         if (e.inputType === 'insertText' && e.data) {
             e.preventDefault();
-            var savedScrollY = window.scrollY;
-            var span = document.createElement('span');
-            span.className = 'st-insertion';
-            span.textContent = e.data;
-            var sel = window.getSelection();
-            if (sel && sel.rangeCount > 0) {
-                var range = sel.getRangeAt(0);
-                range.deleteContents();
-                range.insertNode(span);
-                range.setStartAfter(span);
-                range.collapse(true);
-                sel.removeAllRanges();
-                sel.addRange(range);
-            }
-            window.scrollTo({ top: savedScrollY, behavior: 'instant' });
+            // Use insertHTML instead of range.insertNode to avoid WKWebView
+            // layout flash that briefly positions the new node at (0,0).
+            var escaped = e.data
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+            document.execCommand('insertHTML', false,
+                '<span class="st-insertion">' + escaped + '</span>');
         }
     }
 
