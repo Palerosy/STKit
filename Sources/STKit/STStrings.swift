@@ -264,6 +264,9 @@ public enum STStrings {
     public static var ribbonDeleteColumn: String { loc("stkit.ribbon.deleteColumn") }
     public static var ribbonCellColor: String { loc("stkit.ribbon.cellColor") }
     public static var ribbonBorderColor: String { loc("stkit.ribbon.borderColor") }
+    public static var ribbonTableStyle: String { loc("stkit.ribbon.tableStyle") }
+    public static var ribbonTableColor: String { loc("stkit.ribbon.tableColor") }
+    public static var tableStyles: String { loc("stkit.tableStyles") }
 
     // MARK: - Ribbon Review Tab (comments)
     public static var ribbonComments: String { loc("stkit.ribbon.comments") }
