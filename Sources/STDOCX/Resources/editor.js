@@ -2259,6 +2259,18 @@
     function paginateContent() {
         isPaginating = true;
 
+        // Fast-path: if editor already has exactly one .st-page and nothing else,
+        // the structure is correct — skip the flatten+rewrap entirely.
+        // This prevents the visual flash caused by temporarily removing .st-page.
+        var childNodes = editor.childNodes;
+        if (childNodes.length === 1 &&
+            childNodes[0].nodeType === Node.ELEMENT_NODE &&
+            childNodes[0].classList.contains('st-page')) {
+            isPaginating = false;
+            notifyPageChange();
+            return;
+        }
+
         // 1. Flatten: remove existing page wrappers (preserves child nodes in DOM)
         var existingPages = editor.querySelectorAll('.st-page');
         for (var i = 0; i < existingPages.length; i++) {
