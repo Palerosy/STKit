@@ -13,7 +13,7 @@ DERIVED_DATA="$BUILD_DIR/DerivedData"
 
 export DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer
 
-ALL_XCFRAMEWORKS=("STKit" "STDOCX" "STExcel" "STTXT")
+ALL_XCFRAMEWORKS=("STKit" "STDOCX" "STExcel" "STTXT" "STPDF")
 
 echo "=== STKit Static XCFramework Builder ==="
 echo "Root: $ROOT_DIR"
@@ -49,6 +49,14 @@ xcodebuild build \
     BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
     -configuration Release \
     -quiet 2>&1 | grep -E "^.*(error:.*|FAILED).*$" || true
+
+xcodebuild build \
+    -scheme "STPDF" \
+    -destination "generic/platform=iOS" \
+    -derivedDataPath "$DERIVED_DATA" \
+    BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
+    -configuration Release \
+    -quiet 2>&1 | grep -E "^.*(error:.*|FAILED).*$" || true
 echo "   Done"
 
 # 2. Build for iOS Simulator
@@ -76,6 +84,14 @@ xcodebuild build \
     BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
     -configuration Release \
     -quiet 2>&1 | grep -E "^.*(error:.*|FAILED).*$" || true
+
+xcodebuild build \
+    -scheme "STPDF" \
+    -destination "generic/platform=iOS Simulator" \
+    -derivedDataPath "$DERIVED_DATA" \
+    BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
+    -configuration Release \
+    -quiet 2>&1 | grep -E "^.*(error:.*|FAILED).*$" || true
 echo "   Done"
 
 # Helper paths
@@ -89,7 +105,7 @@ echo "[3/7] Verifying build artifacts..."
 for PLATFORM in "iphoneos" "iphonesimulator"; do
     PRODUCTS="$DERIVED_DATA/Build/Products/Release-$PLATFORM"
     echo "   === $PLATFORM ==="
-    for TARGET in "STKit" "STDOCX" "STExcel" "STTXT" "ZIPFoundation" ; do
+    for TARGET in "STKit" "STDOCX" "STExcel" "STTXT" "STPDF" "ZIPFoundation" ; do
         OBJ="$PRODUCTS/$TARGET.o"
         if [ -f "$OBJ" ]; then
             SIZE=$(ls -lh "$OBJ" | awk '{print $5}')
@@ -115,7 +131,7 @@ create_framework() {
     local SOURCE_NAME="$MODULE"
 
     case "$MODULE" in
-        "STKit"|"STTXT"|"STExcel")
+        "STKit"|"STTXT"|"STExcel"|"STPDF")
             [ -f "$PRODUCTS/$MODULE.o" ] && OBJS_TO_MERGE+=("$PRODUCTS/$MODULE.o")
             ;;
         "STDOCX")
