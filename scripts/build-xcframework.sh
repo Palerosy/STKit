@@ -115,11 +115,12 @@ create_framework() {
     local SOURCE_NAME="$MODULE"
 
     case "$MODULE" in
-        "STKit"|"STTXT")
+        "STKit"|"STTXT"|"STExcel")
             [ -f "$PRODUCTS/$MODULE.o" ] && OBJS_TO_MERGE+=("$PRODUCTS/$MODULE.o")
             ;;
-        "STDOCX"|"STExcel")
-            # Embed ZIPFoundation.o directly so the xcframework is self-contained
+        "STDOCX")
+            # Embed ZIPFoundation.o into STDOCX so it is self-contained.
+            # STExcel's ZIPFoundation references are resolved at app link-time from STDOCX.
             [ -f "$PRODUCTS/$MODULE.o" ] && OBJS_TO_MERGE+=("$PRODUCTS/$MODULE.o")
             [ -f "$PRODUCTS/ZIPFoundation.o" ] && OBJS_TO_MERGE+=("$PRODUCTS/ZIPFoundation.o")
             ;;
@@ -178,9 +179,9 @@ EOF
     <key>CFBundleName</key>
     <string>${MODULE}</string>
     <key>CFBundleVersion</key>
-    <string>0.7.16</string>
+    <string>0.7.17</string>
     <key>CFBundleShortVersionString</key>
-    <string>0.7.16</string>
+    <string>0.7.17</string>
     <key>CFBundlePackageType</key>
     <string>FMWK</string>
     <key>MinimumOSVersion</key>

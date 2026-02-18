@@ -228,11 +228,12 @@ struct STRibbonHomeTab: View {
                 ) {
                     showLineSpacingPicker.toggle()
                 }
-                .popover(isPresented: $showLineSpacingPicker) {
+                .sheet(isPresented: $showLineSpacingPicker) {
                     STLineSpacingPickerView { value in
                         webEditorViewModel.setLineSpacing(value)
-                        showLineSpacingPicker = false
                     }
+                    .presentationDetents([.medium])
+                    .presentationDragIndicator(.visible)
                 }
 
                 STRibbonSeparator()

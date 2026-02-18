@@ -1401,6 +1401,35 @@
         }
     }
 
+    // Scroll to top / bottom of document
+    window.scrollToTop = function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    window.scrollToBottom = function() {
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    };
+
+    // Save / restore selection (used before alerts/sheets that lose focus)
+    var _savedRange = null;
+
+    window.saveSelection = function() {
+        var sel = window.getSelection();
+        if (sel && sel.rangeCount > 0) {
+            try { _savedRange = sel.getRangeAt(0).cloneRange(); } catch(e) {}
+        }
+    };
+
+    window.restoreSelection = function() {
+        if (!_savedRange) return;
+        try {
+            editor.focus();
+            var sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(_savedRange);
+        } catch(e) {}
+    };
+
     /// Called from Swift before any formatting command (bold, font, color…)
     /// Restores focus + cursor to the active cell so formatting applies there, not outside
     window.prepareForFormat = function() {

@@ -270,6 +270,7 @@ public enum STStrings {
 
     // MARK: - Ribbon Review Tab (comments)
     public static var ribbonComments: String { loc("stkit.ribbon.comments") }
+    public static var selectTextForComment: String { loc("stkit.selectTextForComment") }
 
     // MARK: - General
     public static var comingSoon: String { loc("stkit.comingSoon") }
