@@ -2017,6 +2017,17 @@
         if (style.marginRight) para.marginRight = parseFloat(style.marginRight);
         if (style.textIndent) para.textIndent = parseFloat(style.textIndent);
 
+        // Background color
+        if (style.backgroundColor && style.backgroundColor !== 'transparent' && style.backgroundColor !== 'rgba(0, 0, 0, 0)') {
+            para.backgroundColor = rgbToHex(style.backgroundColor);
+        }
+
+        // Paragraph borders
+        if (style.borderTop && style.borderTop !== 'none') para.borderTop = style.borderTop;
+        if (style.borderBottom && style.borderBottom !== 'none') para.borderBottom = style.borderBottom;
+        if (style.borderLeft && style.borderLeft !== 'none') para.borderLeft = style.borderLeft;
+        if (style.borderRight && style.borderRight !== 'none') para.borderRight = style.borderRight;
+
         return para;
     }
 
