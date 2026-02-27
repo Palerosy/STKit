@@ -1365,7 +1365,8 @@
 
     /// Remove table selection, restore DOM if wrapper exists
     /// Force text cursor into a table cell using nested-editable trick (iOS-reliable)
-    function forceCursorIntoCell(cell) {
+    /// touchX/touchY: original touch coordinates to place cursor at the tapped position
+    function forceCursorIntoCell(cell, touchX, touchY) {
         // Remove nested-editable from previous cell
         if (_activeCellEdit && _activeCellEdit !== cell) {
             _activeCellEdit.removeAttribute('contenteditable');
@@ -1375,9 +1376,21 @@
         // Make THIS cell a nested editable — iOS routes keyboard input here
         cell.setAttribute('contenteditable', 'true');
 
-        // Place cursor at start of cell content
-        var target = cell.querySelector('p') || cell;
         try {
+            var sel = window.getSelection();
+
+            // Try to place cursor at the exact touch position using caretRangeFromPoint
+            if (touchX && touchY && document.caretRangeFromPoint) {
+                var caretRange = document.caretRangeFromPoint(touchX, touchY);
+                if (caretRange && cell.contains(caretRange.startContainer)) {
+                    sel.removeAllRanges();
+                    sel.addRange(caretRange);
+                    return;
+                }
+            }
+
+            // Fallback: place cursor at start of cell content
+            var target = cell.querySelector('p') || cell;
             var range = document.createRange();
             if (target.firstChild) {
                 range.setStart(target.firstChild, 0);
@@ -1385,7 +1398,6 @@
                 range.selectNodeContents(target);
             }
             range.collapse(true);
-            var sel = window.getSelection();
             sel.removeAllRanges();
             sel.addRange(range);
         } catch(ex) {
@@ -2426,7 +2438,16 @@
         if (target === editor || (target.classList && target.classList.contains('st-page'))) {
             if (e.touches.length === 1 && document.caretRangeFromPoint) {
                 var t = e.touches[0];
-                _tapCaretRange = document.caretRangeFromPoint(t.clientX, t.clientY);
+                var range = document.caretRangeFromPoint(t.clientX, t.clientY);
+                // Only save if the resolved caret is inside actual content (not the page/editor itself)
+                if (range && range.startContainer !== editor &&
+                    !(range.startContainer.nodeType === Node.ELEMENT_NODE &&
+                      range.startContainer.classList &&
+                      range.startContainer.classList.contains('st-page'))) {
+                    _tapCaretRange = range;
+                } else {
+                    _tapCaretRange = null;
+                }
             }
         } else {
             _tapCaretRange = null;
@@ -2536,11 +2557,15 @@
 
     // Track active table cell and fix cursor placement on iOS using touch events
     var _pendingTouchCell = null;
+    var _pendingTouchX = 0;
+    var _pendingTouchY = 0;
 
     editor.addEventListener('touchstart', function(e) {
         _pendingTouchCell = null;
         if (e.touches.length !== 1) return;
         var touch = e.touches[0];
+        _pendingTouchX = touch.clientX;
+        _pendingTouchY = touch.clientY;
         var el = document.elementFromPoint(touch.clientX, touch.clientY);
         while (el && el !== editor) {
             if (el.nodeType === Node.ELEMENT_NODE &&
@@ -2554,6 +2579,8 @@
 
     editor.addEventListener('touchend', function(e) {
         var cell = _pendingTouchCell;
+        var touchX = _pendingTouchX;
+        var touchY = _pendingTouchY;
         _pendingTouchCell = null;
         if (!cell) return;
         jsLog('touchend: cell=' + cell.tagName + ', selectMode=' + _isSelectMode);
@@ -2567,9 +2594,9 @@
             updateFormattingState();
             checkTableActivation();
 
-            // In normal mode: force cursor INTO the tapped cell
+            // In normal mode: force cursor INTO the tapped cell at the touch position
             if (!_isSelectMode) {
-                forceCursorIntoCell(cell);
+                forceCursorIntoCell(cell, touchX, touchY);
             }
         }, 50);
     }, { passive: true });
