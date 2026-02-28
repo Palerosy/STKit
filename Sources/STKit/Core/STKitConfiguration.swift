@@ -13,7 +13,7 @@ public final class STKitConfiguration {
 
     /// Resolved language bundle for the given module resource bundle.
     /// Returns the sub-bundle for the selected language, or nil to use default NSLocalizedString behavior.
-    internal func languageBundle(for resourceBundle: Bundle) -> Bundle? {
+    public func languageBundle(for resourceBundle: Bundle) -> Bundle? {
         guard let code = languageCode else { return nil }
         if let path = resourceBundle.path(forResource: code, ofType: "lproj"),
            let bundle = Bundle(path: path) {
