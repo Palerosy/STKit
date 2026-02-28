@@ -83,6 +83,7 @@ struct STMoreMenu: View {
     }
 
     private func printDocument() {
+        if let onPrint = configuration.onPrint ?? STKitConfiguration.shared.onPrint, !onPrint() { return }
         viewModel.webEditorViewModel.printContent()
     }
 

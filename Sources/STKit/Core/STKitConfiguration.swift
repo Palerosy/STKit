@@ -4,6 +4,10 @@ import Foundation
 public final class STKitConfiguration {
     public static let shared = STKitConfiguration()
 
+    /// Global print guard. Return `true` to allow printing, `false` to block.
+    /// Individual configuration `onPrint` takes priority over this global setting.
+    public var onPrint: (() -> Bool)?
+
     /// Override language code (e.g. "tr", "sv", "de"). Set to nil to use system default.
     public var languageCode: String? {
         didSet {

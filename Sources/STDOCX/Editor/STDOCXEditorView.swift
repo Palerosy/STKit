@@ -60,6 +60,7 @@ public struct STDOCXEditorView: View {
 
     /// Print the current document content
     private func printDocument() {
+        if let onPrint = configuration.onPrint ?? STKitConfiguration.shared.onPrint, !onPrint() { return }
         viewModel.webEditorViewModel.printContent()
     }
 

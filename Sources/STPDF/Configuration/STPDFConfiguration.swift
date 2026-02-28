@@ -67,6 +67,12 @@ public struct STPDFConfiguration {
     /// Autosave interval in seconds
     public var autosaveInterval: TimeInterval = 10
 
+    // MARK: - Callbacks
+
+    /// Called when the user taps print. Return `true` to allow printing, `false` to block.
+    /// When nil, printing is always allowed.
+    public var onPrint: (() -> Bool)?
+
     // MARK: - Appearance
 
     /// Appearance configuration (colors, theming)

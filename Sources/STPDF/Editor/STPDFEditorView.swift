@@ -113,6 +113,7 @@ public struct STPDFEditorView: View {
                 Spacer()
 
                 Button {
+                    if let onPrint = configuration.onPrint ?? STKitConfiguration.shared.onPrint, !onPrint() { return }
                     // Use the in-memory document for printing so custom annotation draw methods are preserved
                     viewModel.serializer.save()
                     let printDoc = viewModel.document.pdfDocument

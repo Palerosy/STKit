@@ -88,6 +88,8 @@ struct STMoreMenu: View {
     }
 
     private func printDocument() {
+        if let onPrint = configuration.onPrint ?? STKitConfiguration.shared.onPrint, !onPrint() { return }
+
         guard let url = viewModel.document.url else { return }
         #if os(iOS)
         let printController = UIPrintInteractionController.shared

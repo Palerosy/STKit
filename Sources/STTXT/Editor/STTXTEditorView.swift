@@ -228,6 +228,8 @@ public struct STTXTEditorView: View {
 
     #if os(macOS)
     private func printDocument() {
+        if let onPrint = configuration.onPrint ?? STKitConfiguration.shared.onPrint, !onPrint() { return }
+
         let printInfo = NSPrintInfo.shared
         let paperWidth = printInfo.paperSize.width - printInfo.leftMargin - printInfo.rightMargin
         let paperHeight = printInfo.paperSize.height - printInfo.topMargin - printInfo.bottomMargin
