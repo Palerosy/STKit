@@ -1,0 +1,13 @@
+"stdocx.font" = "Carattere";
+"stdocx.textColor" = "Colore testo";
+"stdocx.exportAs" = "Esporta come";
+"stdocx.findReplace" = "Trova e sostituisci";
+"stdocx.bold" = "Grassetto";
+"stdocx.italic" = "Corsivo";
+"stdocx.underline" = "Sottolineato";
+"stdocx.strikethrough" = "Barrato";
+"stdocx.alignment" = "Allineamento";
+"stdocx.alignLeft" = "Allinea a sinistra";
+"stdocx.alignCenter" = "Centra";
+"stdocx.alignRight" = "Allinea a destra";
+"stdocx.justify" = "Giustifica";

@@ -54,8 +54,8 @@ struct STRibbonHomeTab: View {
                     ) { fontName in
                         pendingFontFamily = fontName
                     }
-                    .presentationDetents([.medium, .large])
-                    .presentationDragIndicator(.visible)
+                    .stPresentationDetents([.medium, .large])
+                    .stPresentationDragIndicator(.visible)
                 }
 
                 // Font Size +/-

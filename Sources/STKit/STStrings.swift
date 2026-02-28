@@ -290,7 +290,8 @@ public enum STStrings {
 
     // MARK: - Helper
     public static func loc(_ key: String) -> String {
-        NSLocalizedString(key, bundle: STKitBundleHelper.resourceBundle, comment: "")
+        let bundle = STKitConfiguration.shared.languageBundle(for: STKitBundleHelper.resourceBundle) ?? STKitBundleHelper.resourceBundle
+        return NSLocalizedString(key, bundle: bundle, comment: "")
     }
 }
 

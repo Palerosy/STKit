@@ -644,6 +644,11 @@
         editor.innerHTML = html;
         isContentDirty = false;
         currentPageIndex = 0;
+        // Move any <style> tags from content into <head> (they don't apply inside contentEditable)
+        var styles = editor.querySelectorAll('style');
+        for (var i = 0; i < styles.length; i++) {
+            document.head.appendChild(styles[i]);
+        }
         // Paginate after layout settles
         setTimeout(function() {
             initializeCharts();

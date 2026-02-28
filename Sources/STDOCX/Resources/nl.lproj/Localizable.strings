@@ -1,0 +1,13 @@
+"stdocx.font" = "Lettertype";
+"stdocx.textColor" = "Tekstkleur";
+"stdocx.exportAs" = "Exporteren als";
+"stdocx.findReplace" = "Zoeken en vervangen";
+"stdocx.bold" = "Vet";
+"stdocx.italic" = "Cursief";
+"stdocx.underline" = "Onderstrepen";
+"stdocx.strikethrough" = "Doorhalen";
+"stdocx.alignment" = "Uitlijning";
+"stdocx.alignLeft" = "Links uitlijnen";
+"stdocx.alignCenter" = "Centreren";
+"stdocx.alignRight" = "Rechts uitlijnen";
+"stdocx.justify" = "Uitvullen";

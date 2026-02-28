@@ -1,0 +1,13 @@
+"stdocx.font" = "フォント";
+"stdocx.textColor" = "テキストカラー";
+"stdocx.exportAs" = "形式を選んで書き出し";
+"stdocx.findReplace" = "検索と置換";
+"stdocx.bold" = "太字";
+"stdocx.italic" = "斜体";
+"stdocx.underline" = "下線";
+"stdocx.strikethrough" = "取り消し線";
+"stdocx.alignment" = "配置";
+"stdocx.alignLeft" = "左揃え";
+"stdocx.alignCenter" = "中央揃え";
+"stdocx.alignRight" = "右揃え";
+"stdocx.justify" = "両端揃え";

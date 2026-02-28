@@ -3,6 +3,7 @@ set -e
 
 # STKit Static XCFramework Build Script (framework format)
 # SwiftDocX sources are compiled as part of STDOCX — no separate module
+# Builds for iOS Device, iOS Simulator, and macOS
 # Usage: ./scripts/build-xcframework.sh
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -14,96 +15,72 @@ DERIVED_DATA="$BUILD_DIR/DerivedData"
 export DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer
 
 ALL_XCFRAMEWORKS=("STKit" "STDOCX" "STExcel" "STTXT" "STPDF")
+ALL_SCHEMES=("STDOCX" "STExcel" "STTXT" "STPDF")
 
-echo "=== STKit Static XCFramework Builder ==="
+echo "=== STKit Static XCFramework Builder (iOS + macOS) ==="
 echo "Root: $ROOT_DIR"
 echo ""
 
 # Clean
 rm -rf "$BUILD_DIR"
-mkdir -p "$BUILD_DIR/frameworks/iphoneos" "$BUILD_DIR/frameworks/iphonesimulator" "$DIST_DIR"
+mkdir -p "$BUILD_DIR/frameworks/iphoneos" "$BUILD_DIR/frameworks/iphonesimulator" "$BUILD_DIR/frameworks/macosx" "$DIST_DIR"
 
 # 1. Build for iOS Device
-echo "[1/7] Building for iOS Device..."
+echo "[1/8] Building for iOS Device..."
 cd "$ROOT_DIR"
-xcodebuild build \
-    -scheme "STDOCX" \
-    -destination "generic/platform=iOS" \
-    -derivedDataPath "$DERIVED_DATA" \
-    BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
-    -configuration Release \
-    -quiet 2>&1 | grep -E "^.*(error:.*|FAILED).*$" || true
-
-xcodebuild build \
-    -scheme "STExcel" \
-    -destination "generic/platform=iOS" \
-    -derivedDataPath "$DERIVED_DATA" \
-    BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
-    -configuration Release \
-    -quiet 2>&1 | grep -E "^.*(error:.*|FAILED).*$" || true
-
-xcodebuild build \
-    -scheme "STTXT" \
-    -destination "generic/platform=iOS" \
-    -derivedDataPath "$DERIVED_DATA" \
-    BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
-    -configuration Release \
-    -quiet 2>&1 | grep -E "^.*(error:.*|FAILED).*$" || true
-
-xcodebuild build \
-    -scheme "STPDF" \
-    -destination "generic/platform=iOS" \
-    -derivedDataPath "$DERIVED_DATA" \
-    BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
-    -configuration Release \
-    -quiet 2>&1 | grep -E "^.*(error:.*|FAILED).*$" || true
+for SCHEME in "${ALL_SCHEMES[@]}"; do
+    xcodebuild build \
+        -scheme "$SCHEME" \
+        -destination "generic/platform=iOS" \
+        -derivedDataPath "$DERIVED_DATA" \
+        BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
+        -configuration Release \
+        -quiet 2>&1 | grep -E "^.*(error:.*|FAILED).*$" || true
+done
 echo "   Done"
 
 # 2. Build for iOS Simulator
-echo "[2/7] Building for iOS Simulator..."
-xcodebuild build \
-    -scheme "STDOCX" \
-    -destination "generic/platform=iOS Simulator" \
-    -derivedDataPath "$DERIVED_DATA" \
-    BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
-    -configuration Release \
-    -quiet 2>&1 | grep -E "^.*(error:.*|FAILED).*$" || true
+echo "[2/8] Building for iOS Simulator..."
+for SCHEME in "${ALL_SCHEMES[@]}"; do
+    xcodebuild build \
+        -scheme "$SCHEME" \
+        -destination "generic/platform=iOS Simulator" \
+        -derivedDataPath "$DERIVED_DATA" \
+        BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
+        -configuration Release \
+        -quiet 2>&1 | grep -E "^.*(error:.*|FAILED).*$" || true
+done
+echo "   Done"
 
-xcodebuild build \
-    -scheme "STExcel" \
-    -destination "generic/platform=iOS Simulator" \
-    -derivedDataPath "$DERIVED_DATA" \
-    BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
-    -configuration Release \
-    -quiet 2>&1 | grep -E "^.*(error:.*|FAILED).*$" || true
-
-xcodebuild build \
-    -scheme "STTXT" \
-    -destination "generic/platform=iOS Simulator" \
-    -derivedDataPath "$DERIVED_DATA" \
-    BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
-    -configuration Release \
-    -quiet 2>&1 | grep -E "^.*(error:.*|FAILED).*$" || true
-
-xcodebuild build \
-    -scheme "STPDF" \
-    -destination "generic/platform=iOS Simulator" \
-    -derivedDataPath "$DERIVED_DATA" \
-    BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
-    -configuration Release \
-    -quiet 2>&1 | grep -E "^.*(error:.*|FAILED).*$" || true
+# 3. Build for macOS
+echo "[3/8] Building for macOS..."
+for SCHEME in "${ALL_SCHEMES[@]}"; do
+    xcodebuild build \
+        -scheme "$SCHEME" \
+        -destination "generic/platform=macOS" \
+        -derivedDataPath "$DERIVED_DATA" \
+        BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
+        -configuration Release \
+        -quiet 2>&1 | grep -E "^.*(error:.*|FAILED).*$" || true
+done
 echo "   Done"
 
 # Helper paths
 IOS_PRODUCTS="$DERIVED_DATA/Build/Products/Release-iphoneos"
 SIM_PRODUCTS="$DERIVED_DATA/Build/Products/Release-iphonesimulator"
+MAC_PRODUCTS="$DERIVED_DATA/Build/Products/Release"
 IOS_INTERMEDIATES="$DERIVED_DATA/Build/Intermediates.noindex"
 SIM_INTERMEDIATES="$DERIVED_DATA/Build/Intermediates.noindex"
+MAC_INTERMEDIATES="$DERIVED_DATA/Build/Intermediates.noindex"
 
-# 3. Verify build artifacts
-echo "[3/7] Verifying build artifacts..."
-for PLATFORM in "iphoneos" "iphonesimulator"; do
-    PRODUCTS="$DERIVED_DATA/Build/Products/Release-$PLATFORM"
+# 4. Verify build artifacts
+echo "[4/8] Verifying build artifacts..."
+for PLATFORM in "iphoneos" "iphonesimulator" "macosx"; do
+    if [ "$PLATFORM" = "macosx" ]; then
+        PRODUCTS="$DERIVED_DATA/Build/Products/Release"
+    else
+        PRODUCTS="$DERIVED_DATA/Build/Products/Release-$PLATFORM"
+    fi
     echo "   === $PLATFORM ==="
     for TARGET in "STKit" "STDOCX" "STExcel" "STTXT" "STPDF" "ZIPFoundation" ; do
         OBJ="$PRODUCTS/$TARGET.o"
@@ -116,14 +93,20 @@ for PLATFORM in "iphoneos" "iphonesimulator"; do
     done
 done
 
-# 4. Create framework bundles
-echo "[4/7] Creating framework bundles..."
+# 5. Create framework bundles
+echo "[5/8] Creating framework bundles..."
 
 create_framework() {
     local MODULE="$1"
     local PLATFORM="$2"
     local FW_DIR="$BUILD_DIR/frameworks/$PLATFORM/$MODULE.framework"
-    local PRODUCTS="$DERIVED_DATA/Build/Products/Release-$PLATFORM"
+    local PRODUCTS
+
+    if [ "$PLATFORM" = "macosx" ]; then
+        PRODUCTS="$DERIVED_DATA/Build/Products/Release"
+    else
+        PRODUCTS="$DERIVED_DATA/Build/Products/Release-$PLATFORM"
+    fi
 
     mkdir -p "$FW_DIR/Modules/$MODULE.swiftmodule" "$FW_DIR/Headers"
 
@@ -165,8 +148,10 @@ create_framework() {
     local HEADER=""
     if [ "$PLATFORM" = "iphoneos" ]; then
         HEADER=$(find "$IOS_INTERMEDIATES" -name "${SOURCE_NAME}-Swift.h" -path "*/Release-iphoneos/*" -path "*/arm64/*" 2>/dev/null | head -1)
-    else
+    elif [ "$PLATFORM" = "iphonesimulator" ]; then
         HEADER=$(find "$SIM_INTERMEDIATES" -name "${SOURCE_NAME}-Swift.h" -path "*/Release-iphonesimulator/*" -path "*/arm64/*" 2>/dev/null | head -1)
+    else
+        HEADER=$(find "$MAC_INTERMEDIATES" -name "${SOURCE_NAME}-Swift.h" -path "*/Release/*" -path "*/arm64/*" 2>/dev/null | grep -v "Release-" | head -1)
     fi
     if [ -n "$HEADER" ]; then
         cp "$HEADER" "$FW_DIR/Headers/$MODULE-Swift.h"
@@ -183,7 +168,9 @@ EOF
     # Create Info.plist
     local BUNDLE_ID="${MODULE}"
     [ "$MODULE" = "_ZIPFoundation" ] && BUNDLE_ID="ZIPFoundation"
-    cat > "$FW_DIR/Info.plist" << PLIST
+
+    if [ "$PLATFORM" = "macosx" ]; then
+        cat > "$FW_DIR/Info.plist" << PLIST
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -195,9 +182,36 @@ EOF
     <key>CFBundleName</key>
     <string>${MODULE}</string>
     <key>CFBundleVersion</key>
-    <string>0.7.17</string>
+    <string>0.8.0</string>
     <key>CFBundleShortVersionString</key>
-    <string>0.7.17</string>
+    <string>0.8.0</string>
+    <key>CFBundlePackageType</key>
+    <string>FMWK</string>
+    <key>LSMinimumSystemVersion</key>
+    <string>13.0</string>
+    <key>CFBundleSupportedPlatforms</key>
+    <array>
+        <string>MacOSX</string>
+    </array>
+</dict>
+</plist>
+PLIST
+    else
+        cat > "$FW_DIR/Info.plist" << PLIST
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleExecutable</key>
+    <string>${MODULE}</string>
+    <key>CFBundleIdentifier</key>
+    <string>com.stkit.${BUNDLE_ID}</string>
+    <key>CFBundleName</key>
+    <string>${MODULE}</string>
+    <key>CFBundleVersion</key>
+    <string>0.8.0</string>
+    <key>CFBundleShortVersionString</key>
+    <string>0.8.0</string>
     <key>CFBundlePackageType</key>
     <string>FMWK</string>
     <key>MinimumOSVersion</key>
@@ -214,34 +228,37 @@ EOF
 </dict>
 </plist>
 PLIST
+    fi
 
     echo "   $MODULE ($PLATFORM): $LIB_SIZE, $IFACE_COUNT swiftinterface files"
     return 0
 }
 
-for PLATFORM in "iphoneos" "iphonesimulator"; do
+for PLATFORM in "iphoneos" "iphonesimulator" "macosx"; do
     for MODULE in "${ALL_XCFRAMEWORKS[@]}"; do
         create_framework "$MODULE" "$PLATFORM"
     done
 done
 
-# 5. Create XCFrameworks
-echo "[5/7] Creating XCFrameworks..."
+# 6. Create XCFrameworks (now with 3 slices: iOS device, simulator, macOS)
+echo "[6/8] Creating XCFrameworks..."
 for MODULE in "${ALL_XCFRAMEWORKS[@]}"; do
     IOS_FW="$BUILD_DIR/frameworks/iphoneos/$MODULE.framework"
     SIM_FW="$BUILD_DIR/frameworks/iphonesimulator/$MODULE.framework"
+    MAC_FW="$BUILD_DIR/frameworks/macosx/$MODULE.framework"
 
     rm -rf "$BUILD_DIR/$MODULE.xcframework"
     xcodebuild -create-xcframework \
         -framework "$IOS_FW" \
         -framework "$SIM_FW" \
+        -framework "$MAC_FW" \
         -output "$BUILD_DIR/$MODULE.xcframework"
 
-    echo "   $MODULE.xcframework created"
+    echo "   $MODULE.xcframework created (iOS + macOS)"
 done
 
-# 6. Embed resources and package
-echo "[6/7] Packaging..."
+# 7. Embed resources and package
+echo "[7/8] Packaging..."
 for MODULE in "${ALL_XCFRAMEWORKS[@]}"; do
     local_name="$MODULE"
     [ "$MODULE" = "_ZIPFoundation" ] && local_name="ZIPFoundation"
@@ -268,8 +285,8 @@ for MODULE in "${ALL_XCFRAMEWORKS[@]}"; do
     echo "   $MODULE.xcframework.zip ($SIZE)"
 done
 
-# 7. Compute checksums
-echo "[7/7] Computing checksums..."
+# 8. Compute checksums
+echo "[8/8] Computing checksums..."
 cd "$ROOT_DIR"
 echo ""
 echo "=== Build Complete ==="

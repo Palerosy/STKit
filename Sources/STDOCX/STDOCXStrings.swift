@@ -1,4 +1,5 @@
 import Foundation
+import STKit
 
 /// Type-safe localized strings for STDOCX module
 public enum STDOCXStrings {
@@ -21,7 +22,8 @@ public enum STDOCXStrings {
 
     // MARK: - Helper
     private static func loc(_ key: String) -> String {
-        NSLocalizedString(key, bundle: STDOCXBundleHelper.resourceBundle, comment: "")
+        let bundle = STKitConfiguration.shared.languageBundle(for: STDOCXBundleHelper.resourceBundle) ?? STDOCXBundleHelper.resourceBundle
+        return NSLocalizedString(key, bundle: bundle, comment: "")
     }
 }
 

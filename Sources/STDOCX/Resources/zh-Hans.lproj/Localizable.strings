@@ -1,0 +1,13 @@
+"stdocx.font" = "字体";
+"stdocx.textColor" = "文字颜色";
+"stdocx.exportAs" = "导出为";
+"stdocx.findReplace" = "查找和替换";
+"stdocx.bold" = "加粗";
+"stdocx.italic" = "斜体";
+"stdocx.underline" = "下划线";
+"stdocx.strikethrough" = "删除线";
+"stdocx.alignment" = "对齐";
+"stdocx.alignLeft" = "左对齐";
+"stdocx.alignCenter" = "居中";
+"stdocx.alignRight" = "右对齐";
+"stdocx.justify" = "两端对齐";

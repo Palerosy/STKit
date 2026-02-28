@@ -1,4 +1,5 @@
 import Foundation
+import STKit
 
 /// Localized strings for STExcel module
 public enum STExcelStrings {
@@ -9,7 +10,8 @@ public enum STExcelStrings {
     public static var value: String { loc("stexcel.value") }
 
     private static func loc(_ key: String) -> String {
-        NSLocalizedString(key, bundle: STExcelBundleHelper.resourceBundle, comment: "")
+        let bundle = STKitConfiguration.shared.languageBundle(for: STExcelBundleHelper.resourceBundle) ?? STExcelBundleHelper.resourceBundle
+        return NSLocalizedString(key, bundle: bundle, comment: "")
     }
 }
 

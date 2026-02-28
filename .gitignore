@@ -7,8 +7,6 @@ DerivedData/
 .swiftpm/
 .netrc
 
-# Source code (distributed as XCFramework binary)
-/Sources
 /Tests
-/scripts
 /dist
+scripts/ed25519_private.key

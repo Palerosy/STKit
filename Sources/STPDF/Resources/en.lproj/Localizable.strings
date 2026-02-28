@@ -1,0 +1,143 @@
+/* Navigation & Controls */
+"stpdfkit.done" = "Done";
+"stpdfkit.pages" = "Pages";
+"stpdfkit.bookmark" = "Bookmark";
+"stpdfkit.search" = "Search";
+"stpdfkit.settings" = "Settings";
+"stpdfkit.outline" = "Outline";
+"stpdfkit.editPages" = "Edit Pages";
+"stpdfkit.share" = "Share";
+"stpdfkit.print" = "Print";
+"stpdfkit.saveAsText" = "Save as Text";
+"stpdfkit.untitled" = "Untitled";
+
+/* Search */
+"stpdfkit.searchInDocument" = "Search in document...";
+"stpdfkit.searching" = "Searching...";
+"stpdfkit.noResultsFound" = "No results found";
+"stpdfkit.page" = "Page %d";
+
+/* Outline */
+"stpdfkit.noOutlineAvailable" = "No outline available";
+
+/* Settings */
+"stpdfkit.display" = "Display";
+"stpdfkit.scrollDirection" = "Scroll Direction";
+"stpdfkit.pageMode" = "Page Mode";
+"stpdfkit.view" = "View";
+"stpdfkit.pageShadows" = "Page Shadows";
+"stpdfkit.backgroundColor" = "Background Color";
+
+/* Property Inspector */
+"stpdfkit.color" = "Color";
+"stpdfkit.width" = "Width";
+"stpdfkit.fontSize" = "Font Size";
+"stpdfkit.opacity" = "Opacity";
+"stpdfkit.font" = "Font";
+
+/* Annotation Tools */
+"stpdfkit.tool.pen" = "Pen";
+"stpdfkit.tool.highlighter" = "Highlighter";
+"stpdfkit.tool.text" = "Text";
+"stpdfkit.tool.highlight" = "Highlight";
+"stpdfkit.tool.underline" = "Underline";
+"stpdfkit.tool.strikethrough" = "Strikethrough";
+"stpdfkit.tool.rectangle" = "Rectangle";
+"stpdfkit.tool.circle" = "Circle";
+"stpdfkit.tool.line" = "Line";
+"stpdfkit.tool.arrow" = "Arrow";
+"stpdfkit.tool.signature" = "Signature";
+"stpdfkit.tool.stamp" = "Stamp";
+"stpdfkit.tool.note" = "Note";
+"stpdfkit.tool.eraser" = "Eraser";
+"stpdfkit.tool.photo" = "Photo";
+"stpdfkit.tool.textEdit" = "Edit Text";
+"stpdfkit.tapOnTextToEdit" = "Tap on text to edit";
+"stpdfkit.selection.word" = "Word";
+"stpdfkit.selection.line" = "Line";
+
+/* Toolbar Labels */
+"stpdfkit.hand" = "Hand";
+"stpdfkit.undo" = "Undo";
+"stpdfkit.redo" = "Redo";
+"stpdfkit.select" = "Select";
+"stpdfkit.style" = "Style";
+"stpdfkit.close" = "Close";
+"stpdfkit.zoomIn" = "Zoom In";
+"stpdfkit.zoomOut" = "Zoom Out";
+"stpdfkit.addText" = "Add Text";
+"stpdfkit.removeText" = "Remove Text";
+
+/* Annotation Groups */
+"stpdfkit.group.draw" = "Draw";
+"stpdfkit.group.shapes" = "Shapes";
+"stpdfkit.group.text" = "Text";
+"stpdfkit.group.markup" = "Markup";
+"stpdfkit.group.extras" = "Extras";
+
+/* Text Input */
+"stpdfkit.enterText" = "Enter text...";
+"stpdfkit.cancel" = "Cancel";
+"stpdfkit.add" = "Add";
+
+/* Markup */
+"stpdfkit.applyTool" = "Apply %@";
+
+/* Signature */
+"stpdfkit.signature.clear" = "Clear";
+"stpdfkit.signature.drawNew" = "Draw New";
+"stpdfkit.signature.saved" = "Saved Signatures";
+
+/* Stamp Types */
+"stpdfkit.stamp.approved" = "Approved";
+"stpdfkit.stamp.rejected" = "Rejected";
+"stpdfkit.stamp.draft" = "Draft";
+"stpdfkit.stamp.confidential" = "Confidential";
+"stpdfkit.stamp.forComment" = "For Comment";
+"stpdfkit.stamp.asIs" = "As Is";
+"stpdfkit.stamp.final" = "Final";
+
+/* Placement */
+"stpdfkit.tapToPlace" = "Tap to place";
+
+/* Selection Menu */
+"stpdfkit.selection.copy" = "Copy";
+"stpdfkit.selection.paste" = "Paste";
+"stpdfkit.selection.delete" = "Delete";
+"stpdfkit.selection.inspector" = "Inspector";
+"stpdfkit.selection.note" = "Note";
+
+/* Tool Hints */
+"stpdfkit.hint.draw" = "Touch and draw";
+"stpdfkit.hint.shape" = "Drag to draw";
+"stpdfkit.hint.tapToAddText" = "Tap to add text";
+"stpdfkit.hint.erase" = "Swipe to erase";
+
+/* Order (Layer) */
+"stpdfkit.order" = "Order";
+"stpdfkit.order.front" = "Bring to Front";
+"stpdfkit.order.forward" = "Bring Forward";
+"stpdfkit.order.backward" = "Send Backward";
+"stpdfkit.order.back" = "Send to Back";
+
+/* Page Editor */
+"stpdfkit.page.newPage" = "New Page";
+"stpdfkit.page.remove" = "Remove";
+"stpdfkit.page.duplicate" = "Duplicate";
+"stpdfkit.page.rotate" = "Rotate";
+"stpdfkit.page.selectAll" = "Select All";
+"stpdfkit.page.deselectAll" = "Deselect All";
+"stpdfkit.page.cut" = "Cut";
+"stpdfkit.page.copy" = "Copy";
+"stpdfkit.page.paste" = "Paste";
+"stpdfkit.page.numberOfPages" = "Number of Pages";
+"stpdfkit.page.format" = "Page Format";
+"stpdfkit.page.color" = "Page Color";
+"stpdfkit.page.addAfter" = "Add After Page";
+"stpdfkit.page.beginning" = "Beginning";
+"stpdfkit.page.color.white" = "White";
+"stpdfkit.page.color.cream" = "Cream";
+"stpdfkit.page.color.gray" = "Gray";
+
+/* License */
+"stpdfkit.unlicensed" = "STPDFKit — Unlicensed";

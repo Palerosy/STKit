@@ -1,0 +1,111 @@
+/* STPDFKit — Italian (it) Localizable Strings */
+
+/* MARK: - General */
+
+"stpdfkit.done" = "Fine";
+"stpdfkit.pages" = "Pagine";
+"stpdfkit.bookmark" = "Segnalibro";
+"stpdfkit.search" = "Cerca";
+"stpdfkit.settings" = "Impostazioni";
+"stpdfkit.outline" = "Indice";
+"stpdfkit.editPages" = "Modifica pagine";
+"stpdfkit.share" = "Condividi";
+"stpdfkit.print" = "Stampa";
+"stpdfkit.saveAsText" = "Salva come testo";
+"stpdfkit.untitled" = "Senza titolo";
+
+/* MARK: - Search */
+
+"stpdfkit.searchInDocument" = "Cerca nel documento…";
+"stpdfkit.searching" = "Ricerca in corso…";
+"stpdfkit.noResultsFound" = "Nessun risultato trovato";
+
+/* MARK: - Page & Outline */
+
+"stpdfkit.page" = "Pagina %d";
+"stpdfkit.noOutlineAvailable" = "Nessun indice disponibile";
+
+/* MARK: - Display Settings */
+
+"stpdfkit.display" = "Schermo";
+"stpdfkit.scrollDirection" = "Direzione di scorrimento";
+"stpdfkit.pageMode" = "Modalità pagina";
+"stpdfkit.view" = "Vista";
+"stpdfkit.pageShadows" = "Ombre pagina";
+"stpdfkit.backgroundColor" = "Colore di sfondo";
+
+/* MARK: - Properties */
+
+"stpdfkit.color" = "Colore";
+"stpdfkit.width" = "Larghezza";
+"stpdfkit.fontSize" = "Dimensione carattere";
+"stpdfkit.opacity" = "Opacità";
+"stpdfkit.font" = "Font";
+
+/* MARK: - Annotation Tools */
+
+"stpdfkit.tool.pen" = "Penna";
+"stpdfkit.tool.highlighter" = "Evidenziatore";
+"stpdfkit.tool.text" = "Testo";
+"stpdfkit.tool.highlight" = "Evidenzia";
+"stpdfkit.tool.underline" = "Sottolinea";
+"stpdfkit.tool.strikethrough" = "Barrato";
+"stpdfkit.tool.rectangle" = "Rettangolo";
+"stpdfkit.tool.circle" = "Cerchio";
+"stpdfkit.tool.line" = "Linea";
+"stpdfkit.tool.arrow" = "Freccia";
+"stpdfkit.tool.signature" = "Firma";
+"stpdfkit.tool.stamp" = "Timbro";
+"stpdfkit.tool.note" = "Nota";
+"stpdfkit.tool.eraser" = "Gomma";
+"stpdfkit.tool.textEdit" = "Modifica Testo";
+"stpdfkit.tapOnTextToEdit" = "Tocca il testo per modificare";
+"stpdfkit.selection.word" = "Parola";
+"stpdfkit.selection.line" = "Riga";
+
+/* MARK: - Tool Groups */
+
+"stpdfkit.group.draw" = "Disegno";
+"stpdfkit.group.text" = "Testo";
+"stpdfkit.group.markup" = "Annotazione";
+
+/* Text Input */
+
+"stpdfkit.enterText" = "Inserisci testo...";
+"stpdfkit.cancel" = "Annulla";
+"stpdfkit.add" = "Aggiungi";
+
+/* Markup */
+
+"stpdfkit.applyTool" = "Applica %@";
+
+/* Signature */
+"stpdfkit.signature.clear" = "Cancella";
+"stpdfkit.signature.drawNew" = "Disegna nuova";
+"stpdfkit.signature.saved" = "Firme salvate";
+
+/* Selection Menu */
+"stpdfkit.selection.paste" = "Incolla";
+
+/* Page Editor */
+"stpdfkit.page.newPage" = "Nuova Pagina";
+"stpdfkit.page.remove" = "Rimuovi";
+"stpdfkit.page.duplicate" = "Duplica";
+"stpdfkit.page.rotate" = "Ruota";
+"stpdfkit.page.selectAll" = "Seleziona Tutto";
+"stpdfkit.page.deselectAll" = "Deseleziona Tutto";
+"stpdfkit.page.cut" = "Taglia";
+"stpdfkit.page.copy" = "Copia";
+"stpdfkit.page.paste" = "Incolla";
+"stpdfkit.page.numberOfPages" = "Numero di Pagine";
+"stpdfkit.page.format" = "Formato Pagina";
+"stpdfkit.page.color" = "Colore Pagina";
+"stpdfkit.page.addAfter" = "Aggiungi dopo la Pagina";
+"stpdfkit.page.beginning" = "Inizio";
+"stpdfkit.page.color.white" = "Bianco";
+"stpdfkit.page.color.cream" = "Crema";
+"stpdfkit.page.color.gray" = "Grigio";
+
+/* MARK: - License */
+
+"stpdfkit.unlicensed" = "STPDFKit — Unlicensed";
