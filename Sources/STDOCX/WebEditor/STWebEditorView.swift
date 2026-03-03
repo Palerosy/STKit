@@ -33,6 +33,9 @@ struct STWebEditorView: UIViewRepresentable {
     func updateUIView(_ webView: WKWebView, context: Context) {}
 
     static func dismantleUIView(_ webView: WKWebView, coordinator: Coordinator) {
+        // Clear viewModel reference first to prevent JS calls to a deallocating webView
+        coordinator.viewModel.webView = nil
+        webView.stopLoading()
         cleanupMessageHandlers(webView)
     }
 }

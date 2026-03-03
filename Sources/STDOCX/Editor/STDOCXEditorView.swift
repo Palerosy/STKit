@@ -301,7 +301,10 @@ public struct STDOCXEditorView: View {
             Text(comment.text)
         }
         .sheet(isPresented: Binding(
-            get: { viewModel.webEditorViewModel.isChartEditorVisible },
+            get: {
+                // Only show chart editor if no other sheet is presented (prevents modal presentation crash)
+                viewModel.webEditorViewModel.isChartEditorVisible && viewModel.activeSheet == nil
+            },
             set: { viewModel.webEditorViewModel.isChartEditorVisible = $0 }
         )) {
             if let chartModel = viewModel.webEditorViewModel.editingChartModel {
@@ -315,7 +318,10 @@ public struct STDOCXEditorView: View {
             }
         }
         #if os(iOS)
-        .sheet(isPresented: $showShareSheet) {
+        .sheet(isPresented: Binding(
+            get: { showShareSheet && viewModel.activeSheet == nil },
+            set: { showShareSheet = $0 }
+        )) {
             if let docURL = viewModel.document.url {
                 ActivityShareSheet(activityItems: [docURL])
             }

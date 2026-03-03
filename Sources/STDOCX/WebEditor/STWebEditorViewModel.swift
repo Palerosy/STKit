@@ -63,7 +63,7 @@ final class STWebEditorViewModel: ObservableObject {
 
     /// Generate HTML from document model and load into WKWebView
     func loadContent() {
-        guard let webView else { return }
+        guard let webView, webView.window != nil || webView.superview != nil else { return }
         let html: String
         if document.isLegacyDoc {
             // Legacy DOC: use extracted HTML (preserves tables and structure)
@@ -80,6 +80,12 @@ final class STWebEditorViewModel: ObservableObject {
             // Fallback: use editable attributed string text
             let text = document.editableAttributedString?.string ?? ""
             html = STDocumentToHTMLConverter.plainTextToHTML(text)
+        }
+
+        // Guard against empty HTML causing issues in JS
+        guard !html.isEmpty else {
+            print("[STWebEditor] loadContent skipped — empty HTML")
+            return
         }
 
         // Use callAsyncJavaScript to safely pass large HTML (avoids string escaping issues with base64 images)
@@ -200,6 +206,16 @@ final class STWebEditorViewModel: ObservableObject {
     func printContent() {
         guard let webView else { return }
         #if os(iOS)
+        // Guard against presenting while another controller is already presented
+        // (causes NSInvalidArgumentException crash)
+        guard let windowScene = webView.window?.windowScene,
+              let rootVC = windowScene.windows.first(where: { $0.isKeyWindow })?.rootViewController else { return }
+        let topVC = Self.topViewController(from: rootVC)
+        guard topVC.presentedViewController == nil else {
+            print("[STWebEditor] Skipping print — another view controller is already presented")
+            return
+        }
+
         let printInfo = UIPrintInfo(dictionary: nil)
         printInfo.jobName = document.title
         printInfo.outputType = .general
@@ -207,7 +223,13 @@ final class STWebEditorViewModel: ObservableObject {
         let printController = UIPrintInteractionController.shared
         printController.printInfo = printInfo
         printController.printFormatter = webView.viewPrintFormatter()
-        printController.present(animated: true)
+
+        // On iPad, present from sourceView to avoid UIPopoverPresentationController crash
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            printController.present(from: webView.bounds, in: webView, animated: true, completionHandler: nil)
+        } else {
+            printController.present(animated: true)
+        }
         #elseif os(macOS)
         // Use WKWebView.createPDF to capture full visual content (images, charts, tables),
         // then split into letter-sized pages and print via PDFDocument.
@@ -799,6 +821,22 @@ final class STWebEditorViewModel: ObservableObject {
     }
 
     // MARK: - Private
+
+    #if os(iOS)
+    /// Walk the presentation chain to find the topmost presented view controller
+    private static func topViewController(from root: UIViewController) -> UIViewController {
+        if let presented = root.presentedViewController {
+            return topViewController(from: presented)
+        }
+        if let nav = root as? UINavigationController, let visible = nav.visibleViewController {
+            return topViewController(from: visible)
+        }
+        if let tab = root as? UITabBarController, let selected = tab.selectedViewController {
+            return topViewController(from: selected)
+        }
+        return root
+    }
+    #endif
 
     private func evaluateJS(_ js: String) {
         webView?.evaluateJavaScript(js) { _, error in

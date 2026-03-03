@@ -452,12 +452,18 @@ public class STDOCXDocument: ObservableObject {
 
     /// Extract paragraph-structured text from Office XML
     private static func extractTextFromXML(_ xml: String) -> String? {
+        guard !xml.isEmpty else { return nil }
         var paragraphs: [String] = []
         let paraPattern = "<w:p[\\s>/].*?</w:p>"
         if let paraRegex = try? NSRegularExpression(pattern: paraPattern, options: .dotMatchesLineSeparators) {
-            let matches = paraRegex.matches(in: xml, range: NSRange(xml.startIndex..., in: xml))
+            let nsRange = NSRange(xml.startIndex..., in: xml)
+            guard nsRange.location != NSNotFound else { return nil }
+            let matches = paraRegex.matches(in: xml, range: nsRange)
             for match in matches {
-                guard let range = Range(match.range, in: xml) else { continue }
+                // Validate range is within string bounds before converting
+                guard match.range.location != NSNotFound,
+                      match.range.location + match.range.length <= (xml as NSString).length,
+                      let range = Range(match.range, in: xml) else { continue }
                 let paraXml = String(xml[range])
                 if let text = extractAllTextTags(from: paraXml), !text.isEmpty {
                     paragraphs.append(text)
@@ -470,20 +476,28 @@ public class STDOCXDocument: ObservableObject {
 
     /// Extract text from all <w:t> tags in an XML string
     private static func extractAllTextTags(from xml: String) -> String? {
+        guard !xml.isEmpty else { return nil }
         let pattern = "<w:t[^>]*>(.*?)</w:t>"
         guard let regex = try? NSRegularExpression(pattern: pattern, options: .dotMatchesLineSeparators) else { return nil }
-        let matches = regex.matches(in: xml, range: NSRange(xml.startIndex..., in: xml))
+        let nsRange = NSRange(xml.startIndex..., in: xml)
+        guard nsRange.location != NSNotFound else { return nil }
+        let matches = regex.matches(in: xml, range: nsRange)
+        let nsString = xml as NSString
         var texts: [String] = []
         for match in matches {
-            if let range = Range(match.range(at: 1), in: xml) {
-                let text = String(xml[range])
-                    .replacingOccurrences(of: "&amp;", with: "&")
-                    .replacingOccurrences(of: "&lt;", with: "<")
-                    .replacingOccurrences(of: "&gt;", with: ">")
-                    .replacingOccurrences(of: "&quot;", with: "\"")
-                    .replacingOccurrences(of: "&apos;", with: "'")
-                texts.append(text)
-            }
+            guard match.numberOfRanges >= 2 else { continue }
+            let captureRange = match.range(at: 1)
+            // Validate capture range is within string bounds
+            guard captureRange.location != NSNotFound,
+                  captureRange.location + captureRange.length <= nsString.length,
+                  let range = Range(captureRange, in: xml) else { continue }
+            let text = String(xml[range])
+                .replacingOccurrences(of: "&amp;", with: "&")
+                .replacingOccurrences(of: "&lt;", with: "<")
+                .replacingOccurrences(of: "&gt;", with: ">")
+                .replacingOccurrences(of: "&quot;", with: "\"")
+                .replacingOccurrences(of: "&apos;", with: "'")
+            texts.append(text)
         }
         return texts.isEmpty ? nil : texts.joined()
     }
@@ -632,15 +646,23 @@ public class STDOCXDocument: ObservableObject {
         return header[0] == 0xD0 && header[1] == 0xCF && header[2] == 0x11 && header[3] == 0xE0
     }
 
-    /// Try reading with NSAttributedString auto-detection (RTF only — NOT for binary DOC)
+    /// Try reading with NSAttributedString (RTF only — NOT for binary DOC or HTML)
     private static func readWithNSAttributedString(url: URL) -> NSAttributedString? {
-        // Only try RTF — .html triggers WebKit internally which spins a nested run loop
-        // and crashes with NSInternalInconsistencyException during SwiftUI body evaluation
-        // or iOS snapshot taking. Legacy DOC files use loadDocViaWebKit() instead.
-        let rtfType: NSAttributedString.DocumentType = .rtf
+        // Read file data first and verify RTF magic bytes before parsing.
+        // Using the URL-based NSAttributedString init can trigger NSHTMLReader._loadUsingWebKit
+        // even with .rtf documentType, which spins a nested run loop and crashes with
+        // NSInternalInconsistencyException during SwiftUI body evaluation or iOS snapshot taking.
+        // The data-based init with explicit .rtf type avoids WebKit auto-detection entirely.
+        guard let data = try? Data(contentsOf: url), data.count >= 5 else { return nil }
+
+        // Check RTF magic bytes: {\rtf
+        let rtfMagic: [UInt8] = [0x7B, 0x5C, 0x72, 0x74, 0x66] // {\rtf
+        let header = [UInt8](data.prefix(5))
+        guard header == rtfMagic else { return nil }
+
         if let attr = try? NSAttributedString(
-            url: url,
-            options: [.documentType: rtfType],
+            data: data,
+            options: [.documentType: NSAttributedString.DocumentType.rtf],
             documentAttributes: nil
         ), attr.length > 0 {
             return attr
