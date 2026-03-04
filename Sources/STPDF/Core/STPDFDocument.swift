@@ -50,6 +50,27 @@ public class STPDFDocument: ObservableObject {
         pdfDocument.write(to: url)
     }
 
+    /// Generate PDF data with all annotations flattened/rendered into the pages.
+    /// Custom annotation subclasses (STImageAnnotation, STStampAnnotation) that override
+    /// draw() need this to appear correctly in print/share output, since PDFDocument.write()
+    /// does not serialize custom draw output (no appearance stream).
+    public func flattenedData() -> Data? {
+        let mutableData = NSMutableData()
+        guard let consumer = CGDataConsumer(data: mutableData as CFMutableData),
+              let pdfContext = CGContext(consumer: consumer, mediaBox: nil, nil) else { return nil }
+
+        for i in 0..<pageCount {
+            guard let page = pdfDocument.page(at: i) else { continue }
+            var mediaBox = page.bounds(for: .mediaBox)
+            pdfContext.beginPage(mediaBox: &mediaBox)
+            page.draw(with: .mediaBox, to: pdfContext)
+            pdfContext.endPage()
+        }
+
+        pdfContext.closePDF()
+        return mutableData as Data
+    }
+
     /// Extract full text from all pages
     public func extractFullText() -> String {
         var text = ""

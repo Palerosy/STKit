@@ -57,29 +57,30 @@ struct STMoreMenu: View {
     private func shareDocument() {
         guard let url = viewModel.document.url else { return }
         Task {
+            // Wait for content to be saved before showing share sheet
             await viewModel.webEditorViewModel.saveContent()
             viewModel.document.save(to: url)
-        }
 
-        #if os(iOS)
-        let activityVC = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+            #if os(iOS)
+            let activityVC = UIActivityViewController(activityItems: [url], applicationActivities: nil)
 
-        if let windowScene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene,
-           let rootVC = windowScene.windows.first(where: { $0.isKeyWindow })?.rootViewController {
-            var topVC = rootVC
-            while let presented = topVC.presentedViewController {
-                topVC = presented
+            if let windowScene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene,
+               let rootVC = windowScene.windows.first(where: { $0.isKeyWindow })?.rootViewController {
+                var topVC = rootVC
+                while let presented = topVC.presentedViewController {
+                    topVC = presented
+                }
+                activityVC.popoverPresentationController?.sourceView = topVC.view
+                topVC.present(activityVC, animated: true)
             }
-            activityVC.popoverPresentationController?.sourceView = topVC.view
-            topVC.present(activityVC, animated: true)
+            #elseif os(macOS)
+            let sharingPicker = NSSharingServicePicker(items: [url])
+            if let window = NSApplication.shared.keyWindow,
+               let contentView = window.contentView {
+                sharingPicker.show(relativeTo: .zero, of: contentView, preferredEdge: .minY)
+            }
+            #endif
         }
-        #elseif os(macOS)
-        let sharingPicker = NSSharingServicePicker(items: [url])
-        if let window = NSApplication.shared.keyWindow,
-           let contentView = window.contentView {
-            sharingPicker.show(relativeTo: .zero, of: contentView, preferredEdge: .minY)
-        }
-        #endif
     }
 
     private func printDocument() {

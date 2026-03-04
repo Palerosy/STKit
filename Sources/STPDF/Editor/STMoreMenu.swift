@@ -64,10 +64,20 @@ struct STMoreMenu: View {
 
     private func shareDocument() {
         guard let url = viewModel.document.url else { return }
+
+        // Save editable version to disk
         viewModel.document.save()
 
+        // Generate flattened PDF so custom annotations (signatures, stamps, photos) are rendered
+        guard let pdfData = viewModel.document.flattenedData() else { return }
+
+        // Write flattened copy to temp file for sharing
+        let tempURL = FileManager.default.temporaryDirectory
+            .appendingPathComponent(url.lastPathComponent)
+        guard (try? pdfData.write(to: tempURL)) != nil else { return }
+
         #if os(iOS)
-        let activityVC = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+        let activityVC = UIActivityViewController(activityItems: [tempURL], applicationActivities: nil)
 
         if let windowScene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene,
            let rootVC = windowScene.windows.first(where: { $0.isKeyWindow })?.rootViewController {
@@ -79,7 +89,7 @@ struct STMoreMenu: View {
             topVC.present(activityVC, animated: true)
         }
         #elseif os(macOS)
-        let sharingPicker = NSSharingServicePicker(items: [url])
+        let sharingPicker = NSSharingServicePicker(items: [tempURL])
         if let window = NSApplication.shared.keyWindow,
            let contentView = window.contentView {
             sharingPicker.show(relativeTo: .zero, of: contentView, preferredEdge: .minY)
@@ -90,18 +100,24 @@ struct STMoreMenu: View {
     private func printDocument() {
         if let onPrint = configuration.onPrint ?? STKitConfiguration.shared.onPrint, !onPrint() { return }
 
-        guard let url = viewModel.document.url else { return }
         #if os(iOS)
+        // Use flattened PDF data so custom annotations (signatures, stamps, photos) are rendered
+        guard let pdfData = viewModel.document.flattenedData() else { return }
         let printController = UIPrintInteractionController.shared
-        printController.printingItem = url
+        printController.printingItem = pdfData
         printController.present(animated: true)
         #elseif os(macOS)
-        if let pdfDoc = PDFDocument(url: url) {
-            let printInfo = NSPrintInfo.shared
-            printInfo.isHorizontallyCentered = true
-            printInfo.isVerticallyCentered = true
-            let printOp = pdfDoc.printOperation(for: printInfo, scalingMode: .pageScaleToFit, autoRotate: true)
-            printOp?.run()
+        // Use in-memory document so custom annotation draw methods are preserved
+        viewModel.serializer.save()
+        let printDoc = viewModel.document.pdfDocument
+        let printInfo = NSPrintInfo.shared.copy() as! NSPrintInfo
+        printInfo.isHorizontallyCentered = true
+        printInfo.isVerticallyCentered = true
+        printInfo.scalingFactor = 1.0
+        if let printOp = printDoc.printOperation(for: printInfo, scalingMode: .pageScaleToFit, autoRotate: true) {
+            printOp.showsPrintPanel = true
+            printOp.showsProgressPanel = true
+            printOp.run()
         }
         #endif
     }
