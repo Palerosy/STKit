@@ -12,10 +12,10 @@ let package = Package(
         .library(name: "STPDF", targets: ["STPDF", "STKit"]),
     ],
     targets: [
-        .binaryTarget(name: "STKit", url: "https://github.com/Palerosy/STKit/releases/download/0.7.41/STKit.xcframework.zip", checksum: "82a0e79d454c854f8ebb2ef6d3619f21890295c6dc02fbe0ba6646fdc2415bcc"),
-        .binaryTarget(name: "STDOCX", url: "https://github.com/Palerosy/STKit/releases/download/0.7.41/STDOCX.xcframework.zip", checksum: "ddbb56f8738af6aa04972cdfa3d8182d1fcb83b6b02429b5a19eb2379744f72d"),
-        .binaryTarget(name: "STExcel", url: "https://github.com/Palerosy/STKit/releases/download/0.7.41/STExcel.xcframework.zip", checksum: "07a4bf228cd78d5b33ee67bc4ee64fafd63ccb464ac53bb656220fe27761dd68"),
-        .binaryTarget(name: "STTXT", url: "https://github.com/Palerosy/STKit/releases/download/0.7.41/STTXT.xcframework.zip", checksum: "a4ae12866d90bbf25837960c563475a20ed1fc4622d1b39295cac8265c72050d"),
-        .binaryTarget(name: "STPDF", url: "https://github.com/Palerosy/STKit/releases/download/0.7.41/STPDF.xcframework.zip", checksum: "caec9359c0aee79f6c8dbff4073cea6040754157f7a1bf28fa0398d613d28030"),
+        .binaryTarget(name: "STKit", url: "https://github.com/Palerosy/STKit/releases/download/0.7.42/STKit.xcframework.zip", checksum: "b2d4bd7a1a9d2437fa0aef23614e5a33825d422af409943c549ac7fc948f64e0"),
+        .binaryTarget(name: "STDOCX", url: "https://github.com/Palerosy/STKit/releases/download/0.7.42/STDOCX.xcframework.zip", checksum: "04f66e37cd216c21d1e862938d9eeb50a623e84ddaf9f969a86d423196982de8"),
+        .binaryTarget(name: "STExcel", url: "https://github.com/Palerosy/STKit/releases/download/0.7.42/STExcel.xcframework.zip", checksum: "272dac4358fbaa21b05253135090026fa936e6573e529f5a830b819801b02333"),
+        .binaryTarget(name: "STTXT", url: "https://github.com/Palerosy/STKit/releases/download/0.7.42/STTXT.xcframework.zip", checksum: "2034250a97901bcaeee70b7fd01d392a6f888dcf52a45613fbf23339ee66df89"),
+        .binaryTarget(name: "STPDF", url: "https://github.com/Palerosy/STKit/releases/download/0.7.42/STPDF.xcframework.zip", checksum: "082b401d39ab5784b27970cb3e6318ac2aff806790f3f44f5445aee6432aa4c4"),
     ]
 )
