@@ -63,7 +63,21 @@ public class STPDFDocument: ObservableObject {
             guard let page = pdfDocument.page(at: i) else { continue }
             var mediaBox = page.bounds(for: .mediaBox)
             pdfContext.beginPage(mediaBox: &mediaBox)
-            page.draw(with: .mediaBox, to: pdfContext)
+
+            // Draw raw page content (without annotations) — this always works
+            if let cgPage = page.pageRef {
+                pdfContext.drawPDFPage(cgPage)
+            }
+
+            // Explicitly call each annotation's draw() — guarantees custom subclasses
+            // (STImageAnnotation, STStampAnnotation, STInkAnnotation) are rendered
+            // regardless of whether PDFKit has cached their appearance streams
+            for annotation in page.annotations {
+                pdfContext.saveGState()
+                annotation.draw(with: .mediaBox, in: pdfContext)
+                pdfContext.restoreGState()
+            }
+
             pdfContext.endPage()
         }
 
