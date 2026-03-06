@@ -40,7 +40,7 @@ let package = Package(
         .binaryTarget(
             name: "_ZIPFoundation",
             url: "https://github.com/Palerosy/STKit/releases/download/0.8.0/_ZIPFoundation.xcframework.zip",
-            checksum: "1cda4a5a577e0eb5e9951fcf131aaee338f3e06e8ee3f443e0f79404e3636ea7"
+            checksum: "8358e761fa8ea577f1fe5ed67cac149957580a2d654a9200eb24a946b84773f5"
         ),
     ]
 )
