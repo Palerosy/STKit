@@ -1,0 +1,16 @@
+/* Editor */
+"stdocx.font" = "Шрифт";
+"stdocx.textColor" = "Цвет текста";
+"stdocx.exportAs" = "Экспортировать как";
+"stdocx.findReplace" = "Найти и заменить";
+
+/* Formatting */
+"stdocx.bold" = "Жирный";
+"stdocx.italic" = "Курсив";
+"stdocx.underline" = "Подчёркнутый";
+"stdocx.strikethrough" = "Зачёркнутый";
+"stdocx.alignment" = "Выравнивание";
+"stdocx.alignLeft" = "По левому краю";
+"stdocx.alignCenter" = "По центру";
+"stdocx.alignRight" = "По правому краю";
+"stdocx.justify" = "По ширине";

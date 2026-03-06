@@ -1,0 +1,143 @@
+/* Navigation & Controls */
+"stpdfkit.done" = "Gotowe";
+"stpdfkit.pages" = "Strony";
+"stpdfkit.bookmark" = "Zakładka";
+"stpdfkit.search" = "Szukaj";
+"stpdfkit.settings" = "Ustawienia";
+"stpdfkit.outline" = "Konspekt";
+"stpdfkit.editPages" = "Edytuj strony";
+"stpdfkit.share" = "Udostępnij";
+"stpdfkit.print" = "Drukuj";
+"stpdfkit.saveAsText" = "Zapisz jako tekst";
+"stpdfkit.untitled" = "Bez tytułu";
+
+/* Search */
+"stpdfkit.searchInDocument" = "Szukaj w dokumencie...";
+"stpdfkit.searching" = "Wyszukiwanie...";
+"stpdfkit.noResultsFound" = "Brak wyników";
+"stpdfkit.page" = "Strona %d";
+
+/* Outline */
+"stpdfkit.noOutlineAvailable" = "Brak dostępnego konspektu";
+
+/* Settings */
+"stpdfkit.display" = "Wyświetlanie";
+"stpdfkit.scrollDirection" = "Kierunek przewijania";
+"stpdfkit.pageMode" = "Tryb strony";
+"stpdfkit.view" = "Widok";
+"stpdfkit.pageShadows" = "Cienie strony";
+"stpdfkit.backgroundColor" = "Kolor tła";
+
+/* Property Inspector */
+"stpdfkit.color" = "Kolor";
+"stpdfkit.width" = "Szerokość";
+"stpdfkit.fontSize" = "Rozmiar czcionki";
+"stpdfkit.opacity" = "Przezroczystość";
+"stpdfkit.font" = "Czcionka";
+
+/* Annotation Tools */
+"stpdfkit.tool.pen" = "Długopis";
+"stpdfkit.tool.highlighter" = "Zakreślacz";
+"stpdfkit.tool.text" = "Tekst";
+"stpdfkit.tool.highlight" = "Zaznacz";
+"stpdfkit.tool.underline" = "Podkreślenie";
+"stpdfkit.tool.strikethrough" = "Przekreślenie";
+"stpdfkit.tool.rectangle" = "Prostokąt";
+"stpdfkit.tool.circle" = "Koło";
+"stpdfkit.tool.line" = "Linia";
+"stpdfkit.tool.arrow" = "Strzałka";
+"stpdfkit.tool.signature" = "Podpis";
+"stpdfkit.tool.stamp" = "Pieczątka";
+"stpdfkit.tool.note" = "Notatka";
+"stpdfkit.tool.eraser" = "Gumka";
+"stpdfkit.tool.photo" = "Zdjęcie";
+"stpdfkit.tool.textEdit" = "Edytuj tekst";
+"stpdfkit.tapOnTextToEdit" = "Dotknij tekstu, aby edytować";
+"stpdfkit.selection.word" = "Słowo";
+"stpdfkit.selection.line" = "Linia";
+
+/* Toolbar Labels */
+"stpdfkit.hand" = "Ręka";
+"stpdfkit.undo" = "Cofnij";
+"stpdfkit.redo" = "Ponów";
+"stpdfkit.select" = "Zaznacz";
+"stpdfkit.style" = "Styl";
+"stpdfkit.close" = "Zamknij";
+"stpdfkit.zoomIn" = "Powiększ";
+"stpdfkit.zoomOut" = "Pomniejsz";
+"stpdfkit.addText" = "Dodaj tekst";
+"stpdfkit.removeText" = "Usuń tekst";
+
+/* Annotation Groups */
+"stpdfkit.group.draw" = "Rysowanie";
+"stpdfkit.group.shapes" = "Kształty";
+"stpdfkit.group.text" = "Tekst";
+"stpdfkit.group.markup" = "Oznaczenia";
+"stpdfkit.group.extras" = "Dodatkowe";
+
+/* Text Input */
+"stpdfkit.enterText" = "Wpisz tekst...";
+"stpdfkit.cancel" = "Anuluj";
+"stpdfkit.add" = "Dodaj";
+
+/* Markup */
+"stpdfkit.applyTool" = "Zastosuj %@";
+
+/* Signature */
+"stpdfkit.signature.clear" = "Wyczyść";
+"stpdfkit.signature.drawNew" = "Narysuj nowy";
+"stpdfkit.signature.saved" = "Zapisane podpisy";
+
+/* Stamp Types */
+"stpdfkit.stamp.approved" = "Zatwierdzone";
+"stpdfkit.stamp.rejected" = "Odrzucone";
+"stpdfkit.stamp.draft" = "Szkic";
+"stpdfkit.stamp.confidential" = "Poufne";
+"stpdfkit.stamp.forComment" = "Do komentarza";
+"stpdfkit.stamp.asIs" = "Tak jak jest";
+"stpdfkit.stamp.final" = "Końcowe";
+
+/* Placement */
+"stpdfkit.tapToPlace" = "Dotknij, aby umieścić";
+
+/* Selection Menu */
+"stpdfkit.selection.copy" = "Kopiuj";
+"stpdfkit.selection.paste" = "Wklej";
+"stpdfkit.selection.delete" = "Usuń";
+"stpdfkit.selection.inspector" = "Inspektor";
+"stpdfkit.selection.note" = "Notatka";
+
+/* Tool Hints */
+"stpdfkit.hint.draw" = "Dotknij i rysuj";
+"stpdfkit.hint.shape" = "Przeciągnij, aby narysować";
+"stpdfkit.hint.tapToAddText" = "Dotknij, aby dodać tekst";
+"stpdfkit.hint.erase" = "Przesuń, aby wymazać";
+
+/* Order (Layer) */
+"stpdfkit.order" = "Kolejność";
+"stpdfkit.order.front" = "Przenieś na wierzch";
+"stpdfkit.order.forward" = "Przenieś do przodu";
+"stpdfkit.order.backward" = "Przenieś do tyłu";
+"stpdfkit.order.back" = "Przenieś na spód";
+
+/* Page Editor */
+"stpdfkit.page.newPage" = "Nowa strona";
+"stpdfkit.page.remove" = "Usuń";
+"stpdfkit.page.duplicate" = "Duplikuj";
+"stpdfkit.page.rotate" = "Obróć";
+"stpdfkit.page.selectAll" = "Zaznacz wszystko";
+"stpdfkit.page.deselectAll" = "Odznacz wszystko";
+"stpdfkit.page.cut" = "Wytnij";
+"stpdfkit.page.copy" = "Kopiuj";
+"stpdfkit.page.paste" = "Wklej";
+"stpdfkit.page.numberOfPages" = "Liczba stron";
+"stpdfkit.page.format" = "Format strony";
+"stpdfkit.page.color" = "Kolor strony";
+"stpdfkit.page.addAfter" = "Dodaj po stronie";
+"stpdfkit.page.beginning" = "Początek";
+"stpdfkit.page.color.white" = "Biały";
+"stpdfkit.page.color.cream" = "Kremowy";
+"stpdfkit.page.color.gray" = "Szary";
+
+/* License */
+"stpdfkit.unlicensed" = "STPDFKit — Bez licencji";

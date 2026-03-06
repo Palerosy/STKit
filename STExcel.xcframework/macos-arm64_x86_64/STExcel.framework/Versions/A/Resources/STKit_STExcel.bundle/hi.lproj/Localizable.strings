@@ -1,0 +1,464 @@
+/* STExcel */
+"stexcel.sheet" = "शीट";
+"stexcel.cell" = "सेल";
+"stexcel.row" = "पंक्ति";
+"stexcel.column" = "स्तंभ";
+"stexcel.value" = "मान";
+
+/* Ribbon Tabs */
+"stexcel.ribbon.format" = "स्वरूप";
+"stexcel.ribbon.formulas" = "सूत्र";
+"stexcel.ribbon.data" = "डेटा";
+
+/* Home Tab */
+"stexcel.cut" = "काटें";
+"stexcel.copy" = "कॉपी";
+"stexcel.fillColor" = "भरण";
+"stexcel.wrapText" = "रैप";
+"stexcel.merge" = "मर्ज";
+"stexcel.borders" = "बॉर्डर";
+
+/* Border Picker */
+"stexcel.noBorder" = "कोई बॉर्डर नहीं";
+"stexcel.allBorders" = "सभी बॉर्डर";
+"stexcel.outsideBorder" = "बाहरी बॉर्डर";
+"stexcel.bottomBorder" = "निचला बॉर्डर";
+"stexcel.thickBorder" = "मोटा बॉर्डर";
+
+/* Format Tab */
+"stexcel.numberFormat" = "संख्या स्वरूप";
+"stexcel.currency" = "मुद्रा";
+"stexcel.percent" = "प्रतिशत";
+"stexcel.decimalIncrease" = ".0→.00";
+"stexcel.decimalDecrease" = ".00→.0";
+"stexcel.clear" = "साफ़ करें";
+"stexcel.conditionalFormat" = "सशर्त\nस्वरूप";
+"stexcel.cellStyle" = "शैली";
+
+/* Insert Tab */
+"stexcel.chart" = "चार्ट";
+"stexcel.picture" = "चित्र";
+
+/* Formulas Tab */
+"stexcel.autoSum" = "ऑटो\nयोग";
+"stexcel.recalculate" = "पुनर्गणना";
+"stexcel.financial" = "वित्तीय";
+"stexcel.logical" = "तार्किक";
+"stexcel.textFunctions" = "पाठ";
+"stexcel.dateTime" = "दिनांक और\nसमय";
+"stexcel.reference" = "संदर्भ";
+"stexcel.math" = "गणित";
+"stexcel.insertFunction" = "फ़ंक्शन\nडालें";
+"stexcel.defineName" = "नाम\nपरिभाषित";
+"stexcel.nameManager" = "नाम\nप्रबंधक";
+
+/* Data Tab */
+"stexcel.sort" = "क्रमबद्ध";
+"stexcel.sortAZ" = "क्रमबद्ध A→Z";
+"stexcel.sortZA" = "क्रमबद्ध Z→A";
+"stexcel.sortByColor" = "रंग से क्रमबद्ध";
+"stexcel.filter" = "फ़िल्टर";
+"stexcel.reapplyFilter" = "फ़िल्टर\nपुनः लागू";
+"stexcel.dataValidation" = "डेटा\nसत्यापन";
+"stexcel.circleInvalid" = "अमान्य डेटा\nचिह्नित करें";
+"stexcel.group" = "समूह";
+"stexcel.ungroup" = "असमूहीकरण";
+"stexcel.subtotal" = "उप-योग";
+"stexcel.removeAll" = "सभी\nहटाएं";
+"stexcel.showDetail" = "विवरण\nदिखाएं";
+"stexcel.hideDetail" = "विवरण\nछुपाएं";
+"stexcel.textToColumns" = "पाठ को\nस्तंभों में";
+"stexcel.apply" = "लागू करें";
+"stexcel.sortBy" = "इसके अनुसार क्रमबद्ध";
+"stexcel.thenBy" = "फिर इसके अनुसार";
+"stexcel.myDataHasHeaders" = "मेरे डेटा में शीर्षक हैं";
+"stexcel.caseSensitive" = "केस संवेदनशील";
+"stexcel.none" = "कोई नहीं";
+
+/* Review Tab */
+"stexcel.addComment" = "टिप्पणी";
+"stexcel.editComment" = "टिप्पणी\nसंपादित करें";
+"stexcel.deleteComment" = "टिप्पणी\nहटाएं";
+"stexcel.protectSheet" = "शीट\nसुरक्षित करें";
+"stexcel.unprotectSheet" = "शीट असुरक्षित करें";
+"stexcel.sheetIsProtected" = "यह शीट सुरक्षित है।";
+"stexcel.sheetNotProtected" = "यह शीट सुरक्षित नहीं है।";
+
+/* View Tab */
+"stexcel.gridlines" = "ग्रिडलाइन";
+"stexcel.headings" = "शीर्षक";
+"stexcel.formulaBar" = "सूत्र";
+"stexcel.freezePanes" = "स्थिर";
+"stexcel.goToCell" = "सेल पर जाएं";
+"stexcel.go" = "जाएं";
+"stexcel.zoom" = "ज़ूम";
+
+/* Home Tab — Insert/Delete Menus */
+"stexcel.insertOptions" = "सम्मिलन विकल्प";
+"stexcel.deleteOptions" = "हटाने के विकल्प";
+"stexcel.shiftCellsRight" = "सेल दाएं शिफ़्ट करें";
+"stexcel.shiftCellsDown" = "सेल नीचे शिफ़्ट करें";
+"stexcel.shiftCellsLeft" = "सेल बाएं शिफ़्ट करें";
+"stexcel.shiftCellsUp" = "सेल ऊपर शिफ़्ट करें";
+"stexcel.entireRow" = "संपूर्ण पंक्ति";
+"stexcel.entireColumn" = "संपूर्ण स्तंभ";
+"stexcel.rows" = "पंक्तियां";
+"stexcel.columns" = "स्तंभ";
+"stexcel.worksheet" = "कार्यपत्रक";
+"stexcel.insert" = "सम्मिलित करें";
+"stexcel.delete" = "हटाएं";
+
+/* AutoSum */
+"stexcel.sum" = "योग";
+"stexcel.average" = "औसत";
+"stexcel.count" = "गणना";
+"stexcel.max" = "अधिकतम";
+"stexcel.min" = "न्यूनतम";
+"stexcel.median" = "माध्यिका";
+
+/* Format Tab */
+"stexcel.cellFont" = "सेल\nफ़ॉन्ट";
+"stexcel.cellBorder" = "सेल\nबॉर्डर";
+"stexcel.lockCell" = "सेल\nलॉक करें";
+"stexcel.cellSize" = "सेल\nआकार";
+"stexcel.rowHeight" = "पंक्ति ऊंचाई";
+"stexcel.columnWidth" = "स्तंभ चौड़ाई";
+"stexcel.autoFitRow" = "पंक्ति ऊंचाई स्वतः समायोजित";
+"stexcel.autoFitColumn" = "स्तंभ चौड़ाई स्वतः समायोजित";
+
+/* Format Cells Dialog */
+"stexcel.formatCells" = "सेल स्वरूपित करें";
+"stexcel.number" = "संख्या";
+"stexcel.cellTab" = "सेल";
+"stexcel.borderTab" = "बॉर्डर";
+"stexcel.protection" = "सुरक्षा";
+"stexcel.font" = "फ़ॉन्ट";
+"stexcel.size" = "आकार";
+"stexcel.textColor" = "पाठ रंग";
+"stexcel.cellColor" = "सेल रंग";
+"stexcel.indent" = "इंडेंट";
+"stexcel.lineType" = "रेखा प्रकार";
+"stexcel.clearBorder" = "बॉर्डर साफ़ करें";
+"stexcel.standardColors" = "मानक रंग";
+"stexcel.locked" = "लॉक किया गया";
+"stexcel.hidden" = "छुपा हुआ";
+"stexcel.singleUnderline" = "एकल";
+"stexcel.doubleUnderline" = "दोहरा";
+
+/* More Menu */
+"stexcel.saveAs" = "इस रूप में सहेजें";
+"stexcel.fileInfo" = "फ़ाइल जानकारी";
+"stexcel.failedToOpen" = "फ़ाइल खोलने में विफल";
+"stexcel.fileName" = "फ़ाइल नाम";
+"stexcel.fileLocation" = "स्थान";
+"stexcel.fileType" = "फ़ाइल प्रकार";
+"stexcel.fileSize" = "फ़ाइल आकार";
+"stexcel.createdDate" = "बनाया गया";
+"stexcel.modifiedDate" = "संशोधित";
+"stexcel.onEnter" = "Enter दबाने पर";
+"stexcel.moveDown" = "नीचे जाएं";
+"stexcel.moveRight" = "दाएं जाएं";
+"stexcel.stay" = "रहें";
+"stexcel.autoCalculate" = "स्वतः गणना";
+"stexcel.unknown" = "अज्ञात";
+"stexcel.dontSave" = "सहेजें नहीं";
+"stexcel.saveChangesTitle" = "%@ में परिवर्तन सहेजें?";
+"stexcel.licenseRequired" = "लाइसेंस आवश्यक";
+"stexcel.licenseRequiredMessage" = "इस सुविधा का उपयोग करने के लिए एक वैध STKit लाइसेंस आवश्यक है। सहेजें, निर्यात और प्रिंट अनलॉक करने के लिए कृपया अपना लाइसेंस सक्रिय करें।";
+
+/* Sheet Management */
+"stexcel.addSheet" = "शीट जोड़ें";
+"stexcel.renameSheet" = "नाम बदलें";
+"stexcel.duplicateSheet" = "डुप्लिकेट";
+"stexcel.deleteSheet" = "हटाएं";
+"stexcel.moveSheetLeft" = "बाएं ले जाएं";
+"stexcel.moveSheetRight" = "दाएं ले जाएं";
+"stexcel.sheetName" = "शीट का नाम";
+
+/* Chart Categories */
+"stexcel.chartAll" = "सभी";
+"stexcel.chartColumn" = "स्तंभ";
+"stexcel.chartBar" = "बार";
+"stexcel.chartLine" = "रेखा";
+"stexcel.chartLineWithMarkers" = "मार्कर वाली रेखा";
+"stexcel.chartArea" = "क्षेत्र";
+"stexcel.chartPie" = "पाई";
+"stexcel.chartScatter" = "स्कैटर";
+
+/* Chart Subtypes */
+"stexcel.chartClustered" = "क्लस्टर्ड";
+"stexcel.chartStacked" = "स्टैक्ड";
+"stexcel.chartPercentStacked" = "100% स्टैक्ड";
+"stexcel.chartSmooth" = "सुचारु";
+"stexcel.chartSimple" = "सरल";
+"stexcel.chartMarkers" = "मार्कर";
+"stexcel.chartDots" = "बिंदु";
+"stexcel.chartLines" = "रेखाएं";
+"stexcel.chart3DPie" = "3D पाई";
+"stexcel.chartDoughnut" = "डोनट";
+"stexcel.chartExploded" = "विस्फोटित";
+
+/* Shape Types */
+"stexcel.shapeRectangle" = "आयत";
+"stexcel.shapeRoundedRect" = "गोलाकार आयत";
+"stexcel.shapeCircle" = "वृत्त";
+"stexcel.shapeOval" = "अंडाकार";
+"stexcel.shapeTriangle" = "त्रिभुज";
+"stexcel.shapeRightTriangle" = "समकोण त्रिभुज";
+"stexcel.shapeDiamond" = "हीरा";
+"stexcel.shapeArrowRight" = "दायां तीर";
+"stexcel.shapeArrowLeft" = "बायां तीर";
+"stexcel.shapeArrowUp" = "ऊपर तीर";
+"stexcel.shapeArrowDown" = "नीचे तीर";
+"stexcel.shapeStar" = "तारा";
+"stexcel.shapeHexagon" = "षट्भुज";
+"stexcel.shapePentagon" = "पंचभुज";
+"stexcel.shapeLine" = "रेखा";
+"stexcel.shapeDashedLine" = "धराशायी रेखा";
+
+/* Shape Picker Sections */
+"stexcel.basicShapes" = "बुनियादी आकृतियां";
+"stexcel.arrowsTriangles" = "तीर और त्रिभुज";
+"stexcel.starsMore" = "तारे और अधिक";
+"stexcel.lineShapes" = "रेखाएं";
+
+/* Table Insert */
+"stexcel.insertTable" = "तालिका सम्मिलित करें";
+"stexcel.dataRange" = "डेटा श्रेणी";
+"stexcel.tableStyle" = "तालिका शैली";
+"stexcel.myTableHasHeaders" = "मेरी तालिका में शीर्षक हैं";
+
+/* Table Styles */
+"stexcel.styleBlue" = "नीला";
+"stexcel.styleGreen" = "हरा";
+"stexcel.styleOrange" = "नारंगी";
+"stexcel.stylePurple" = "बैंगनी";
+"stexcel.styleRed" = "लाल";
+"stexcel.styleGray" = "धूसर";
+"stexcel.styleDark" = "गहरा";
+
+/* Table Tab */
+"stexcel.headerRow" = "शीर्षक\nपंक्ति";
+"stexcel.bandedRows" = "वैकल्पिक\nपंक्तियां";
+"stexcel.bandedCols" = "वैकल्पिक\nस्तंभ";
+
+/* Chart Format */
+"stexcel.labels" = "लेबल";
+"stexcel.chartTitle" = "चार्ट शीर्षक";
+"stexcel.title" = "शीर्षक";
+"stexcel.enterTitle" = "शीर्षक दर्ज करें";
+"stexcel.horizontalLabels" = "क्षैतिज लेबल";
+"stexcel.range" = "श्रेणी";
+"stexcel.seriesIn" = "श्रृंखला इसमें";
+"stexcel.chartType" = "प्रकार";
+"stexcel.chartFormat" = "स्वरूप";
+"stexcel.chartElements" = "तत्व";
+"stexcel.chartLayouts" = "चार्ट\nलेआउट";
+"stexcel.chartColors" = "रंग";
+"stexcel.chartStylesTitle" = "चार्ट\nशैलियां";
+"stexcel.switchRowsCols" = "पंक्तियां/स्तंभ\nबदलें";
+"stexcel.legend" = "लेजेंड";
+"stexcel.axisLabels" = "अक्ष लेबल";
+"stexcel.dataLabels" = "डेटा लेबल";
+"stexcel.axes" = "अक्ष";
+"stexcel.on" = "चालू";
+"stexcel.off" = "बंद";
+"stexcel.noNumericData" = "श्रेणी में कोई संख्यात्मक डेटा नहीं मिला";
+"stexcel.editDataRangeHint" = "ऊपर डेटा श्रेणी संपादित करें या अपने सेल में संख्याएं जोड़ें";
+"stexcel.points" = "बिंदु";
+"stexcel.noData" = "कोई डेटा नहीं";
+"stexcel.series" = "श्रृंखला";
+"stexcel.dataPoints" = "डेटा बिंदु";
+"stexcel.grid" = "ग्रिड";
+"stexcel.layouts" = "लेआउट";
+"stexcel.chartStylesNav" = "चार्ट शैलियां";
+
+/* Format Cells Extra */
+"stexcel.noColor" = "कोई रंग नहीं";
+"stexcel.lockingInfo" = "सेल लॉक करने या सूत्र छुपाने का प्रभाव तब तक नहीं होगा जब तक आप कार्यपत्रक को सुरक्षित नहीं करते।";
+"stexcel.lineThin" = "पतली";
+"stexcel.lineMedium" = "मध्यम";
+"stexcel.lineThick" = "मोटी";
+"stexcel.lineDashed" = "धराशायी";
+"stexcel.lineDotted" = "बिंदुकित";
+"stexcel.lineDouble" = "दोहरी";
+
+/* Number Format Picker */
+"stexcel.use1000Separator" = "1000 विभाजक उपयोग करें";
+"stexcel.accounting" = "लेखा";
+"stexcel.date" = "दिनांक";
+"stexcel.time" = "समय";
+"stexcel.percentage" = "प्रतिशत";
+"stexcel.fraction" = "भिन्न";
+"stexcel.scientific" = "वैज्ञानिक";
+"stexcel.special" = "विशेष";
+"stexcel.custom" = "कस्टम";
+"stexcel.negativeNumbers" = "ऋणात्मक संख्याएं";
+
+/* Shape Tab */
+"stexcel.fill" = "भरण";
+"stexcel.fillColorTitle" = "भरण रंग";
+"stexcel.outline" = "बाह्यरेखा";
+"stexcel.outlineColor" = "बाह्यरेखा रंग";
+"stexcel.changeShape" = "आकृति\nबदलें";
+
+/* View Tab */
+"stexcel.zoomIn" = "ज़ूम इन";
+"stexcel.zoomOut" = "ज़ूम आउट";
+
+/* Conditional Formatting */
+"stexcel.newRule" = "नया नियम";
+"stexcel.highlightCellsRules" = "सेल हाइलाइट नियम";
+"stexcel.topBottomAvgRules" = "शीर्ष/निचला/औसत नियम";
+"stexcel.customFormula" = "कस्टम सूत्र";
+"stexcel.dataBars" = "डेटा बार";
+"stexcel.colorScales" = "रंग स्केल";
+"stexcel.clearRules" = "नियम साफ़ करें";
+"stexcel.fromSelection" = "चयन से";
+"stexcel.activeRules" = "सक्रिय नियम";
+"stexcel.conditionalFormatting" = "सशर्त स्वरूपण";
+"stexcel.presets" = "प्रीसेट";
+"stexcel.condition" = "शर्त";
+"stexcel.enterValue1" = "मान 1 दर्ज करें";
+"stexcel.enterValue2" = "मान 2 दर्ज करें";
+"stexcel.rank" = "रैंक";
+"stexcel.barColor" = "बार रंग";
+"stexcel.colorScaleSection" = "रंग स्केल";
+"stexcel.formulaSection" = "सूत्र";
+
+/* Additional */
+"stexcel.decimalPlaces" = "दशमलव स्थान";
+"stexcel.fromEntireSheet" = "संपूर्ण शीट से";
+"stexcel.formatCellsFormula" = "उन सेल को स्वरूपित करें जहां यह सूत्र सत्य है:";
+"stexcel.goodBadNeutral" = "अच्छा, बुरा और तटस्थ";
+"stexcel.dataModel" = "डेटा और मॉडल";
+"stexcel.titlesHeadings" = "शीर्षक और हेडिंग";
+"stexcel.allow" = "अनुमति दें";
+"stexcel.useFunction" = "फ़ंक्शन उपयोग करें";
+"stexcel.insertSubtotal" = "उप-योग सम्मिलित करें";
+"stexcel.delimiter" = "सीमांकक";
+"stexcel.convert" = "बदलें";
+"stexcel.enterDelimiter" = "सीमांकक दर्ज करें";
+"stexcel.anyValue" = "कोई भी मान";
+"stexcel.wholeNumber" = "पूर्ण संख्या";
+"stexcel.decimalType" = "दशमलव";
+"stexcel.listType" = "सूची";
+"stexcel.textLength" = "पाठ की लंबाई";
+"stexcel.commaDelimiter" = "अल्पविराम (,)";
+"stexcel.tabDelimiter" = "टैब";
+"stexcel.semicolonDelimiter" = "अर्धविराम (;)";
+"stexcel.spaceDelimiter" = "रिक्त स्थान";
+"stexcel.sourceList" = "स्रोत (अल्पविराम से अलग)";
+"stexcel.searchFunctions" = "फ़ंक्शन खोजें";
+"stexcel.noDefinedNames" = "कोई परिभाषित नाम नहीं";
+
+/* Number Format General */
+"stexcel.general" = "सामान्य";
+
+/* Conditional Format Conditions */
+"stexcel.cfGreaterThan" = "से बड़ा";
+"stexcel.cfLessThan" = "से छोटा";
+"stexcel.cfBetween" = "के बीच";
+"stexcel.cfEqualTo" = "के बराबर";
+"stexcel.cfNotEqualTo" = "के बराबर नहीं";
+"stexcel.cfTextContains" = "पाठ में शामिल है";
+"stexcel.cfTextNotContains" = "पाठ में शामिल नहीं है";
+"stexcel.cfDuplicates" = "डुप्लिकेट मान";
+"stexcel.cfUniqueValues" = "अद्वितीय मान";
+
+/* Conditional Format Ranks */
+"stexcel.cfTop" = "शीर्ष";
+"stexcel.cfBottom" = "निचला";
+"stexcel.cfAboveAverage" = "औसत से ऊपर";
+"stexcel.cfBelowAverage" = "औसत से नीचे";
+
+/* Conditional Format View */
+"stexcel.cfItems" = "आइटम";
+"stexcel.value1Label" = "मान 1";
+"stexcel.value2Label" = "मान 2";
+
+/* Chart Layout */
+"stexcel.layoutLabel" = "लेआउट";
+
+/* Chart Data */
+"stexcel.chartDataRange" = "डेटा श्रेणी";
+"stexcel.dataLabel" = "डेटा";
+
+/* Cell Style Presets */
+"stexcel.presetNormal" = "सामान्य";
+"stexcel.presetGood" = "अच्छा";
+"stexcel.presetBad" = "बुरा";
+"stexcel.presetNeutral" = "तटस्थ";
+"stexcel.presetInput" = "इनपुट";
+"stexcel.presetOutput" = "आउटपुट";
+"stexcel.presetCalculation" = "गणना";
+"stexcel.presetCheckCell" = "जांच सेल";
+"stexcel.presetNote" = "नोट";
+"stexcel.presetWarning" = "चेतावनी";
+"stexcel.presetLinkedCell" = "लिंक्ड सेल";
+"stexcel.presetExplanatory" = "व्याख्यात्मक";
+"stexcel.presetTitle" = "शीर्षक";
+"stexcel.presetHeading1" = "शीर्षक 1";
+"stexcel.presetHeading2" = "शीर्षक 2";
+"stexcel.presetHeading3" = "शीर्षक 3";
+"stexcel.presetHeading4" = "शीर्षक 4";
+"stexcel.presetTotal" = "कुल";
+"stexcel.presetComma" = "अल्पविराम";
+"stexcel.presetCurrency" = "मुद्रा";
+"stexcel.presetPercent" = "प्रतिशत";
+
+/* Function Descriptions */
+"stexcel.func.PMT" = "निरंतर भुगतान और ब्याज दर के आधार पर ऋण के भुगतान की गणना करता है।";
+"stexcel.func.FV" = "निवेश का भविष्य मूल्य लौटाता है।";
+"stexcel.func.PV" = "निवेश का वर्तमान मूल्य लौटाता है।";
+"stexcel.func.RATE" = "प्रति अवधि ब्याज दर लौटाता है।";
+"stexcel.func.NPV" = "निवेश का शुद्ध वर्तमान मूल्य लौटाता है।";
+"stexcel.func.IRR" = "नकदी प्रवाह की श्रृंखला के लिए आंतरिक प्रतिफल दर लौटाता है।";
+"stexcel.func.IF" = "शर्त सत्य होने पर एक मान और गलत होने पर दूसरा मान लौटाता है।";
+"stexcel.func.AND" = "यदि सभी तर्क सत्य हैं तो TRUE लौटाता है।";
+"stexcel.func.OR" = "यदि कोई भी तर्क सत्य है तो TRUE लौटाता है।";
+"stexcel.func.NOT" = "अपने तर्क के मान को उलट देता है।";
+"stexcel.func.IFERROR" = "यदि पहला तर्क त्रुटि है तो त्रुटि_मान लौटाता है।";
+"stexcel.func.TRUE" = "तार्किक मान TRUE लौटाता है।";
+"stexcel.func.FALSE" = "तार्किक मान FALSE लौटाता है।";
+"stexcel.func.CONCATENATE" = "कई पाठ स्ट्रिंग को एक में जोड़ता है।";
+"stexcel.func.LEN" = "स्ट्रिंग में वर्णों की संख्या लौटाता है।";
+"stexcel.func.LEFT" = "पाठ मान से बाएं सबसे अधिक वर्ण लौटाता है।";
+"stexcel.func.RIGHT" = "पाठ मान से दाएं सबसे अधिक वर्ण लौटाता है।";
+"stexcel.func.MID" = "पाठ स्ट्रिंग से निर्दिष्ट संख्या में वर्ण लौटाता है।";
+"stexcel.func.UPPER" = "पाठ को बड़े अक्षरों में बदलता है।";
+"stexcel.func.LOWER" = "पाठ को छोटे अक्षरों में बदलता है।";
+"stexcel.func.TRIM" = "पाठ से रिक्त स्थान हटाता है।";
+"stexcel.func.FIND" = "एक पाठ मान को दूसरे में खोजता है (केस संवेदनशील)।";
+"stexcel.func.REPLACE" = "पाठ के भीतर वर्णों को बदलता है।";
+"stexcel.func.SUBSTITUTE" = "स्ट्रिंग में पुराने पाठ को नए पाठ से बदलता है।";
+"stexcel.func.NOW" = "वर्तमान दिनांक और समय लौटाता है।";
+"stexcel.func.TODAY" = "आज की दिनांक लौटाता है।";
+"stexcel.func.DATE" = "किसी विशेष दिनांक का क्रम संख्या लौटाता है।";
+"stexcel.func.YEAR" = "दिनांक का वर्ष लौटाता है।";
+"stexcel.func.MONTH" = "दिनांक का महीना लौटाता है।";
+"stexcel.func.DAY" = "दिनांक का दिन लौटाता है।";
+"stexcel.func.HOUR" = "घंटा लौटाता है।";
+"stexcel.func.MINUTE" = "मिनट लौटाता है।";
+"stexcel.func.SECOND" = "सेकंड लौटाता है।";
+"stexcel.func.VLOOKUP" = "तालिका के बाएं सबसे अधिक स्तंभ में मान खोजता है।";
+"stexcel.func.HLOOKUP" = "तालिका की शीर्ष पंक्ति में मान खोजता है।";
+"stexcel.func.INDEX" = "तालिका या श्रेणी से मान लौटाता है।";
+"stexcel.func.MATCH" = "श्रेणी में मान की स्थिति लौटाता है।";
+"stexcel.func.CHOOSE" = "अनुक्रमणिका संख्या के आधार पर सूची से मान चुनता है।";
+"stexcel.func.INDIRECT" = "पाठ मान द्वारा निर्दिष्ट संदर्भ लौटाता है।";
+"stexcel.func.SUM" = "सेल श्रेणी में सभी संख्याओं को जोड़ता है।";
+"stexcel.func.AVERAGE" = "तर्कों का औसत लौटाता है।";
+"stexcel.func.COUNT" = "संख्याएं रखने वाले सेल की गणना करता है।";
+"stexcel.func.COUNTA" = "गैर-रिक्त सेल की संख्या गिनता है।";
+"stexcel.func.MIN" = "समूह में सबसे छोटा मान लौटाता है।";
+"stexcel.func.MAX" = "समूह में सबसे बड़ा मान लौटाता है।";
+"stexcel.func.ABS" = "संख्या का निरपेक्ष मान लौटाता है।";
+"stexcel.func.ROUND" = "संख्या को निर्दिष्ट अंकों तक गोल करता है।";
+"stexcel.func.INT" = "संख्या को निकटतम पूर्णांक तक नीचे गोल करता है।";
+"stexcel.func.MOD" = "भाग का शेषफल लौटाता है।";
+"stexcel.func.POWER" = "किसी संख्या की घात का परिणाम लौटाता है।";
+"stexcel.func.SQRT" = "धनात्मक वर्गमूल लौटाता है।";
+"stexcel.func.SUMIF" = "दिए गए मानदंड द्वारा निर्दिष्ट सेल जोड़ता है।";
+"stexcel.func.COUNTIF" = "मानदंड से मेल खाने वाले सेल गिनता है।";
+"stexcel.func.PRODUCT" = "तर्कों के रूप में दी गई सभी संख्याओं को गुणा करता है।";

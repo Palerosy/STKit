@@ -1,0 +1,16 @@
+/* Editor */
+"stdocx.font" = "Font";
+"stdocx.textColor" = "Boja teksta";
+"stdocx.exportAs" = "Izvezi kao";
+"stdocx.findReplace" = "Pronađi i zamijeni";
+
+/* Formatting */
+"stdocx.bold" = "Podebljano";
+"stdocx.italic" = "Kurziv";
+"stdocx.underline" = "Podcrtano";
+"stdocx.strikethrough" = "Precrtano";
+"stdocx.alignment" = "Poravnanje";
+"stdocx.alignLeft" = "Poravnaj lijevo";
+"stdocx.alignCenter" = "Centriraj";
+"stdocx.alignRight" = "Poravnaj desno";
+"stdocx.justify" = "Obostrano";

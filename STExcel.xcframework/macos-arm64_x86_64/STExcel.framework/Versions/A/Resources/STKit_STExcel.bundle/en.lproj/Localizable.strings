@@ -1,0 +1,465 @@
+/* STExcel */
+"stexcel.sheet" = "Sheet";
+"stexcel.cell" = "Cell";
+"stexcel.row" = "Row";
+"stexcel.column" = "Column";
+"stexcel.value" = "Value";
+
+/* Ribbon Tabs */
+"stexcel.ribbon.format" = "Format";
+"stexcel.ribbon.formulas" = "Formulas";
+"stexcel.ribbon.data" = "Data";
+
+/* Home Tab */
+"stexcel.cut" = "Cut";
+"stexcel.copy" = "Copy";
+"stexcel.fillColor" = "Fill";
+"stexcel.wrapText" = "Wrap";
+"stexcel.merge" = "Merge";
+"stexcel.borders" = "Borders";
+
+/* Border Picker */
+"stexcel.noBorder" = "No Border";
+"stexcel.allBorders" = "All Borders";
+"stexcel.outsideBorder" = "Outside Border";
+"stexcel.bottomBorder" = "Bottom Border";
+"stexcel.thickBorder" = "Thick Border";
+
+/* Format Tab */
+"stexcel.numberFormat" = "Number Format";
+"stexcel.currency" = "Currency";
+"stexcel.percent" = "Percent";
+"stexcel.decimalIncrease" = ".0→.00";
+"stexcel.decimalDecrease" = ".00→.0";
+"stexcel.clear" = "Clear";
+"stexcel.conditionalFormat" = "Cond. Format";
+"stexcel.cellStyle" = "Style";
+
+/* Insert Tab */
+"stexcel.chart" = "Chart";
+"stexcel.picture" = "Picture";
+
+/* Formulas Tab */
+"stexcel.autoSum" = "Auto\nSum";
+"stexcel.recalculate" = "Recalculate";
+"stexcel.financial" = "Financial";
+"stexcel.logical" = "Logical";
+"stexcel.textFunctions" = "Text";
+"stexcel.dateTime" = "Date &\nTime";
+"stexcel.reference" = "Reference";
+"stexcel.math" = "Math";
+"stexcel.insertFunction" = "Insert\nFunction";
+"stexcel.defineName" = "Define\nName";
+"stexcel.nameManager" = "Name\nManager";
+
+/* Data Tab */
+"stexcel.sort" = "Sort";
+"stexcel.sortAZ" = "Sort A→Z";
+"stexcel.sortZA" = "Sort Z→A";
+"stexcel.sortByColor" = "Sort by Color";
+"stexcel.filter" = "Filter";
+"stexcel.reapplyFilter" = "Reapply\nFilter";
+"stexcel.dataValidation" = "Data\nValidation";
+"stexcel.circleInvalid" = "Circle\nInvalid Data";
+"stexcel.group" = "Group";
+"stexcel.ungroup" = "Ungroup";
+"stexcel.subtotal" = "Subtotal";
+"stexcel.removeAll" = "Remove\nAll";
+"stexcel.showDetail" = "Show\nDetail";
+"stexcel.hideDetail" = "Hide\nDetail";
+"stexcel.textToColumns" = "Text to\nColumns";
+"stexcel.apply" = "Apply";
+"stexcel.sortBy" = "Sort by";
+"stexcel.thenBy" = "Then by";
+"stexcel.myDataHasHeaders" = "My Data Has Headers";
+"stexcel.caseSensitive" = "Case Sensitive";
+"stexcel.none" = "None";
+
+/* Review Tab */
+"stexcel.addComment" = "Comment";
+"stexcel.editComment" = "Edit\nComment";
+"stexcel.deleteComment" = "Delete\nComment";
+"stexcel.protectSheet" = "Protect\nSheet";
+"stexcel.unprotectSheet" = "Unprotect Sheet";
+"stexcel.sheetIsProtected" = "This sheet is protected.";
+"stexcel.sheetNotProtected" = "This sheet is not protected.";
+
+/* View Tab */
+"stexcel.gridlines" = "Gridlines";
+"stexcel.headings" = "Headings";
+"stexcel.formulaBar" = "Formula";
+"stexcel.freezePanes" = "Freeze";
+"stexcel.goToCell" = "Go To Cell";
+"stexcel.go" = "Go";
+"stexcel.zoom" = "Zoom";
+
+/* Home Tab — Insert/Delete Menus */
+"stexcel.insertOptions" = "Insert options";
+"stexcel.deleteOptions" = "Delete options";
+"stexcel.shiftCellsRight" = "Shift cells right";
+"stexcel.shiftCellsDown" = "Shift cells down";
+"stexcel.shiftCellsLeft" = "Shift cells left";
+"stexcel.shiftCellsUp" = "Shift cells up";
+"stexcel.entireRow" = "Entire row";
+"stexcel.entireColumn" = "Entire column";
+"stexcel.rows" = "Rows";
+"stexcel.columns" = "Columns";
+"stexcel.worksheet" = "Worksheet";
+"stexcel.insert" = "Insert";
+"stexcel.delete" = "Delete";
+
+/* AutoSum */
+"stexcel.sum" = "Sum";
+"stexcel.average" = "Average";
+"stexcel.count" = "Count";
+"stexcel.max" = "Max";
+"stexcel.min" = "Min";
+"stexcel.median" = "Median";
+
+/* Format Tab */
+"stexcel.cellFont" = "Cell\nFont";
+"stexcel.cellBorder" = "Cell\nBorder";
+"stexcel.lockCell" = "Lock\nCell";
+"stexcel.cellSize" = "Cell\nSize";
+"stexcel.rowHeight" = "Row Height";
+"stexcel.columnWidth" = "Column Width";
+"stexcel.autoFitRow" = "Auto-Fit Row Height";
+"stexcel.autoFitColumn" = "Auto-Fit Column Width";
+
+/* Format Cells Dialog */
+"stexcel.formatCells" = "Format Cells";
+"stexcel.number" = "Number";
+"stexcel.cellTab" = "Cell";
+"stexcel.borderTab" = "Border";
+"stexcel.protection" = "Protection";
+"stexcel.font" = "Font";
+"stexcel.size" = "Size";
+"stexcel.textColor" = "Text Color";
+"stexcel.cellColor" = "Cell Color";
+"stexcel.indent" = "Indent";
+"stexcel.lineType" = "Line Type";
+"stexcel.clearBorder" = "Clear Border";
+"stexcel.standardColors" = "STANDARD COLORS";
+"stexcel.locked" = "Locked";
+"stexcel.hidden" = "Hidden";
+"stexcel.singleUnderline" = "Single";
+"stexcel.doubleUnderline" = "Double";
+
+/* More Menu */
+"stexcel.saveAs" = "Save As";
+"stexcel.fileInfo" = "File Info";
+"stexcel.failedToOpen" = "Failed to open file";
+"stexcel.fileName" = "File Name";
+"stexcel.fileLocation" = "Location";
+"stexcel.fileType" = "File Type";
+"stexcel.fileSize" = "File Size";
+"stexcel.createdDate" = "Created";
+"stexcel.modifiedDate" = "Modified";
+"stexcel.onEnter" = "On Enter";
+"stexcel.moveDown" = "Move Down";
+"stexcel.moveRight" = "Move Right";
+"stexcel.stay" = "Stay";
+"stexcel.autoCalculate" = "Auto-Calculate";
+"stexcel.unknown" = "Unknown";
+"stexcel.dontSave" = "Don't Save";
+"stexcel.saveChangesTitle" = "Save changes to %@?";
+"stexcel.licenseRequired" = "License Required";
+"stexcel.licenseRequiredMessage" = "A valid STKit license is required to use this feature. Please activate your license to unlock Save, Export, and Print.";
+
+/* Sheet Management */
+"stexcel.addSheet" = "Add Sheet";
+"stexcel.renameSheet" = "Rename";
+"stexcel.duplicateSheet" = "Duplicate";
+"stexcel.deleteSheet" = "Delete";
+"stexcel.moveSheetLeft" = "Move Left";
+"stexcel.moveSheetRight" = "Move Right";
+"stexcel.sheetName" = "Sheet Name";
+
+/* Chart Categories */
+"stexcel.chartAll" = "All";
+"stexcel.chartColumn" = "Column";
+"stexcel.chartBar" = "Bar";
+"stexcel.chartLine" = "Line";
+"stexcel.chartLineWithMarkers" = "Line with markers";
+"stexcel.chartArea" = "Area";
+"stexcel.chartPie" = "Pie";
+"stexcel.chartScatter" = "Scatter";
+
+/* Chart Subtypes */
+"stexcel.chartClustered" = "Clustered";
+"stexcel.chartStacked" = "Stacked";
+"stexcel.chartPercentStacked" = "100% Stacked";
+"stexcel.chartSmooth" = "Smooth";
+"stexcel.chartSimple" = "Simple";
+"stexcel.chartMarkers" = "Markers";
+"stexcel.chartDots" = "Dots";
+"stexcel.chartLines" = "Lines";
+"stexcel.chart3DPie" = "3D Pie";
+"stexcel.chartDoughnut" = "Doughnut";
+"stexcel.chartExploded" = "Exploded";
+
+/* Shape Types */
+"stexcel.shapeRectangle" = "Rectangle";
+"stexcel.shapeRoundedRect" = "Rounded Rectangle";
+"stexcel.shapeCircle" = "Circle";
+"stexcel.shapeOval" = "Oval";
+"stexcel.shapeTriangle" = "Triangle";
+"stexcel.shapeRightTriangle" = "Right Triangle";
+"stexcel.shapeDiamond" = "Diamond";
+"stexcel.shapeArrowRight" = "Arrow Right";
+"stexcel.shapeArrowLeft" = "Arrow Left";
+"stexcel.shapeArrowUp" = "Arrow Up";
+"stexcel.shapeArrowDown" = "Arrow Down";
+"stexcel.shapeStar" = "Star";
+"stexcel.shapeHexagon" = "Hexagon";
+"stexcel.shapePentagon" = "Pentagon";
+"stexcel.shapeLine" = "Line";
+"stexcel.shapeDashedLine" = "Dashed Line";
+
+/* Shape Picker Sections */
+"stexcel.basicShapes" = "Basic Shapes";
+"stexcel.arrowsTriangles" = "Arrows & Triangles";
+"stexcel.starsMore" = "Stars & More";
+"stexcel.lineShapes" = "Lines";
+
+/* Table Insert */
+"stexcel.insertTable" = "Insert Table";
+"stexcel.dataRange" = "DATA RANGE";
+"stexcel.tableStyle" = "TABLE STYLE";
+"stexcel.myTableHasHeaders" = "My table has headers";
+
+/* Table Styles */
+"stexcel.styleBlue" = "Blue";
+"stexcel.styleGreen" = "Green";
+"stexcel.styleOrange" = "Orange";
+"stexcel.stylePurple" = "Purple";
+"stexcel.styleRed" = "Red";
+"stexcel.styleGray" = "Gray";
+"stexcel.styleDark" = "Dark";
+
+/* Table Tab */
+"stexcel.headerRow" = "Header\nRow";
+"stexcel.bandedRows" = "Banded\nRows";
+"stexcel.bandedCols" = "Banded\nCols";
+
+/* Chart Format */
+"stexcel.labels" = "LABELS";
+"stexcel.chartTitle" = "Chart Title";
+"stexcel.title" = "Title";
+"stexcel.enterTitle" = "Enter Title";
+"stexcel.horizontalLabels" = "Horizontal Labels";
+"stexcel.range" = "Range";
+"stexcel.seriesIn" = "Series in";
+"stexcel.chartType" = "Type";
+"stexcel.chartFormat" = "Format";
+"stexcel.chartElements" = "Elements";
+"stexcel.chartLayouts" = "Chart\nLayouts";
+"stexcel.chartColors" = "Colors";
+"stexcel.chartStylesTitle" = "Chart\nStyles";
+"stexcel.switchRowsCols" = "Switch\nRows/Columns";
+"stexcel.legend" = "Legend";
+"stexcel.axisLabels" = "Axis Labels";
+"stexcel.dataLabels" = "Data Labels";
+"stexcel.axes" = "Axes";
+"stexcel.on" = "On";
+"stexcel.off" = "Off";
+"stexcel.noNumericData" = "No numeric data found in range";
+"stexcel.editDataRangeHint" = "Edit the data range above or add numbers to your cells";
+"stexcel.points" = "points";
+"stexcel.noData" = "No data";
+"stexcel.series" = "series";
+"stexcel.dataPoints" = "data points";
+"stexcel.grid" = "Grid";
+"stexcel.layouts" = "Layouts";
+"stexcel.chartStylesNav" = "Chart Styles";
+
+/* Format Cells Extra */
+"stexcel.noColor" = "No Color";
+"stexcel.lockingInfo" = "Locking cells or hiding formulas has no effect until you protect the worksheet.";
+"stexcel.lineThin" = "Thin";
+"stexcel.lineMedium" = "Medium";
+"stexcel.lineThick" = "Thick";
+"stexcel.lineDashed" = "Dashed";
+"stexcel.lineDotted" = "Dotted";
+"stexcel.lineDouble" = "Double";
+
+/* Number Format Picker */
+"stexcel.use1000Separator" = "Use 1000 Separator";
+"stexcel.accounting" = "Accounting";
+"stexcel.date" = "Date";
+"stexcel.time" = "Time";
+"stexcel.percentage" = "Percentage";
+"stexcel.fraction" = "Fraction";
+"stexcel.scientific" = "Scientific";
+"stexcel.special" = "Special";
+"stexcel.custom" = "Custom";
+"stexcel.negativeNumbers" = "Negative Numbers";
+
+/* Shape Tab */
+"stexcel.fill" = "Fill";
+"stexcel.fillColorTitle" = "Fill Color";
+"stexcel.outline" = "Outline";
+"stexcel.outlineColor" = "Outline Color";
+"stexcel.changeShape" = "Change\nShape";
+
+/* View Tab */
+"stexcel.zoomIn" = "Zoom In";
+"stexcel.zoomOut" = "Zoom Out";
+
+/* Conditional Formatting */
+"stexcel.newRule" = "NEW RULE";
+"stexcel.highlightCellsRules" = "Highlight cells rules";
+"stexcel.topBottomAvgRules" = "Top/Bottom/Average rules";
+"stexcel.customFormula" = "Custom Formula";
+"stexcel.dataBars" = "Data bars";
+"stexcel.colorScales" = "Color scales";
+"stexcel.clearRules" = "CLEAR RULES";
+"stexcel.fromSelection" = "From selection";
+"stexcel.activeRules" = "ACTIVE RULES";
+"stexcel.conditionalFormatting" = "Conditional Formatting";
+"stexcel.presets" = "PRESETS";
+"stexcel.condition" = "Condition";
+"stexcel.enterValue1" = "Enter Value 1";
+"stexcel.enterValue2" = "Enter Value 2";
+"stexcel.rank" = "Rank";
+"stexcel.barColor" = "BAR COLOR";
+"stexcel.colorScaleSection" = "COLOR SCALE";
+"stexcel.formulaSection" = "FORMULA";
+"stexcel.chartStylesNav" = "Chart Styles";
+
+/* Additional */
+"stexcel.decimalPlaces" = "Decimal Places";
+"stexcel.fromEntireSheet" = "From entire sheet";
+"stexcel.formatCellsFormula" = "Format cells where this formula is true:";
+"stexcel.goodBadNeutral" = "Good, Bad & Neutral";
+"stexcel.dataModel" = "Data & Model";
+"stexcel.titlesHeadings" = "Titles & Headings";
+"stexcel.allow" = "Allow";
+"stexcel.useFunction" = "Use function";
+"stexcel.insertSubtotal" = "Insert Subtotal";
+"stexcel.delimiter" = "Delimiter";
+"stexcel.convert" = "Convert";
+"stexcel.enterDelimiter" = "Enter delimiter";
+"stexcel.anyValue" = "Any Value";
+"stexcel.wholeNumber" = "Whole Number";
+"stexcel.decimalType" = "Decimal";
+"stexcel.listType" = "List";
+"stexcel.textLength" = "Text Length";
+"stexcel.commaDelimiter" = "Comma (,)";
+"stexcel.tabDelimiter" = "Tab";
+"stexcel.semicolonDelimiter" = "Semicolon (;)";
+"stexcel.spaceDelimiter" = "Space";
+"stexcel.sourceList" = "Source (comma separated)";
+"stexcel.searchFunctions" = "Search functions";
+"stexcel.noDefinedNames" = "No defined names";
+
+/* Number Format General */
+"stexcel.general" = "General";
+
+/* Conditional Format Conditions */
+"stexcel.cfGreaterThan" = "Greater than";
+"stexcel.cfLessThan" = "Less than";
+"stexcel.cfBetween" = "Between";
+"stexcel.cfEqualTo" = "Equal to";
+"stexcel.cfNotEqualTo" = "Not equal to";
+"stexcel.cfTextContains" = "Text contains";
+"stexcel.cfTextNotContains" = "Text not contains";
+"stexcel.cfDuplicates" = "Duplicate values";
+"stexcel.cfUniqueValues" = "Unique values";
+
+/* Conditional Format Ranks */
+"stexcel.cfTop" = "Top";
+"stexcel.cfBottom" = "Bottom";
+"stexcel.cfAboveAverage" = "Above Average";
+"stexcel.cfBelowAverage" = "Below Average";
+
+/* Conditional Format View */
+"stexcel.cfItems" = "Items";
+"stexcel.value1Label" = "Value 1";
+"stexcel.value2Label" = "Value 2";
+
+/* Chart Layout */
+"stexcel.layoutLabel" = "Layout";
+
+/* Chart Data */
+"stexcel.chartDataRange" = "Data Range";
+"stexcel.dataLabel" = "Data";
+
+/* Cell Style Presets */
+"stexcel.presetNormal" = "Normal";
+"stexcel.presetGood" = "Good";
+"stexcel.presetBad" = "Bad";
+"stexcel.presetNeutral" = "Neutral";
+"stexcel.presetInput" = "Input";
+"stexcel.presetOutput" = "Output";
+"stexcel.presetCalculation" = "Calculation";
+"stexcel.presetCheckCell" = "Check Cell";
+"stexcel.presetNote" = "Note";
+"stexcel.presetWarning" = "Warning";
+"stexcel.presetLinkedCell" = "Linked Cell";
+"stexcel.presetExplanatory" = "Explanatory";
+"stexcel.presetTitle" = "Title";
+"stexcel.presetHeading1" = "Heading 1";
+"stexcel.presetHeading2" = "Heading 2";
+"stexcel.presetHeading3" = "Heading 3";
+"stexcel.presetHeading4" = "Heading 4";
+"stexcel.presetTotal" = "Total";
+"stexcel.presetComma" = "Comma";
+"stexcel.presetCurrency" = "Currency";
+"stexcel.presetPercent" = "Percent";
+
+/* Function Descriptions */
+"stexcel.func.PMT" = "Calculates the payment for a loan based on constant payments and interest rate.";
+"stexcel.func.FV" = "Returns the future value of an investment.";
+"stexcel.func.PV" = "Returns the present value of an investment.";
+"stexcel.func.RATE" = "Returns the interest rate per period.";
+"stexcel.func.NPV" = "Returns the net present value of an investment.";
+"stexcel.func.IRR" = "Returns the internal rate of return for a series of cash flows.";
+"stexcel.func.IF" = "Returns one value if a condition is true and another if false.";
+"stexcel.func.AND" = "Returns TRUE if all arguments are true.";
+"stexcel.func.OR" = "Returns TRUE if any argument is true.";
+"stexcel.func.NOT" = "Reverses the value of its argument.";
+"stexcel.func.IFERROR" = "Returns value_if_error if the first argument is an error.";
+"stexcel.func.TRUE" = "Returns the logical value TRUE.";
+"stexcel.func.FALSE" = "Returns the logical value FALSE.";
+"stexcel.func.CONCATENATE" = "Joins several text strings into one.";
+"stexcel.func.LEN" = "Returns the number of characters in a string.";
+"stexcel.func.LEFT" = "Returns the leftmost characters from a text value.";
+"stexcel.func.RIGHT" = "Returns the rightmost characters from a text value.";
+"stexcel.func.MID" = "Returns a specific number of characters from a text string.";
+"stexcel.func.UPPER" = "Converts text to uppercase.";
+"stexcel.func.LOWER" = "Converts text to lowercase.";
+"stexcel.func.TRIM" = "Removes spaces from text.";
+"stexcel.func.FIND" = "Finds one text value within another (case-sensitive).";
+"stexcel.func.REPLACE" = "Replaces characters within text.";
+"stexcel.func.SUBSTITUTE" = "Substitutes new text for old text in a string.";
+"stexcel.func.NOW" = "Returns the current date and time.";
+"stexcel.func.TODAY" = "Returns today's date.";
+"stexcel.func.DATE" = "Returns the serial number of a particular date.";
+"stexcel.func.YEAR" = "Returns the year of a date.";
+"stexcel.func.MONTH" = "Returns the month of a date.";
+"stexcel.func.DAY" = "Returns the day of a date.";
+"stexcel.func.HOUR" = "Returns the hour.";
+"stexcel.func.MINUTE" = "Returns the minute.";
+"stexcel.func.SECOND" = "Returns the second.";
+"stexcel.func.VLOOKUP" = "Looks for a value in the leftmost column of a table.";
+"stexcel.func.HLOOKUP" = "Looks for a value in the top row of a table.";
+"stexcel.func.INDEX" = "Returns a value from a table or range.";
+"stexcel.func.MATCH" = "Returns the position of a value in a range.";
+"stexcel.func.CHOOSE" = "Chooses a value from a list based on index number.";
+"stexcel.func.INDIRECT" = "Returns a reference indicated by a text value.";
+"stexcel.func.SUM" = "Adds all the numbers in a range of cells.";
+"stexcel.func.AVERAGE" = "Returns the average of the arguments.";
+"stexcel.func.COUNT" = "Counts the number of cells that contain numbers.";
+"stexcel.func.COUNTA" = "Counts the number of non-empty cells.";
+"stexcel.func.MIN" = "Returns the smallest value in a set.";
+"stexcel.func.MAX" = "Returns the largest value in a set.";
+"stexcel.func.ABS" = "Returns the absolute value of a number.";
+"stexcel.func.ROUND" = "Rounds a number to a specified number of digits.";
+"stexcel.func.INT" = "Rounds a number down to the nearest integer.";
+"stexcel.func.MOD" = "Returns the remainder from division.";
+"stexcel.func.POWER" = "Returns the result of a number raised to a power.";
+"stexcel.func.SQRT" = "Returns a positive square root.";
+"stexcel.func.SUMIF" = "Adds cells specified by a given criteria.";
+"stexcel.func.COUNTIF" = "Counts cells that match a criteria.";
+"stexcel.func.PRODUCT" = "Multiplies all the numbers given as arguments.";

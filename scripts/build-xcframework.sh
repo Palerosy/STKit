@@ -108,8 +108,6 @@ create_framework() {
         PRODUCTS="$DERIVED_DATA/Build/Products/Release-$PLATFORM"
     fi
 
-    mkdir -p "$FW_DIR/Modules/$MODULE.swiftmodule" "$FW_DIR/Headers"
-
     local OBJS_TO_MERGE=()
     local SOURCE_NAME="$MODULE"
 
@@ -118,8 +116,6 @@ create_framework() {
             [ -f "$PRODUCTS/$MODULE.o" ] && OBJS_TO_MERGE+=("$PRODUCTS/$MODULE.o")
             ;;
         "STDOCX")
-            # Embed ZIPFoundation.o into STDOCX so it is self-contained.
-            # STExcel's ZIPFoundation references are resolved at app link-time from STDOCX.
             [ -f "$PRODUCTS/$MODULE.o" ] && OBJS_TO_MERGE+=("$PRODUCTS/$MODULE.o")
             [ -f "$PRODUCTS/ZIPFoundation.o" ] && OBJS_TO_MERGE+=("$PRODUCTS/ZIPFoundation.o")
             ;;
@@ -130,47 +126,40 @@ create_framework() {
         return 1
     fi
 
-    libtool -static -o "$FW_DIR/$MODULE" "${OBJS_TO_MERGE[@]}" 2>/dev/null
+    local BUNDLE_ID="${MODULE}"
+    [ "$MODULE" = "_ZIPFoundation" ] && BUNDLE_ID="ZIPFoundation"
 
-    local LIB_SIZE=$(ls -lh "$FW_DIR/$MODULE" | awk '{print $5}')
+    if [ "$PLATFORM" = "macosx" ]; then
+        # macOS requires deep bundle: Versions/A/Resources/Info.plist
+        mkdir -p "$FW_DIR/Versions/A/Modules/$MODULE.swiftmodule" "$FW_DIR/Versions/A/Headers" "$FW_DIR/Versions/A/Resources"
 
-    # Copy swiftinterface files
-    local SM="$PRODUCTS/$SOURCE_NAME.swiftmodule"
-    if [ -d "$SM" ]; then
-        for f in "$SM"/*.swiftinterface "$SM"/*.private.swiftinterface "$SM"/*.package.swiftinterface "$SM"/*.swiftdoc; do
-            [ -f "$f" ] && cp "$f" "$FW_DIR/Modules/$MODULE.swiftmodule/"
-        done
-    fi
+        libtool -static -o "$FW_DIR/Versions/A/$MODULE" "${OBJS_TO_MERGE[@]}" 2>/dev/null
 
-    local IFACE_COUNT=$(ls "$FW_DIR/Modules/$MODULE.swiftmodule/"*.swiftinterface 2>/dev/null | wc -l | tr -d ' ')
+        # Copy swiftinterface files
+        local SM="$PRODUCTS/$SOURCE_NAME.swiftmodule"
+        if [ -d "$SM" ]; then
+            for f in "$SM"/*.swiftinterface "$SM"/*.private.swiftinterface "$SM"/*.package.swiftinterface "$SM"/*.swiftdoc; do
+                [ -f "$f" ] && cp "$f" "$FW_DIR/Versions/A/Modules/$MODULE.swiftmodule/"
+            done
+        fi
 
-    # Find and copy -Swift.h header
-    local HEADER=""
-    if [ "$PLATFORM" = "iphoneos" ]; then
-        HEADER=$(find "$IOS_INTERMEDIATES" -name "${SOURCE_NAME}-Swift.h" -path "*/Release-iphoneos/*" -path "*/arm64/*" 2>/dev/null | head -1)
-    elif [ "$PLATFORM" = "iphonesimulator" ]; then
-        HEADER=$(find "$SIM_INTERMEDIATES" -name "${SOURCE_NAME}-Swift.h" -path "*/Release-iphonesimulator/*" -path "*/arm64/*" 2>/dev/null | head -1)
-    else
+        # Find and copy -Swift.h header
+        local HEADER=""
         HEADER=$(find "$MAC_INTERMEDIATES" -name "${SOURCE_NAME}-Swift.h" -path "*/Release/*" -path "*/arm64/*" 2>/dev/null | grep -v "Release-" | head -1)
-    fi
-    if [ -n "$HEADER" ]; then
-        cp "$HEADER" "$FW_DIR/Headers/$MODULE-Swift.h"
-    fi
+        if [ -n "$HEADER" ]; then
+            cp "$HEADER" "$FW_DIR/Versions/A/Headers/$MODULE-Swift.h"
+        fi
 
-    # Create module.modulemap
-    cat > "$FW_DIR/Modules/module.modulemap" << EOF
+        # Create module.modulemap
+        cat > "$FW_DIR/Versions/A/Modules/module.modulemap" << EOF
 framework module $MODULE {
     header "$MODULE-Swift.h"
     export *
 }
 EOF
 
-    # Create Info.plist
-    local BUNDLE_ID="${MODULE}"
-    [ "$MODULE" = "_ZIPFoundation" ] && BUNDLE_ID="ZIPFoundation"
-
-    if [ "$PLATFORM" = "macosx" ]; then
-        cat > "$FW_DIR/Info.plist" << PLIST
+        # Create Info.plist in Resources
+        cat > "$FW_DIR/Versions/A/Resources/Info.plist" << PLIST
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -182,9 +171,9 @@ EOF
     <key>CFBundleName</key>
     <string>${MODULE}</string>
     <key>CFBundleVersion</key>
-    <string>0.8.0</string>
+    <string>0.9.1</string>
     <key>CFBundleShortVersionString</key>
-    <string>0.8.0</string>
+    <string>0.9.1</string>
     <key>CFBundlePackageType</key>
     <string>FMWK</string>
     <key>LSMinimumSystemVersion</key>
@@ -196,7 +185,50 @@ EOF
 </dict>
 </plist>
 PLIST
+
+        # Create symlinks (deep bundle structure)
+        ln -sfn A "$FW_DIR/Versions/Current"
+        ln -sfn Versions/Current/$MODULE "$FW_DIR/$MODULE"
+        ln -sfn Versions/Current/Headers "$FW_DIR/Headers"
+        ln -sfn Versions/Current/Modules "$FW_DIR/Modules"
+        ln -sfn Versions/Current/Resources "$FW_DIR/Resources"
+
+        local LIB_SIZE=$(ls -lh "$FW_DIR/Versions/A/$MODULE" | awk '{print $5}')
+        local IFACE_COUNT=$(ls "$FW_DIR/Versions/A/Modules/$MODULE.swiftmodule/"*.swiftinterface 2>/dev/null | wc -l | tr -d ' ')
     else
+        # iOS: shallow bundle
+        mkdir -p "$FW_DIR/Modules/$MODULE.swiftmodule" "$FW_DIR/Headers"
+
+        libtool -static -o "$FW_DIR/$MODULE" "${OBJS_TO_MERGE[@]}" 2>/dev/null
+
+        # Copy swiftinterface files
+        local SM="$PRODUCTS/$SOURCE_NAME.swiftmodule"
+        if [ -d "$SM" ]; then
+            for f in "$SM"/*.swiftinterface "$SM"/*.private.swiftinterface "$SM"/*.package.swiftinterface "$SM"/*.swiftdoc; do
+                [ -f "$f" ] && cp "$f" "$FW_DIR/Modules/$MODULE.swiftmodule/"
+            done
+        fi
+
+        # Find and copy -Swift.h header
+        local HEADER=""
+        if [ "$PLATFORM" = "iphoneos" ]; then
+            HEADER=$(find "$IOS_INTERMEDIATES" -name "${SOURCE_NAME}-Swift.h" -path "*/Release-iphoneos/*" -path "*/arm64/*" 2>/dev/null | head -1)
+        else
+            HEADER=$(find "$SIM_INTERMEDIATES" -name "${SOURCE_NAME}-Swift.h" -path "*/Release-iphonesimulator/*" -path "*/arm64/*" 2>/dev/null | head -1)
+        fi
+        if [ -n "$HEADER" ]; then
+            cp "$HEADER" "$FW_DIR/Headers/$MODULE-Swift.h"
+        fi
+
+        # Create module.modulemap
+        cat > "$FW_DIR/Modules/module.modulemap" << EOF
+framework module $MODULE {
+    header "$MODULE-Swift.h"
+    export *
+}
+EOF
+
+        # Create Info.plist
         cat > "$FW_DIR/Info.plist" << PLIST
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -209,9 +241,9 @@ PLIST
     <key>CFBundleName</key>
     <string>${MODULE}</string>
     <key>CFBundleVersion</key>
-    <string>0.8.0</string>
+    <string>0.9.1</string>
     <key>CFBundleShortVersionString</key>
-    <string>0.8.0</string>
+    <string>0.9.1</string>
     <key>CFBundlePackageType</key>
     <string>FMWK</string>
     <key>MinimumOSVersion</key>
@@ -228,6 +260,9 @@ PLIST
 </dict>
 </plist>
 PLIST
+
+        local LIB_SIZE=$(ls -lh "$FW_DIR/$MODULE" | awk '{print $5}')
+        local IFACE_COUNT=$(ls "$FW_DIR/Modules/$MODULE.swiftmodule/"*.swiftinterface 2>/dev/null | wc -l | tr -d ' ')
     fi
 
     echo "   $MODULE ($PLATFORM): $LIB_SIZE, $IFACE_COUNT swiftinterface files"
@@ -271,7 +306,12 @@ for MODULE in "${ALL_XCFRAMEWORKS[@]}"; do
     if [ -n "$RESOURCE_BUNDLE" ]; then
         BUNDLE_NAME=$(basename "$RESOURCE_BUNDLE")
         for SLICE in "$BUILD_DIR/$MODULE.xcframework"/*/$MODULE.framework; do
-            cp -RL "$RESOURCE_BUNDLE" "$SLICE/$BUNDLE_NAME"
+            # macOS deep bundle: put resources in Versions/A/Resources
+            if [ -d "$SLICE/Versions/A/Resources" ]; then
+                cp -RL "$RESOURCE_BUNDLE" "$SLICE/Versions/A/Resources/$BUNDLE_NAME"
+            else
+                cp -RL "$RESOURCE_BUNDLE" "$SLICE/$BUNDLE_NAME"
+            fi
         done
         echo "   $MODULE: resource bundle embedded ($BUNDLE_NAME)"
     fi

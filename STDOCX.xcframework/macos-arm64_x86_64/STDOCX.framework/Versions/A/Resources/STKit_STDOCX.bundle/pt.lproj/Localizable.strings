@@ -1,0 +1,16 @@
+/* Editor */
+"stdocx.font" = "Tipo de letra";
+"stdocx.textColor" = "Cor do texto";
+"stdocx.exportAs" = "Exportar como";
+"stdocx.findReplace" = "Localizar e substituir";
+
+/* Formatting */
+"stdocx.bold" = "Negrito";
+"stdocx.italic" = "Itálico";
+"stdocx.underline" = "Sublinhado";
+"stdocx.strikethrough" = "Rasurado";
+"stdocx.alignment" = "Alinhamento";
+"stdocx.alignLeft" = "Alinhar à esquerda";
+"stdocx.alignCenter" = "Centrar";
+"stdocx.alignRight" = "Alinhar à direita";
+"stdocx.justify" = "Justificar";

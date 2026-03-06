@@ -6,21 +6,7 @@
 	<array>
 		<dict>
 			<key>BinaryPath</key>
-			<string>STDOCX.framework/STDOCX</string>
-			<key>LibraryIdentifier</key>
-			<string>ios-arm64</string>
-			<key>LibraryPath</key>
-			<string>STDOCX.framework</string>
-			<key>SupportedArchitectures</key>
-			<array>
-				<string>arm64</string>
-			</array>
-			<key>SupportedPlatform</key>
-			<string>ios</string>
-		</dict>
-		<dict>
-			<key>BinaryPath</key>
-			<string>STDOCX.framework/STDOCX</string>
+			<string>STDOCX.framework/Versions/A/STDOCX</string>
 			<key>LibraryIdentifier</key>
 			<string>macos-arm64_x86_64</string>
 			<key>LibraryPath</key>
@@ -32,6 +18,20 @@
 			</array>
 			<key>SupportedPlatform</key>
 			<string>macos</string>
+		</dict>
+		<dict>
+			<key>BinaryPath</key>
+			<string>STDOCX.framework/STDOCX</string>
+			<key>LibraryIdentifier</key>
+			<string>ios-arm64</string>
+			<key>LibraryPath</key>
+			<string>STDOCX.framework</string>
+			<key>SupportedArchitectures</key>
+			<array>
+				<string>arm64</string>
+			</array>
+			<key>SupportedPlatform</key>
+			<string>ios</string>
 		</dict>
 		<dict>
 			<key>BinaryPath</key>
