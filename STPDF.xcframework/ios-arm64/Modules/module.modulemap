@@ -1,0 +1,4 @@
+framework module STPDF {
+    header "STPDF-Swift.h"
+    export *
+}

@@ -6,11 +6,13 @@
 	<array>
 		<dict>
 			<key>BinaryPath</key>
-			<string>STDOCX.framework/Versions/A/STDOCX</string>
+			<string>libSTDOCX.a</string>
+			<key>HeadersPath</key>
+			<string>Headers</string>
 			<key>LibraryIdentifier</key>
 			<string>macos-arm64_x86_64</string>
 			<key>LibraryPath</key>
-			<string>STDOCX.framework</string>
+			<string>libSTDOCX.a</string>
 			<key>SupportedArchitectures</key>
 			<array>
 				<string>arm64</string>
@@ -21,11 +23,13 @@
 		</dict>
 		<dict>
 			<key>BinaryPath</key>
-			<string>STDOCX.framework/STDOCX</string>
+			<string>libSTDOCX.a</string>
+			<key>HeadersPath</key>
+			<string>Headers</string>
 			<key>LibraryIdentifier</key>
 			<string>ios-arm64</string>
 			<key>LibraryPath</key>
-			<string>STDOCX.framework</string>
+			<string>libSTDOCX.a</string>
 			<key>SupportedArchitectures</key>
 			<array>
 				<string>arm64</string>
@@ -35,11 +39,13 @@
 		</dict>
 		<dict>
 			<key>BinaryPath</key>
-			<string>STDOCX.framework/STDOCX</string>
+			<string>libSTDOCX.a</string>
+			<key>HeadersPath</key>
+			<string>Headers</string>
 			<key>LibraryIdentifier</key>
 			<string>ios-arm64_x86_64-simulator</string>
 			<key>LibraryPath</key>
-			<string>STDOCX.framework</string>
+			<string>libSTDOCX.a</string>
 			<key>SupportedArchitectures</key>
 			<array>
 				<string>arm64</string>

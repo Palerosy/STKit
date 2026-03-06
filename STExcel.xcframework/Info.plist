@@ -6,11 +6,29 @@
 	<array>
 		<dict>
 			<key>BinaryPath</key>
-			<string>STExcel.framework/STExcel</string>
+			<string>libSTExcel.a</string>
+			<key>HeadersPath</key>
+			<string>Headers</string>
+			<key>LibraryIdentifier</key>
+			<string>ios-arm64</string>
+			<key>LibraryPath</key>
+			<string>libSTExcel.a</string>
+			<key>SupportedArchitectures</key>
+			<array>
+				<string>arm64</string>
+			</array>
+			<key>SupportedPlatform</key>
+			<string>ios</string>
+		</dict>
+		<dict>
+			<key>BinaryPath</key>
+			<string>libSTExcel.a</string>
+			<key>HeadersPath</key>
+			<string>Headers</string>
 			<key>LibraryIdentifier</key>
 			<string>ios-arm64_x86_64-simulator</string>
 			<key>LibraryPath</key>
-			<string>STExcel.framework</string>
+			<string>libSTExcel.a</string>
 			<key>SupportedArchitectures</key>
 			<array>
 				<string>arm64</string>
@@ -23,11 +41,13 @@
 		</dict>
 		<dict>
 			<key>BinaryPath</key>
-			<string>STExcel.framework/Versions/A/STExcel</string>
+			<string>libSTExcel.a</string>
+			<key>HeadersPath</key>
+			<string>Headers</string>
 			<key>LibraryIdentifier</key>
 			<string>macos-arm64_x86_64</string>
 			<key>LibraryPath</key>
-			<string>STExcel.framework</string>
+			<string>libSTExcel.a</string>
 			<key>SupportedArchitectures</key>
 			<array>
 				<string>arm64</string>
@@ -35,20 +55,6 @@
 			</array>
 			<key>SupportedPlatform</key>
 			<string>macos</string>
-		</dict>
-		<dict>
-			<key>BinaryPath</key>
-			<string>STExcel.framework/STExcel</string>
-			<key>LibraryIdentifier</key>
-			<string>ios-arm64</string>
-			<key>LibraryPath</key>
-			<string>STExcel.framework</string>
-			<key>SupportedArchitectures</key>
-			<array>
-				<string>arm64</string>
-			</array>
-			<key>SupportedPlatform</key>
-			<string>ios</string>
 		</dict>
 	</array>
 	<key>CFBundlePackageType</key>

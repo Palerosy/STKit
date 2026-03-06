@@ -1,0 +1,18 @@
+/* STDOCX — Portuguese, Brazil (pt-BR) */
+
+/* Editor */
+"stdocx.font" = "Fonte";
+"stdocx.textColor" = "Cor do texto";
+"stdocx.exportAs" = "Exportar como";
+"stdocx.findReplace" = "Localizar e substituir";
+
+/* Formatting */
+"stdocx.bold" = "Negrito";
+"stdocx.italic" = "Itálico";
+"stdocx.underline" = "Sublinhado";
+"stdocx.strikethrough" = "Tachado";
+"stdocx.alignment" = "Alinhamento";
+"stdocx.alignLeft" = "Alinhar à esquerda";
+"stdocx.alignCenter" = "Centralizar";
+"stdocx.alignRight" = "Alinhar à direita";
+"stdocx.justify" = "Justificar";

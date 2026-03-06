@@ -1,0 +1,143 @@
+/* Navigation & Controls */
+"stpdfkit.done" = "हो गया";
+"stpdfkit.pages" = "पृष्ठ";
+"stpdfkit.bookmark" = "बुकमार्क";
+"stpdfkit.search" = "खोजें";
+"stpdfkit.settings" = "सेटिंग्स";
+"stpdfkit.outline" = "रूपरेखा";
+"stpdfkit.editPages" = "पृष्ठ संपादित करें";
+"stpdfkit.share" = "साझा करें";
+"stpdfkit.print" = "प्रिंट करें";
+"stpdfkit.saveAsText" = "टेक्स्ट के रूप में सहेजें";
+"stpdfkit.untitled" = "शीर्षकहीन";
+
+/* Search */
+"stpdfkit.searchInDocument" = "दस्तावेज़ में खोजें...";
+"stpdfkit.searching" = "खोज रहे हैं...";
+"stpdfkit.noResultsFound" = "कोई परिणाम नहीं मिला";
+"stpdfkit.page" = "पृष्ठ %d";
+
+/* Outline */
+"stpdfkit.noOutlineAvailable" = "कोई रूपरेखा उपलब्ध नहीं";
+
+/* Settings */
+"stpdfkit.display" = "प्रदर्शन";
+"stpdfkit.scrollDirection" = "स्क्रॉल दिशा";
+"stpdfkit.pageMode" = "पृष्ठ मोड";
+"stpdfkit.view" = "दृश्य";
+"stpdfkit.pageShadows" = "पृष्ठ छाया";
+"stpdfkit.backgroundColor" = "पृष्ठभूमि रंग";
+
+/* Property Inspector */
+"stpdfkit.color" = "रंग";
+"stpdfkit.width" = "चौड़ाई";
+"stpdfkit.fontSize" = "फ़ॉन्ट आकार";
+"stpdfkit.opacity" = "अपारदर्शिता";
+"stpdfkit.font" = "फ़ॉन्ट";
+
+/* Annotation Tools */
+"stpdfkit.tool.pen" = "पेन";
+"stpdfkit.tool.highlighter" = "हाइलाइटर";
+"stpdfkit.tool.text" = "टेक्स्ट";
+"stpdfkit.tool.highlight" = "हाइलाइट";
+"stpdfkit.tool.underline" = "रेखांकन";
+"stpdfkit.tool.strikethrough" = "स्ट्राइकथ्रू";
+"stpdfkit.tool.rectangle" = "आयत";
+"stpdfkit.tool.circle" = "वृत्त";
+"stpdfkit.tool.line" = "रेखा";
+"stpdfkit.tool.arrow" = "तीर";
+"stpdfkit.tool.signature" = "हस्ताक्षर";
+"stpdfkit.tool.stamp" = "मुहर";
+"stpdfkit.tool.note" = "नोट";
+"stpdfkit.tool.eraser" = "इरेज़र";
+"stpdfkit.tool.photo" = "फ़ोटो";
+"stpdfkit.tool.textEdit" = "टेक्स्ट संपादित करें";
+"stpdfkit.tapOnTextToEdit" = "संपादित करने के लिए टेक्स्ट पर टैप करें";
+"stpdfkit.selection.word" = "शब्द";
+"stpdfkit.selection.line" = "पंक्ति";
+
+/* Toolbar Labels */
+"stpdfkit.hand" = "हाथ";
+"stpdfkit.undo" = "पूर्ववत करें";
+"stpdfkit.redo" = "फिर से करें";
+"stpdfkit.select" = "चुनें";
+"stpdfkit.style" = "शैली";
+"stpdfkit.close" = "बंद करें";
+"stpdfkit.zoomIn" = "ज़ूम इन";
+"stpdfkit.zoomOut" = "ज़ूम आउट";
+"stpdfkit.addText" = "टेक्स्ट जोड़ें";
+"stpdfkit.removeText" = "टेक्स्ट हटाएं";
+
+/* Annotation Groups */
+"stpdfkit.group.draw" = "आरेखण";
+"stpdfkit.group.shapes" = "आकार";
+"stpdfkit.group.text" = "टेक्स्ट";
+"stpdfkit.group.markup" = "मार्कअप";
+"stpdfkit.group.extras" = "अतिरिक्त";
+
+/* Text Input */
+"stpdfkit.enterText" = "टेक्स्ट दर्ज करें...";
+"stpdfkit.cancel" = "रद्द करें";
+"stpdfkit.add" = "जोड़ें";
+
+/* Markup */
+"stpdfkit.applyTool" = "%@ लागू करें";
+
+/* Signature */
+"stpdfkit.signature.clear" = "साफ करें";
+"stpdfkit.signature.drawNew" = "नया बनाएं";
+"stpdfkit.signature.saved" = "सहेजे गए हस्ताक्षर";
+
+/* Stamp Types */
+"stpdfkit.stamp.approved" = "स्वीकृत";
+"stpdfkit.stamp.rejected" = "अस्वीकृत";
+"stpdfkit.stamp.draft" = "मसौदा";
+"stpdfkit.stamp.confidential" = "गोपनीय";
+"stpdfkit.stamp.forComment" = "टिप्पणी के लिए";
+"stpdfkit.stamp.asIs" = "जैसा है";
+"stpdfkit.stamp.final" = "अंतिम";
+
+/* Placement */
+"stpdfkit.tapToPlace" = "रखने के लिए टैप करें";
+
+/* Selection Menu */
+"stpdfkit.selection.copy" = "कॉपी करें";
+"stpdfkit.selection.paste" = "पेस्ट करें";
+"stpdfkit.selection.delete" = "हटाएं";
+"stpdfkit.selection.inspector" = "निरीक्षक";
+"stpdfkit.selection.note" = "नोट";
+
+/* Tool Hints */
+"stpdfkit.hint.draw" = "स्पर्श करें और बनाएं";
+"stpdfkit.hint.shape" = "खींचकर बनाएं";
+"stpdfkit.hint.tapToAddText" = "टेक्स्ट जोड़ने के लिए टैप करें";
+"stpdfkit.hint.erase" = "मिटाने के लिए स्वाइप करें";
+
+/* Order (Layer) */
+"stpdfkit.order" = "क्रम";
+"stpdfkit.order.front" = "सामने लाएं";
+"stpdfkit.order.forward" = "आगे लाएं";
+"stpdfkit.order.backward" = "पीछे भेजें";
+"stpdfkit.order.back" = "सबसे पीछे भेजें";
+
+/* Page Editor */
+"stpdfkit.page.newPage" = "नया पृष्ठ";
+"stpdfkit.page.remove" = "हटाएं";
+"stpdfkit.page.duplicate" = "डुप्लिकेट करें";
+"stpdfkit.page.rotate" = "घुमाएं";
+"stpdfkit.page.selectAll" = "सभी चुनें";
+"stpdfkit.page.deselectAll" = "चयन हटाएं";
+"stpdfkit.page.cut" = "काटें";
+"stpdfkit.page.copy" = "कॉपी करें";
+"stpdfkit.page.paste" = "पेस्ट करें";
+"stpdfkit.page.numberOfPages" = "पृष्ठों की संख्या";
+"stpdfkit.page.format" = "पृष्ठ प्रारूप";
+"stpdfkit.page.color" = "पृष्ठ रंग";
+"stpdfkit.page.addAfter" = "पृष्ठ के बाद जोड़ें";
+"stpdfkit.page.beginning" = "शुरुआत";
+"stpdfkit.page.color.white" = "सफेद";
+"stpdfkit.page.color.cream" = "क्रीम";
+"stpdfkit.page.color.gray" = "ग्रे";
+
+/* License */
+"stpdfkit.unlicensed" = "STPDFKit — अनलाइसेंस्ड";

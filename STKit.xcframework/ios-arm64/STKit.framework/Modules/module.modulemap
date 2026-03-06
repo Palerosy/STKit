@@ -1,4 +1,0 @@
-framework module STKit {
-    header "STKit-Swift.h"
-    export *
-}

@@ -1,0 +1,464 @@
+/* STExcel — Chinese Traditional (zh-Hant) Localizable Strings */
+"stexcel.sheet" = "工作表";
+"stexcel.cell" = "儲存格";
+"stexcel.row" = "列";
+"stexcel.column" = "欄";
+"stexcel.value" = "值";
+
+/* Ribbon Tabs */
+"stexcel.ribbon.format" = "格式";
+"stexcel.ribbon.formulas" = "公式";
+"stexcel.ribbon.data" = "資料";
+
+/* Home Tab */
+"stexcel.cut" = "剪下";
+"stexcel.copy" = "複製";
+"stexcel.fillColor" = "填滿";
+"stexcel.wrapText" = "換行";
+"stexcel.merge" = "合併";
+"stexcel.borders" = "框線";
+
+/* Border Picker */
+"stexcel.noBorder" = "無框線";
+"stexcel.allBorders" = "所有框線";
+"stexcel.outsideBorder" = "外框線";
+"stexcel.bottomBorder" = "下框線";
+"stexcel.thickBorder" = "粗框線";
+
+/* Format Tab */
+"stexcel.numberFormat" = "數字格式";
+"stexcel.currency" = "貨幣";
+"stexcel.percent" = "百分比";
+"stexcel.decimalIncrease" = ".0→.00";
+"stexcel.decimalDecrease" = ".00→.0";
+"stexcel.clear" = "清除";
+"stexcel.conditionalFormat" = "條件\n格式";
+"stexcel.cellStyle" = "樣式";
+
+/* Insert Tab */
+"stexcel.chart" = "圖表";
+"stexcel.picture" = "圖片";
+
+/* Formulas Tab */
+"stexcel.autoSum" = "自動\n加總";
+"stexcel.recalculate" = "重新計算";
+"stexcel.financial" = "財務";
+"stexcel.logical" = "邏輯";
+"stexcel.textFunctions" = "文字";
+"stexcel.dateTime" = "日期和\n時間";
+"stexcel.reference" = "參照";
+"stexcel.math" = "數學";
+"stexcel.insertFunction" = "插入\n函數";
+"stexcel.defineName" = "定義\n名稱";
+"stexcel.nameManager" = "名稱\n管理員";
+
+/* Data Tab */
+"stexcel.sort" = "排序";
+"stexcel.sortAZ" = "排序 A→Z";
+"stexcel.sortZA" = "排序 Z→A";
+"stexcel.sortByColor" = "按顏色排序";
+"stexcel.filter" = "篩選";
+"stexcel.reapplyFilter" = "重新套用\n篩選";
+"stexcel.dataValidation" = "資料\n驗證";
+"stexcel.circleInvalid" = "圈釋\n無效資料";
+"stexcel.group" = "群組";
+"stexcel.ungroup" = "取消群組";
+"stexcel.subtotal" = "小計";
+"stexcel.removeAll" = "全部\n刪除";
+"stexcel.showDetail" = "顯示\n詳細資訊";
+"stexcel.hideDetail" = "隱藏\n詳細資訊";
+"stexcel.textToColumns" = "資料剖析";
+"stexcel.apply" = "套用";
+"stexcel.sortBy" = "排序依據";
+"stexcel.thenBy" = "然後依據";
+"stexcel.myDataHasHeaders" = "資料包含標題";
+"stexcel.caseSensitive" = "區分大小寫";
+"stexcel.none" = "無";
+
+/* Review Tab */
+"stexcel.addComment" = "批註";
+"stexcel.editComment" = "編輯\n批註";
+"stexcel.deleteComment" = "刪除\n批註";
+"stexcel.protectSheet" = "保護\n工作表";
+"stexcel.unprotectSheet" = "取消保護工作表";
+"stexcel.sheetIsProtected" = "此工作表受保護。";
+"stexcel.sheetNotProtected" = "此工作表未受保護。";
+
+/* View Tab */
+"stexcel.gridlines" = "格線";
+"stexcel.headings" = "標題";
+"stexcel.formulaBar" = "公式";
+"stexcel.freezePanes" = "凍結";
+"stexcel.goToCell" = "前往儲存格";
+"stexcel.go" = "前往";
+"stexcel.zoom" = "縮放";
+
+/* Home Tab — Insert/Delete Menus */
+"stexcel.insertOptions" = "插入選項";
+"stexcel.deleteOptions" = "刪除選項";
+"stexcel.shiftCellsRight" = "右移儲存格";
+"stexcel.shiftCellsDown" = "下移儲存格";
+"stexcel.shiftCellsLeft" = "左移儲存格";
+"stexcel.shiftCellsUp" = "上移儲存格";
+"stexcel.entireRow" = "整列";
+"stexcel.entireColumn" = "整欄";
+"stexcel.rows" = "列";
+"stexcel.columns" = "欄";
+"stexcel.worksheet" = "工作表";
+"stexcel.insert" = "插入";
+"stexcel.delete" = "刪除";
+
+/* AutoSum */
+"stexcel.sum" = "加總";
+"stexcel.average" = "平均值";
+"stexcel.count" = "計數";
+"stexcel.max" = "最大值";
+"stexcel.min" = "最小值";
+"stexcel.median" = "中位數";
+
+/* Format Tab */
+"stexcel.cellFont" = "儲存格\n字型";
+"stexcel.cellBorder" = "儲存格\n框線";
+"stexcel.lockCell" = "鎖定\n儲存格";
+"stexcel.cellSize" = "儲存格\n大小";
+"stexcel.rowHeight" = "列高";
+"stexcel.columnWidth" = "欄寬";
+"stexcel.autoFitRow" = "自動調整列高";
+"stexcel.autoFitColumn" = "自動調整欄寬";
+
+/* Format Cells Dialog */
+"stexcel.formatCells" = "設定儲存格格式";
+"stexcel.number" = "數字";
+"stexcel.cellTab" = "儲存格";
+"stexcel.borderTab" = "框線";
+"stexcel.protection" = "保護";
+"stexcel.font" = "字型";
+"stexcel.size" = "大小";
+"stexcel.textColor" = "文字顏色";
+"stexcel.cellColor" = "儲存格顏色";
+"stexcel.indent" = "縮排";
+"stexcel.lineType" = "線條類型";
+"stexcel.clearBorder" = "清除框線";
+"stexcel.standardColors" = "標準顏色";
+"stexcel.locked" = "已鎖定";
+"stexcel.hidden" = "已隱藏";
+"stexcel.singleUnderline" = "單線";
+"stexcel.doubleUnderline" = "雙線";
+
+/* More Menu */
+"stexcel.saveAs" = "另存新檔";
+"stexcel.fileInfo" = "檔案資訊";
+"stexcel.failedToOpen" = "無法開啟檔案";
+"stexcel.fileName" = "檔案名稱";
+"stexcel.fileLocation" = "位置";
+"stexcel.fileType" = "檔案類型";
+"stexcel.fileSize" = "檔案大小";
+"stexcel.createdDate" = "建立日期";
+"stexcel.modifiedDate" = "修改日期";
+"stexcel.onEnter" = "按Enter後";
+"stexcel.moveDown" = "向下移動";
+"stexcel.moveRight" = "向右移動";
+"stexcel.stay" = "不移動";
+"stexcel.autoCalculate" = "自動計算";
+"stexcel.unknown" = "未知";
+"stexcel.dontSave" = "不儲存";
+"stexcel.saveChangesTitle" = "儲存對 %@ 的變更？";
+"stexcel.licenseRequired" = "需要授權";
+"stexcel.licenseRequiredMessage" = "使用此功能需要有效的 STKit 授權。請啟用您的授權以解鎖儲存、匯出和列印功能。";
+
+/* Sheet Management */
+"stexcel.addSheet" = "新增工作表";
+"stexcel.renameSheet" = "重新命名";
+"stexcel.duplicateSheet" = "複製";
+"stexcel.deleteSheet" = "刪除";
+"stexcel.moveSheetLeft" = "左移";
+"stexcel.moveSheetRight" = "右移";
+"stexcel.sheetName" = "工作表名稱";
+
+/* Chart Categories */
+"stexcel.chartAll" = "全部";
+"stexcel.chartColumn" = "柱形";
+"stexcel.chartBar" = "橫條";
+"stexcel.chartLine" = "折線";
+"stexcel.chartLineWithMarkers" = "帶標記的折線";
+"stexcel.chartArea" = "區域";
+"stexcel.chartPie" = "圓餅圖";
+"stexcel.chartScatter" = "散佈";
+
+/* Chart Subtypes */
+"stexcel.chartClustered" = "叢集";
+"stexcel.chartStacked" = "堆疊";
+"stexcel.chartPercentStacked" = "百分比堆疊";
+"stexcel.chartSmooth" = "平滑";
+"stexcel.chartSimple" = "簡單";
+"stexcel.chartMarkers" = "標記";
+"stexcel.chartDots" = "點";
+"stexcel.chartLines" = "線條";
+"stexcel.chart3DPie" = "立體圓餅圖";
+"stexcel.chartDoughnut" = "環圈圖";
+"stexcel.chartExploded" = "分裂型";
+
+/* Shape Types */
+"stexcel.shapeRectangle" = "矩形";
+"stexcel.shapeRoundedRect" = "圓角矩形";
+"stexcel.shapeCircle" = "圓形";
+"stexcel.shapeOval" = "橢圓";
+"stexcel.shapeTriangle" = "三角形";
+"stexcel.shapeRightTriangle" = "直角三角形";
+"stexcel.shapeDiamond" = "菱形";
+"stexcel.shapeArrowRight" = "右箭頭";
+"stexcel.shapeArrowLeft" = "左箭頭";
+"stexcel.shapeArrowUp" = "上箭頭";
+"stexcel.shapeArrowDown" = "下箭頭";
+"stexcel.shapeStar" = "星形";
+"stexcel.shapeHexagon" = "六邊形";
+"stexcel.shapePentagon" = "五邊形";
+"stexcel.shapeLine" = "線條";
+"stexcel.shapeDashedLine" = "虛線";
+
+/* Shape Picker Sections */
+"stexcel.basicShapes" = "基本形狀";
+"stexcel.arrowsTriangles" = "箭頭和三角形";
+"stexcel.starsMore" = "星形和其他";
+"stexcel.lineShapes" = "線條";
+
+/* Table Insert */
+"stexcel.insertTable" = "插入表格";
+"stexcel.dataRange" = "資料範圍";
+"stexcel.tableStyle" = "表格樣式";
+"stexcel.myTableHasHeaders" = "表格包含標題";
+
+/* Table Styles */
+"stexcel.styleBlue" = "藍色";
+"stexcel.styleGreen" = "綠色";
+"stexcel.styleOrange" = "橙色";
+"stexcel.stylePurple" = "紫色";
+"stexcel.styleRed" = "紅色";
+"stexcel.styleGray" = "灰色";
+"stexcel.styleDark" = "深色";
+
+/* Table Tab */
+"stexcel.headerRow" = "標題\n列";
+"stexcel.bandedRows" = "帶狀\n列";
+"stexcel.bandedCols" = "帶狀\n欄";
+
+/* Chart Format */
+"stexcel.labels" = "標籤";
+"stexcel.chartTitle" = "圖表標題";
+"stexcel.title" = "標題";
+"stexcel.enterTitle" = "輸入標題";
+"stexcel.horizontalLabels" = "水平標籤";
+"stexcel.range" = "範圍";
+"stexcel.seriesIn" = "數列在";
+"stexcel.chartType" = "類型";
+"stexcel.chartFormat" = "格式";
+"stexcel.chartElements" = "元素";
+"stexcel.chartLayouts" = "圖表\n版面配置";
+"stexcel.chartColors" = "顏色";
+"stexcel.chartStylesTitle" = "圖表\n樣式";
+"stexcel.switchRowsCols" = "切換\n列/欄";
+"stexcel.legend" = "圖例";
+"stexcel.axisLabels" = "座標軸標籤";
+"stexcel.dataLabels" = "資料標籤";
+"stexcel.axes" = "座標軸";
+"stexcel.on" = "開";
+"stexcel.off" = "關";
+"stexcel.noNumericData" = "範圍內未找到數字資料";
+"stexcel.editDataRangeHint" = "編輯上方的資料範圍或在儲存格中新增數字";
+"stexcel.points" = "點";
+"stexcel.noData" = "無資料";
+"stexcel.series" = "數列";
+"stexcel.dataPoints" = "資料點";
+"stexcel.grid" = "格線";
+"stexcel.layouts" = "版面配置";
+"stexcel.chartStylesNav" = "圖表樣式";
+
+/* Format Cells Extra */
+"stexcel.noColor" = "無顏色";
+"stexcel.lockingInfo" = "鎖定儲存格或隱藏公式在您保護工作表之前不會生效。";
+"stexcel.lineThin" = "細線";
+"stexcel.lineMedium" = "中等";
+"stexcel.lineThick" = "粗線";
+"stexcel.lineDashed" = "虛線";
+"stexcel.lineDotted" = "點線";
+"stexcel.lineDouble" = "雙線";
+
+/* Number Format Picker */
+"stexcel.use1000Separator" = "使用千位分隔符";
+"stexcel.accounting" = "會計";
+"stexcel.date" = "日期";
+"stexcel.time" = "時間";
+"stexcel.percentage" = "百分比";
+"stexcel.fraction" = "分數";
+"stexcel.scientific" = "科學記號";
+"stexcel.special" = "特殊";
+"stexcel.custom" = "自訂";
+"stexcel.negativeNumbers" = "負數";
+
+/* Shape Tab */
+"stexcel.fill" = "填滿";
+"stexcel.fillColorTitle" = "填滿顏色";
+"stexcel.outline" = "輪廓";
+"stexcel.outlineColor" = "輪廓顏色";
+"stexcel.changeShape" = "變更\n形狀";
+
+/* View Tab */
+"stexcel.zoomIn" = "放大";
+"stexcel.zoomOut" = "縮小";
+
+/* Conditional Formatting */
+"stexcel.newRule" = "新增規則";
+"stexcel.highlightCellsRules" = "醒目提示儲存格規則";
+"stexcel.topBottomAvgRules" = "最前/最後/平均值規則";
+"stexcel.customFormula" = "自訂公式";
+"stexcel.dataBars" = "資料橫條";
+"stexcel.colorScales" = "色階";
+"stexcel.clearRules" = "清除規則";
+"stexcel.fromSelection" = "從所選內容";
+"stexcel.activeRules" = "使用中規則";
+"stexcel.conditionalFormatting" = "條件格式";
+"stexcel.presets" = "預設";
+"stexcel.condition" = "條件";
+"stexcel.enterValue1" = "輸入值 1";
+"stexcel.enterValue2" = "輸入值 2";
+"stexcel.rank" = "排名";
+"stexcel.barColor" = "資料橫條顏色";
+"stexcel.colorScaleSection" = "色階";
+"stexcel.formulaSection" = "公式";
+
+/* Additional */
+"stexcel.decimalPlaces" = "小數位數";
+"stexcel.fromEntireSheet" = "從整個工作表";
+"stexcel.formatCellsFormula" = "為此公式為真的儲存格設定格式：";
+"stexcel.goodBadNeutral" = "好、差與中性";
+"stexcel.dataModel" = "資料與模型";
+"stexcel.titlesHeadings" = "標題與題註";
+"stexcel.allow" = "允許";
+"stexcel.useFunction" = "使用函數";
+"stexcel.insertSubtotal" = "插入小計";
+"stexcel.delimiter" = "分隔符";
+"stexcel.convert" = "轉換";
+"stexcel.enterDelimiter" = "輸入分隔符";
+"stexcel.anyValue" = "任意值";
+"stexcel.wholeNumber" = "整數";
+"stexcel.decimalType" = "小數";
+"stexcel.listType" = "清單";
+"stexcel.textLength" = "文字長度";
+"stexcel.commaDelimiter" = "逗號 (,)";
+"stexcel.tabDelimiter" = "定位字元";
+"stexcel.semicolonDelimiter" = "分號 (;)";
+"stexcel.spaceDelimiter" = "空格";
+"stexcel.sourceList" = "來源（逗號分隔）";
+"stexcel.searchFunctions" = "搜尋函數";
+"stexcel.noDefinedNames" = "沒有已定義的名稱";
+
+/* Number Format General */
+"stexcel.general" = "通用";
+
+/* Conditional Format Conditions */
+"stexcel.cfGreaterThan" = "大於";
+"stexcel.cfLessThan" = "小於";
+"stexcel.cfBetween" = "介於";
+"stexcel.cfEqualTo" = "等於";
+"stexcel.cfNotEqualTo" = "不等於";
+"stexcel.cfTextContains" = "文字包含";
+"stexcel.cfTextNotContains" = "文字不包含";
+"stexcel.cfDuplicates" = "重複值";
+"stexcel.cfUniqueValues" = "唯一值";
+
+/* Conditional Format Ranks */
+"stexcel.cfTop" = "最前";
+"stexcel.cfBottom" = "最後";
+"stexcel.cfAboveAverage" = "高於平均值";
+"stexcel.cfBelowAverage" = "低於平均值";
+
+/* Conditional Format View */
+"stexcel.cfItems" = "項";
+"stexcel.value1Label" = "值 1";
+"stexcel.value2Label" = "值 2";
+
+/* Chart Layout */
+"stexcel.layoutLabel" = "版面配置";
+
+/* Chart Data */
+"stexcel.chartDataRange" = "資料範圍";
+"stexcel.dataLabel" = "資料";
+
+/* Cell Style Presets */
+"stexcel.presetNormal" = "通用";
+"stexcel.presetGood" = "好";
+"stexcel.presetBad" = "差";
+"stexcel.presetNeutral" = "中性";
+"stexcel.presetInput" = "輸入";
+"stexcel.presetOutput" = "輸出";
+"stexcel.presetCalculation" = "計算";
+"stexcel.presetCheckCell" = "檢查儲存格";
+"stexcel.presetNote" = "註解";
+"stexcel.presetWarning" = "警告";
+"stexcel.presetLinkedCell" = "連結儲存格";
+"stexcel.presetExplanatory" = "說明性";
+"stexcel.presetTitle" = "標題";
+"stexcel.presetHeading1" = "標題 1";
+"stexcel.presetHeading2" = "標題 2";
+"stexcel.presetHeading3" = "標題 3";
+"stexcel.presetHeading4" = "標題 4";
+"stexcel.presetTotal" = "合計";
+"stexcel.presetComma" = "逗號";
+"stexcel.presetCurrency" = "貨幣";
+"stexcel.presetPercent" = "百分比";
+
+/* Function Descriptions */
+"stexcel.func.PMT" = "根據固定付款額和利率計算貸款的付款額。";
+"stexcel.func.FV" = "傳回投資的未來值。";
+"stexcel.func.PV" = "傳回投資的現值。";
+"stexcel.func.RATE" = "傳回每期的利率。";
+"stexcel.func.NPV" = "傳回投資的淨現值。";
+"stexcel.func.IRR" = "傳回一系列現金流的內部報酬率。";
+"stexcel.func.IF" = "如果條件為真則傳回一個值，為假則傳回另一個值。";
+"stexcel.func.AND" = "如果所有引數均為真，則傳回 TRUE。";
+"stexcel.func.OR" = "如果任意引數為真，則傳回 TRUE。";
+"stexcel.func.NOT" = "對引數的值取反。";
+"stexcel.func.IFERROR" = "如果第一個引數為錯誤，則傳回 value_if_error。";
+"stexcel.func.TRUE" = "傳回邏輯值 TRUE。";
+"stexcel.func.FALSE" = "傳回邏輯值 FALSE。";
+"stexcel.func.CONCATENATE" = "將多個文字字串合併為一個。";
+"stexcel.func.LEN" = "傳回字串中的字元數。";
+"stexcel.func.LEFT" = "傳回文字值中最左邊的字元。";
+"stexcel.func.RIGHT" = "傳回文字值中最右邊的字元。";
+"stexcel.func.MID" = "傳回文字字串中指定數量的字元。";
+"stexcel.func.UPPER" = "將文字轉換為大寫。";
+"stexcel.func.LOWER" = "將文字轉換為小寫。";
+"stexcel.func.TRIM" = "刪除文字中的空格。";
+"stexcel.func.FIND" = "在一個文字值中尋找另一個（區分大小寫）。";
+"stexcel.func.REPLACE" = "取代文字中的字元。";
+"stexcel.func.SUBSTITUTE" = "在字串中用新文字取代舊文字。";
+"stexcel.func.NOW" = "傳回目前日期和時間。";
+"stexcel.func.TODAY" = "傳回今天的日期。";
+"stexcel.func.DATE" = "傳回特定日期的序列號。";
+"stexcel.func.YEAR" = "傳回日期的年份。";
+"stexcel.func.MONTH" = "傳回日期的月份。";
+"stexcel.func.DAY" = "傳回日期的天數。";
+"stexcel.func.HOUR" = "傳回小時。";
+"stexcel.func.MINUTE" = "傳回分鐘。";
+"stexcel.func.SECOND" = "傳回秒。";
+"stexcel.func.VLOOKUP" = "在表格最左欄中尋找值。";
+"stexcel.func.HLOOKUP" = "在表格首列中尋找值。";
+"stexcel.func.INDEX" = "從表格或範圍中傳回值。";
+"stexcel.func.MATCH" = "傳回值在範圍中的位置。";
+"stexcel.func.CHOOSE" = "根據索引號從清單中選擇值。";
+"stexcel.func.INDIRECT" = "傳回由文字值指定的參照。";
+"stexcel.func.SUM" = "將儲存格範圍中的所有數字相加。";
+"stexcel.func.AVERAGE" = "傳回引數的平均值。";
+"stexcel.func.COUNT" = "計算包含數字的儲存格數量。";
+"stexcel.func.COUNTA" = "計算非空儲存格的數量。";
+"stexcel.func.MIN" = "傳回集合中的最小值。";
+"stexcel.func.MAX" = "傳回集合中的最大值。";
+"stexcel.func.ABS" = "傳回數字的絕對值。";
+"stexcel.func.ROUND" = "將數字四捨五入到指定位數。";
+"stexcel.func.INT" = "將數字向下取整到最近的整數。";
+"stexcel.func.MOD" = "傳回除法的餘數。";
+"stexcel.func.POWER" = "傳回數字的乘冪結果。";
+"stexcel.func.SQRT" = "傳回正平方根。";
+"stexcel.func.SUMIF" = "對滿足指定條件的儲存格加總。";
+"stexcel.func.COUNTIF" = "計算滿足條件的儲存格數量。";
+"stexcel.func.PRODUCT" = "將所有作為引數的數字相乘。";

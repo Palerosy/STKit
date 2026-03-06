@@ -275,19 +275,44 @@ for PLATFORM in "iphoneos" "iphonesimulator" "macosx"; do
     done
 done
 
-# 6. Create XCFrameworks (now with 3 slices: iOS device, simulator, macOS)
+# 6. Create XCFrameworks using -library format (static, no embedding)
+# This prevents "code object is not signed at all" codesign errors on macOS
 echo "[6/8] Creating XCFrameworks..."
 for MODULE in "${ALL_XCFRAMEWORKS[@]}"; do
     IOS_FW="$BUILD_DIR/frameworks/iphoneos/$MODULE.framework"
     SIM_FW="$BUILD_DIR/frameworks/iphonesimulator/$MODULE.framework"
     MAC_FW="$BUILD_DIR/frameworks/macosx/$MODULE.framework"
 
+    # Copy static libraries with .a extension for xcodebuild
+    cp "$IOS_FW/$MODULE" "$BUILD_DIR/frameworks/iphoneos/lib${MODULE}.a"
+    cp "$SIM_FW/$MODULE" "$BUILD_DIR/frameworks/iphonesimulator/lib${MODULE}.a"
+    cp "$MAC_FW/Versions/A/$MODULE" "$BUILD_DIR/frameworks/macosx/lib${MODULE}.a"
+
     rm -rf "$BUILD_DIR/$MODULE.xcframework"
     xcodebuild -create-xcframework \
-        -framework "$IOS_FW" \
-        -framework "$SIM_FW" \
-        -framework "$MAC_FW" \
+        -library "$BUILD_DIR/frameworks/iphoneos/lib${MODULE}.a" -headers "$IOS_FW/Headers" \
+        -library "$BUILD_DIR/frameworks/iphonesimulator/lib${MODULE}.a" -headers "$SIM_FW/Headers" \
+        -library "$BUILD_DIR/frameworks/macosx/lib${MODULE}.a" -headers "$MAC_FW/Versions/A/Headers" \
         -output "$BUILD_DIR/$MODULE.xcframework"
+
+    # Copy swiftmodule + modulemap into each slice for Swift import support
+    for SLICE_DIR in "$BUILD_DIR/$MODULE.xcframework"/*/; do
+        SLICE_NAME=$(basename "$SLICE_DIR")
+        if [[ "$SLICE_NAME" == ios-arm64 ]]; then
+            SRC_MODULES="$IOS_FW/Modules"
+        elif [[ "$SLICE_NAME" == ios-arm64_x86_64-simulator ]]; then
+            SRC_MODULES="$SIM_FW/Modules"
+        elif [[ "$SLICE_NAME" == macos-arm64_x86_64 ]]; then
+            SRC_MODULES="$MAC_FW/Versions/A/Modules"
+        else
+            continue
+        fi
+        if [ -d "$SRC_MODULES" ]; then
+            mkdir -p "$SLICE_DIR/Modules"
+            cp -R "$SRC_MODULES/$MODULE.swiftmodule" "$SLICE_DIR/Modules/" 2>/dev/null
+            cp "$SRC_MODULES/module.modulemap" "$SLICE_DIR/Modules/" 2>/dev/null
+        fi
+    done
 
     echo "   $MODULE.xcframework created (iOS + macOS)"
 done
@@ -305,13 +330,8 @@ for MODULE in "${ALL_XCFRAMEWORKS[@]}"; do
     fi
     if [ -n "$RESOURCE_BUNDLE" ]; then
         BUNDLE_NAME=$(basename "$RESOURCE_BUNDLE")
-        for SLICE in "$BUILD_DIR/$MODULE.xcframework"/*/$MODULE.framework; do
-            # macOS deep bundle: put resources in Versions/A/Resources
-            if [ -d "$SLICE/Versions/A/Resources" ]; then
-                cp -RL "$RESOURCE_BUNDLE" "$SLICE/Versions/A/Resources/$BUNDLE_NAME"
-            else
-                cp -RL "$RESOURCE_BUNDLE" "$SLICE/$BUNDLE_NAME"
-            fi
+        for SLICE_DIR in "$BUILD_DIR/$MODULE.xcframework"/*/; do
+            [ -d "$SLICE_DIR" ] && cp -RL "$RESOURCE_BUNDLE" "$SLICE_DIR/$BUNDLE_NAME"
         done
         echo "   $MODULE: resource bundle embedded ($BUNDLE_NAME)"
     fi

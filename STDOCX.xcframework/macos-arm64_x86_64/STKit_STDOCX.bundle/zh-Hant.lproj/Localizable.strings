@@ -1,0 +1,18 @@
+/* STDOCX — Chinese Traditional (zh-Hant) */
+
+/* Editor */
+"stdocx.font" = "字型";
+"stdocx.textColor" = "文字顏色";
+"stdocx.exportAs" = "匯出為";
+"stdocx.findReplace" = "尋找與取代";
+
+/* Formatting */
+"stdocx.bold" = "粗體";
+"stdocx.italic" = "斜體";
+"stdocx.underline" = "底線";
+"stdocx.strikethrough" = "刪除線";
+"stdocx.alignment" = "對齊";
+"stdocx.alignLeft" = "靠左對齊";
+"stdocx.alignCenter" = "置中";
+"stdocx.alignRight" = "靠右對齊";
+"stdocx.justify" = "左右對齊";

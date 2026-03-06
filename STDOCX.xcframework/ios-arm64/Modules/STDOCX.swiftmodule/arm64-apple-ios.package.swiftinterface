@@ -1,0 +1,1304 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 6.2.4 effective-5.10 (swiftlang-6.2.4.1.4 clang-1700.6.4.2)
+// swift-module-flags: -target arm64-apple-ios16.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-experimental-feature DebugDescriptionMacro -module-name STDOCX -package-name stkit
+// swift-module-flags-ignorable:  -formal-cxx-interoperability-mode=off -interface-compiler-version 6.2.4
+import Combine
+import Compression
+import Foundation
+import Foundation/*.Bundle*/
+import Foundation/*.ProcessInfo*/
+import Foundation/*.URL*/
+import ImageIO
+import PDFKit
+import PhotosUI
+import STKit
+import Swift
+import SwiftUI
+import UIKit
+import WebKit
+import _Concurrency
+import _PhotosUI_SwiftUI
+import _StringProcessing
+import _SwiftConcurrencyShims
+import _WebKit_SwiftUI
+public enum STAnnotationGroup : Swift.String, Swift.CaseIterable, Swift.Identifiable {
+  case drawing
+  case shapes
+  case text
+  case markup
+  case extras
+  public var id: Swift.String {
+    get
+  }
+  public var displayName: Swift.String {
+    get
+  }
+  public var iconName: Swift.String {
+    get
+  }
+  public var tools: [STDOCX.STAnnotationType] {
+    get
+  }
+  public var defaultTool: STDOCX.STAnnotationType {
+    get
+  }
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.String)
+  #endif
+  public typealias AllCases = [STDOCX.STAnnotationGroup]
+  public typealias ID = Swift.String
+  public typealias RawValue = Swift.String
+  nonisolated public static var allCases: [STDOCX.STAnnotationGroup] {
+    get
+  }
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public struct STAnnotationStyle : Swift.Equatable, Swift.Sendable {
+  public var color: STKit.PlatformColor
+  public var lineWidth: CoreFoundation.CGFloat
+  public var opacity: CoreFoundation.CGFloat
+  public var fontSize: CoreFoundation.CGFloat
+  public var fontName: Swift.String
+  public init(color: STKit.PlatformColor = .systemBlue, lineWidth: CoreFoundation.CGFloat = 3.0, opacity: CoreFoundation.CGFloat = 1.0, fontSize: CoreFoundation.CGFloat = 16.0, fontName: Swift.String = "Helvetica")
+  public static func defaultStyle(for type: STDOCX.STAnnotationType) -> STDOCX.STAnnotationStyle
+  public static let presetColors: [STKit.PlatformColor]
+  public static let presetLineWidths: [CoreFoundation.CGFloat]
+  public static func == (a: STDOCX.STAnnotationStyle, b: STDOCX.STAnnotationStyle) -> Swift.Bool
+}
+public enum STAnnotationType : Swift.String, Swift.CaseIterable, Swift.Identifiable, Swift.Sendable {
+  case ink
+  case highlighter
+  case freeText
+  case textEdit
+  case textRemove
+  case textHighlight
+  case textUnderline
+  case textStrikeOut
+  case rectangle
+  case circle
+  case line
+  case arrow
+  case signature
+  case stamp
+  case photo
+  case note
+  case eraser
+  public var id: Swift.String {
+    get
+  }
+  public var displayName: Swift.String {
+    get
+  }
+  public var iconName: Swift.String {
+    get
+  }
+  public static var phase2Tools: [STDOCX.STAnnotationType] {
+    get
+  }
+  public static var phase3Tools: [STDOCX.STAnnotationType] {
+    get
+  }
+  public static var allTools: [STDOCX.STAnnotationType] {
+    get
+  }
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.String)
+  #endif
+  public typealias AllCases = [STDOCX.STAnnotationType]
+  public typealias ID = Swift.String
+  public typealias RawValue = Swift.String
+  nonisolated public static var allCases: [STDOCX.STAnnotationType] {
+    get
+  }
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public struct STAppearanceConfiguration {
+  public static let `default`: STDOCX.STAppearanceConfiguration
+  public var tintColor: SwiftUICore.Color
+  public var toolbarBackgroundColor: SwiftUICore.Color
+  public var annotationToolbarPosition: STDOCX.STToolbarPosition
+  public init()
+}
+public enum STToolbarPosition {
+  case top
+  case bottom
+  public static func == (a: STDOCX.STToolbarPosition, b: STDOCX.STToolbarPosition) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct STDOCXConfiguration {
+  public static let `default`: STDOCX.STDOCXConfiguration
+  public var scrollDirection: STDOCX.STScrollDirection
+  public var pageTransition: STDOCX.STPageTransition
+  public var isToolbarDraggable: Swift.Bool
+  public var autoShowToolbar: Swift.Bool
+  public var showThumbnails: Swift.Bool
+  public var showBookmarks: Swift.Bool
+  public var showSearch: Swift.Bool
+  public var showSettings: Swift.Bool
+  public var showOutline: Swift.Bool
+  public var showEditPages: Swift.Bool
+  public var showShare: Swift.Bool
+  public var showPrint: Swift.Bool
+  public var showSaveAsText: Swift.Bool
+  public var paywallPlacement: Swift.String
+  public var allowAnnotationEditing: Swift.Bool
+  public var allowDocumentEditing: Swift.Bool
+  public var autosaveEnabled: Swift.Bool
+  public var autosaveInterval: Swift.Double
+  public var appearance: STDOCX.STAppearanceConfiguration
+  public init()
+}
+public enum STScrollDirection {
+  case vertical
+  case horizontal
+  public static func == (a: STDOCX.STScrollDirection, b: STDOCX.STScrollDirection) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public enum STPageTransition {
+  case scrollContinuous
+  case scrollPerSpread
+  public static func == (a: STDOCX.STPageTransition, b: STDOCX.STPageTransition) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct STToolbarConfiguration {
+  public static let `default`: STDOCX.STToolbarConfiguration
+  public var showCloseButton: Swift.Bool
+  public var showAnnotationToggle: Swift.Bool
+  public var showMoreMenu: Swift.Bool
+  public init()
+}
+public enum STCoordinateMapper {
+  public static func screenToPDF(point: CoreFoundation.CGPoint, in pdfView: PDFKit.PDFView, on page: PDFKit.PDFPage) -> CoreFoundation.CGPoint
+  public static func pdfToScreen(point: CoreFoundation.CGPoint, in pdfView: PDFKit.PDFView, on page: PDFKit.PDFPage) -> CoreFoundation.CGPoint
+  public static func screenToPDF(rect: CoreFoundation.CGRect, in pdfView: PDFKit.PDFView, on page: PDFKit.PDFPage) -> CoreFoundation.CGRect
+  public static func pdfToScreen(rect: CoreFoundation.CGRect, in pdfView: PDFKit.PDFView, on page: PDFKit.PDFPage) -> CoreFoundation.CGRect
+  #if compiler(>=5.3) && $NonescapableTypes
+  public static func page(at point: CoreFoundation.CGPoint, in pdfView: PDFKit.PDFView) -> PDFKit.PDFPage?
+  #endif
+}
+public enum STDOCXConverter {
+  #if compiler(>=5.3) && $NonescapableTypes
+  public static func readFile(at url: Foundation.URL) -> Foundation.NSAttributedString?
+  #endif
+}
+public class STDOCXDocument : Foundation.ObservableObject {
+  public var pdfDocument: PDFKit.PDFDocument {
+    get
+  }
+  final public let url: Foundation.URL?
+  @Combine.Published @_projectedValueProperty($title) public var title: Swift.String {
+    get
+    @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+    set
+    @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+    _modify
+  }
+  public var $title: Combine.Published<Swift.String>.Publisher {
+    get
+    @available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)
+    set
+  }
+  @Combine.Published @_projectedValueProperty($isLoading) public var isLoading: Swift.Bool {
+    get
+  }
+  public var $isLoading: Combine.Published<Swift.Bool>.Publisher {
+    get
+  }
+  public var isLegacyDoc: Swift.Bool {
+    get
+  }
+  public var pageCount: Swift.Int {
+    get
+  }
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(url: Foundation.URL, title: Swift.String? = nil)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init(document: PDFKit.PDFDocument, url: Foundation.URL? = nil, title: Swift.String = "Untitled")
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  public func page(at index: Swift.Int) -> PDFKit.PDFPage?
+  #endif
+  @discardableResult
+  public func save() -> Swift.Bool
+  @discardableResult
+  public func save(to targetURL: Foundation.URL) -> Swift.Bool
+  public func extractFullText() -> Swift.String
+  public typealias ObjectWillChangePublisher = Combine.ObservableObjectPublisher
+  @objc deinit
+}
+extension STDOCX.STDOCXDocument : STKit.STDocument {
+  #if compiler(>=5.3) && $NonescapableTypes
+  public var sourceURL: Foundation.URL? {
+    get
+  }
+  #endif
+  public var plainText: Swift.String {
+    get
+  }
+}
+public struct STDOCXPage : Swift.Identifiable {
+  public let id: Swift.Int
+  public let page: PDFKit.PDFPage
+  public var bounds: CoreFoundation.CGRect {
+    get
+  }
+  public var rotation: Swift.Int {
+    get
+    nonmutating set
+  }
+  #if compiler(>=5.3) && $NonescapableTypes
+  public var text: Swift.String? {
+    get
+  }
+  #endif
+  public func thumbnail(maxSize: CoreFoundation.CGFloat = 200) -> STKit.PlatformImage
+  public typealias ID = Swift.Int
+}
+@_Concurrency.MainActor @preconcurrency public struct STDOCXEditorView : SwiftUICore.View {
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor @preconcurrency public init(url: Foundation.URL, title: Swift.String? = nil, configuration: STDOCX.STDOCXConfiguration = .default, onDismiss: (() -> Swift.Void)? = nil)
+  #endif
+  @_Concurrency.MainActor @preconcurrency public var body: some SwiftUICore.View {
+    get
+  }
+  public typealias Body = @_opaqueReturnTypeOf("$s6STDOCX16STDOCXEditorViewV4bodyQrvp", 0) __
+}
+public enum STTextExtractor {
+  public static func extractFullText(from document: PDFKit.PDFDocument) -> Swift.String
+  #if compiler(>=5.3) && $NonescapableTypes
+  public static func extractText(from document: PDFKit.PDFDocument, page index: Swift.Int) -> Swift.String?
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  public static func saveAsTextFile(from document: PDFKit.PDFDocument, title: Swift.String) -> Foundation.URL?
+  #endif
+}
+@_Concurrency.MainActor public enum STDOCXKit {
+  @_Concurrency.MainActor public static let version: Swift.String
+  @_Concurrency.MainActor public static let featureId: Swift.String
+  @_Concurrency.MainActor public static var isLicensed: Swift.Bool {
+    get
+  }
+  @_Concurrency.MainActor public static func initialize(licenseKey: Swift.String)
+}
+public enum STDOCXStrings {
+  public static var font: Swift.String {
+    get
+  }
+  public static var textColor: Swift.String {
+    get
+  }
+  public static var exportAs: Swift.String {
+    get
+  }
+  public static var findReplace: Swift.String {
+    get
+  }
+  public static var bold: Swift.String {
+    get
+  }
+  public static var italic: Swift.String {
+    get
+  }
+  public static var underline: Swift.String {
+    get
+  }
+  public static var strikethrough: Swift.String {
+    get
+  }
+  public static var alignment: Swift.String {
+    get
+  }
+  public static var alignLeft: Swift.String {
+    get
+  }
+  public static var alignCenter: Swift.String {
+    get
+  }
+  public static var alignRight: Swift.String {
+    get
+  }
+  public static var justify: Swift.String {
+    get
+  }
+}
+public enum DocumentError : Swift.Error, Foundation.LocalizedError {
+  case readFailed(Swift.String)
+  case writeFailed(Swift.String)
+  #if compiler(>=5.3) && $NonescapableTypes
+  public var errorDescription: Swift.String? {
+    get
+  }
+  #endif
+}
+public enum DocumentElement {
+  case paragraph(STDOCX.Paragraph)
+  case table(STDOCX.Table)
+  case chart(STDOCX.Chart)
+  case shape(STDOCX.Shape)
+}
+public struct DocumentProperties : Swift.Sendable {
+  public var title: Swift.String?
+  public var subject: Swift.String?
+  public var author: Swift.String?
+  public var keywords: Swift.String?
+  public var description: Swift.String?
+  public var language: Swift.String?
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init(title: Swift.String? = nil, subject: Swift.String? = nil, author: Swift.String? = nil, keywords: Swift.String? = nil, description: Swift.String? = nil, language: Swift.String? = nil)
+  #endif
+}
+public class Document {
+  public var paragraphs: [STDOCX.Paragraph]
+  public var tables: [STDOCX.Table]
+  public var charts: [STDOCX.Chart]
+  public var shapes: [STDOCX.Shape]
+  public var elements: [STDOCX.DocumentElement]
+  public var properties: STDOCX.DocumentProperties
+  public var header: STDOCX.Header?
+  public var footer: STDOCX.Footer?
+  public init()
+  convenience public init(contentsOf url: Foundation.URL) throws
+  public func write(to url: Foundation.URL) throws
+  @discardableResult
+  public func addParagraph(_ text: Swift.String, formatting: STDOCX.TextFormatting = .none) -> STDOCX.Paragraph
+  @discardableResult
+  public func addParagraph() -> STDOCX.Paragraph
+  @discardableResult
+  public func addHeading(_ text: Swift.String, level: STDOCX.HeadingLevel, formatting: STDOCX.TextFormatting = .none) -> STDOCX.Paragraph
+  @discardableResult
+  public func addHeading1(_ text: Swift.String) -> STDOCX.Paragraph
+  @discardableResult
+  public func addHeading2(_ text: Swift.String) -> STDOCX.Paragraph
+  @discardableResult
+  public func addHeading3(_ text: Swift.String) -> STDOCX.Paragraph
+  @discardableResult
+  public func addBulletItem(_ text: Swift.String, level: Swift.Int = 0, formatting: STDOCX.TextFormatting = .none) -> STDOCX.Paragraph
+  public func addBulletList(_ items: [Swift.String])
+  @discardableResult
+  public func addNumberedItem(_ text: Swift.String, level: Swift.Int = 0, formatting: STDOCX.TextFormatting = .none) -> STDOCX.Paragraph
+  public func addNumberedList(_ items: [Swift.String])
+  @discardableResult
+  public func addTable(rows: Swift.Int, columns: Swift.Int) -> STDOCX.Table
+  @discardableResult
+  public func addTable(_ table: STDOCX.Table) -> STDOCX.Table
+  @discardableResult
+  public func addTable(from data: [[Swift.String]], hasHeader: Swift.Bool = false) -> STDOCX.Table
+  @discardableResult
+  public func addChart(_ chart: STDOCX.Chart) -> STDOCX.Chart
+  @discardableResult
+  public func addShape(_ shape: STDOCX.Shape) -> STDOCX.Shape
+  public func addPageBreak()
+  #if compiler(>=5.3) && $NonescapableTypes
+  @discardableResult
+  public func addHyperlink(url: Swift.String, text: Swift.String, tooltip: Swift.String? = nil) -> STDOCX.Paragraph
+  #endif
+  @discardableResult
+  public func addImage(_ image: STDOCX.DocImage) -> STDOCX.Paragraph
+  #if compiler(>=5.3) && $NonescapableTypes
+  @discardableResult
+  public func addImage(contentsOf url: Foundation.URL, width: Swift.Double? = nil, height: Swift.Double? = nil, altText: Swift.String? = nil) -> STDOCX.Paragraph?
+  #endif
+  @discardableResult
+  public func createHeader() -> STDOCX.Header
+  @discardableResult
+  public func createFooter() -> STDOCX.Footer
+  @discardableResult
+  public func setHeader(_ text: Swift.String, alignment: STDOCX.ParagraphAlignment = .center) -> STDOCX.Header
+  @discardableResult
+  public func setFooter(_ text: Swift.String, alignment: STDOCX.ParagraphAlignment = .center) -> STDOCX.Footer
+  @discardableResult
+  public func setFooterWithPageNumbers(alignment: STDOCX.ParagraphAlignment = .center) -> STDOCX.Footer
+  @discardableResult
+  public func setFooterWithPageNumbersAndTotal(alignment: STDOCX.ParagraphAlignment = .center) -> STDOCX.Footer
+  public var text: Swift.String {
+    get
+  }
+  public var isEmpty: Swift.Bool {
+    get
+  }
+  public var paragraphCount: Swift.Int {
+    get
+  }
+  public var tableCount: Swift.Int {
+    get
+  }
+  public var chartCount: Swift.Int {
+    get
+  }
+  public func clear()
+  @objc deinit
+}
+extension STDOCX.Document : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+public enum DocumentReaderError : Swift.Error, Foundation.LocalizedError {
+  case fileNotFound(Swift.String)
+  case invalidDocument(Swift.String)
+  case parsingFailed(Swift.String)
+  #if compiler(>=5.3) && $NonescapableTypes
+  public var errorDescription: Swift.String? {
+    get
+  }
+  #endif
+}
+public class DocumentReader {
+  public init()
+  public func read(from url: Foundation.URL) throws -> [STDOCX.DocumentElement]
+  public func listContents(at url: Foundation.URL) throws -> [Swift.String]
+  @objc deinit
+}
+public enum DocumentWriterError : Swift.Error, Foundation.LocalizedError {
+  case writeFailed(Swift.String)
+  case invalidDestination(Swift.String)
+  #if compiler(>=5.3) && $NonescapableTypes
+  public var errorDescription: Swift.String? {
+    get
+  }
+  #endif
+}
+public class DocumentWriter {
+  public init()
+  public func write(document: STDOCX.Document, to url: Foundation.URL) throws
+  public func write(elements: [STDOCX.DocumentElement], to url: Foundation.URL) throws
+  public func write(paragraphs: [STDOCX.Paragraph], to url: Foundation.URL) throws
+  @objc deinit
+}
+public enum ChartType : Swift.String, Swift.Sendable, Swift.Codable {
+  case bar
+  case bar3D
+  case line
+  case pie
+  case area
+  case doughnut
+  public var chartJSType: Swift.String {
+    get
+  }
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.String)
+  #endif
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum BarDirection : Swift.String, Swift.Sendable, Swift.Codable {
+  case column
+  case bar
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.String)
+  #endif
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum BarGrouping : Swift.String, Swift.Sendable, Swift.Codable {
+  case clustered
+  case stacked
+  case percentStacked
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.String)
+  #endif
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum ChartLegendPosition : Swift.String, Swift.Sendable, Swift.Codable {
+  case top
+  case bottom
+  case left
+  case right
+  case none
+  public var chartJSPosition: Swift.String {
+    get
+  }
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.String)
+  #endif
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public class ChartSeries : Swift.Codable {
+  public var name: Swift.String
+  public var categories: [Swift.String]
+  public var values: [Swift.Double]
+  public init(name: Swift.String = "", categories: [Swift.String] = [], values: [Swift.Double] = [])
+  @objc deinit
+  public func encode(to encoder: any Swift.Encoder) throws
+  required public init(from decoder: any Swift.Decoder) throws
+}
+public class Chart {
+  public var chartId: Swift.String
+  public var chartType: STDOCX.ChartType
+  public var title: Swift.String?
+  public var series: [STDOCX.ChartSeries]
+  public var legendPosition: STDOCX.ChartLegendPosition
+  public var barDirection: STDOCX.BarDirection?
+  public var barGrouping: STDOCX.BarGrouping?
+  public var width: Swift.Double?
+  public var height: Swift.Double?
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init(chartType: STDOCX.ChartType = .bar, title: Swift.String? = nil, series: [STDOCX.ChartSeries] = [])
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  public func toJSON() -> Swift.String?
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  public static func fromJSON(_ json: Swift.String) -> STDOCX.Chart?
+  #endif
+  @objc deinit
+}
+extension STDOCX.Chart : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+public struct DocXColor : Swift.Equatable, Swift.Sendable {
+  public var red: Swift.UInt8
+  public var green: Swift.UInt8
+  public var blue: Swift.UInt8
+  public init(red: Swift.UInt8, green: Swift.UInt8, blue: Swift.UInt8)
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(hex: Swift.String)
+  #endif
+  public var hexString: Swift.String {
+    get
+  }
+  public static var black: STDOCX.DocXColor {
+    get
+  }
+  public static var white: STDOCX.DocXColor {
+    get
+  }
+  public static var red: STDOCX.DocXColor {
+    get
+  }
+  public static var green: STDOCX.DocXColor {
+    get
+  }
+  public static var blue: STDOCX.DocXColor {
+    get
+  }
+  public static var yellow: STDOCX.DocXColor {
+    get
+  }
+  public static var orange: STDOCX.DocXColor {
+    get
+  }
+  public static var purple: STDOCX.DocXColor {
+    get
+  }
+  public static var gray: STDOCX.DocXColor {
+    get
+  }
+  public static func == (a: STDOCX.DocXColor, b: STDOCX.DocXColor) -> Swift.Bool
+}
+public struct Font : Swift.Equatable, Swift.Sendable {
+  public var name: Swift.String
+  public init(name: Swift.String)
+  public static var arial: STDOCX.Font {
+    get
+  }
+  public static var timesNewRoman: STDOCX.Font {
+    get
+  }
+  public static var calibri: STDOCX.Font {
+    get
+  }
+  public static var cambria: STDOCX.Font {
+    get
+  }
+  public static var helvetica: STDOCX.Font {
+    get
+  }
+  public static var georgia: STDOCX.Font {
+    get
+  }
+  public static var verdana: STDOCX.Font {
+    get
+  }
+  public static var courierNew: STDOCX.Font {
+    get
+  }
+  public static func == (a: STDOCX.Font, b: STDOCX.Font) -> Swift.Bool
+}
+public enum HeaderFooterType : Swift.String, Swift.Sendable {
+  case `default`
+  case first
+  case even
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.String)
+  #endif
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public class Header {
+  public var paragraphs: [STDOCX.Paragraph]
+  public var type: STDOCX.HeaderFooterType
+  public init(type: STDOCX.HeaderFooterType = .default)
+  @discardableResult
+  public func addParagraph(_ text: Swift.String = "", formatting: STDOCX.TextFormatting = .none) -> STDOCX.Paragraph
+  @discardableResult
+  public func addPageNumber(formatting: STDOCX.TextFormatting = .none, alignment: STDOCX.ParagraphAlignment = .center) -> STDOCX.Paragraph
+  @objc deinit
+}
+public class Footer {
+  public var paragraphs: [STDOCX.Paragraph]
+  public var type: STDOCX.HeaderFooterType
+  public init(type: STDOCX.HeaderFooterType = .default)
+  @discardableResult
+  public func addParagraph(_ text: Swift.String = "", formatting: STDOCX.TextFormatting = .none) -> STDOCX.Paragraph
+  @discardableResult
+  public func addPageNumber(formatting: STDOCX.TextFormatting = .none, alignment: STDOCX.ParagraphAlignment = .center) -> STDOCX.Paragraph
+  @discardableResult
+  public func addPageNumberWithTotal(formatting: STDOCX.TextFormatting = .none, alignment: STDOCX.ParagraphAlignment = .center) -> STDOCX.Paragraph
+  @objc deinit
+}
+public class Hyperlink {
+  public var url: Swift.String
+  public var text: Swift.String
+  public var formatting: STDOCX.TextFormatting
+  public var tooltip: Swift.String?
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init(url: Swift.String, text: Swift.String, formatting: STDOCX.TextFormatting? = nil, tooltip: Swift.String? = nil)
+  #endif
+  convenience public init(url: Swift.String)
+  @objc deinit
+}
+public enum ImagePosition : Swift.Sendable {
+  case inline
+  case floating(horizontalAlign: STDOCX.ImageHorizontalAlignment, verticalAlign: STDOCX.ImageVerticalAlignment)
+}
+public enum ImageHorizontalAlignment : Swift.String, Swift.Sendable {
+  case left
+  case center
+  case right
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.String)
+  #endif
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum ImageVerticalAlignment : Swift.String, Swift.Sendable {
+  case top
+  case center
+  case bottom
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.String)
+  #endif
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public class DocImage {
+  public var data: Foundation.Data
+  public var fileExtension: Swift.String
+  public var width: Swift.Double?
+  public var height: Swift.Double?
+  public var altText: Swift.String?
+  public var title: Swift.String?
+  public var position: STDOCX.ImagePosition
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init(data: Foundation.Data, fileExtension: Swift.String, width: Swift.Double? = nil, height: Swift.Double? = nil)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  convenience public init?(contentsOf url: Foundation.URL, width: Swift.Double? = nil, height: Swift.Double? = nil)
+  #endif
+  public var mimeType: Swift.String {
+    get
+  }
+  public var contentType: Swift.String {
+    get
+  }
+  @objc deinit
+}
+public enum HeadingLevel : Swift.Int, Swift.Sendable {
+  case heading1
+  case heading2
+  case heading3
+  case heading4
+  case heading5
+  case heading6
+  public var styleId: Swift.String {
+    get
+  }
+  public var styleName: Swift.String {
+    get
+  }
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.Int)
+  #endif
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public enum ListType : Swift.Sendable {
+  case bullet
+  case numbered
+  public static func == (a: STDOCX.ListType, b: STDOCX.ListType) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public enum ParagraphAlignment : Swift.String, Swift.Sendable {
+  case left
+  case center
+  case right
+  case both
+  case distribute
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.String)
+  #endif
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public struct ParagraphSpacing : Swift.Equatable, Swift.Sendable {
+  public var before: Swift.Double?
+  public var after: Swift.Double?
+  public var lineSpacing: Swift.Double?
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init(before: Swift.Double? = nil, after: Swift.Double? = nil, lineSpacing: Swift.Double? = nil)
+  #endif
+  public static var none: STDOCX.ParagraphSpacing {
+    get
+  }
+  public static func == (a: STDOCX.ParagraphSpacing, b: STDOCX.ParagraphSpacing) -> Swift.Bool
+}
+public struct ParagraphBorders : Swift.Equatable, Swift.Sendable {
+  public var top: STDOCX.Border?
+  public var bottom: STDOCX.Border?
+  public var left: STDOCX.Border?
+  public var right: STDOCX.Border?
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init(top: STDOCX.Border? = nil, bottom: STDOCX.Border? = nil, left: STDOCX.Border? = nil, right: STDOCX.Border? = nil)
+  #endif
+  public static func == (a: STDOCX.ParagraphBorders, b: STDOCX.ParagraphBorders) -> Swift.Bool
+}
+public struct ParagraphIndentation : Swift.Equatable, Swift.Sendable {
+  public var left: Swift.Double?
+  public var right: Swift.Double?
+  public var firstLine: Swift.Double?
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init(left: Swift.Double? = nil, right: Swift.Double? = nil, firstLine: Swift.Double? = nil)
+  #endif
+  public static var none: STDOCX.ParagraphIndentation {
+    get
+  }
+  public static func == (a: STDOCX.ParagraphIndentation, b: STDOCX.ParagraphIndentation) -> Swift.Bool
+}
+public class Paragraph {
+  public var runs: [STDOCX.Run]
+  public var alignment: STDOCX.ParagraphAlignment?
+  public var spacing: STDOCX.ParagraphSpacing
+  public var indentation: STDOCX.ParagraphIndentation
+  public var headingLevel: STDOCX.HeadingLevel?
+  public var listType: STDOCX.ListType?
+  public var listLevel: Swift.Int
+  public var pageBreakBefore: Swift.Bool
+  public var backgroundColor: STDOCX.DocXColor?
+  public var borders: STDOCX.ParagraphBorders?
+  public init()
+  convenience public init(_ text: Swift.String, formatting: STDOCX.TextFormatting = .none)
+  @discardableResult
+  public func addRun(_ text: Swift.String, formatting: STDOCX.TextFormatting = .none) -> STDOCX.Run
+  @discardableResult
+  public func addRun(_ run: STDOCX.Run) -> STDOCX.Run
+  #if compiler(>=5.3) && $NonescapableTypes
+  @discardableResult
+  public func addHyperlink(url: Swift.String, text: Swift.String, tooltip: Swift.String? = nil) -> STDOCX.Run
+  #endif
+  @discardableResult
+  public func addImage(_ image: STDOCX.DocImage) -> STDOCX.Run
+  #if compiler(>=5.3) && $NonescapableTypes
+  @discardableResult
+  public func addImage(contentsOf url: Foundation.URL, width: Swift.Double? = nil, height: Swift.Double? = nil, altText: Swift.String? = nil) -> STDOCX.Run?
+  #endif
+  public var text: Swift.String {
+    get
+  }
+  public var isEmpty: Swift.Bool {
+    get
+  }
+  @objc deinit
+}
+extension STDOCX.Paragraph : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+public class Run {
+  public var text: Swift.String
+  public var formatting: STDOCX.TextFormatting
+  public var isPageNumberField: Swift.Bool
+  public var isTotalPagesField: Swift.Bool
+  public var hyperlink: STDOCX.Hyperlink?
+  public var image: STDOCX.DocImage?
+  public init(text: Swift.String, formatting: STDOCX.TextFormatting = .none)
+  convenience public init(_ text: Swift.String)
+  @objc deinit
+}
+extension STDOCX.Run : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+public enum ShapeType : Swift.String, Swift.Codable, Swift.Sendable {
+  case rectangle
+  case circle
+  case line
+  case arrow
+  case image
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.String)
+  #endif
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public class Shape {
+  public var shapeType: STDOCX.ShapeType
+  public var width: Swift.String?
+  public var height: Swift.String?
+  public var border: Swift.String?
+  public var backgroundColor: Swift.String?
+  public var borderRadius: Swift.String?
+  public var imageSrc: Swift.String?
+  public var strokeColor: Swift.String?
+  public init(shapeType: STDOCX.ShapeType)
+  @objc deinit
+}
+public enum BorderStyle : Swift.String, Swift.Sendable {
+  case none
+  case single
+  case thick
+  case double
+  case dotted
+  case dashed
+  case dashSmallGap
+  case dotDash
+  case dotDotDash
+  case triple
+  case wave
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.String)
+  #endif
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public struct Border : Swift.Equatable, Swift.Sendable {
+  public var style: STDOCX.BorderStyle
+  public var width: Swift.Double
+  public var color: STDOCX.DocXColor?
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init(style: STDOCX.BorderStyle = .single, width: Swift.Double = 0.5, color: STDOCX.DocXColor? = nil)
+  #endif
+  public static var none: STDOCX.Border {
+    get
+  }
+  public static var single: STDOCX.Border {
+    get
+  }
+  public static var thick: STDOCX.Border {
+    get
+  }
+  public static func == (a: STDOCX.Border, b: STDOCX.Border) -> Swift.Bool
+}
+public struct TableBorders : Swift.Equatable, Swift.Sendable {
+  public var top: STDOCX.Border?
+  public var bottom: STDOCX.Border?
+  public var left: STDOCX.Border?
+  public var right: STDOCX.Border?
+  public var insideH: STDOCX.Border?
+  public var insideV: STDOCX.Border?
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init(top: STDOCX.Border? = nil, bottom: STDOCX.Border? = nil, left: STDOCX.Border? = nil, right: STDOCX.Border? = nil, insideH: STDOCX.Border? = nil, insideV: STDOCX.Border? = nil)
+  #endif
+  public static func all(_ border: STDOCX.Border) -> STDOCX.TableBorders
+  public static var none: STDOCX.TableBorders {
+    get
+  }
+  public static var single: STDOCX.TableBorders {
+    get
+  }
+  public static func == (a: STDOCX.TableBorders, b: STDOCX.TableBorders) -> Swift.Bool
+}
+public enum VerticalAlignment : Swift.String, Swift.Sendable {
+  case top
+  case center
+  case bottom
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.String)
+  #endif
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public class TableCell {
+  public var paragraphs: [STDOCX.Paragraph]
+  public var width: Swift.Double?
+  public var backgroundColor: STDOCX.DocXColor?
+  public var verticalAlignment: STDOCX.VerticalAlignment?
+  public var columnSpan: Swift.Int
+  public var rowSpan: Swift.Int
+  public var borders: STDOCX.TableBorders?
+  public init()
+  convenience public init(_ text: Swift.String, formatting: STDOCX.TextFormatting = .none)
+  @discardableResult
+  public func addParagraph(_ text: Swift.String = "", formatting: STDOCX.TextFormatting = .none) -> STDOCX.Paragraph
+  public var text: Swift.String {
+    get
+  }
+  @objc deinit
+}
+public class TableRow {
+  public var cells: [STDOCX.TableCell]
+  public var height: Swift.Double?
+  public var isHeader: Swift.Bool
+  public init()
+  @discardableResult
+  public func addCell(_ text: Swift.String = "", formatting: STDOCX.TextFormatting = .none) -> STDOCX.TableCell
+  @discardableResult
+  public func addCell(_ cell: STDOCX.TableCell) -> STDOCX.TableCell
+  public var cellCount: Swift.Int {
+    get
+  }
+  @objc deinit
+}
+public struct TableLook : Swift.Equatable, Swift.Sendable {
+  public var firstRow: Swift.Bool
+  public var lastRow: Swift.Bool
+  public var firstColumn: Swift.Bool
+  public var lastColumn: Swift.Bool
+  public var noHBand: Swift.Bool
+  public var noVBand: Swift.Bool
+  public init(firstRow: Swift.Bool = true, lastRow: Swift.Bool = false, firstColumn: Swift.Bool = true, lastColumn: Swift.Bool = false, noHBand: Swift.Bool = false, noVBand: Swift.Bool = true)
+  public init(attributes: [Swift.String : Swift.String])
+  public static func == (a: STDOCX.TableLook, b: STDOCX.TableLook) -> Swift.Bool
+}
+public class Table {
+  public var rows: [STDOCX.TableRow]
+  public var borders: STDOCX.TableBorders
+  public var columnWidths: [Swift.Double?]
+  public var width: Swift.Double?
+  public var alignment: STDOCX.ParagraphAlignment?
+  public var styleName: Swift.String?
+  public var tblLook: STDOCX.TableLook?
+  public var accessibilityCaption: Swift.String?
+  public var accessibilitySummary: Swift.String?
+  public init()
+  convenience public init(rows: Swift.Int, columns: Swift.Int)
+  @discardableResult
+  public func addRow() -> STDOCX.TableRow
+  @discardableResult
+  public func addRow(_ row: STDOCX.TableRow) -> STDOCX.TableRow
+  #if compiler(>=5.3) && $NonescapableTypes
+  public func cell(at row: Swift.Int, column: Swift.Int) -> STDOCX.TableCell?
+  #endif
+  public func setText(_ text: Swift.String, at row: Swift.Int, column: Swift.Int, formatting: STDOCX.TextFormatting = .none)
+  public var rowCount: Swift.Int {
+    get
+  }
+  public var columnCount: Swift.Int {
+    get
+  }
+  @objc deinit
+}
+extension STDOCX.Table : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+public enum UnderlineStyle : Swift.String, Swift.Sendable {
+  case single
+  case double
+  case thick
+  case dotted
+  case dottedHeavy
+  case dash
+  case dashedHeavy
+  case dashLong
+  case dashLongHeavy
+  case dotDash
+  case dashDotHeavy
+  case dotDotDash
+  case dashDotDotHeavy
+  case wave
+  case wavyHeavy
+  case wavyDouble
+  case words
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.String)
+  #endif
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public struct TextFormatting : Swift.Equatable, Swift.Sendable {
+  public var bold: Swift.Bool
+  public var italic: Swift.Bool
+  public var underline: STDOCX.UnderlineStyle?
+  public var strikethrough: Swift.Bool
+  public var font: STDOCX.Font?
+  public var color: STDOCX.DocXColor?
+  public var fontSize: Swift.Double?
+  public var subscriptText: Swift.Bool
+  public var superscript: Swift.Bool
+  public var allCaps: Swift.Bool
+  public var smallCaps: Swift.Bool
+  public var highlight: STDOCX.HighlightColor?
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init(bold: Swift.Bool = false, italic: Swift.Bool = false, underline: STDOCX.UnderlineStyle? = nil, strikethrough: Swift.Bool = false, font: STDOCX.Font? = nil, color: STDOCX.DocXColor? = nil, fontSize: Swift.Double? = nil, subscriptText: Swift.Bool = false, superscript: Swift.Bool = false, allCaps: Swift.Bool = false, smallCaps: Swift.Bool = false, highlight: STDOCX.HighlightColor? = nil)
+  #endif
+  public var isEmpty: Swift.Bool {
+    get
+  }
+  public static var none: STDOCX.TextFormatting {
+    get
+  }
+  public static func == (a: STDOCX.TextFormatting, b: STDOCX.TextFormatting) -> Swift.Bool
+}
+public enum HighlightColor : Swift.String, Swift.Sendable {
+  case yellow
+  case green
+  case cyan
+  case magenta
+  case blue
+  case red
+  case darkBlue
+  case darkCyan
+  case darkGreen
+  case darkMagenta
+  case darkRed
+  case darkYellow
+  case darkGray
+  case lightGray
+  case black
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.String)
+  #endif
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public class DocumentXMLBuilder {
+  public init()
+  public func buildDocumentXML(elements: [STDOCX.DocumentElement]) -> Swift.String
+  public func buildDocumentXML(paragraphs: [STDOCX.Paragraph]) -> Swift.String
+  public func buildTableXML(_ table: STDOCX.Table) -> Swift.String
+  public func buildContentTypesXML(hasNumbering: Swift.Bool = false) -> Swift.String
+  public func buildRootRelsXML() -> Swift.String
+  public func buildDocumentRelsXML(hasNumbering: Swift.Bool = false) -> Swift.String
+  public func buildStylesXML() -> Swift.String
+  public func buildNumberingXML() -> Swift.String
+  public func buildHeaderXML(_ header: STDOCX.Header) -> Swift.String
+  public func buildFooterXML(_ footer: STDOCX.Footer) -> Swift.String
+  public func buildSettingsXML() -> Swift.String
+  @objc deinit
+}
+public enum DocumentXMLParserError : Swift.Error, Foundation.LocalizedError {
+  case invalidXML(Swift.String)
+  case missingElement(Swift.String)
+  case parsingFailed(Swift.String)
+  #if compiler(>=5.3) && $NonescapableTypes
+  public var errorDescription: Swift.String? {
+    get
+  }
+  #endif
+}
+public class DocumentXMLParser {
+  public init()
+  public func parseDocumentXML(_ xmlData: Foundation.Data) throws -> [STDOCX.DocumentElement]
+  public func parseParagraphs(_ xmlData: Foundation.Data) throws -> [STDOCX.Paragraph]
+  @objc deinit
+}
+public struct ThemeColorScheme {
+}
+public enum XMLNamespaces {
+  public static let wordprocessingML: Swift.String
+  public static let relationships: Swift.String
+  public static let contentTypes: Swift.String
+  public static let coreProperties: Swift.String
+  public static let extendedProperties: Swift.String
+  public static let drawingML: Swift.String
+  public static let drawingMLPicture: Swift.String
+  public static let drawingMLWordprocessing: Swift.String
+  public static let drawingMLChart: Swift.String
+  public static let chartML: Swift.String
+  public static let relationshipDocument: Swift.String
+  public static let relationshipStyles: Swift.String
+  public static let relationshipSettings: Swift.String
+  public static let relationshipFontTable: Swift.String
+  public static let relationshipTheme: Swift.String
+  public static let relationshipImage: Swift.String
+  public static let relationshipHyperlink: Swift.String
+  public static let relationshipChart: Swift.String
+  public static let relationshipCoreProperties: Swift.String
+  public static let contentTypeDocument: Swift.String
+  public static let contentTypeStyles: Swift.String
+  public static let contentTypeSettings: Swift.String
+  public static let contentTypeFontTable: Swift.String
+  public static let contentTypeRelationships: Swift.String
+  public static let contentTypeCoreProperties: Swift.String
+  public static let contentTypeChart: Swift.String
+}
+public enum WordML {
+  public static let document: Swift.String
+  public static let body: Swift.String
+  public static let paragraph: Swift.String
+  public static let paragraphProperties: Swift.String
+  public static let justification: Swift.String
+  public static let spacing: Swift.String
+  public static let indentation: Swift.String
+  public static let run: Swift.String
+  public static let runProperties: Swift.String
+  public static let text: Swift.String
+  public static let bold: Swift.String
+  public static let italic: Swift.String
+  public static let underline: Swift.String
+  public static let strike: Swift.String
+  public static let color: Swift.String
+  public static let highlight: Swift.String
+  public static let font: Swift.String
+  public static let fontSize: Swift.String
+  public static let fontSizeCs: Swift.String
+  public static let vertAlign: Swift.String
+  public static let caps: Swift.String
+  public static let smallCaps: Swift.String
+  public static let val: Swift.String
+  public static let ascii: Swift.String
+  public static let hAnsi: Swift.String
+  public static let cs: Swift.String
+  public static let before: Swift.String
+  public static let after: Swift.String
+  public static let line: Swift.String
+  public static let left: Swift.String
+  public static let right: Swift.String
+  public static let firstLine: Swift.String
+  public static let hanging: Swift.String
+  public static let xmlSpace: Swift.String
+}
+public enum ZIPReaderError : Swift.Error, Foundation.LocalizedError {
+  case fileNotFound(Swift.String)
+  case invalidArchive(Swift.String)
+  case extractionFailed(Swift.String)
+  case entryNotFound(Swift.String)
+  #if compiler(>=5.3) && $NonescapableTypes
+  public var errorDescription: Swift.String? {
+    get
+  }
+  #endif
+}
+public class ZIPReader {
+  public init()
+  public func readEntry(at url: Foundation.URL, entryPath: Swift.String) throws -> Foundation.Data
+  public func listEntries(at url: Foundation.URL) throws -> [Swift.String]
+  public func entryExists(at url: Foundation.URL, entryPath: Swift.String) throws -> Swift.Bool
+  @objc deinit
+}
+public enum ZIPWriterError : Swift.Error, Foundation.LocalizedError {
+  case creationFailed(Swift.String)
+  case writeFailed(Swift.String)
+  case invalidPath(Swift.String)
+  #if compiler(>=5.3) && $NonescapableTypes
+  public var errorDescription: Swift.String? {
+    get
+  }
+  #endif
+}
+public class ZIPWriter {
+  public init()
+  public func createDocX(at url: Foundation.URL, contents: [Swift.String : Foundation.Data]) throws
+  @objc deinit
+}
+extension STDOCX.STAnnotationGroup : Swift.Equatable {}
+extension STDOCX.STAnnotationGroup : Swift.Hashable {}
+extension STDOCX.STAnnotationGroup : Swift.RawRepresentable {}
+extension STDOCX.STAnnotationType : Swift.Equatable {}
+extension STDOCX.STAnnotationType : Swift.Hashable {}
+extension STDOCX.STAnnotationType : Swift.RawRepresentable {}
+extension STDOCX.STToolbarPosition : Swift.Equatable {}
+extension STDOCX.STToolbarPosition : Swift.Hashable {}
+extension STDOCX.STScrollDirection : Swift.Equatable {}
+extension STDOCX.STScrollDirection : Swift.Hashable {}
+extension STDOCX.STPageTransition : Swift.Equatable {}
+extension STDOCX.STPageTransition : Swift.Hashable {}
+extension STDOCX.ParagraphAlignment : Swift.Equatable {}
+extension STDOCX.ParagraphAlignment : Swift.Hashable {}
+extension STDOCX.ParagraphAlignment : Swift.RawRepresentable {}
+extension STDOCX.STDOCXEditorView : Swift.Sendable {}
+extension STDOCX.STDOCXKit : Swift.Sendable {}
+extension STDOCX.ChartType : Swift.Equatable {}
+extension STDOCX.ChartType : Swift.Hashable {}
+extension STDOCX.ChartType : Swift.RawRepresentable {}
+extension STDOCX.BarDirection : Swift.Equatable {}
+extension STDOCX.BarDirection : Swift.Hashable {}
+extension STDOCX.BarDirection : Swift.RawRepresentable {}
+extension STDOCX.BarGrouping : Swift.Equatable {}
+extension STDOCX.BarGrouping : Swift.Hashable {}
+extension STDOCX.BarGrouping : Swift.RawRepresentable {}
+extension STDOCX.ChartLegendPosition : Swift.Equatable {}
+extension STDOCX.ChartLegendPosition : Swift.Hashable {}
+extension STDOCX.ChartLegendPosition : Swift.RawRepresentable {}
+extension STDOCX.HeaderFooterType : Swift.Equatable {}
+extension STDOCX.HeaderFooterType : Swift.Hashable {}
+extension STDOCX.HeaderFooterType : Swift.RawRepresentable {}
+extension STDOCX.ImageHorizontalAlignment : Swift.Equatable {}
+extension STDOCX.ImageHorizontalAlignment : Swift.Hashable {}
+extension STDOCX.ImageHorizontalAlignment : Swift.RawRepresentable {}
+extension STDOCX.ImageVerticalAlignment : Swift.Equatable {}
+extension STDOCX.ImageVerticalAlignment : Swift.Hashable {}
+extension STDOCX.ImageVerticalAlignment : Swift.RawRepresentable {}
+extension STDOCX.HeadingLevel : Swift.Equatable {}
+extension STDOCX.HeadingLevel : Swift.Hashable {}
+extension STDOCX.HeadingLevel : Swift.RawRepresentable {}
+extension STDOCX.ListType : Swift.Equatable {}
+extension STDOCX.ListType : Swift.Hashable {}
+extension STDOCX.ShapeType : Swift.Equatable {}
+extension STDOCX.ShapeType : Swift.Hashable {}
+extension STDOCX.ShapeType : Swift.RawRepresentable {}
+extension STDOCX.BorderStyle : Swift.Equatable {}
+extension STDOCX.BorderStyle : Swift.Hashable {}
+extension STDOCX.BorderStyle : Swift.RawRepresentable {}
+extension STDOCX.VerticalAlignment : Swift.Equatable {}
+extension STDOCX.VerticalAlignment : Swift.Hashable {}
+extension STDOCX.VerticalAlignment : Swift.RawRepresentable {}
+extension STDOCX.UnderlineStyle : Swift.Equatable {}
+extension STDOCX.UnderlineStyle : Swift.Hashable {}
+extension STDOCX.UnderlineStyle : Swift.RawRepresentable {}
+extension STDOCX.HighlightColor : Swift.Equatable {}
+extension STDOCX.HighlightColor : Swift.Hashable {}
+extension STDOCX.HighlightColor : Swift.RawRepresentable {}

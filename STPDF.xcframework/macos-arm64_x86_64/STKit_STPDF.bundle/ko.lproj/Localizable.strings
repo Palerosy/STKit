@@ -1,0 +1,143 @@
+/* Navigation & Controls */
+"stpdfkit.done" = "완료";
+"stpdfkit.pages" = "페이지";
+"stpdfkit.bookmark" = "북마크";
+"stpdfkit.search" = "검색";
+"stpdfkit.settings" = "설정";
+"stpdfkit.outline" = "개요";
+"stpdfkit.editPages" = "페이지 편집";
+"stpdfkit.share" = "공유";
+"stpdfkit.print" = "인쇄";
+"stpdfkit.saveAsText" = "텍스트로 저장";
+"stpdfkit.untitled" = "제목 없음";
+
+/* Search */
+"stpdfkit.searchInDocument" = "문서에서 검색...";
+"stpdfkit.searching" = "검색 중...";
+"stpdfkit.noResultsFound" = "결과 없음";
+"stpdfkit.page" = "%d 페이지";
+
+/* Outline */
+"stpdfkit.noOutlineAvailable" = "사용 가능한 개요 없음";
+
+/* Settings */
+"stpdfkit.display" = "표시";
+"stpdfkit.scrollDirection" = "스크롤 방향";
+"stpdfkit.pageMode" = "페이지 모드";
+"stpdfkit.view" = "보기";
+"stpdfkit.pageShadows" = "페이지 그림자";
+"stpdfkit.backgroundColor" = "배경색";
+
+/* Property Inspector */
+"stpdfkit.color" = "색상";
+"stpdfkit.width" = "너비";
+"stpdfkit.fontSize" = "글꼴 크기";
+"stpdfkit.opacity" = "불투명도";
+"stpdfkit.font" = "글꼴";
+
+/* Annotation Tools */
+"stpdfkit.tool.pen" = "펜";
+"stpdfkit.tool.highlighter" = "형광펜";
+"stpdfkit.tool.text" = "텍스트";
+"stpdfkit.tool.highlight" = "강조";
+"stpdfkit.tool.underline" = "밑줄";
+"stpdfkit.tool.strikethrough" = "취소선";
+"stpdfkit.tool.rectangle" = "사각형";
+"stpdfkit.tool.circle" = "원";
+"stpdfkit.tool.line" = "선";
+"stpdfkit.tool.arrow" = "화살표";
+"stpdfkit.tool.signature" = "서명";
+"stpdfkit.tool.stamp" = "도장";
+"stpdfkit.tool.note" = "메모";
+"stpdfkit.tool.eraser" = "지우개";
+"stpdfkit.tool.photo" = "사진";
+"stpdfkit.tool.textEdit" = "텍스트 편집";
+"stpdfkit.tapOnTextToEdit" = "텍스트를 탭하여 편집";
+"stpdfkit.selection.word" = "단어";
+"stpdfkit.selection.line" = "줄";
+
+/* Toolbar Labels */
+"stpdfkit.hand" = "손";
+"stpdfkit.undo" = "실행 취소";
+"stpdfkit.redo" = "다시 실행";
+"stpdfkit.select" = "선택";
+"stpdfkit.style" = "스타일";
+"stpdfkit.close" = "닫기";
+"stpdfkit.zoomIn" = "확대";
+"stpdfkit.zoomOut" = "축소";
+"stpdfkit.addText" = "텍스트 추가";
+"stpdfkit.removeText" = "텍스트 제거";
+
+/* Annotation Groups */
+"stpdfkit.group.draw" = "그리기";
+"stpdfkit.group.shapes" = "도형";
+"stpdfkit.group.text" = "텍스트";
+"stpdfkit.group.markup" = "마크업";
+"stpdfkit.group.extras" = "기타";
+
+/* Text Input */
+"stpdfkit.enterText" = "텍스트 입력...";
+"stpdfkit.cancel" = "취소";
+"stpdfkit.add" = "추가";
+
+/* Markup */
+"stpdfkit.applyTool" = "%@ 적용";
+
+/* Signature */
+"stpdfkit.signature.clear" = "지우기";
+"stpdfkit.signature.drawNew" = "새로 그리기";
+"stpdfkit.signature.saved" = "저장된 서명";
+
+/* Stamp Types */
+"stpdfkit.stamp.approved" = "승인됨";
+"stpdfkit.stamp.rejected" = "거부됨";
+"stpdfkit.stamp.draft" = "초안";
+"stpdfkit.stamp.confidential" = "기밀";
+"stpdfkit.stamp.forComment" = "의견용";
+"stpdfkit.stamp.asIs" = "있는 그대로";
+"stpdfkit.stamp.final" = "최종";
+
+/* Placement */
+"stpdfkit.tapToPlace" = "탭하여 배치";
+
+/* Selection Menu */
+"stpdfkit.selection.copy" = "복사";
+"stpdfkit.selection.paste" = "붙여넣기";
+"stpdfkit.selection.delete" = "삭제";
+"stpdfkit.selection.inspector" = "검사";
+"stpdfkit.selection.note" = "메모";
+
+/* Tool Hints */
+"stpdfkit.hint.draw" = "터치하여 그리기";
+"stpdfkit.hint.shape" = "드래그하여 그리기";
+"stpdfkit.hint.tapToAddText" = "탭하여 텍스트 추가";
+"stpdfkit.hint.erase" = "밀어서 지우기";
+
+/* Order (Layer) */
+"stpdfkit.order" = "순서";
+"stpdfkit.order.front" = "맨 앞으로";
+"stpdfkit.order.forward" = "앞으로";
+"stpdfkit.order.backward" = "뒤로";
+"stpdfkit.order.back" = "맨 뒤로";
+
+/* Page Editor */
+"stpdfkit.page.newPage" = "새 페이지";
+"stpdfkit.page.remove" = "제거";
+"stpdfkit.page.duplicate" = "복제";
+"stpdfkit.page.rotate" = "회전";
+"stpdfkit.page.selectAll" = "모두 선택";
+"stpdfkit.page.deselectAll" = "선택 해제";
+"stpdfkit.page.cut" = "잘라내기";
+"stpdfkit.page.copy" = "복사";
+"stpdfkit.page.paste" = "붙여넣기";
+"stpdfkit.page.numberOfPages" = "페이지 수";
+"stpdfkit.page.format" = "페이지 형식";
+"stpdfkit.page.color" = "페이지 색상";
+"stpdfkit.page.addAfter" = "페이지 뒤에 추가";
+"stpdfkit.page.beginning" = "처음";
+"stpdfkit.page.color.white" = "흰색";
+"stpdfkit.page.color.cream" = "크림색";
+"stpdfkit.page.color.gray" = "회색";
+
+/* License */
+"stpdfkit.unlicensed" = "STPDFKit — 라이선스 없음";

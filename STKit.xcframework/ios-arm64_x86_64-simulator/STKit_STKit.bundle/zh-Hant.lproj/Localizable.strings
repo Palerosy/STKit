@@ -1,0 +1,280 @@
+/* STKit — Chinese Traditional (zh-Hant) Localizable Strings */
+
+/* Common */
+"stkit.done" = "完成";
+"stkit.cancel" = "取消";
+"stkit.save" = "儲存";
+"stkit.share" = "分享";
+"stkit.export" = "匯出";
+"stkit.delete" = "刪除";
+"stkit.close" = "關閉";
+"stkit.untitled" = "未命名";
+"stkit.search" = "搜尋";
+"stkit.undo" = "復原";
+"stkit.redo" = "重做";
+"stkit.add" = "新增";
+
+/* License */
+"stkit.unlicensed" = "STKit — 未授權";
+
+/* Word Count */
+"stkit.wordCount" = "字數統計";
+"stkit.words" = "字詞";
+"stkit.characters" = "字元";
+"stkit.charactersWithSpaces" = "字元（含空格）";
+"stkit.paragraphs" = "段落";
+"stkit.lines" = "行";
+
+/* Document */
+"stkit.newDocument" = "新建文件";
+"stkit.unsavedChanges" = "未儲存的變更";
+"stkit.unsavedChangesMessage" = "您有未儲存的變更。您想怎麼做？";
+"stkit.discard" = "捨棄";
+"stkit.saveAndClose" = "儲存並關閉";
+
+/* Navigation & Controls */
+"stkit.pages" = "頁面";
+"stkit.bookmark" = "書籤";
+"stkit.settings" = "設定";
+"stkit.outline" = "大綱";
+"stkit.editPages" = "編輯頁面";
+"stkit.print" = "列印";
+"stkit.saveAsText" = "儲存為文字";
+
+/* Search & Replace */
+"stkit.searchInDocument" = "在文件中搜尋...";
+"stkit.searching" = "搜尋中...";
+"stkit.noResultsFound" = "找不到結果";
+"stkit.page" = "第 %d 頁";
+"stkit.replace" = "取代";
+"stkit.replaceWith" = "取代為...";
+"stkit.replaceAll" = "全部";
+"stkit.showReplace" = "取代";
+"stkit.hideReplace" = "隱藏取代";
+
+/* Outline */
+"stkit.noOutlineAvailable" = "無可用大綱";
+
+/* Settings */
+"stkit.display" = "顯示";
+"stkit.scrollDirection" = "捲動方向";
+"stkit.pageMode" = "頁面模式";
+"stkit.view" = "檢視";
+"stkit.pageShadows" = "頁面陰影";
+"stkit.backgroundColor" = "背景顏色";
+
+/* Property Inspector */
+"stkit.color" = "顏色";
+"stkit.width" = "寬度";
+"stkit.fontSize" = "字體大小";
+"stkit.opacity" = "不透明度";
+"stkit.font" = "字型";
+
+/* Annotation Tools */
+"stkit.tool.pen" = "鋼筆";
+"stkit.tool.highlighter" = "螢光筆";
+"stkit.tool.text" = "文字";
+"stkit.tool.highlight" = "醒目標示";
+"stkit.tool.underline" = "底線";
+"stkit.tool.strikethrough" = "刪除線";
+"stkit.tool.rectangle" = "矩形";
+"stkit.tool.circle" = "圓形";
+"stkit.tool.line" = "直線";
+"stkit.tool.arrow" = "箭頭";
+"stkit.tool.signature" = "簽名";
+"stkit.tool.stamp" = "印章";
+"stkit.tool.note" = "備忘錄";
+"stkit.tool.eraser" = "橡皮擦";
+"stkit.tool.photo" = "照片";
+"stkit.tool.textEdit" = "編輯文字";
+"stkit.tapOnTextToEdit" = "點擊文字進行編輯";
+"stkit.selection.word" = "單詞";
+"stkit.selection.line" = "行";
+
+/* Toolbar Labels */
+"stkit.hand" = "手形";
+"stkit.select" = "選擇";
+"stkit.style" = "樣式";
+"stkit.zoomIn" = "放大";
+"stkit.zoomOut" = "縮小";
+"stkit.addText" = "新增文字";
+"stkit.removeText" = "刪除文字";
+
+/* Annotation Groups */
+"stkit.group.draw" = "繪圖";
+"stkit.group.shapes" = "形狀";
+"stkit.group.text" = "文字";
+"stkit.group.markup" = "標記";
+"stkit.group.extras" = "更多";
+
+/* Text Input */
+"stkit.enterText" = "輸入文字...";
+
+/* Markup */
+"stkit.applyTool" = "套用%@";
+
+/* Signature */
+"stkit.signature.clear" = "清除";
+"stkit.signature.drawNew" = "繪製新簽名";
+"stkit.signature.saved" = "已儲存的簽名";
+
+/* Stamp Types */
+"stkit.stamp.approved" = "已核准";
+"stkit.stamp.rejected" = "已拒絕";
+"stkit.stamp.draft" = "草稿";
+"stkit.stamp.confidential" = "機密";
+"stkit.stamp.forComment" = "供批註";
+"stkit.stamp.asIs" = "照現狀";
+"stkit.stamp.final" = "最終版";
+
+/* Placement */
+"stkit.tapToPlace" = "點擊放置";
+
+/* Selection Menu */
+"stkit.selection.copy" = "複製";
+"stkit.selection.paste" = "貼上";
+"stkit.selection.delete" = "刪除";
+"stkit.selection.inspector" = "檢查器";
+"stkit.selection.note" = "備忘錄";
+
+/* Tool Hints */
+"stkit.hint.draw" = "觸控並繪圖";
+"stkit.hint.shape" = "拖曳以繪製";
+"stkit.hint.tapToAddText" = "點擊以新增文字";
+"stkit.hint.erase" = "滑動以擦除";
+
+/* Order (Layer) */
+"stkit.order" = "順序";
+"stkit.order.front" = "置於頂層";
+"stkit.order.forward" = "上移一層";
+"stkit.order.backward" = "下移一層";
+"stkit.order.back" = "置於底層";
+
+/* Page Editor */
+"stkit.page.newPage" = "新頁面";
+"stkit.page.remove" = "刪除";
+"stkit.page.duplicate" = "複製";
+"stkit.page.rotate" = "旋轉";
+"stkit.page.selectAll" = "全選";
+"stkit.page.deselectAll" = "取消全選";
+"stkit.page.cut" = "剪下";
+"stkit.page.copy" = "複製";
+"stkit.page.paste" = "貼上";
+"stkit.page.numberOfPages" = "頁數";
+"stkit.page.format" = "頁面格式";
+"stkit.page.color" = "頁面顏色";
+"stkit.page.addAfter" = "在頁面之後新增";
+"stkit.page.beginning" = "開頭";
+"stkit.page.color.white" = "白色";
+"stkit.page.color.cream" = "米色";
+"stkit.page.color.gray" = "灰色";
+
+/* Ribbon Tabs */
+"stkit.ribbon.home" = "開始";
+"stkit.ribbon.para" = "格式";
+"stkit.ribbon.insert" = "插入";
+"stkit.ribbon.draw" = "繪圖";
+"stkit.ribbon.design" = "設計";
+"stkit.ribbon.layout" = "版面配置";
+"stkit.ribbon.review" = "審閱";
+"stkit.ribbon.view" = "檢視";
+
+/* Ribbon Home */
+"stkit.ribbon.bold" = "粗體";
+"stkit.ribbon.italic" = "斜體";
+"stkit.ribbon.underline" = "底線";
+"stkit.ribbon.strikethrough" = "刪除線";
+"stkit.ribbon.font" = "字型";
+"stkit.ribbon.fontSize" = "大小";
+"stkit.ribbon.textColor" = "顏色";
+"stkit.ribbon.highlightColor" = "醒目標示";
+"stkit.ribbon.alignLeft" = "靠左對齊";
+"stkit.ribbon.alignCenter" = "置中";
+"stkit.ribbon.alignRight" = "靠右對齊";
+"stkit.ribbon.justify" = "左右對齊";
+"stkit.ribbon.lineSpacing" = "行距";
+
+/* Ribbon Insert */
+"stkit.ribbon.image" = "圖片";
+"stkit.ribbon.table" = "表格";
+"stkit.ribbon.shape" = "形狀";
+"stkit.ribbon.rectangle" = "矩形";
+"stkit.ribbon.circle" = "圓形";
+"stkit.ribbon.line" = "直線";
+"stkit.ribbon.pageNumber" = "頁碼";
+"stkit.ribbon.footnote" = "註腳";
+"stkit.ribbon.endnote" = "章節附註";
+"stkit.ribbon.tab" = "定位點";
+"stkit.ribbon.lineBreak" = "換行";
+
+/* Ribbon Layout */
+"stkit.ribbon.orientation" = "紙張方向";
+"stkit.ribbon.pageSize" = "大小";
+"stkit.ribbon.margins" = "邊界";
+"stkit.ribbon.columns" = "欄";
+
+/* Ribbon Home (additional) */
+"stkit.ribbon.paste" = "貼上";
+"stkit.ribbon.copyFormat" = "格式";
+"stkit.ribbon.subscript" = "下標";
+"stkit.ribbon.superscript" = "上標";
+"stkit.ribbon.bulletList" = "項目符號";
+"stkit.ribbon.numberedList" = "編號";
+"stkit.ribbon.increaseIndent" = "增加縮排";
+"stkit.ribbon.decreaseIndent" = "減少縮排";
+"stkit.ribbon.selectAll" = "全選";
+"stkit.ribbon.edit" = "編輯";
+
+/* Ribbon Insert (additional) */
+"stkit.ribbon.pageBreak" = "分頁符號";
+"stkit.ribbon.textBox" = "文字方塊";
+"stkit.ribbon.link" = "連結";
+"stkit.ribbon.bookmark" = "書籤";
+"stkit.ribbon.symbol" = "符號";
+"stkit.ribbon.comment" = "批註";
+"stkit.ribbon.header" = "頁首";
+"stkit.ribbon.footer" = "頁尾";
+
+/* Ribbon Design (additional) */
+"stkit.ribbon.themes" = "主題";
+"stkit.ribbon.watermark" = "浮水印";
+
+/* Ribbon Layout (additional) */
+"stkit.ribbon.textDirection" = "方向";
+"stkit.ribbon.sectionBreak" = "分節符號";
+"stkit.ribbon.pageBreaks" = "分頁符號";
+
+/* Ribbon Review (additional) */
+"stkit.ribbon.trackChanges" = "修訂";
+"stkit.ribbon.acceptChange" = "接受";
+"stkit.ribbon.rejectChange" = "拒絕";
+
+/* Ribbon Table Tab */
+"stkit.ribbon.addRow" = "新增列";
+"stkit.ribbon.deleteRow" = "刪除列";
+"stkit.ribbon.addColumn" = "新增欄";
+"stkit.ribbon.deleteColumn" = "刪除欄";
+"stkit.ribbon.cellColor" = "儲存格顏色";
+"stkit.ribbon.borderColor" = "框線";
+"stkit.ribbon.tableStyle" = "樣式";
+"stkit.ribbon.tableColor" = "顏色";
+"stkit.tableStyles" = "表格樣式";
+
+/* Ribbon Review (comments) */
+"stkit.ribbon.comments" = "批註";
+"stkit.selectTextForComment" = "請先在文件中選擇文字，然後新增批註。";
+
+/* General */
+"stkit.comingSoon" = "即將推出";
+"stkit.custom" = "自訂";
+
+/* Ribbon View */
+"stkit.ribbon.zoom" = "縮放";
+"stkit.ribbon.thumbnails" = "頁面";
+"stkit.ribbon.outline" = "大綱";
+"stkit.ribbon.readMode" = "閱讀";
+"stkit.ribbon.editMode" = "編輯";
+"stkit.ribbon.goToTop" = "前往頂端";
+"stkit.ribbon.goToBottom" = "前往底部";
+"stkit.ribbon.goToPage" = "前往頁面";
+"stkit.ribbon.bookmarks" = "書籤";

@@ -1,0 +1,339 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 6.2.4 effective-5.10 (swiftlang-6.2.4.1.4 clang-1700.6.4.2)
+// swift-module-flags: -target arm64-apple-ios16.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-experimental-feature DebugDescriptionMacro -module-name STPDF -package-name stkit
+// swift-module-flags-ignorable:  -formal-cxx-interoperability-mode=off -interface-compiler-version 6.2.4
+import Combine
+import Compression
+import CryptoKit
+import Foundation
+import Foundation/*.Bundle*/
+import Foundation/*.ProcessInfo*/
+import Foundation/*.URL*/
+import PDFKit
+import PhotosUI
+import STKit
+import Swift
+import SwiftUI
+import UIKit
+import _Concurrency
+import _PhotosUI_SwiftUI
+import _StringProcessing
+import _SwiftConcurrencyShims
+public enum STAnnotationGroup : Swift.String, Swift.CaseIterable, Swift.Identifiable {
+  case drawing
+  case shapes
+  case text
+  case markup
+  case extras
+  public var id: Swift.String {
+    get
+  }
+  public var displayName: Swift.String {
+    get
+  }
+  public var iconName: Swift.String {
+    get
+  }
+  public var tools: [STPDF.STAnnotationType] {
+    get
+  }
+  public var defaultTool: STPDF.STAnnotationType {
+    get
+  }
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.String)
+  #endif
+  public typealias AllCases = [STPDF.STAnnotationGroup]
+  public typealias ID = Swift.String
+  public typealias RawValue = Swift.String
+  nonisolated public static var allCases: [STPDF.STAnnotationGroup] {
+    get
+  }
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public struct STAnnotationStyle : Swift.Equatable, Swift.Sendable {
+  public var color: STKit.PlatformColor
+  public var lineWidth: CoreFoundation.CGFloat
+  public var opacity: CoreFoundation.CGFloat
+  public var fontSize: CoreFoundation.CGFloat
+  public var fontName: Swift.String
+  public init(color: STKit.PlatformColor = .systemBlue, lineWidth: CoreFoundation.CGFloat = 3.0, opacity: CoreFoundation.CGFloat = 1.0, fontSize: CoreFoundation.CGFloat = 16.0, fontName: Swift.String = "Helvetica")
+  public static func defaultStyle(for type: STPDF.STAnnotationType) -> STPDF.STAnnotationStyle
+  public static let presetColors: [STKit.PlatformColor]
+  public static let presetLineWidths: [CoreFoundation.CGFloat]
+  public static func == (a: STPDF.STAnnotationStyle, b: STPDF.STAnnotationStyle) -> Swift.Bool
+}
+public enum STAnnotationType : Swift.String, Swift.CaseIterable, Swift.Identifiable, Swift.Sendable {
+  case ink
+  case highlighter
+  case freeText
+  case textEdit
+  case textRemove
+  case textHighlight
+  case textUnderline
+  case textStrikeOut
+  case rectangle
+  case circle
+  case line
+  case arrow
+  case signature
+  case stamp
+  case photo
+  case note
+  case eraser
+  public var id: Swift.String {
+    get
+  }
+  public var displayName: Swift.String {
+    get
+  }
+  public var iconName: Swift.String {
+    get
+  }
+  public static var phase2Tools: [STPDF.STAnnotationType] {
+    get
+  }
+  public static var phase3Tools: [STPDF.STAnnotationType] {
+    get
+  }
+  public static var allTools: [STPDF.STAnnotationType] {
+    get
+  }
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.String)
+  #endif
+  public typealias AllCases = [STPDF.STAnnotationType]
+  public typealias ID = Swift.String
+  public typealias RawValue = Swift.String
+  nonisolated public static var allCases: [STPDF.STAnnotationType] {
+    get
+  }
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public struct STAppearanceConfiguration {
+  public static let `default`: STPDF.STAppearanceConfiguration
+  public var tintColor: SwiftUICore.Color
+  public var toolbarBackgroundColor: SwiftUICore.Color
+  public var annotationToolbarPosition: STPDF.STToolbarPosition
+  public init()
+}
+public enum STToolbarPosition {
+  case top
+  case bottom
+  public static func == (a: STPDF.STToolbarPosition, b: STPDF.STToolbarPosition) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct STPDFConfiguration {
+  public static let `default`: STPDF.STPDFConfiguration
+  public var scrollDirection: STPDF.STScrollDirection
+  public var pageTransition: STPDF.STPageTransition
+  public var isToolbarDraggable: Swift.Bool
+  public var autoShowToolbar: Swift.Bool
+  public var showThumbnails: Swift.Bool
+  public var showBookmarks: Swift.Bool
+  public var showSearch: Swift.Bool
+  public var showSettings: Swift.Bool
+  public var showOutline: Swift.Bool
+  public var showEditPages: Swift.Bool
+  public var showShare: Swift.Bool
+  public var showPrint: Swift.Bool
+  public var showSaveAsText: Swift.Bool
+  public var paywallPlacement: Swift.String
+  public var allowAnnotationEditing: Swift.Bool
+  public var allowDocumentEditing: Swift.Bool
+  public var autosaveEnabled: Swift.Bool
+  public var autosaveInterval: Swift.Double
+  public var appearance: STPDF.STAppearanceConfiguration
+  public init()
+}
+public enum STScrollDirection {
+  case vertical
+  case horizontal
+  public static func == (a: STPDF.STScrollDirection, b: STPDF.STScrollDirection) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public enum STPageTransition {
+  case scrollContinuous
+  case scrollPerSpread
+  public static func == (a: STPDF.STPageTransition, b: STPDF.STPageTransition) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct STToolbarConfiguration {
+  public static let `default`: STPDF.STToolbarConfiguration
+  public var showCloseButton: Swift.Bool
+  public var showAnnotationToggle: Swift.Bool
+  public var showMoreMenu: Swift.Bool
+  public init()
+}
+public enum STCoordinateMapper {
+  public static func screenToPDF(point: CoreFoundation.CGPoint, in pdfView: PDFKit.PDFView, on page: PDFKit.PDFPage) -> CoreFoundation.CGPoint
+  public static func pdfToScreen(point: CoreFoundation.CGPoint, in pdfView: PDFKit.PDFView, on page: PDFKit.PDFPage) -> CoreFoundation.CGPoint
+  public static func screenToPDF(rect: CoreFoundation.CGRect, in pdfView: PDFKit.PDFView, on page: PDFKit.PDFPage) -> CoreFoundation.CGRect
+  public static func pdfToScreen(rect: CoreFoundation.CGRect, in pdfView: PDFKit.PDFView, on page: PDFKit.PDFPage) -> CoreFoundation.CGRect
+  #if compiler(>=5.3) && $NonescapableTypes
+  public static func page(at point: CoreFoundation.CGPoint, in pdfView: PDFKit.PDFView) -> PDFKit.PDFPage?
+  #endif
+}
+public class STPDFDocument : Foundation.ObservableObject {
+  final public let pdfDocument: PDFKit.PDFDocument
+  final public let url: Foundation.URL?
+  @Combine.Published @_projectedValueProperty($title) public var title: Swift.String {
+    get
+    @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+    set
+    @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+    _modify
+  }
+  public var $title: Combine.Published<Swift.String>.Publisher {
+    get
+    @available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)
+    set
+  }
+  public var pageCount: Swift.Int {
+    get
+  }
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(url: Foundation.URL, title: Swift.String? = nil)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init(document: PDFKit.PDFDocument, url: Foundation.URL? = nil, title: Swift.String = "Untitled")
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  public func page(at index: Swift.Int) -> PDFKit.PDFPage?
+  #endif
+  @discardableResult
+  public func save() -> Swift.Bool
+  @discardableResult
+  public func save(to url: Foundation.URL) -> Swift.Bool
+  public func extractFullText() -> Swift.String
+  public typealias ObjectWillChangePublisher = Combine.ObservableObjectPublisher
+  @objc deinit
+}
+public struct STPDFPage : Swift.Identifiable {
+  public let id: Swift.Int
+  public let page: PDFKit.PDFPage
+  public var bounds: CoreFoundation.CGRect {
+    get
+  }
+  public var rotation: Swift.Int {
+    get
+    nonmutating set
+  }
+  #if compiler(>=5.3) && $NonescapableTypes
+  public var text: Swift.String? {
+    get
+  }
+  #endif
+  public func thumbnail(maxSize: CoreFoundation.CGFloat = 200) -> STKit.PlatformImage
+  public typealias ID = Swift.Int
+}
+@_Concurrency.MainActor @preconcurrency public struct STPDFEditorView : SwiftUICore.View {
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor @preconcurrency public init(url: Foundation.URL, title: Swift.String? = nil, openInPageEditor: Swift.Bool = false, configuration: STPDF.STPDFConfiguration = .default, onDismiss: (() -> Swift.Void)? = nil)
+  #endif
+  @_Concurrency.MainActor @preconcurrency public var body: some SwiftUICore.View {
+    get
+  }
+  public typealias Body = @_opaqueReturnTypeOf("$s5STPDF15STPDFEditorViewV4bodyQrvp", 0) __
+}
+public enum STTextExtractor {
+  public static func extractFullText(from document: PDFKit.PDFDocument) -> Swift.String
+  #if compiler(>=5.3) && $NonescapableTypes
+  public static func extractText(from document: PDFKit.PDFDocument, page index: Swift.Int) -> Swift.String?
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  public static func saveAsTextFile(from document: PDFKit.PDFDocument, title: Swift.String) -> Foundation.URL?
+  #endif
+}
+public enum STLicensePlan : Swift.String, Swift.Codable {
+  case free
+  case pro
+  case enterprise
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.String)
+  #endif
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+@_hasMissingDesignatedInitializers @_Concurrency.MainActor final public class STLicenseManager : Foundation.ObservableObject {
+  @_Concurrency.MainActor public static let shared: STPDF.STLicenseManager
+  @Combine.Published @_projectedValueProperty($isLicensed) @_Concurrency.MainActor final public var isLicensed: Swift.Bool {
+    get
+  }
+  @_Concurrency.MainActor final public var $isLicensed: Combine.Published<Swift.Bool>.Publisher {
+    get
+  }
+  #if compiler(>=5.3) && $NonescapableTypes
+  @Combine.Published @_projectedValueProperty($plan) @_Concurrency.MainActor final public var plan: STPDF.STLicensePlan? {
+    get
+  }
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor final public var $plan: Combine.Published<STPDF.STLicensePlan?>.Publisher {
+    get
+  }
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  @Combine.Published @_projectedValueProperty($expiry) @_Concurrency.MainActor final public var expiry: Foundation.Date? {
+    get
+  }
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor final public var $expiry: Combine.Published<Foundation.Date?>.Publisher {
+    get
+  }
+  #endif
+  @_Concurrency.MainActor final public func activate(key: Swift.String)
+  public typealias ObjectWillChangePublisher = Combine.ObservableObjectPublisher
+  @objc deinit
+}
+@_Concurrency.MainActor public enum STPDFKit {
+  @_Concurrency.MainActor public static let version: Swift.String
+  @_Concurrency.MainActor public static var isLicensed: Swift.Bool {
+    get
+  }
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor public static var licensePlan: STPDF.STLicensePlan? {
+    get
+  }
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor public static var licenseExpiry: Foundation.Date? {
+    get
+  }
+  #endif
+  @_Concurrency.MainActor public static func initialize(licenseKey: Swift.String)
+}
+extension STPDF.STAnnotationGroup : Swift.Equatable {}
+extension STPDF.STAnnotationGroup : Swift.Hashable {}
+extension STPDF.STAnnotationGroup : Swift.RawRepresentable {}
+extension STPDF.STAnnotationType : Swift.Equatable {}
+extension STPDF.STAnnotationType : Swift.Hashable {}
+extension STPDF.STAnnotationType : Swift.RawRepresentable {}
+extension STPDF.STToolbarPosition : Swift.Equatable {}
+extension STPDF.STToolbarPosition : Swift.Hashable {}
+extension STPDF.STScrollDirection : Swift.Equatable {}
+extension STPDF.STScrollDirection : Swift.Hashable {}
+extension STPDF.STPageTransition : Swift.Equatable {}
+extension STPDF.STPageTransition : Swift.Hashable {}
+extension STPDF.STPDFEditorView : Swift.Sendable {}
+extension STPDF.STLicensePlan : Swift.Equatable {}
+extension STPDF.STLicensePlan : Swift.Hashable {}
+extension STPDF.STLicensePlan : Swift.RawRepresentable {}
+extension STPDF.STLicenseManager : Swift.Sendable {}
+extension STPDF.STPDFKit : Swift.Sendable {}

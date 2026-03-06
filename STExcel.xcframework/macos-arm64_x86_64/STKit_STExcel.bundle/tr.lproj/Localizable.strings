@@ -1,0 +1,467 @@
+/* STExcel — Turkish */
+"stexcel.sheet" = "Sayfa";
+"stexcel.cell" = "Hücre";
+"stexcel.row" = "Satır";
+"stexcel.column" = "Sütun";
+"stexcel.value" = "Değer";
+
+/* Ribbon Tabs */
+"stexcel.ribbon.format" = "Biçim";
+"stexcel.ribbon.formulas" = "Formüller";
+"stexcel.ribbon.data" = "Veri";
+
+/* Home Tab */
+"stexcel.cut" = "Kes";
+"stexcel.copy" = "Kopyala";
+"stexcel.fillColor" = "Dolgu";
+"stexcel.wrapText" = "Kaydır";
+"stexcel.merge" = "Birleştir";
+"stexcel.borders" = "Kenarlık";
+
+/* Border Picker */
+"stexcel.noBorder" = "Kenarlık Yok";
+"stexcel.allBorders" = "Tüm Kenarlıklar";
+"stexcel.outsideBorder" = "Dış Kenarlık";
+"stexcel.bottomBorder" = "Alt Kenarlık";
+"stexcel.thickBorder" = "Kalın Kenarlık";
+
+/* Format Tab */
+"stexcel.numberFormat" = "Sayı\nBiçimi";
+"stexcel.currency" = "Para\nBirimi";
+"stexcel.percent" = "Yüzde";
+"stexcel.decimalIncrease" = ".0→.00";
+"stexcel.decimalDecrease" = ".00→.0";
+"stexcel.clear" = "Temizle";
+"stexcel.conditionalFormat" = "Koşullu\nBiçim";
+"stexcel.cellStyle" = "Stil";
+
+/* Insert Tab */
+"stexcel.chart" = "Grafik";
+"stexcel.picture" = "Resim";
+
+/* Formulas Tab */
+"stexcel.autoSum" = "Otomatik\nToplam";
+"stexcel.recalculate" = "Yeniden\nHesapla";
+"stexcel.financial" = "Finans";
+"stexcel.logical" = "Mantıksal";
+"stexcel.textFunctions" = "Metin";
+"stexcel.dateTime" = "Tarih ve\nSaat";
+"stexcel.reference" = "Başvuru";
+"stexcel.math" = "Matematik";
+"stexcel.insertFunction" = "İşlev\nEkle";
+"stexcel.defineName" = "Ad\nTanımla";
+"stexcel.nameManager" = "Ad\nYöneticisi";
+
+/* Data Tab */
+"stexcel.sort" = "Sırala";
+"stexcel.sortAZ" = "A→Z\nSırala";
+"stexcel.sortZA" = "Z→A\nSırala";
+"stexcel.sortByColor" = "Renge Göre\nSırala";
+"stexcel.filter" = "Filtrele";
+"stexcel.reapplyFilter" = "Filtreyi\nYeniden Uygula";
+"stexcel.dataValidation" = "Doğrula";
+"stexcel.circleInvalid" = "Geçersiz Verileri\nİşaretle";
+"stexcel.group" = "Grupla";
+"stexcel.ungroup" = "Grubu Çöz";
+"stexcel.subtotal" = "Alt Toplam";
+"stexcel.removeAll" = "Tümünü\nKaldır";
+"stexcel.showDetail" = "Ayrıntıyı\nGöster";
+"stexcel.hideDetail" = "Ayrıntıyı\nGizle";
+"stexcel.textToColumns" = "Metni\nSütunlara Böl";
+
+"stexcel.apply" = "Uygula";
+"stexcel.sortBy" = "Sıralama ölçütü";
+"stexcel.thenBy" = "Sonra";
+"stexcel.myDataHasHeaders" = "Verilerim başlık içeriyor";
+"stexcel.caseSensitive" = "Büyük/küçük harf duyarlı";
+"stexcel.none" = "Yok";
+
+/* Review Tab */
+"stexcel.addComment" = "Yorum";
+"stexcel.editComment" = "Yorumu Düzenle";
+"stexcel.deleteComment" = "Yorumu Sil";
+"stexcel.protectSheet" = "Sayfayı\nKoru";
+"stexcel.unprotectSheet" = "Korumayı\nKaldır";
+"stexcel.sheetIsProtected" = "Bu sayfa korumalıdır.";
+"stexcel.sheetNotProtected" = "Bu sayfa korumalı değildir.";
+
+/* View Tab */
+"stexcel.gridlines" = "Kılavuz\nÇizgileri";
+"stexcel.headings" = "Başlıklar";
+"stexcel.formulaBar" = "Formül\nÇubuğu";
+"stexcel.freezePanes" = "Bölmeleri\nDondur";
+"stexcel.goToCell" = "Hücreye\nGit";
+"stexcel.go" = "Git";
+"stexcel.zoom" = "Yakınlaştır";
+
+/* Home Tab — Insert/Delete Menus */
+"stexcel.insertOptions" = "Ekleme seçenekleri";
+"stexcel.deleteOptions" = "Silme seçenekleri";
+"stexcel.shiftCellsRight" = "Hücreleri sağa kaydır";
+"stexcel.shiftCellsDown" = "Hücreleri aşağı kaydır";
+"stexcel.shiftCellsLeft" = "Hücreleri sola kaydır";
+"stexcel.shiftCellsUp" = "Hücreleri yukarı kaydır";
+"stexcel.entireRow" = "Tüm satır";
+"stexcel.entireColumn" = "Tüm sütun";
+"stexcel.rows" = "Satırlar";
+"stexcel.columns" = "Sütunlar";
+"stexcel.worksheet" = "Çalışma Sayfası";
+"stexcel.insert" = "Ekle";
+"stexcel.delete" = "Sil";
+
+/* AutoSum */
+"stexcel.sum" = "Toplam";
+"stexcel.average" = "Ortalama";
+"stexcel.count" = "Say";
+"stexcel.max" = "Maks";
+"stexcel.min" = "Min";
+"stexcel.median" = "Ortanca";
+
+/* Format Tab — Cells */
+"stexcel.cellFont" = "Hücre\nYazı Tipi";
+"stexcel.cellBorder" = "Hücre\nKenarlığı";
+"stexcel.lockCell" = "Hücreyi\nKilitle";
+"stexcel.cellSize" = "Hücre\nBoyutu";
+"stexcel.rowHeight" = "Satır Yüksekliği";
+"stexcel.columnWidth" = "Sütun Genişliği";
+"stexcel.autoFitRow" = "Satır Yüksekliğini Otomatik Ayarla";
+"stexcel.autoFitColumn" = "Sütun Genişliğini Otomatik Ayarla";
+
+/* Format Cells Dialog */
+"stexcel.formatCells" = "Hücreleri Biçimlendir";
+"stexcel.number" = "Sayı";
+"stexcel.cellTab" = "Hücre";
+"stexcel.borderTab" = "Kenarlık";
+"stexcel.protection" = "Koruma";
+"stexcel.font" = "Yazı Tipi";
+"stexcel.size" = "Boyut";
+"stexcel.textColor" = "Metin Rengi";
+"stexcel.cellColor" = "Hücre Rengi";
+"stexcel.indent" = "Girinti";
+"stexcel.lineType" = "Çizgi Türü";
+"stexcel.clearBorder" = "Kenarlığı Temizle";
+"stexcel.standardColors" = "STANDART RENKLER";
+"stexcel.locked" = "Kilitli";
+"stexcel.hidden" = "Gizli";
+"stexcel.singleUnderline" = "Tek Çizgi";
+"stexcel.doubleUnderline" = "Çift Çizgi";
+
+/* More Menu */
+"stexcel.saveAs" = "Farklı Kaydet";
+"stexcel.fileInfo" = "Dosya Bilgisi";
+"stexcel.fileName" = "Dosya Adı";
+"stexcel.fileLocation" = "Konum";
+"stexcel.fileType" = "Dosya Türü";
+"stexcel.fileSize" = "Dosya Boyutu";
+"stexcel.createdDate" = "Oluşturulma";
+"stexcel.modifiedDate" = "Değiştirilme";
+"stexcel.onEnter" = "Enter'da";
+"stexcel.moveDown" = "Aşağı Git";
+"stexcel.moveRight" = "Sağa Git";
+"stexcel.moveSheetRight" = "Sağa Taşı";
+"stexcel.stay" = "Kal";
+"stexcel.autoCalculate" = "Otomatik Hesapla";
+"stexcel.unknown" = "Bilinmiyor";
+
+/* Sheet Management */
+"stexcel.addSheet" = "Sayfa Ekle";
+"stexcel.renameSheet" = "Yeniden Adlandır";
+"stexcel.duplicateSheet" = "Çoğalt";
+"stexcel.deleteSheet" = "Sil";
+"stexcel.moveSheetLeft" = "Sola Taşı";
+"stexcel.moveSheetRight" = "Sağa Taşı";
+"stexcel.sheetName" = "Sayfa Adı";
+"stexcel.dontSave" = "Kaydetme";
+"stexcel.saveChangesTitle" = "%@ dosyasındaki değişiklikler kaydedilsin mi?";
+"stexcel.licenseRequired" = "Lisans Gerekli";
+"stexcel.licenseRequiredMessage" = "Bu özelliği kullanmak için geçerli bir STKit lisansı gereklidir. Kaydet, Dışa Aktar ve Yazdır özelliklerini açmak için lisansınızı etkinleştirin.";
+"stexcel.failedToOpen" = "Dosya açılamadı";
+
+/* Grafik Kategorileri */
+"stexcel.chartAll" = "Tümü";
+"stexcel.chartColumn" = "Sütun";
+"stexcel.chartBar" = "Çubuk";
+"stexcel.chartLine" = "Çizgi";
+"stexcel.chartLineWithMarkers" = "İşaretçili Çizgi";
+"stexcel.chartArea" = "Alan";
+"stexcel.chartPie" = "Pasta";
+"stexcel.chartScatter" = "Dağılım";
+
+/* Grafik Alt Türleri */
+"stexcel.chartClustered" = "Kümelenmiş";
+"stexcel.chartStacked" = "Yığılmış";
+"stexcel.chartPercentStacked" = "%100 Yığılmış";
+"stexcel.chartSmooth" = "Düzgün";
+"stexcel.chartSimple" = "Basit";
+"stexcel.chartMarkers" = "İşaretçiler";
+"stexcel.chartDots" = "Noktalar";
+"stexcel.chartLines" = "Çizgiler";
+"stexcel.chart3DPie" = "3D Pasta";
+"stexcel.chartDoughnut" = "Halka";
+"stexcel.chartExploded" = "Ayrılmış";
+
+/* Şekil Türleri */
+"stexcel.shapeRectangle" = "Dikdörtgen";
+"stexcel.shapeRoundedRect" = "Yuvarlak Dikdörtgen";
+"stexcel.shapeCircle" = "Daire";
+"stexcel.shapeOval" = "Oval";
+"stexcel.shapeTriangle" = "Üçgen";
+"stexcel.shapeRightTriangle" = "Dik Üçgen";
+"stexcel.shapeDiamond" = "Eşkenar Dörtgen";
+"stexcel.shapeArrowRight" = "Sağ Ok";
+"stexcel.shapeArrowLeft" = "Sol Ok";
+"stexcel.shapeArrowUp" = "Yukarı Ok";
+"stexcel.shapeArrowDown" = "Aşağı Ok";
+"stexcel.shapeStar" = "Yıldız";
+"stexcel.shapeHexagon" = "Altıgen";
+"stexcel.shapePentagon" = "Beşgen";
+"stexcel.shapeLine" = "Çizgi";
+"stexcel.shapeDashedLine" = "Kesikli Çizgi";
+
+/* Şekil Seçici Bölümleri */
+"stexcel.basicShapes" = "Temel Şekiller";
+"stexcel.arrowsTriangles" = "Oklar ve Üçgenler";
+"stexcel.starsMore" = "Yıldızlar ve Diğer";
+"stexcel.lineShapes" = "Çizgiler";
+
+/* Tablo Ekleme */
+"stexcel.insertTable" = "Tablo Ekle";
+"stexcel.dataRange" = "VERİ ARALIĞI";
+"stexcel.tableStyle" = "TABLO STİLİ";
+"stexcel.myTableHasHeaders" = "Tablom başlıklar içeriyor";
+
+/* Tablo Stilleri */
+"stexcel.styleBlue" = "Mavi";
+"stexcel.styleGreen" = "Yeşil";
+"stexcel.styleOrange" = "Turuncu";
+"stexcel.stylePurple" = "Mor";
+"stexcel.styleRed" = "Kırmızı";
+"stexcel.styleGray" = "Gri";
+"stexcel.styleDark" = "Koyu";
+
+/* Tablo Sekmesi */
+"stexcel.headerRow" = "Başlık\nSatırı";
+"stexcel.bandedRows" = "Şeritli\nSatırlar";
+"stexcel.bandedCols" = "Şeritli\nSütunlar";
+
+/* Grafik Biçimlendirme */
+"stexcel.labels" = "ETİKETLER";
+"stexcel.chartTitle" = "Grafik Başlığı";
+"stexcel.title" = "Başlık";
+"stexcel.enterTitle" = "Başlık girin";
+"stexcel.horizontalLabels" = "Yatay Etiketler";
+"stexcel.range" = "Aralık";
+"stexcel.seriesIn" = "Seriler";
+"stexcel.chartType" = "Tür";
+"stexcel.chartFormat" = "Biçim";
+"stexcel.chartElements" = "Öğeler";
+"stexcel.chartLayouts" = "Grafik\nDüzenleri";
+"stexcel.chartColors" = "Renkler";
+"stexcel.chartStylesTitle" = "Grafik\nStilleri";
+"stexcel.switchRowsCols" = "Satır/Sütun\nDeğiştir";
+"stexcel.legend" = "Gösterge";
+"stexcel.axisLabels" = "Eksen Etiketleri";
+"stexcel.dataLabels" = "Veri Etiketleri";
+"stexcel.axes" = "Eksenler";
+"stexcel.on" = "Açık";
+"stexcel.off" = "Kapalı";
+"stexcel.noNumericData" = "Aralıkta sayısal veri bulunamadı";
+"stexcel.editDataRangeHint" = "Yukarıdaki veri aralığını düzenleyin veya hücrelerinize sayılar ekleyin";
+"stexcel.points" = "nokta";
+"stexcel.noData" = "Veri yok";
+"stexcel.series" = "seri";
+"stexcel.dataPoints" = "veri noktası";
+"stexcel.grid" = "Kılavuz";
+"stexcel.layouts" = "Düzenler";
+"stexcel.chartStylesNav" = "Grafik Stilleri";
+
+/* Hücre Biçimlendirme Ek */
+"stexcel.noColor" = "Renk Yok";
+"stexcel.lockingInfo" = "Hücreleri kilitlemek veya formülleri gizlemek, çalışma sayfasını koruyana kadar etkili olmaz.";
+"stexcel.lineThin" = "İnce";
+"stexcel.lineMedium" = "Orta";
+"stexcel.lineThick" = "Kalın";
+"stexcel.lineDashed" = "Kesikli";
+"stexcel.lineDotted" = "Noktalı";
+"stexcel.lineDouble" = "Çift";
+
+/* Sayı Biçimi Seçici */
+"stexcel.use1000Separator" = "1000 Ayırıcı Kullan";
+"stexcel.accounting" = "Muhasebe";
+"stexcel.date" = "Tarih";
+"stexcel.time" = "Saat";
+"stexcel.percentage" = "Yüzde";
+"stexcel.fraction" = "Kesir";
+"stexcel.scientific" = "Bilimsel";
+"stexcel.special" = "Özel";
+"stexcel.custom" = "Özel";
+"stexcel.negativeNumbers" = "Negatif Sayılar";
+
+/* Şekil Sekmesi */
+"stexcel.fill" = "Dolgu";
+"stexcel.fillColorTitle" = "Dolgu Rengi";
+"stexcel.outline" = "Ana Hat";
+"stexcel.outlineColor" = "Ana Hat Rengi";
+"stexcel.changeShape" = "Şekli\nDeğiştir";
+
+/* Görünüm Sekmesi */
+"stexcel.zoomIn" = "Yakınlaştır";
+"stexcel.zoomOut" = "Uzaklaştır";
+
+/* Koşullu Biçimlendirme */
+"stexcel.newRule" = "YENİ KURAL";
+"stexcel.highlightCellsRules" = "Hücre vurgulama kuralları";
+"stexcel.topBottomAvgRules" = "Üst/Alt/Ortalama kuralları";
+"stexcel.customFormula" = "Özel Formül";
+"stexcel.dataBars" = "Veri çubukları";
+"stexcel.colorScales" = "Renk ölçekleri";
+"stexcel.clearRules" = "KURALLARI TEMİZLE";
+"stexcel.fromSelection" = "Seçimden";
+"stexcel.activeRules" = "AKTİF KURALLAR";
+"stexcel.conditionalFormatting" = "Koşullu Biçimlendirme";
+"stexcel.presets" = "HAZIR AYARLAR";
+"stexcel.condition" = "Koşul";
+"stexcel.enterValue1" = "Değer 1 girin";
+"stexcel.enterValue2" = "Değer 2 girin";
+"stexcel.rank" = "Sıralama";
+"stexcel.barColor" = "ÇUBUK RENGİ";
+"stexcel.colorScaleSection" = "RENK ÖLÇEĞİ";
+"stexcel.formulaSection" = "FORMÜL";
+"stexcel.chartStylesNav" = "Grafik Stilleri";
+
+/* Ek Anahtarlar */
+"stexcel.decimalPlaces" = "Ondalık Basamak";
+"stexcel.fromEntireSheet" = "Tüm sayfadan";
+"stexcel.formatCellsFormula" = "Bu formül doğru olduğunda hücreleri biçimlendir:";
+"stexcel.goodBadNeutral" = "İyi, Kötü ve Nötr";
+"stexcel.dataModel" = "Veri ve Model";
+"stexcel.titlesHeadings" = "Başlıklar";
+"stexcel.allow" = "İzin Ver";
+"stexcel.useFunction" = "Fonksiyon kullan";
+"stexcel.insertSubtotal" = "Alt Toplam Ekle";
+"stexcel.delimiter" = "Ayırıcı";
+"stexcel.convert" = "Dönüştür";
+"stexcel.enterDelimiter" = "Ayırıcı girin";
+"stexcel.anyValue" = "Herhangi Bir Değer";
+"stexcel.wholeNumber" = "Tam Sayı";
+"stexcel.decimalType" = "Ondalık";
+"stexcel.listType" = "Liste";
+"stexcel.textLength" = "Metin Uzunluğu";
+"stexcel.commaDelimiter" = "Virgül (,)";
+"stexcel.tabDelimiter" = "Sekme";
+"stexcel.semicolonDelimiter" = "Noktalı Virgül (;)";
+"stexcel.spaceDelimiter" = "Boşluk";
+"stexcel.sourceList" = "Kaynak (virgülle ayrılmış)";
+"stexcel.searchFunctions" = "Fonksiyon ara";
+"stexcel.noDefinedNames" = "Tanımlı ad yok";
+
+/* Sayı Biçimi Genel */
+"stexcel.general" = "Genel";
+
+/* Koşullu Biçim Koşulları */
+"stexcel.cfGreaterThan" = "Büyükse";
+"stexcel.cfLessThan" = "Küçükse";
+"stexcel.cfBetween" = "Arasında";
+"stexcel.cfEqualTo" = "Eşitse";
+"stexcel.cfNotEqualTo" = "Eşit değilse";
+"stexcel.cfTextContains" = "Metin içeriyorsa";
+"stexcel.cfTextNotContains" = "Metin içermiyorsa";
+"stexcel.cfDuplicates" = "Yinelenen değerler";
+"stexcel.cfUniqueValues" = "Benzersiz değerler";
+
+/* Koşullu Biçim Sıralama */
+"stexcel.cfTop" = "En Yüksek";
+"stexcel.cfBottom" = "En Düşük";
+"stexcel.cfAboveAverage" = "Ortalamanın Üstü";
+"stexcel.cfBelowAverage" = "Ortalamanın Altı";
+
+/* Koşullu Biçim Görünüm */
+"stexcel.cfItems" = "Öğe";
+"stexcel.value1Label" = "Değer 1";
+"stexcel.value2Label" = "Değer 2";
+
+/* Grafik Düzeni */
+"stexcel.layoutLabel" = "Düzen";
+
+/* Grafik Verisi */
+"stexcel.chartDataRange" = "Veri Aralığı";
+"stexcel.dataLabel" = "Veri";
+
+/* Hücre Stili Hazır Ayarları */
+"stexcel.presetNormal" = "Normal";
+"stexcel.presetGood" = "İyi";
+"stexcel.presetBad" = "Kötü";
+"stexcel.presetNeutral" = "Nötr";
+"stexcel.presetInput" = "Giriş";
+"stexcel.presetOutput" = "Çıkış";
+"stexcel.presetCalculation" = "Hesaplama";
+"stexcel.presetCheckCell" = "Kontrol Hücresi";
+"stexcel.presetNote" = "Not";
+"stexcel.presetWarning" = "Uyarı";
+"stexcel.presetLinkedCell" = "Bağlantılı Hücre";
+"stexcel.presetExplanatory" = "Açıklayıcı";
+"stexcel.presetTitle" = "Başlık";
+"stexcel.presetHeading1" = "Başlık 1";
+"stexcel.presetHeading2" = "Başlık 2";
+"stexcel.presetHeading3" = "Başlık 3";
+"stexcel.presetHeading4" = "Başlık 4";
+"stexcel.presetTotal" = "Toplam";
+"stexcel.presetComma" = "Virgül";
+"stexcel.presetCurrency" = "Para Birimi";
+"stexcel.presetPercent" = "Yüzde";
+
+/* Fonksiyon Açıklamaları */
+"stexcel.func.PMT" = "Sabit ödemeler ve faiz oranına dayalı olarak kredi ödemesini hesaplar.";
+"stexcel.func.FV" = "Bir yatırımın gelecekteki değerini döndürür.";
+"stexcel.func.PV" = "Bir yatırımın bugünkü değerini döndürür.";
+"stexcel.func.RATE" = "Dönem başına faiz oranını döndürür.";
+"stexcel.func.NPV" = "Bir yatırımın net bugünkü değerini döndürür.";
+"stexcel.func.IRR" = "Bir dizi nakit akışı için iç verim oranını döndürür.";
+"stexcel.func.IF" = "Koşul doğruysa bir değer, yanlışsa başka bir değer döndürür.";
+"stexcel.func.AND" = "Tüm bağımsız değişkenler doğruysa DOĞRU döndürür.";
+"stexcel.func.OR" = "Herhangi bir bağımsız değişken doğruysa DOĞRU döndürür.";
+"stexcel.func.NOT" = "Bağımsız değişkeninin değerini tersine çevirir.";
+"stexcel.func.IFERROR" = "İlk bağımsız değişken hataysa hata değerini döndürür.";
+"stexcel.func.TRUE" = "DOĞRU mantıksal değerini döndürür.";
+"stexcel.func.FALSE" = "YANLIŞ mantıksal değerini döndürür.";
+"stexcel.func.CONCATENATE" = "Birden fazla metin dizesini birleştirir.";
+"stexcel.func.LEN" = "Bir dizedeki karakter sayısını döndürür.";
+"stexcel.func.LEFT" = "Metin değerinin en soldaki karakterlerini döndürür.";
+"stexcel.func.RIGHT" = "Metin değerinin en sağdaki karakterlerini döndürür.";
+"stexcel.func.MID" = "Metin dizesinden belirli sayıda karakter döndürür.";
+"stexcel.func.UPPER" = "Metni büyük harfe dönüştürür.";
+"stexcel.func.LOWER" = "Metni küçük harfe dönüştürür.";
+"stexcel.func.TRIM" = "Metindeki boşlukları kaldırır.";
+"stexcel.func.FIND" = "Bir metin değerini başka bir metnin içinde bulur (büyük/küçük harf duyarlı).";
+"stexcel.func.REPLACE" = "Metin içindeki karakterleri değiştirir.";
+"stexcel.func.SUBSTITUTE" = "Bir dizedeki eski metni yeni metinle değiştirir.";
+"stexcel.func.NOW" = "Geçerli tarih ve saati döndürür.";
+"stexcel.func.TODAY" = "Bugünün tarihini döndürür.";
+"stexcel.func.DATE" = "Belirli bir tarihin seri numarasını döndürür.";
+"stexcel.func.YEAR" = "Bir tarihin yılını döndürür.";
+"stexcel.func.MONTH" = "Bir tarihin ayını döndürür.";
+"stexcel.func.DAY" = "Bir tarihin gününü döndürür.";
+"stexcel.func.HOUR" = "Saati döndürür.";
+"stexcel.func.MINUTE" = "Dakikayı döndürür.";
+"stexcel.func.SECOND" = "Saniyeyi döndürür.";
+"stexcel.func.VLOOKUP" = "Bir tablonun en sol sütununda bir değer arar.";
+"stexcel.func.HLOOKUP" = "Bir tablonun en üst satırında bir değer arar.";
+"stexcel.func.INDEX" = "Bir tablo veya aralıktan bir değer döndürür.";
+"stexcel.func.MATCH" = "Bir aralıktaki değerin konumunu döndürür.";
+"stexcel.func.CHOOSE" = "Dizin numarasına göre listeden bir değer seçer.";
+"stexcel.func.INDIRECT" = "Bir metin değeriyle belirtilen başvuruyu döndürür.";
+"stexcel.func.SUM" = "Bir hücre aralığındaki tüm sayıları toplar.";
+"stexcel.func.AVERAGE" = "Bağımsız değişkenlerin ortalamasını döndürür.";
+"stexcel.func.COUNT" = "Sayı içeren hücrelerin sayısını sayar.";
+"stexcel.func.COUNTA" = "Boş olmayan hücrelerin sayısını sayar.";
+"stexcel.func.MIN" = "Bir kümedeki en küçük değeri döndürür.";
+"stexcel.func.MAX" = "Bir kümedeki en büyük değeri döndürür.";
+"stexcel.func.ABS" = "Bir sayının mutlak değerini döndürür.";
+"stexcel.func.ROUND" = "Bir sayıyı belirtilen basamak sayısına yuvarlar.";
+"stexcel.func.INT" = "Bir sayıyı en yakın tam sayıya aşağı yuvarlar.";
+"stexcel.func.MOD" = "Bölme işleminden kalanı döndürür.";
+"stexcel.func.POWER" = "Bir sayının üssünü döndürür.";
+"stexcel.func.SQRT" = "Pozitif karekök döndürür.";
+"stexcel.func.SUMIF" = "Belirli ölçütlere uyan hücreleri toplar.";
+"stexcel.func.COUNTIF" = "Bir ölçütle eşleşen hücreleri sayar.";
+"stexcel.func.PRODUCT" = "Bağımsız değişken olarak verilen tüm sayıları çarpar.";

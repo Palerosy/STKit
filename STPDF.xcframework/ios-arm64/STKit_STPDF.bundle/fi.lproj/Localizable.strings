@@ -1,0 +1,143 @@
+/* Navigation & Controls */
+"stpdfkit.done" = "Valmis";
+"stpdfkit.pages" = "Sivut";
+"stpdfkit.bookmark" = "Kirjanmerkki";
+"stpdfkit.search" = "Hae";
+"stpdfkit.settings" = "Asetukset";
+"stpdfkit.outline" = "Jäsennys";
+"stpdfkit.editPages" = "Muokkaa sivuja";
+"stpdfkit.share" = "Jaa";
+"stpdfkit.print" = "Tulosta";
+"stpdfkit.saveAsText" = "Tallenna tekstinä";
+"stpdfkit.untitled" = "Nimetön";
+
+/* Search */
+"stpdfkit.searchInDocument" = "Hae asiakirjasta...";
+"stpdfkit.searching" = "Haetaan...";
+"stpdfkit.noResultsFound" = "Ei tuloksia";
+"stpdfkit.page" = "Sivu %d";
+
+/* Outline */
+"stpdfkit.noOutlineAvailable" = "Jäsennystä ei ole saatavilla";
+
+/* Settings */
+"stpdfkit.display" = "Näyttö";
+"stpdfkit.scrollDirection" = "Vierittämissuunta";
+"stpdfkit.pageMode" = "Sivutila";
+"stpdfkit.view" = "Näkymä";
+"stpdfkit.pageShadows" = "Sivuvarjot";
+"stpdfkit.backgroundColor" = "Taustaväri";
+
+/* Property Inspector */
+"stpdfkit.color" = "Väri";
+"stpdfkit.width" = "Leveys";
+"stpdfkit.fontSize" = "Fonttikoko";
+"stpdfkit.opacity" = "Peittävyys";
+"stpdfkit.font" = "Fontti";
+
+/* Annotation Tools */
+"stpdfkit.tool.pen" = "Kynä";
+"stpdfkit.tool.highlighter" = "Korostuskynä";
+"stpdfkit.tool.text" = "Teksti";
+"stpdfkit.tool.highlight" = "Korosta";
+"stpdfkit.tool.underline" = "Alleviivaus";
+"stpdfkit.tool.strikethrough" = "Yliviivaus";
+"stpdfkit.tool.rectangle" = "Suorakaide";
+"stpdfkit.tool.circle" = "Ympyrä";
+"stpdfkit.tool.line" = "Viiva";
+"stpdfkit.tool.arrow" = "Nuoli";
+"stpdfkit.tool.signature" = "Allekirjoitus";
+"stpdfkit.tool.stamp" = "Leima";
+"stpdfkit.tool.note" = "Huomio";
+"stpdfkit.tool.eraser" = "Pyyhekumi";
+"stpdfkit.tool.photo" = "Kuva";
+"stpdfkit.tool.textEdit" = "Muokkaa tekstiä";
+"stpdfkit.tapOnTextToEdit" = "Napauta tekstiä muokataksesi";
+"stpdfkit.selection.word" = "Sana";
+"stpdfkit.selection.line" = "Rivi";
+
+/* Toolbar Labels */
+"stpdfkit.hand" = "Käsi";
+"stpdfkit.undo" = "Kumoa";
+"stpdfkit.redo" = "Tee uudelleen";
+"stpdfkit.select" = "Valitse";
+"stpdfkit.style" = "Tyyli";
+"stpdfkit.close" = "Sulje";
+"stpdfkit.zoomIn" = "Lähennä";
+"stpdfkit.zoomOut" = "Loitonna";
+"stpdfkit.addText" = "Lisää teksti";
+"stpdfkit.removeText" = "Poista teksti";
+
+/* Annotation Groups */
+"stpdfkit.group.draw" = "Piirrä";
+"stpdfkit.group.shapes" = "Muodot";
+"stpdfkit.group.text" = "Teksti";
+"stpdfkit.group.markup" = "Merkinnät";
+"stpdfkit.group.extras" = "Lisää";
+
+/* Text Input */
+"stpdfkit.enterText" = "Kirjoita teksti...";
+"stpdfkit.cancel" = "Peruuta";
+"stpdfkit.add" = "Lisää";
+
+/* Markup */
+"stpdfkit.applyTool" = "Käytä %@";
+
+/* Signature */
+"stpdfkit.signature.clear" = "Tyhjennä";
+"stpdfkit.signature.drawNew" = "Piirrä uusi";
+"stpdfkit.signature.saved" = "Tallennetut allekirjoitukset";
+
+/* Stamp Types */
+"stpdfkit.stamp.approved" = "Hyväksytty";
+"stpdfkit.stamp.rejected" = "Hylätty";
+"stpdfkit.stamp.draft" = "Luonnos";
+"stpdfkit.stamp.confidential" = "Luottamuksellinen";
+"stpdfkit.stamp.forComment" = "Kommentointia varten";
+"stpdfkit.stamp.asIs" = "Sellaisenaan";
+"stpdfkit.stamp.final" = "Lopullinen";
+
+/* Placement */
+"stpdfkit.tapToPlace" = "Napauta sijoittaaksesi";
+
+/* Selection Menu */
+"stpdfkit.selection.copy" = "Kopioi";
+"stpdfkit.selection.paste" = "Liitä";
+"stpdfkit.selection.delete" = "Poista";
+"stpdfkit.selection.inspector" = "Tarkastus";
+"stpdfkit.selection.note" = "Huomio";
+
+/* Tool Hints */
+"stpdfkit.hint.draw" = "Kosketa ja piirrä";
+"stpdfkit.hint.shape" = "Vedä piirtääksesi";
+"stpdfkit.hint.tapToAddText" = "Napauta lisätäksesi tekstiä";
+"stpdfkit.hint.erase" = "Pyyhkäise poistaaksesi";
+
+/* Order (Layer) */
+"stpdfkit.order" = "Järjestys";
+"stpdfkit.order.front" = "Tuo etualalle";
+"stpdfkit.order.forward" = "Tuo eteen";
+"stpdfkit.order.backward" = "Lähetä taakse";
+"stpdfkit.order.back" = "Lähetä taustalle";
+
+/* Page Editor */
+"stpdfkit.page.newPage" = "Uusi sivu";
+"stpdfkit.page.remove" = "Poista";
+"stpdfkit.page.duplicate" = "Kopioi";
+"stpdfkit.page.rotate" = "Kierrä";
+"stpdfkit.page.selectAll" = "Valitse kaikki";
+"stpdfkit.page.deselectAll" = "Poista valinta";
+"stpdfkit.page.cut" = "Leikkaa";
+"stpdfkit.page.copy" = "Kopioi";
+"stpdfkit.page.paste" = "Liitä";
+"stpdfkit.page.numberOfPages" = "Sivujen lukumäärä";
+"stpdfkit.page.format" = "Sivun muoto";
+"stpdfkit.page.color" = "Sivun väri";
+"stpdfkit.page.addAfter" = "Lisää sivun jälkeen";
+"stpdfkit.page.beginning" = "Alku";
+"stpdfkit.page.color.white" = "Valkoinen";
+"stpdfkit.page.color.cream" = "Kerma";
+"stpdfkit.page.color.gray" = "Harmaa";
+
+/* License */
+"stpdfkit.unlicensed" = "STPDFKit — Ei lisenssiä";

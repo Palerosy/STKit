@@ -1,4 +1,0 @@
-framework module STTXT {
-    header "STTXT-Swift.h"
-    export *
-}
