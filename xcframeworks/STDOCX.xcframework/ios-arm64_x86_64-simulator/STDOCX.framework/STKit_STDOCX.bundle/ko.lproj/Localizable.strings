@@ -1,0 +1,13 @@
+"stdocx.font" = "글꼴";
+"stdocx.textColor" = "텍스트 색상";
+"stdocx.exportAs" = "다음으로 내보내기";
+"stdocx.findReplace" = "찾기 및 바꾸기";
+"stdocx.bold" = "굵게";
+"stdocx.italic" = "기울임꼴";
+"stdocx.underline" = "밑줄";
+"stdocx.strikethrough" = "취소선";
+"stdocx.alignment" = "정렬";
+"stdocx.alignLeft" = "왼쪽 정렬";
+"stdocx.alignCenter" = "가운데 정렬";
+"stdocx.alignRight" = "오른쪽 정렬";
+"stdocx.justify" = "양쪽 맞춤";

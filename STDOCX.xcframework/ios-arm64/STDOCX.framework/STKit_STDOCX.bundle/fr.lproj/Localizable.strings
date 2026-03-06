@@ -1,0 +1,13 @@
+"stdocx.font" = "Police";
+"stdocx.textColor" = "Couleur du texte";
+"stdocx.exportAs" = "Exporter en tant que";
+"stdocx.findReplace" = "Rechercher et remplacer";
+"stdocx.bold" = "Gras";
+"stdocx.italic" = "Italique";
+"stdocx.underline" = "Souligner";
+"stdocx.strikethrough" = "Barré";
+"stdocx.alignment" = "Alignement";
+"stdocx.alignLeft" = "Aligner à gauche";
+"stdocx.alignCenter" = "Centrer";
+"stdocx.alignRight" = "Aligner à droite";
+"stdocx.justify" = "Justifier";

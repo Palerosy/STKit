@@ -23,6 +23,10 @@ public struct STPDFEditorView: View {
 
     @StateObject private var viewModel: STPDFEditorViewModel
     @StateObject private var bookmarkManager: STBookmarkManager
+    @State private var showCloseConfirmation = false
+    @State private var showLicenseAlert = false
+    @State private var showPremiumPaywall = false
+    @State private var paywallPlacement = "main"
 
     public init(
         url: URL,
@@ -95,8 +99,7 @@ public struct STPDFEditorView: View {
             // macOS inline toolbar
             HStack {
                 Button {
-                    viewModel.serializer.save()
-                    onDismiss?()
+                    showCloseConfirmation = true
                 } label: {
                     Image(systemName: "xmark")
                         .font(.system(size: 14, weight: .semibold))
@@ -113,18 +116,19 @@ public struct STPDFEditorView: View {
                 Spacer()
 
                 Button {
-                    if let onPrint = configuration.onPrint ?? STKitConfiguration.shared.onPrint, !onPrint() { return }
-                    // Use the in-memory document for printing so custom annotation draw methods are preserved
-                    viewModel.serializer.save()
-                    let printDoc = viewModel.document.pdfDocument
-                    let printInfo = NSPrintInfo.shared.copy() as! NSPrintInfo
-                    printInfo.isHorizontallyCentered = true
-                    printInfo.isVerticallyCentered = true
-                    printInfo.scalingFactor = 1.0
-                    if let printOp = printDoc.printOperation(for: printInfo, scalingMode: .pageScaleToFit, autoRotate: true) {
-                        printOp.showsPrintPanel = true
-                        printOp.showsProgressPanel = true
-                        printOp.run()
+                    licensedAction {
+                        // Use the in-memory document for printing so custom annotation draw methods are preserved
+                        viewModel.serializer.save()
+                        let printDoc = viewModel.document.pdfDocument
+                        let printInfo = NSPrintInfo.shared.copy() as! NSPrintInfo
+                        printInfo.isHorizontallyCentered = true
+                        printInfo.isVerticallyCentered = true
+                        printInfo.scalingFactor = 1.0
+                        if let printOp = printDoc.printOperation(for: printInfo, scalingMode: .pageScaleToFit, autoRotate: true) {
+                            printOp.showsPrintPanel = true
+                            printOp.showsProgressPanel = true
+                            printOp.run()
+                        }
                     }
                 } label: {
                     Image(systemName: "printer")
@@ -168,8 +172,7 @@ public struct STPDFEditorView: View {
         .toolbar {
             ToolbarItem(placement: .stLeading) {
                 Button {
-                    viewModel.serializer.save()
-                    onDismiss?()
+                    showCloseConfirmation = true
                 } label: {
                     Image(systemName: "xmark")
                         .font(.system(size: 16, weight: .semibold))
@@ -189,6 +192,27 @@ public struct STPDFEditorView: View {
                     bookmarkManager: bookmarkManager,
                     configuration: configuration
                 )
+            }
+        }
+        #endif
+        .alert(STStrings.unsavedChanges, isPresented: $showCloseConfirmation) {
+            Button(STStrings.discard, role: .destructive) {
+                onDismiss?()
+            }
+            Button(STStrings.save) {
+                licensedAction({ saveAndClose() }, delay: 0.5)
+            }
+            Button(STStrings.cancel, role: .cancel) {}
+        } message: {
+            Text(STStrings.unsavedChangesMessage)
+        }
+        .alert(STStrings.unlicensed, isPresented: $showLicenseAlert) {
+            Button(STStrings.done, role: .cancel) {}
+        }
+        #if os(iOS)
+        .fullScreenCover(isPresented: $showPremiumPaywall) {
+            if let paywallView = STKitConfiguration.shared.premiumPaywallView {
+                paywallView(paywallPlacement)
             }
         }
         #endif
@@ -221,5 +245,29 @@ public struct STPDFEditorView: View {
                 STSettingsView()
             }
         }
+    }
+
+    // MARK: - Premium Gate
+
+    private func licensedAction(_ action: @escaping () -> Void, delay: Double = 0.35) {
+        if STKitConfiguration.shared.isPurchased {
+            action()
+        } else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+                if STKitConfiguration.shared.premiumPaywallView != nil {
+                    paywallPlacement = configuration.paywallPlacement
+                    showPremiumPaywall = true
+                } else if let handler = STKitConfiguration.shared.onPremiumFeatureTapped {
+                    handler()
+                } else {
+                    showLicenseAlert = true
+                }
+            }
+        }
+    }
+
+    private func saveAndClose() {
+        viewModel.serializer.save()
+        onDismiss?()
     }
 }

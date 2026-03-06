@@ -1,0 +1,13 @@
+"stdocx.font" = "แบบอักษร";
+"stdocx.textColor" = "สีข้อความ";
+"stdocx.exportAs" = "ส่งออกเป็น";
+"stdocx.findReplace" = "ค้นหาและแทนที่";
+"stdocx.bold" = "ตัวหนา";
+"stdocx.italic" = "ตัวเอียง";
+"stdocx.underline" = "ขีดเส้นใต้";
+"stdocx.strikethrough" = "ขีดฆ่า";
+"stdocx.alignment" = "การจัดแนว";
+"stdocx.alignLeft" = "ชิดซ้าย";
+"stdocx.alignCenter" = "กึ่งกลาง";
+"stdocx.alignRight" = "ชิดขวา";
+"stdocx.justify" = "ชิดขอบ";

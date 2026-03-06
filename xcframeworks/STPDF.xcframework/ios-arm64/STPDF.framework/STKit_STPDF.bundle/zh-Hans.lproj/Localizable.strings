@@ -1,0 +1,101 @@
+/* Chinese Simplified (zh-Hans) — STPDFKit Localizable Strings */
+
+/* General UI */
+"stpdfkit.done" = "完成";
+"stpdfkit.pages" = "页面";
+"stpdfkit.bookmark" = "书签";
+"stpdfkit.search" = "搜索";
+"stpdfkit.settings" = "设置";
+"stpdfkit.outline" = "目录";
+"stpdfkit.editPages" = "编辑页面";
+"stpdfkit.share" = "共享";
+"stpdfkit.print" = "打印";
+"stpdfkit.saveAsText" = "存储为文本";
+"stpdfkit.untitled" = "未命名";
+
+/* Search */
+"stpdfkit.searchInDocument" = "在文稿中搜索";
+"stpdfkit.searching" = "搜索中";
+"stpdfkit.noResultsFound" = "未找到结果";
+
+/* Page */
+"stpdfkit.page" = "第 %d 页";
+"stpdfkit.noOutlineAvailable" = "无可用目录";
+
+/* Display Settings */
+"stpdfkit.display" = "显示";
+"stpdfkit.scrollDirection" = "滚动方向";
+"stpdfkit.pageMode" = "页面模式";
+"stpdfkit.view" = "视图";
+"stpdfkit.pageShadows" = "页面阴影";
+"stpdfkit.backgroundColor" = "背景颜色";
+
+/* Annotation Properties */
+"stpdfkit.color" = "颜色";
+"stpdfkit.width" = "宽度";
+"stpdfkit.fontSize" = "字体大小";
+"stpdfkit.opacity" = "不透明度";
+"stpdfkit.font" = "字体";
+
+/* Annotation Tools */
+"stpdfkit.tool.pen" = "钢笔";
+"stpdfkit.tool.highlighter" = "荧光笔";
+"stpdfkit.tool.text" = "文本";
+"stpdfkit.tool.highlight" = "高亮";
+"stpdfkit.tool.underline" = "下划线";
+"stpdfkit.tool.strikethrough" = "删除线";
+"stpdfkit.tool.rectangle" = "矩形";
+"stpdfkit.tool.circle" = "圆形";
+"stpdfkit.tool.line" = "直线";
+"stpdfkit.tool.arrow" = "箭头";
+"stpdfkit.tool.signature" = "签名";
+"stpdfkit.tool.stamp" = "印章";
+"stpdfkit.tool.note" = "备注";
+"stpdfkit.tool.eraser" = "橡皮擦";
+"stpdfkit.tool.textEdit" = "编辑文本";
+"stpdfkit.tapOnTextToEdit" = "点击文本进行编辑";
+"stpdfkit.selection.word" = "单词";
+"stpdfkit.selection.line" = "行";
+
+/* Annotation Groups */
+"stpdfkit.group.draw" = "绘图";
+"stpdfkit.group.text" = "文本";
+"stpdfkit.group.markup" = "标注";
+
+/* Text Input */
+"stpdfkit.enterText" = "输入文本...";
+"stpdfkit.cancel" = "取消";
+"stpdfkit.add" = "添加";
+
+/* Markup */
+"stpdfkit.applyTool" = "应用%@";
+
+/* Signature */
+"stpdfkit.signature.clear" = "清除";
+"stpdfkit.signature.drawNew" = "绘制新签名";
+"stpdfkit.signature.saved" = "已保存的签名";
+
+/* Selection Menu */
+"stpdfkit.selection.paste" = "粘贴";
+
+/* Page Editor */
+"stpdfkit.page.newPage" = "新页面";
+"stpdfkit.page.remove" = "移除";
+"stpdfkit.page.duplicate" = "复制页面";
+"stpdfkit.page.rotate" = "旋转";
+"stpdfkit.page.selectAll" = "全选";
+"stpdfkit.page.deselectAll" = "取消全选";
+"stpdfkit.page.cut" = "剪切";
+"stpdfkit.page.copy" = "复制";
+"stpdfkit.page.paste" = "粘贴";
+"stpdfkit.page.numberOfPages" = "页数";
+"stpdfkit.page.format" = "页面格式";
+"stpdfkit.page.color" = "页面颜色";
+"stpdfkit.page.addAfter" = "在页面之后添加";
+"stpdfkit.page.beginning" = "开头";
+"stpdfkit.page.color.white" = "白色";
+"stpdfkit.page.color.cream" = "米色";
+"stpdfkit.page.color.gray" = "灰色";
+
+/* License */
+"stpdfkit.unlicensed" = "STPDFKit — Unlicensed";

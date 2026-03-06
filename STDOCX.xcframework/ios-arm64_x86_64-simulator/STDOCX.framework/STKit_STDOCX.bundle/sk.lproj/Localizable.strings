@@ -1,0 +1,13 @@
+"stdocx.font" = "Písmo";
+"stdocx.textColor" = "Farba textu";
+"stdocx.exportAs" = "Exportovať ako";
+"stdocx.findReplace" = "Nájsť a nahradiť";
+"stdocx.bold" = "Tučné";
+"stdocx.italic" = "Kurzíva";
+"stdocx.underline" = "Podčiarknutie";
+"stdocx.strikethrough" = "Prečiarknutie";
+"stdocx.alignment" = "Zarovnanie";
+"stdocx.alignLeft" = "Zarovnať vľavo";
+"stdocx.alignCenter" = "Zarovnať na stred";
+"stdocx.alignRight" = "Zarovnať vpravo";
+"stdocx.justify" = "Zarovnať";

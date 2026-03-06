@@ -1,12 +1,38 @@
 import Foundation
+import SwiftUI
 
 /// Global configuration for STKit SDK
 public final class STKitConfiguration {
     public static let shared = STKitConfiguration()
 
-    /// Global print guard. Return `true` to allow printing, `false` to block.
-    /// Individual configuration `onPrint` takes priority over this global setting.
-    public var onPrint: (() -> Bool)?
+    /// Whether the end-user has purchased / subscribed in the host app.
+    /// Defaults to `true`. Set to `false` to gate premium features (Export, Print)
+    /// behind your own in-app purchase / subscription.
+    ///
+    /// ```swift
+    /// // Block features until user subscribes
+    /// STKitConfiguration.shared.isPurchased = false
+    ///
+    /// // After purchase verified
+    /// STKitConfiguration.shared.isPurchased = true
+    /// ```
+    public var isPurchased: Bool = true
+
+    /// Optional callback invoked when an unlicensed user taps a premium feature.
+    /// Use this to present your own paywall / purchase screen.
+    /// If nil, a default "Premium Required" alert is shown.
+    public var onPremiumFeatureTapped: (() -> Void)?
+
+    /// Provide your paywall SwiftUI view. STKit will present it as a fullScreenCover
+    /// so the editor state is preserved. Preferred over `onPremiumFeatureTapped`.
+    /// The `String` parameter is a placement identifier (e.g. "excel_save", "pdf_export").
+    ///
+    /// ```swift
+    /// STKitConfiguration.shared.premiumPaywallView = { placement in
+    ///     AnyView(MyPaywallView(placement: placement))
+    /// }
+    /// ```
+    public var premiumPaywallView: ((String) -> AnyView)?
 
     /// Override language code (e.g. "tr", "sv", "de"). Set to nil to use system default.
     public var languageCode: String? {

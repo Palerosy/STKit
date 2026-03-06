@@ -1,0 +1,111 @@
+/* STPDFKit — Greek (el) Localizable Strings */
+
+/* MARK: - General */
+
+"stpdfkit.done" = "Τέλος";
+"stpdfkit.pages" = "Σελίδες";
+"stpdfkit.bookmark" = "Σελιδοδείκτης";
+"stpdfkit.search" = "Αναζήτηση";
+"stpdfkit.settings" = "Ρυθμίσεις";
+"stpdfkit.outline" = "Περιεχόμενα";
+"stpdfkit.editPages" = "Επεξεργασία σελίδων";
+"stpdfkit.share" = "Κοινοποίηση";
+"stpdfkit.print" = "Εκτύπωση";
+"stpdfkit.saveAsText" = "Αποθήκευση ως κείμενο";
+"stpdfkit.untitled" = "Χωρίς τίτλο";
+
+/* MARK: - Search */
+
+"stpdfkit.searchInDocument" = "Αναζήτηση στο έγγραφο…";
+"stpdfkit.searching" = "Γίνεται αναζήτηση…";
+"stpdfkit.noResultsFound" = "Δεν βρέθηκαν αποτελέσματα";
+
+/* MARK: - Page & Outline */
+
+"stpdfkit.page" = "Σελίδα %d";
+"stpdfkit.noOutlineAvailable" = "Δεν υπάρχουν διαθέσιμα περιεχόμενα";
+
+/* MARK: - Display Settings */
+
+"stpdfkit.display" = "Εμφάνιση";
+"stpdfkit.scrollDirection" = "Κατεύθυνση κύλισης";
+"stpdfkit.pageMode" = "Λειτουργία σελίδας";
+"stpdfkit.view" = "Προβολή";
+"stpdfkit.pageShadows" = "Σκιές σελίδας";
+"stpdfkit.backgroundColor" = "Χρώμα φόντου";
+
+/* MARK: - Properties */
+
+"stpdfkit.color" = "Χρώμα";
+"stpdfkit.width" = "Πλάτος";
+"stpdfkit.fontSize" = "Μέγεθος γραμματοσειράς";
+"stpdfkit.opacity" = "Αδιαφάνεια";
+"stpdfkit.font" = "Γραμματοσειρά";
+
+/* MARK: - Annotation Tools */
+
+"stpdfkit.tool.pen" = "Στυλό";
+"stpdfkit.tool.highlighter" = "Μαρκαδόρος";
+"stpdfkit.tool.text" = "Κείμενο";
+"stpdfkit.tool.highlight" = "Επισήμανση";
+"stpdfkit.tool.underline" = "Υπογράμμιση";
+"stpdfkit.tool.strikethrough" = "Διαγράμμιση";
+"stpdfkit.tool.rectangle" = "Ορθογώνιο";
+"stpdfkit.tool.circle" = "Κύκλος";
+"stpdfkit.tool.line" = "Γραμμή";
+"stpdfkit.tool.arrow" = "Βέλος";
+"stpdfkit.tool.signature" = "Υπογραφή";
+"stpdfkit.tool.stamp" = "Σφραγίδα";
+"stpdfkit.tool.note" = "Σημείωση";
+"stpdfkit.tool.eraser" = "Γόμα";
+"stpdfkit.tool.textEdit" = "Επεξεργασία Κειμένου";
+"stpdfkit.tapOnTextToEdit" = "Πατήστε στο κείμενο για επεξεργασία";
+"stpdfkit.selection.word" = "Λέξη";
+"stpdfkit.selection.line" = "Γραμμή";
+
+/* MARK: - Tool Groups */
+
+"stpdfkit.group.draw" = "Σχεδίαση";
+"stpdfkit.group.text" = "Κείμενο";
+"stpdfkit.group.markup" = "Σήμανση";
+
+/* MARK: - Text Input */
+
+"stpdfkit.enterText" = "Εισαγωγή κειμένου...";
+"stpdfkit.cancel" = "Ακύρωση";
+"stpdfkit.add" = "Προσθήκη";
+
+/* MARK: - Markup */
+
+"stpdfkit.applyTool" = "Εφαρμογή %@";
+
+/* Signature */
+"stpdfkit.signature.clear" = "Καθαρισμός";
+"stpdfkit.signature.drawNew" = "Σχεδίαση νέας";
+"stpdfkit.signature.saved" = "Αποθηκευμένες υπογραφές";
+
+/* Selection Menu */
+"stpdfkit.selection.paste" = "Επικόλληση";
+
+/* Page Editor */
+"stpdfkit.page.newPage" = "Νέα Σελίδα";
+"stpdfkit.page.remove" = "Αφαίρεση";
+"stpdfkit.page.duplicate" = "Αντίγραφο";
+"stpdfkit.page.rotate" = "Περιστροφή";
+"stpdfkit.page.selectAll" = "Επιλογή Όλων";
+"stpdfkit.page.deselectAll" = "Αποεπιλογή Όλων";
+"stpdfkit.page.cut" = "Αποκοπή";
+"stpdfkit.page.copy" = "Αντιγραφή";
+"stpdfkit.page.paste" = "Επικόλληση";
+"stpdfkit.page.numberOfPages" = "Αριθμός Σελίδων";
+"stpdfkit.page.format" = "Μορφή Σελίδας";
+"stpdfkit.page.color" = "Χρώμα Σελίδας";
+"stpdfkit.page.addAfter" = "Προσθήκη μετά τη Σελίδα";
+"stpdfkit.page.beginning" = "Αρχή";
+"stpdfkit.page.color.white" = "Λευκό";
+"stpdfkit.page.color.cream" = "Κρεμ";
+"stpdfkit.page.color.gray" = "Γκρι";
+
+/* MARK: - License */
+
+"stpdfkit.unlicensed" = "STPDFKit — Unlicensed";

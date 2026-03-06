@@ -1,0 +1,13 @@
+"stdocx.font" = "Czcionka";
+"stdocx.textColor" = "Kolor tekstu";
+"stdocx.exportAs" = "Eksportuj jako";
+"stdocx.findReplace" = "Znajdź i zamień";
+"stdocx.bold" = "Pogrubienie";
+"stdocx.italic" = "Kursywa";
+"stdocx.underline" = "Podkreślenie";
+"stdocx.strikethrough" = "Przekreślenie";
+"stdocx.alignment" = "Wyrównanie";
+"stdocx.alignLeft" = "Wyrównaj do lewej";
+"stdocx.alignCenter" = "Wyśrodkuj";
+"stdocx.alignRight" = "Wyrównaj do prawej";
+"stdocx.justify" = "Wyjustuj";

@@ -1,0 +1,13 @@
+"stdocx.font" = "Шрифт";
+"stdocx.textColor" = "Колір тексту";
+"stdocx.exportAs" = "Експорт як";
+"stdocx.findReplace" = "Знайти і замінити";
+"stdocx.bold" = "Жирний";
+"stdocx.italic" = "Курсив";
+"stdocx.underline" = "Підкреслений";
+"stdocx.strikethrough" = "Закреслений";
+"stdocx.alignment" = "Вирівнювання";
+"stdocx.alignLeft" = "По лівому краю";
+"stdocx.alignCenter" = "По центру";
+"stdocx.alignRight" = "По правому краю";
+"stdocx.justify" = "По ширині";

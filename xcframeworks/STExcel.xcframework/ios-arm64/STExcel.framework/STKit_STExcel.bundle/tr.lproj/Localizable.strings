@@ -1,0 +1,6 @@
+/* STExcel */
+"stexcel.sheet" = "Sayfa";
+"stexcel.cell" = "Hücre";
+"stexcel.row" = "Satır";
+"stexcel.column" = "Sütun";
+"stexcel.value" = "Değer";

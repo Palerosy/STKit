@@ -25,7 +25,7 @@ struct STMoreMenu: View {
             // File section
             if configuration.showShare {
                 Button {
-                    shareDocument()
+                    licensedAction { shareDocument() }
                 } label: {
                     Label(STStrings.share, systemImage: "square.and.arrow.up")
                 }
@@ -33,7 +33,7 @@ struct STMoreMenu: View {
 
             if configuration.showPrint {
                 Button {
-                    printDocument()
+                    licensedAction { printDocument() }
                 } label: {
                     Label(STStrings.print, systemImage: "printer")
                 }
@@ -41,7 +41,7 @@ struct STMoreMenu: View {
 
             if configuration.showSaveAsText {
                 Button {
-                    saveAsText()
+                    licensedAction { saveAsText() }
                 } label: {
                     Label(STStrings.saveAsText, systemImage: "doc.text")
                 }
@@ -50,6 +50,36 @@ struct STMoreMenu: View {
             Image(systemName: "ellipsis.circle")
                 .font(.system(size: 20))
         }
+        #if os(iOS)
+        .fullScreenCover(isPresented: $showPremiumPaywall) {
+            if let paywallView = STKitConfiguration.shared.premiumPaywallView {
+                paywallView(paywallPlacement)
+            }
+        }
+        #endif
+    }
+
+    // MARK: - Premium Gate
+
+    @State private var showLicenseAlert = false
+    @State private var showPremiumPaywall = false
+    @State private var paywallPlacement = "main"
+
+    private func licensedAction(_ action: @escaping () -> Void, delay: Double = 0.35) {
+        if STKitConfiguration.shared.isPurchased {
+            action()
+        } else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+                if STKitConfiguration.shared.premiumPaywallView != nil {
+                    paywallPlacement = configuration.paywallPlacement
+                    showPremiumPaywall = true
+                } else if let handler = STKitConfiguration.shared.onPremiumFeatureTapped {
+                    handler()
+                } else {
+                    showLicenseAlert = true
+                }
+            }
+        }
     }
 
     // MARK: - Actions
@@ -57,34 +87,32 @@ struct STMoreMenu: View {
     private func shareDocument() {
         guard let url = viewModel.document.url else { return }
         Task {
-            // Wait for content to be saved before showing share sheet
             await viewModel.webEditorViewModel.saveContent()
             viewModel.document.save(to: url)
-
-            #if os(iOS)
-            let activityVC = UIActivityViewController(activityItems: [url], applicationActivities: nil)
-
-            if let windowScene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene,
-               let rootVC = windowScene.windows.first(where: { $0.isKeyWindow })?.rootViewController {
-                var topVC = rootVC
-                while let presented = topVC.presentedViewController {
-                    topVC = presented
-                }
-                activityVC.popoverPresentationController?.sourceView = topVC.view
-                topVC.present(activityVC, animated: true)
-            }
-            #elseif os(macOS)
-            let sharingPicker = NSSharingServicePicker(items: [url])
-            if let window = NSApplication.shared.keyWindow,
-               let contentView = window.contentView {
-                sharingPicker.show(relativeTo: .zero, of: contentView, preferredEdge: .minY)
-            }
-            #endif
         }
+
+        #if os(iOS)
+        let activityVC = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+
+        if let windowScene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene,
+           let rootVC = windowScene.windows.first(where: { $0.isKeyWindow })?.rootViewController {
+            var topVC = rootVC
+            while let presented = topVC.presentedViewController {
+                topVC = presented
+            }
+            activityVC.popoverPresentationController?.sourceView = topVC.view
+            topVC.present(activityVC, animated: true)
+        }
+        #elseif os(macOS)
+        let sharingPicker = NSSharingServicePicker(items: [url])
+        if let window = NSApplication.shared.keyWindow,
+           let contentView = window.contentView {
+            sharingPicker.show(relativeTo: .zero, of: contentView, preferredEdge: .minY)
+        }
+        #endif
     }
 
     private func printDocument() {
-        if let onPrint = configuration.onPrint ?? STKitConfiguration.shared.onPrint, !onPrint() { return }
         viewModel.webEditorViewModel.printContent()
     }
 

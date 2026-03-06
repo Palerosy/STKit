@@ -1,0 +1,101 @@
+/* Japanese (ja) — STPDFKit Localizable Strings */
+
+/* General UI */
+"stpdfkit.done" = "完了";
+"stpdfkit.pages" = "ページ";
+"stpdfkit.bookmark" = "ブックマーク";
+"stpdfkit.search" = "検索";
+"stpdfkit.settings" = "設定";
+"stpdfkit.outline" = "目次";
+"stpdfkit.editPages" = "ページを編集";
+"stpdfkit.share" = "共有";
+"stpdfkit.print" = "プリント";
+"stpdfkit.saveAsText" = "テキストとして保存";
+"stpdfkit.untitled" = "名称未設定";
+
+/* Search */
+"stpdfkit.searchInDocument" = "書類内を検索";
+"stpdfkit.searching" = "検索中";
+"stpdfkit.noResultsFound" = "結果なし";
+
+/* Page */
+"stpdfkit.page" = "%d ページ";
+"stpdfkit.noOutlineAvailable" = "目次がありません";
+
+/* Display Settings */
+"stpdfkit.display" = "表示";
+"stpdfkit.scrollDirection" = "スクロール方向";
+"stpdfkit.pageMode" = "ページモード";
+"stpdfkit.view" = "表示";
+"stpdfkit.pageShadows" = "ページの影";
+"stpdfkit.backgroundColor" = "背景色";
+
+/* Annotation Properties */
+"stpdfkit.color" = "カラー";
+"stpdfkit.width" = "幅";
+"stpdfkit.fontSize" = "フォントサイズ";
+"stpdfkit.opacity" = "不透明度";
+"stpdfkit.font" = "フォント";
+
+/* Annotation Tools */
+"stpdfkit.tool.pen" = "ペン";
+"stpdfkit.tool.highlighter" = "蛍光ペン";
+"stpdfkit.tool.text" = "テキスト";
+"stpdfkit.tool.highlight" = "ハイライト";
+"stpdfkit.tool.underline" = "下線";
+"stpdfkit.tool.strikethrough" = "取り消し線";
+"stpdfkit.tool.rectangle" = "四角形";
+"stpdfkit.tool.circle" = "円";
+"stpdfkit.tool.line" = "線";
+"stpdfkit.tool.arrow" = "矢印";
+"stpdfkit.tool.signature" = "署名";
+"stpdfkit.tool.stamp" = "スタンプ";
+"stpdfkit.tool.note" = "メモ";
+"stpdfkit.tool.eraser" = "消しゴム";
+"stpdfkit.tool.textEdit" = "テキストを編集";
+"stpdfkit.tapOnTextToEdit" = "テキストをタップして編集";
+"stpdfkit.selection.word" = "単語";
+"stpdfkit.selection.line" = "行";
+
+/* Annotation Groups */
+"stpdfkit.group.draw" = "描画";
+"stpdfkit.group.text" = "テキスト";
+"stpdfkit.group.markup" = "マークアップ";
+
+/* Text Input */
+"stpdfkit.enterText" = "テキストを入力...";
+"stpdfkit.cancel" = "キャンセル";
+"stpdfkit.add" = "追加";
+
+/* Markup */
+"stpdfkit.applyTool" = "%@を適用";
+
+/* Signature */
+"stpdfkit.signature.clear" = "消去";
+"stpdfkit.signature.drawNew" = "新規作成";
+"stpdfkit.signature.saved" = "保存済みの署名";
+
+/* Selection Menu */
+"stpdfkit.selection.paste" = "ペースト";
+
+/* Page Editor */
+"stpdfkit.page.newPage" = "新規ページ";
+"stpdfkit.page.remove" = "削除";
+"stpdfkit.page.duplicate" = "複製";
+"stpdfkit.page.rotate" = "回転";
+"stpdfkit.page.selectAll" = "すべて選択";
+"stpdfkit.page.deselectAll" = "選択解除";
+"stpdfkit.page.cut" = "カット";
+"stpdfkit.page.copy" = "コピー";
+"stpdfkit.page.paste" = "ペースト";
+"stpdfkit.page.numberOfPages" = "ページ数";
+"stpdfkit.page.format" = "ページ形式";
+"stpdfkit.page.color" = "ページ色";
+"stpdfkit.page.addAfter" = "ページの後に追加";
+"stpdfkit.page.beginning" = "先頭";
+"stpdfkit.page.color.white" = "白";
+"stpdfkit.page.color.cream" = "クリーム";
+"stpdfkit.page.color.gray" = "グレー";
+
+/* License */
+"stpdfkit.unlicensed" = "STPDFKit — Unlicensed";

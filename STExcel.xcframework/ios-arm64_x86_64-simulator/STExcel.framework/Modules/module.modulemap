@@ -1,0 +1,4 @@
+framework module STExcel {
+    header "STExcel-Swift.h"
+    export *
+}

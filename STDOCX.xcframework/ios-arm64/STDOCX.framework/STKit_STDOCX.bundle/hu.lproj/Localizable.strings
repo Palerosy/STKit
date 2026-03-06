@@ -1,0 +1,13 @@
+"stdocx.font" = "Betűtípus";
+"stdocx.textColor" = "Szövegszín";
+"stdocx.exportAs" = "Exportálás mint";
+"stdocx.findReplace" = "Keresés és csere";
+"stdocx.bold" = "Félkövér";
+"stdocx.italic" = "Dőlt";
+"stdocx.underline" = "Aláhúzás";
+"stdocx.strikethrough" = "Áthúzás";
+"stdocx.alignment" = "Igazítás";
+"stdocx.alignLeft" = "Balra igazítás";
+"stdocx.alignCenter" = "Középre";
+"stdocx.alignRight" = "Jobbra igazítás";
+"stdocx.justify" = "Sorkizárás";

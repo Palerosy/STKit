@@ -33,9 +33,8 @@ public struct STTXTConfiguration {
     /// Show line numbers (future feature)
     public var showLineNumbers: Bool = false
 
-    /// Called when the user taps print. Return `true` to allow printing, `false` to block.
-    /// When nil, printing is always allowed.
-    public var onPrint: (() -> Bool)?
+    /// Adapty placement identifier for paywall. Set from host app.
+    public var paywallPlacement: String = "main"
 
     public init() {}
 

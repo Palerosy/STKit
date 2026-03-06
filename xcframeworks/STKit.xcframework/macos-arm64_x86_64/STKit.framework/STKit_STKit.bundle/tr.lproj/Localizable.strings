@@ -1,0 +1,275 @@
+/* Common */
+"stkit.done" = "Tamam";
+"stkit.cancel" = "İptal";
+"stkit.save" = "Kaydet";
+"stkit.share" = "Paylaş";
+"stkit.export" = "Dışa Aktar";
+"stkit.delete" = "Sil";
+"stkit.close" = "Kapat";
+"stkit.untitled" = "İsimsiz";
+"stkit.search" = "Ara";
+"stkit.undo" = "Geri Al";
+"stkit.redo" = "Yinele";
+"stkit.add" = "Ekle";
+
+/* License */
+"stkit.unlicensed" = "STKit — Lisanssız";
+
+/* Word Count */
+"stkit.wordCount" = "Kelime Sayısı";
+"stkit.words" = "Kelime";
+"stkit.characters" = "Karakter";
+"stkit.charactersWithSpaces" = "Karakter (boşluklu)";
+"stkit.paragraphs" = "Paragraf";
+"stkit.lines" = "Satır";
+
+/* Document */
+"stkit.newDocument" = "Yeni Belge";
+"stkit.unsavedChanges" = "Kaydedilmemiş Değişiklikler";
+"stkit.unsavedChangesMessage" = "Kaydedilmemiş değişiklikleriniz var. Ne yapmak istersiniz?";
+"stkit.discard" = "Değişiklikleri At";
+"stkit.saveAndClose" = "Kaydet ve Kapat";
+
+/* Navigation & Controls */
+"stkit.pages" = "Sayfalar";
+"stkit.bookmark" = "Yer İmi";
+"stkit.settings" = "Ayarlar";
+"stkit.outline" = "İçindekiler";
+"stkit.editPages" = "Sayfaları Düzenle";
+"stkit.print" = "Yazdır";
+"stkit.saveAsText" = "Metin Olarak Kaydet";
+
+/* Search & Replace */
+"stkit.searchInDocument" = "Belgede Ara";
+"stkit.searching" = "Aranıyor";
+"stkit.noResultsFound" = "Sonuç Bulunamadı";
+"stkit.page" = "Sayfa %d";
+"stkit.replace" = "Değiştir";
+"stkit.replaceWith" = "Şununla değiştir...";
+"stkit.replaceAll" = "Tümü";
+"stkit.showReplace" = "Değiştir";
+"stkit.hideReplace" = "Değiştirmeyi Gizle";
+
+/* Outline */
+"stkit.noOutlineAvailable" = "İçindekiler Mevcut Değil";
+
+/* Settings */
+"stkit.display" = "Görünüm";
+"stkit.scrollDirection" = "Kaydırma Yönü";
+"stkit.pageMode" = "Sayfa Modu";
+"stkit.view" = "Görüntüle";
+"stkit.pageShadows" = "Sayfa Gölgeleri";
+"stkit.backgroundColor" = "Arka Plan Rengi";
+
+/* Property Inspector */
+"stkit.color" = "Renk";
+"stkit.width" = "Kalınlık";
+"stkit.fontSize" = "Yazı Boyutu";
+"stkit.opacity" = "Saydamlık";
+"stkit.font" = "Yazı Tipi";
+
+/* Annotation Tools */
+"stkit.tool.pen" = "Kalem";
+"stkit.tool.highlighter" = "Fosforlu Kalem";
+"stkit.tool.text" = "Metin";
+"stkit.tool.highlight" = "Vurgula";
+"stkit.tool.underline" = "Altı Çizili";
+"stkit.tool.strikethrough" = "Üstü Çizili";
+"stkit.tool.rectangle" = "Dikdörtgen";
+"stkit.tool.circle" = "Daire";
+"stkit.tool.line" = "Çizgi";
+"stkit.tool.arrow" = "Ok";
+"stkit.tool.signature" = "İmza";
+"stkit.tool.stamp" = "Damga";
+"stkit.tool.note" = "Not";
+"stkit.tool.eraser" = "Silgi";
+"stkit.tool.photo" = "Fotoğraf";
+"stkit.tool.textEdit" = "Metni Düzenle";
+"stkit.tapOnTextToEdit" = "Düzenlemek için metne dokunun";
+"stkit.selection.word" = "Kelime";
+"stkit.selection.line" = "Satır";
+
+/* Toolbar Labels */
+"stkit.hand" = "El";
+"stkit.select" = "Seç";
+"stkit.style" = "Stil";
+"stkit.zoomIn" = "Yakınlaştır";
+"stkit.zoomOut" = "Uzaklaştır";
+"stkit.addText" = "Metin Ekle";
+"stkit.removeText" = "Metni Sil";
+
+/* Annotation Groups */
+"stkit.group.draw" = "Çizim";
+"stkit.group.shapes" = "Şekiller";
+"stkit.group.text" = "Metin";
+"stkit.group.markup" = "İşaretleme";
+"stkit.group.extras" = "Ekstralar";
+
+/* Text Input */
+"stkit.enterText" = "Metin girin...";
+
+/* Markup */
+"stkit.applyTool" = "%@ Uygula";
+
+/* Signature */
+"stkit.signature.clear" = "Temizle";
+"stkit.signature.drawNew" = "Yeni Çiz";
+"stkit.signature.saved" = "Kayıtlı İmzalar";
+
+/* Stamp Types */
+"stkit.stamp.approved" = "Onaylandı";
+"stkit.stamp.rejected" = "Reddedildi";
+"stkit.stamp.draft" = "Taslak";
+"stkit.stamp.confidential" = "Gizli";
+"stkit.stamp.forComment" = "Yorum İçin";
+"stkit.stamp.asIs" = "Olduğu Gibi";
+"stkit.stamp.final" = "Final";
+
+/* Placement */
+"stkit.tapToPlace" = "Yerleştirmek için dokunun";
+
+/* Selection Menu */
+"stkit.selection.copy" = "Kopyala";
+"stkit.selection.paste" = "Yapıştır";
+"stkit.selection.delete" = "Sil";
+"stkit.selection.inspector" = "Özellikler";
+"stkit.selection.note" = "Not";
+
+/* Tool Hints */
+"stkit.hint.draw" = "Dokunup çizin";
+"stkit.hint.shape" = "Sürükleyerek çizin";
+"stkit.hint.tapToAddText" = "Metin eklemek için dokunun";
+"stkit.hint.erase" = "Silmek için sürükleyin";
+
+/* Order (Layer) */
+"stkit.order" = "Sırala";
+"stkit.order.front" = "En Öne Getir";
+"stkit.order.forward" = "Öne Getir";
+"stkit.order.backward" = "Arkaya Gönder";
+"stkit.order.back" = "En Arkaya Gönder";
+
+/* Page Editor */
+"stkit.page.newPage" = "Yeni Sayfa";
+"stkit.page.remove" = "Kaldır";
+"stkit.page.duplicate" = "Çoğalt";
+"stkit.page.rotate" = "Döndür";
+"stkit.page.selectAll" = "Tümünü Seç";
+"stkit.page.deselectAll" = "Seçimi Kaldır";
+"stkit.page.cut" = "Kes";
+"stkit.page.copy" = "Kopyala";
+"stkit.page.paste" = "Yapıştır";
+"stkit.page.numberOfPages" = "Sayfa Sayısı";
+"stkit.page.format" = "Sayfa Formatı";
+"stkit.page.color" = "Sayfa Rengi";
+"stkit.page.addAfter" = "Sayfadan Sonra Ekle";
+"stkit.page.beginning" = "Başlangıç";
+"stkit.page.color.white" = "Beyaz";
+"stkit.page.color.cream" = "Krem";
+"stkit.page.color.gray" = "Gri";
+
+/* Ribbon Tabs */
+"stkit.ribbon.home" = "Ana Sayfa";
+"stkit.ribbon.para" = "Biçim";
+"stkit.ribbon.insert" = "Ekle";
+"stkit.ribbon.draw" = "Çiz";
+"stkit.ribbon.design" = "Tasarım";
+"stkit.ribbon.layout" = "Düzen";
+"stkit.ribbon.review" = "Gözden Geçir";
+"stkit.ribbon.view" = "Görünüm";
+
+/* Ribbon Home */
+"stkit.ribbon.bold" = "Kalın";
+"stkit.ribbon.italic" = "İtalik";
+"stkit.ribbon.underline" = "Altı Çizili";
+"stkit.ribbon.strikethrough" = "Üstü Çizili";
+"stkit.ribbon.font" = "Yazı Tipi";
+"stkit.ribbon.fontSize" = "Boyut";
+"stkit.ribbon.textColor" = "Renk";
+"stkit.ribbon.highlightColor" = "Vurgu";
+"stkit.ribbon.alignLeft" = "Sol";
+"stkit.ribbon.alignCenter" = "Orta";
+"stkit.ribbon.alignRight" = "Sağ";
+"stkit.ribbon.justify" = "İki Yana";
+"stkit.ribbon.lineSpacing" = "Aralık";
+
+/* Ribbon Insert */
+"stkit.ribbon.image" = "Resim";
+"stkit.ribbon.table" = "Tablo";
+"stkit.ribbon.shape" = "Şekil";
+"stkit.ribbon.pageNumber" = "Sayfa No.";
+"stkit.ribbon.footnote" = "Dipnot";
+"stkit.ribbon.endnote" = "Sonnot";
+"stkit.ribbon.tab" = "Sekme";
+"stkit.ribbon.lineBreak" = "Satır Sonu";
+
+/* Ribbon Layout */
+"stkit.ribbon.orientation" = "Yön";
+"stkit.ribbon.pageSize" = "Boyut";
+"stkit.ribbon.margins" = "Kenar Boşlukları";
+"stkit.ribbon.columns" = "Sütunlar";
+
+/* Ribbon Home (ek) */
+"stkit.ribbon.paste" = "Yapıştır";
+"stkit.ribbon.copyFormat" = "Biçim";
+"stkit.ribbon.subscript" = "Alt Simge";
+"stkit.ribbon.superscript" = "Üst Simge";
+"stkit.ribbon.bulletList" = "Madde İmi";
+"stkit.ribbon.numberedList" = "Numaralı";
+"stkit.ribbon.increaseIndent" = "Girinti+";
+"stkit.ribbon.decreaseIndent" = "Girinti-";
+"stkit.ribbon.selectAll" = "Tümünü Seç";
+"stkit.ribbon.edit" = "Düzenle";
+
+/* Ribbon Insert (ek) */
+"stkit.ribbon.pageBreak" = "Sayfa Sonu";
+"stkit.ribbon.textBox" = "Metin Kutusu";
+"stkit.ribbon.link" = "Bağlantı";
+"stkit.ribbon.bookmark" = "Yer İmi";
+"stkit.ribbon.symbol" = "Simge";
+"stkit.ribbon.comment" = "Yorum";
+"stkit.ribbon.header" = "Üst Bilgi";
+"stkit.ribbon.footer" = "Alt Bilgi";
+
+/* Ribbon Design (ek) */
+"stkit.ribbon.themes" = "Temalar";
+"stkit.ribbon.watermark" = "Filigran";
+
+/* Ribbon Layout (ek) */
+"stkit.ribbon.textDirection" = "Metin Yönü";
+"stkit.ribbon.sectionBreak" = "Bölüm Sonu";
+"stkit.ribbon.pageBreaks" = "Sayfa Sonu";
+
+/* Ribbon Review (ek) */
+"stkit.ribbon.trackChanges" = "Değişiklikleri İzle";
+"stkit.ribbon.acceptChange" = "Kabul Et";
+"stkit.ribbon.rejectChange" = "Reddet";
+
+/* Ribbon Tablo Tab */
+"stkit.ribbon.addRow" = "Satır Ekle";
+"stkit.ribbon.deleteRow" = "Satır Sil";
+"stkit.ribbon.addColumn" = "Sütun Ekle";
+"stkit.ribbon.deleteColumn" = "Sütun Sil";
+"stkit.ribbon.cellColor" = "Hücre Rengi";
+"stkit.ribbon.borderColor" = "Kenarlık";
+"stkit.ribbon.tableStyle" = "Stil";
+"stkit.ribbon.tableColor" = "Renk";
+"stkit.tableStyles" = "Tablo Stilleri";
+
+/* Ribbon Gözden Geçir (yorumlar) */
+"stkit.ribbon.comments" = "Yorumlar";
+"stkit.selectTextForComment" = "Önce belgede bir metin seçin, ardından yorum ekleyin.";
+
+/* Genel */
+"stkit.comingSoon" = "Yakında";
+"stkit.custom" = "Özel";
+
+/* Ribbon View */
+"stkit.ribbon.zoom" = "Yakınlaştır";
+"stkit.ribbon.thumbnails" = "Sayfalar";
+"stkit.ribbon.outline" = "Anahat";
+"stkit.ribbon.readMode" = "Oku";
+"stkit.ribbon.editMode" = "Düzenle";
+"stkit.ribbon.goToTop" = "Başa Git";
+"stkit.ribbon.goToBottom" = "Sona Git";
+"stkit.ribbon.goToPage" = "Sayfaya Git";
+"stkit.ribbon.bookmarks" = "Yer İmleri";

@@ -1,0 +1,145 @@
+/* Turkish (tr) — STPDFKit Localizable Strings */
+
+/* General UI */
+"stpdfkit.done" = "Bitti";
+"stpdfkit.pages" = "Sayfalar";
+"stpdfkit.bookmark" = "Yer İmi";
+"stpdfkit.search" = "Ara";
+"stpdfkit.settings" = "Ayarlar";
+"stpdfkit.outline" = "İçindekiler";
+"stpdfkit.editPages" = "Sayfaları Düzenle";
+"stpdfkit.share" = "Paylaş";
+"stpdfkit.print" = "Yazdır";
+"stpdfkit.saveAsText" = "Metin Olarak Kaydet";
+"stpdfkit.untitled" = "Adsız";
+
+/* Search */
+"stpdfkit.searchInDocument" = "Belgede Ara";
+"stpdfkit.searching" = "Aranıyor";
+"stpdfkit.noResultsFound" = "Sonuç Bulunamadı";
+
+/* Page */
+"stpdfkit.page" = "Sayfa %d";
+"stpdfkit.noOutlineAvailable" = "İçindekiler Mevcut Değil";
+
+/* Display Settings */
+"stpdfkit.display" = "Görünüm";
+"stpdfkit.scrollDirection" = "Kaydırma Yönü";
+"stpdfkit.pageMode" = "Sayfa Modu";
+"stpdfkit.view" = "Görüntüle";
+"stpdfkit.pageShadows" = "Sayfa Gölgeleri";
+"stpdfkit.backgroundColor" = "Arka Plan Rengi";
+
+/* Annotation Properties */
+"stpdfkit.color" = "Renk";
+"stpdfkit.width" = "Kalınlık";
+"stpdfkit.fontSize" = "Yazı Boyutu";
+"stpdfkit.opacity" = "Saydamlık";
+"stpdfkit.font" = "Yazı Tipi";
+
+/* Annotation Tools */
+"stpdfkit.tool.pen" = "Kalem";
+"stpdfkit.tool.highlighter" = "Fosforlu Kalem";
+"stpdfkit.tool.text" = "Metin";
+"stpdfkit.tool.highlight" = "Vurgula";
+"stpdfkit.tool.underline" = "Altı Çizili";
+"stpdfkit.tool.strikethrough" = "Üstü Çizili";
+"stpdfkit.tool.rectangle" = "Dikdörtgen";
+"stpdfkit.tool.circle" = "Daire";
+"stpdfkit.tool.line" = "Çizgi";
+"stpdfkit.tool.arrow" = "Ok";
+"stpdfkit.tool.signature" = "İmza";
+"stpdfkit.tool.stamp" = "Damga";
+"stpdfkit.tool.note" = "Not";
+"stpdfkit.tool.eraser" = "Silgi";
+"stpdfkit.tool.photo" = "Fotoğraf";
+"stpdfkit.tool.textEdit" = "Metni Düzenle";
+"stpdfkit.tapOnTextToEdit" = "Düzenlemek için metne dokunun";
+"stpdfkit.selection.word" = "Kelime";
+"stpdfkit.selection.line" = "Satır";
+
+/* Toolbar Labels */
+"stpdfkit.hand" = "El";
+"stpdfkit.undo" = "Geri Al";
+"stpdfkit.redo" = "Yinele";
+"stpdfkit.select" = "Seç";
+"stpdfkit.style" = "Stil";
+"stpdfkit.close" = "Kapat";
+"stpdfkit.zoomIn" = "Yakınlaştır";
+"stpdfkit.zoomOut" = "Uzaklaştır";
+"stpdfkit.addText" = "Metin Ekle";
+"stpdfkit.removeText" = "Metni Sil";
+
+/* Annotation Groups */
+"stpdfkit.group.draw" = "Çizim";
+"stpdfkit.group.shapes" = "Şekiller";
+"stpdfkit.group.text" = "Metin";
+"stpdfkit.group.markup" = "İşaretleme";
+"stpdfkit.group.extras" = "Ekstralar";
+
+/* Text Input */
+"stpdfkit.enterText" = "Metin girin...";
+"stpdfkit.cancel" = "İptal";
+"stpdfkit.add" = "Ekle";
+
+/* Markup */
+"stpdfkit.applyTool" = "%@ Uygula";
+
+/* Signature */
+"stpdfkit.signature.clear" = "Temizle";
+"stpdfkit.signature.drawNew" = "Yeni Çiz";
+"stpdfkit.signature.saved" = "Kayıtlı İmzalar";
+
+/* Stamp Types */
+"stpdfkit.stamp.approved" = "Onaylandı";
+"stpdfkit.stamp.rejected" = "Reddedildi";
+"stpdfkit.stamp.draft" = "Taslak";
+"stpdfkit.stamp.confidential" = "Gizli";
+"stpdfkit.stamp.forComment" = "Yorum İçin";
+"stpdfkit.stamp.asIs" = "Olduğu Gibi";
+"stpdfkit.stamp.final" = "Final";
+
+/* Placement */
+"stpdfkit.tapToPlace" = "Yerleştirmek için dokunun";
+
+/* Selection Menu */
+"stpdfkit.selection.copy" = "Kopyala";
+"stpdfkit.selection.paste" = "Yapıştır";
+"stpdfkit.selection.delete" = "Sil";
+"stpdfkit.selection.inspector" = "Özellikler";
+"stpdfkit.selection.note" = "Not";
+
+/* Tool Hints */
+"stpdfkit.hint.draw" = "Dokunup çizin";
+"stpdfkit.hint.shape" = "Sürükleyerek çizin";
+"stpdfkit.hint.tapToAddText" = "Metin eklemek için dokunun";
+"stpdfkit.hint.erase" = "Silmek için sürükleyin";
+
+/* Order (Layer) */
+"stpdfkit.order" = "Sırala";
+"stpdfkit.order.front" = "En Öne Getir";
+"stpdfkit.order.forward" = "Öne Getir";
+"stpdfkit.order.backward" = "Arkaya Gönder";
+"stpdfkit.order.back" = "En Arkaya Gönder";
+
+/* Page Editor */
+"stpdfkit.page.newPage" = "Yeni Sayfa";
+"stpdfkit.page.remove" = "Kaldır";
+"stpdfkit.page.duplicate" = "Çoğalt";
+"stpdfkit.page.rotate" = "Döndür";
+"stpdfkit.page.selectAll" = "Tümünü Seç";
+"stpdfkit.page.deselectAll" = "Seçimi Kaldır";
+"stpdfkit.page.cut" = "Kes";
+"stpdfkit.page.copy" = "Kopyala";
+"stpdfkit.page.paste" = "Yapıştır";
+"stpdfkit.page.numberOfPages" = "Sayfa Sayısı";
+"stpdfkit.page.format" = "Sayfa Formatı";
+"stpdfkit.page.color" = "Sayfa Rengi";
+"stpdfkit.page.addAfter" = "Sayfadan Sonra Ekle";
+"stpdfkit.page.beginning" = "Başlangıç";
+"stpdfkit.page.color.white" = "Beyaz";
+"stpdfkit.page.color.cream" = "Krem";
+"stpdfkit.page.color.gray" = "Gri";
+
+/* License */
+"stpdfkit.unlicensed" = "STPDFKit — Unlicensed";

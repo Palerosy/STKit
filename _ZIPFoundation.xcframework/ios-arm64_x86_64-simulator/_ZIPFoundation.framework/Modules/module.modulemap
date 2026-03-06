@@ -1,0 +1,4 @@
+framework module _ZIPFoundation {
+    header "_ZIPFoundation-Swift.h"
+    export *
+}

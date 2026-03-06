@@ -53,6 +53,11 @@ public struct STDOCXConfiguration {
     /// Show "save as text" option in more menu
     public var showSaveAsText: Bool = true
 
+    // MARK: - Paywall
+
+    /// Adapty placement identifier for paywall. Set from host app.
+    public var paywallPlacement: String = "main"
+
     // MARK: - Behavior
 
     /// Allow annotation editing
@@ -66,12 +71,6 @@ public struct STDOCXConfiguration {
 
     /// Autosave interval in seconds
     public var autosaveInterval: TimeInterval = 10
-
-    // MARK: - Callbacks
-
-    /// Called when the user taps print. Return `true` to allow printing, `false` to block.
-    /// When nil, printing is always allowed.
-    public var onPrint: (() -> Bool)?
 
     // MARK: - Appearance
 

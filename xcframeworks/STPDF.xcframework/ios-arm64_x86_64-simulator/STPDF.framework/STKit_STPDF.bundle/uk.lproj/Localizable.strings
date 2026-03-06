@@ -1,0 +1,99 @@
+/* General */
+"stpdfkit.done" = "Готово";
+"stpdfkit.pages" = "Сторінки";
+"stpdfkit.bookmark" = "Закладка";
+"stpdfkit.search" = "Пошук";
+"stpdfkit.settings" = "Налаштування";
+"stpdfkit.outline" = "Зміст";
+"stpdfkit.editPages" = "Редагувати сторінки";
+"stpdfkit.share" = "Поділитися";
+"stpdfkit.print" = "Друк";
+"stpdfkit.saveAsText" = "Зберегти як текст";
+"stpdfkit.untitled" = "Без назви";
+
+/* Search */
+"stpdfkit.searchInDocument" = "Пошук у документі...";
+"stpdfkit.searching" = "Пошук...";
+"stpdfkit.noResultsFound" = "Результатів не знайдено";
+
+/* Pages */
+"stpdfkit.page" = "Сторінка %d";
+"stpdfkit.noOutlineAvailable" = "Зміст недоступний";
+
+/* Display Settings */
+"stpdfkit.display" = "Відображення";
+"stpdfkit.scrollDirection" = "Напрямок прокрутки";
+"stpdfkit.pageMode" = "Режим сторінки";
+"stpdfkit.view" = "Вигляд";
+"stpdfkit.pageShadows" = "Тіні сторінок";
+"stpdfkit.backgroundColor" = "Колір тла";
+
+/* Annotation Properties */
+"stpdfkit.color" = "Колір";
+"stpdfkit.width" = "Ширина";
+"stpdfkit.fontSize" = "Розмір шрифту";
+"stpdfkit.opacity" = "Непрозорість";
+"stpdfkit.font" = "Шрифт";
+
+/* Annotation Tools */
+"stpdfkit.tool.pen" = "Перо";
+"stpdfkit.tool.highlighter" = "Маркер";
+"stpdfkit.tool.text" = "Текст";
+"stpdfkit.tool.highlight" = "Виділення";
+"stpdfkit.tool.underline" = "Підкреслення";
+"stpdfkit.tool.strikethrough" = "Закреслення";
+"stpdfkit.tool.rectangle" = "Прямокутник";
+"stpdfkit.tool.circle" = "Коло";
+"stpdfkit.tool.line" = "Лінія";
+"stpdfkit.tool.arrow" = "Стрілка";
+"stpdfkit.tool.signature" = "Підпис";
+"stpdfkit.tool.stamp" = "Штамп";
+"stpdfkit.tool.note" = "Нотатка";
+"stpdfkit.tool.eraser" = "Гумка";
+"stpdfkit.tool.textEdit" = "Редагувати текст";
+"stpdfkit.tapOnTextToEdit" = "Натисніть на текст для редагування";
+"stpdfkit.selection.word" = "Слово";
+"stpdfkit.selection.line" = "Рядок";
+
+/* Tool Groups */
+"stpdfkit.group.draw" = "Малювання";
+"stpdfkit.group.text" = "Текст";
+"stpdfkit.group.markup" = "Розмітка";
+
+/* Text Input */
+"stpdfkit.enterText" = "Введіть текст...";
+"stpdfkit.cancel" = "Скасувати";
+"stpdfkit.add" = "Додати";
+
+/* Markup */
+"stpdfkit.applyTool" = "Застосувати %@";
+
+/* Signature */
+"stpdfkit.signature.clear" = "Очистити";
+"stpdfkit.signature.drawNew" = "Намалювати";
+"stpdfkit.signature.saved" = "Збережені підписи";
+
+/* Selection Menu */
+"stpdfkit.selection.paste" = "Вставити";
+
+/* Page Editor */
+"stpdfkit.page.newPage" = "Нова сторінка";
+"stpdfkit.page.remove" = "Видалити";
+"stpdfkit.page.duplicate" = "Дублювати";
+"stpdfkit.page.rotate" = "Обернути";
+"stpdfkit.page.selectAll" = "Вибрати все";
+"stpdfkit.page.deselectAll" = "Зняти вибір";
+"stpdfkit.page.cut" = "Вирізати";
+"stpdfkit.page.copy" = "Копіювати";
+"stpdfkit.page.paste" = "Вставити";
+"stpdfkit.page.numberOfPages" = "Кількість сторінок";
+"stpdfkit.page.format" = "Формат сторінки";
+"stpdfkit.page.color" = "Колір сторінки";
+"stpdfkit.page.addAfter" = "Додати після сторінки";
+"stpdfkit.page.beginning" = "Початок";
+"stpdfkit.page.color.white" = "Білий";
+"stpdfkit.page.color.cream" = "Кремовий";
+"stpdfkit.page.color.gray" = "Сірий";
+
+/* License */
+"stpdfkit.unlicensed" = "STPDFKit — Unlicensed";

@@ -1,0 +1,13 @@
+"stdocx.font" = "Fontti";
+"stdocx.textColor" = "Tekstin väri";
+"stdocx.exportAs" = "Vie muodossa";
+"stdocx.findReplace" = "Etsi ja korvaa";
+"stdocx.bold" = "Lihavoitu";
+"stdocx.italic" = "Kursiivi";
+"stdocx.underline" = "Alleviivaus";
+"stdocx.strikethrough" = "Yliviivaus";
+"stdocx.alignment" = "Tasaus";
+"stdocx.alignLeft" = "Tasaa vasemmalle";
+"stdocx.alignCenter" = "Keskitä";
+"stdocx.alignRight" = "Tasaa oikealle";
+"stdocx.justify" = "Tasaa";

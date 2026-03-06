@@ -1,0 +1,4 @@
+framework module STDOCX {
+    header "STDOCX-Swift.h"
+    export *
+}

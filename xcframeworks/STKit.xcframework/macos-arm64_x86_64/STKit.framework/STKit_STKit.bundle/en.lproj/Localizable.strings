@@ -1,0 +1,278 @@
+/* Common */
+"stkit.done" = "Done";
+"stkit.cancel" = "Cancel";
+"stkit.save" = "Save";
+"stkit.share" = "Share";
+"stkit.export" = "Export";
+"stkit.delete" = "Delete";
+"stkit.close" = "Close";
+"stkit.untitled" = "Untitled";
+"stkit.search" = "Search";
+"stkit.undo" = "Undo";
+"stkit.redo" = "Redo";
+"stkit.add" = "Add";
+
+/* License */
+"stkit.unlicensed" = "STKit — Unlicensed";
+
+/* Word Count */
+"stkit.wordCount" = "Word Count";
+"stkit.words" = "Words";
+"stkit.characters" = "Characters";
+"stkit.charactersWithSpaces" = "Characters (with spaces)";
+"stkit.paragraphs" = "Paragraphs";
+"stkit.lines" = "Lines";
+
+/* Document */
+"stkit.newDocument" = "New Document";
+"stkit.unsavedChanges" = "Unsaved Changes";
+"stkit.unsavedChangesMessage" = "You have unsaved changes. What would you like to do?";
+"stkit.discard" = "Discard";
+"stkit.saveAndClose" = "Save & Close";
+
+/* Navigation & Controls */
+"stkit.pages" = "Pages";
+"stkit.bookmark" = "Bookmark";
+"stkit.settings" = "Settings";
+"stkit.outline" = "Outline";
+"stkit.editPages" = "Edit Pages";
+"stkit.print" = "Print";
+"stkit.saveAsText" = "Save as Text";
+
+/* Search & Replace */
+"stkit.searchInDocument" = "Search in document...";
+"stkit.searching" = "Searching...";
+"stkit.noResultsFound" = "No results found";
+"stkit.page" = "Page %d";
+"stkit.replace" = "Replace";
+"stkit.replaceWith" = "Replace with...";
+"stkit.replaceAll" = "All";
+"stkit.showReplace" = "Replace";
+"stkit.hideReplace" = "Hide Replace";
+
+/* Outline */
+"stkit.noOutlineAvailable" = "No outline available";
+
+/* Settings */
+"stkit.display" = "Display";
+"stkit.scrollDirection" = "Scroll Direction";
+"stkit.pageMode" = "Page Mode";
+"stkit.view" = "View";
+"stkit.pageShadows" = "Page Shadows";
+"stkit.backgroundColor" = "Background Color";
+
+/* Property Inspector */
+"stkit.color" = "Color";
+"stkit.width" = "Width";
+"stkit.fontSize" = "Font Size";
+"stkit.opacity" = "Opacity";
+"stkit.font" = "Font";
+
+/* Annotation Tools */
+"stkit.tool.pen" = "Pen";
+"stkit.tool.highlighter" = "Highlighter";
+"stkit.tool.text" = "Text";
+"stkit.tool.highlight" = "Highlight";
+"stkit.tool.underline" = "Underline";
+"stkit.tool.strikethrough" = "Strikethrough";
+"stkit.tool.rectangle" = "Rectangle";
+"stkit.tool.circle" = "Circle";
+"stkit.tool.line" = "Line";
+"stkit.tool.arrow" = "Arrow";
+"stkit.tool.signature" = "Signature";
+"stkit.tool.stamp" = "Stamp";
+"stkit.tool.note" = "Note";
+"stkit.tool.eraser" = "Eraser";
+"stkit.tool.photo" = "Photo";
+"stkit.tool.textEdit" = "Edit Text";
+"stkit.tapOnTextToEdit" = "Tap on text to edit";
+"stkit.selection.word" = "Word";
+"stkit.selection.line" = "Line";
+
+/* Toolbar Labels */
+"stkit.hand" = "Hand";
+"stkit.select" = "Select";
+"stkit.style" = "Style";
+"stkit.zoomIn" = "Zoom In";
+"stkit.zoomOut" = "Zoom Out";
+"stkit.addText" = "Add Text";
+"stkit.removeText" = "Remove Text";
+
+/* Annotation Groups */
+"stkit.group.draw" = "Draw";
+"stkit.group.shapes" = "Shapes";
+"stkit.group.text" = "Text";
+"stkit.group.markup" = "Markup";
+"stkit.group.extras" = "Extras";
+
+/* Text Input */
+"stkit.enterText" = "Enter text...";
+
+/* Markup */
+"stkit.applyTool" = "Apply %@";
+
+/* Signature */
+"stkit.signature.clear" = "Clear";
+"stkit.signature.drawNew" = "Draw New";
+"stkit.signature.saved" = "Saved Signatures";
+
+/* Stamp Types */
+"stkit.stamp.approved" = "Approved";
+"stkit.stamp.rejected" = "Rejected";
+"stkit.stamp.draft" = "Draft";
+"stkit.stamp.confidential" = "Confidential";
+"stkit.stamp.forComment" = "For Comment";
+"stkit.stamp.asIs" = "As Is";
+"stkit.stamp.final" = "Final";
+
+/* Placement */
+"stkit.tapToPlace" = "Tap to place";
+
+/* Selection Menu */
+"stkit.selection.copy" = "Copy";
+"stkit.selection.paste" = "Paste";
+"stkit.selection.delete" = "Delete";
+"stkit.selection.inspector" = "Inspector";
+"stkit.selection.note" = "Note";
+
+/* Tool Hints */
+"stkit.hint.draw" = "Touch and draw";
+"stkit.hint.shape" = "Drag to draw";
+"stkit.hint.tapToAddText" = "Tap to add text";
+"stkit.hint.erase" = "Swipe to erase";
+
+/* Order (Layer) */
+"stkit.order" = "Order";
+"stkit.order.front" = "Bring to Front";
+"stkit.order.forward" = "Bring Forward";
+"stkit.order.backward" = "Send Backward";
+"stkit.order.back" = "Send to Back";
+
+/* Page Editor */
+"stkit.page.newPage" = "New Page";
+"stkit.page.remove" = "Remove";
+"stkit.page.duplicate" = "Duplicate";
+"stkit.page.rotate" = "Rotate";
+"stkit.page.selectAll" = "Select All";
+"stkit.page.deselectAll" = "Deselect All";
+"stkit.page.cut" = "Cut";
+"stkit.page.copy" = "Copy";
+"stkit.page.paste" = "Paste";
+"stkit.page.numberOfPages" = "Number of Pages";
+"stkit.page.format" = "Page Format";
+"stkit.page.color" = "Page Color";
+"stkit.page.addAfter" = "Add After Page";
+"stkit.page.beginning" = "Beginning";
+"stkit.page.color.white" = "White";
+"stkit.page.color.cream" = "Cream";
+"stkit.page.color.gray" = "Gray";
+
+/* Ribbon Tabs */
+"stkit.ribbon.home" = "Home";
+"stkit.ribbon.para" = "Format";
+"stkit.ribbon.insert" = "Insert";
+"stkit.ribbon.draw" = "Draw";
+"stkit.ribbon.design" = "Design";
+"stkit.ribbon.layout" = "Layout";
+"stkit.ribbon.review" = "Review";
+"stkit.ribbon.view" = "View";
+
+/* Ribbon Home */
+"stkit.ribbon.bold" = "Bold";
+"stkit.ribbon.italic" = "Italic";
+"stkit.ribbon.underline" = "Underline";
+"stkit.ribbon.strikethrough" = "Strikethrough";
+"stkit.ribbon.font" = "Font";
+"stkit.ribbon.fontSize" = "Size";
+"stkit.ribbon.textColor" = "Color";
+"stkit.ribbon.highlightColor" = "Highlight";
+"stkit.ribbon.alignLeft" = "Left";
+"stkit.ribbon.alignCenter" = "Center";
+"stkit.ribbon.alignRight" = "Right";
+"stkit.ribbon.justify" = "Justify";
+"stkit.ribbon.lineSpacing" = "Spacing";
+
+/* Ribbon Insert */
+"stkit.ribbon.image" = "Image";
+"stkit.ribbon.table" = "Table";
+"stkit.ribbon.shape" = "Shape";
+"stkit.ribbon.rectangle" = "Rectangle";
+"stkit.ribbon.circle" = "Circle";
+"stkit.ribbon.line" = "Line";
+"stkit.ribbon.pageNumber" = "Page No.";
+"stkit.ribbon.footnote" = "Footnote";
+"stkit.ribbon.endnote" = "Endnote";
+"stkit.ribbon.tab" = "Tab";
+"stkit.ribbon.lineBreak" = "Break";
+
+/* Ribbon Layout */
+"stkit.ribbon.orientation" = "Orientation";
+"stkit.ribbon.pageSize" = "Size";
+"stkit.ribbon.margins" = "Margins";
+"stkit.ribbon.columns" = "Columns";
+
+/* Ribbon Home (additional) */
+"stkit.ribbon.paste" = "Paste";
+"stkit.ribbon.copyFormat" = "Format";
+"stkit.ribbon.subscript" = "Subscript";
+"stkit.ribbon.superscript" = "Superscript";
+"stkit.ribbon.bulletList" = "Bullets";
+"stkit.ribbon.numberedList" = "Numbering";
+"stkit.ribbon.increaseIndent" = "Indent+";
+"stkit.ribbon.decreaseIndent" = "Indent-";
+"stkit.ribbon.selectAll" = "Select All";
+"stkit.ribbon.edit" = "Edit";
+
+/* Ribbon Insert (additional) */
+"stkit.ribbon.pageBreak" = "Page Break";
+"stkit.ribbon.textBox" = "Text Box";
+"stkit.ribbon.link" = "Link";
+"stkit.ribbon.bookmark" = "Bookmark";
+"stkit.ribbon.symbol" = "Symbol";
+"stkit.ribbon.comment" = "Comment";
+"stkit.ribbon.header" = "Header";
+"stkit.ribbon.footer" = "Footer";
+
+/* Ribbon Design (additional) */
+"stkit.ribbon.themes" = "Themes";
+"stkit.ribbon.watermark" = "Watermark";
+
+/* Ribbon Layout (additional) */
+"stkit.ribbon.textDirection" = "Direction";
+"stkit.ribbon.sectionBreak" = "Section Break";
+"stkit.ribbon.pageBreaks" = "Page Break";
+
+/* Ribbon Review (additional) */
+"stkit.ribbon.trackChanges" = "Track Changes";
+"stkit.ribbon.acceptChange" = "Accept";
+"stkit.ribbon.rejectChange" = "Reject";
+
+/* Ribbon Table Tab */
+"stkit.ribbon.addRow" = "Add Row";
+"stkit.ribbon.deleteRow" = "Del Row";
+"stkit.ribbon.addColumn" = "Add Col";
+"stkit.ribbon.deleteColumn" = "Del Col";
+"stkit.ribbon.cellColor" = "Cell Color";
+"stkit.ribbon.borderColor" = "Border";
+"stkit.ribbon.tableStyle" = "Style";
+"stkit.ribbon.tableColor" = "Color";
+"stkit.tableStyles" = "Table Styles";
+
+/* Ribbon Review (comments) */
+"stkit.ribbon.comments" = "Comments";
+"stkit.selectTextForComment" = "Select text in the document first, then add a comment.";
+
+/* General */
+"stkit.comingSoon" = "Coming Soon";
+"stkit.custom" = "Custom";
+
+/* Ribbon View */
+"stkit.ribbon.zoom" = "Zoom";
+"stkit.ribbon.thumbnails" = "Pages";
+"stkit.ribbon.outline" = "Outline";
+"stkit.ribbon.readMode" = "Read";
+"stkit.ribbon.editMode" = "Edit";
+"stkit.ribbon.goToTop" = "Go to Top";
+"stkit.ribbon.goToBottom" = "Go to Bottom";
+"stkit.ribbon.goToPage" = "Go to Page";
+"stkit.ribbon.bookmarks" = "Bookmarks";

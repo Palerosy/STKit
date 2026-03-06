@@ -1,7 +1,9 @@
+/* Editor */
 "stdocx.font" = "خط";
 "stdocx.textColor" = "لون النص";
 "stdocx.exportAs" = "تصدير كـ";
 "stdocx.findReplace" = "بحث واستبدال";
+/* Formatting */
 "stdocx.bold" = "عريض";
 "stdocx.italic" = "مائل";
 "stdocx.underline" = "تسطير";

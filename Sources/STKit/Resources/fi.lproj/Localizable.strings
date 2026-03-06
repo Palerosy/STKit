@@ -1,3 +1,4 @@
+/* Common */
 "stkit.done" = "Valmis";
 "stkit.cancel" = "Peruuta";
 "stkit.save" = "Tallenna";
@@ -10,18 +11,26 @@
 "stkit.undo" = "Kumoa";
 "stkit.redo" = "Tee uudelleen";
 "stkit.add" = "Lisää";
+
+/* License */
 "stkit.unlicensed" = "STKit — Ei lisenssiä";
+
+/* Word Count */
 "stkit.wordCount" = "Sanamäärä";
 "stkit.words" = "Sanat";
 "stkit.characters" = "Merkit";
 "stkit.charactersWithSpaces" = "Merkit (välilyönnein)";
 "stkit.paragraphs" = "Kappaleet";
 "stkit.lines" = "Rivit";
+
+/* Document */
 "stkit.newDocument" = "Uusi asiakirja";
 "stkit.unsavedChanges" = "Tallentamattomat muutokset";
 "stkit.unsavedChangesMessage" = "Sinulla on tallentamattomia muutoksia. Mitä haluat tehdä?";
 "stkit.discard" = "Hylkää";
 "stkit.saveAndClose" = "Tallenna ja sulje";
+
+/* Navigation */
 "stkit.pages" = "Sivut";
 "stkit.bookmark" = "Kirjanmerkki";
 "stkit.settings" = "Asetukset";
@@ -29,6 +38,8 @@
 "stkit.editPages" = "Muokkaa sivuja";
 "stkit.print" = "Tulosta";
 "stkit.saveAsText" = "Tallenna tekstinä";
+
+/* Search */
 "stkit.searchInDocument" = "Hae asiakirjasta...";
 "stkit.searching" = "Haetaan...";
 "stkit.noResultsFound" = "Ei tuloksia";
@@ -38,18 +49,26 @@
 "stkit.replaceAll" = "Kaikki";
 "stkit.showReplace" = "Korvaa";
 "stkit.hideReplace" = "Piilota korvaus";
+
+/* Outline */
 "stkit.noOutlineAvailable" = "Jäsennystä ei ole saatavilla";
+
+/* Settings */
 "stkit.display" = "Näyttö";
 "stkit.scrollDirection" = "Vierittämissuunta";
 "stkit.pageMode" = "Sivutila";
 "stkit.view" = "Näkymä";
 "stkit.pageShadows" = "Sivuvarjot";
 "stkit.backgroundColor" = "Taustaväri";
+
+/* Property */
 "stkit.color" = "Väri";
 "stkit.width" = "Leveys";
 "stkit.fontSize" = "Fonttikoko";
 "stkit.opacity" = "Peittävyys";
 "stkit.font" = "Fontti";
+
+/* Tools */
 "stkit.tool.pen" = "Kynä";
 "stkit.tool.highlighter" = "Korostuskynä";
 "stkit.tool.text" = "Teksti";
@@ -69,6 +88,8 @@
 "stkit.tapOnTextToEdit" = "Napauta tekstiä muokataksesi";
 "stkit.selection.word" = "Sana";
 "stkit.selection.line" = "Rivi";
+
+/* Toolbar */
 "stkit.hand" = "Käsi";
 "stkit.select" = "Valitse";
 "stkit.style" = "Tyyli";
@@ -76,16 +97,26 @@
 "stkit.zoomOut" = "Loitonna";
 "stkit.addText" = "Lisää teksti";
 "stkit.removeText" = "Poista teksti";
+
+/* Groups */
 "stkit.group.draw" = "Piirrä";
 "stkit.group.shapes" = "Muodot";
 "stkit.group.text" = "Teksti";
 "stkit.group.markup" = "Merkinnät";
 "stkit.group.extras" = "Lisää";
+
+/* Text */
 "stkit.enterText" = "Kirjoita teksti...";
+
+/* Markup */
 "stkit.applyTool" = "Käytä %@";
+
+/* Signature */
 "stkit.signature.clear" = "Tyhjennä";
 "stkit.signature.drawNew" = "Piirrä uusi";
 "stkit.signature.saved" = "Tallennetut allekirjoitukset";
+
+/* Stamps */
 "stkit.stamp.approved" = "Hyväksytty";
 "stkit.stamp.rejected" = "Hylätty";
 "stkit.stamp.draft" = "Luonnos";
@@ -93,21 +124,31 @@
 "stkit.stamp.forComment" = "Kommentointia varten";
 "stkit.stamp.asIs" = "Sellaisenaan";
 "stkit.stamp.final" = "Lopullinen";
+
+/* Placement */
 "stkit.tapToPlace" = "Napauta sijoittaaksesi";
+
+/* Selection */
 "stkit.selection.copy" = "Kopioi";
 "stkit.selection.paste" = "Liitä";
 "stkit.selection.delete" = "Poista";
 "stkit.selection.inspector" = "Tarkastus";
 "stkit.selection.note" = "Huomio";
+
+/* Hints */
 "stkit.hint.draw" = "Kosketa ja piirrä";
 "stkit.hint.shape" = "Vedä piirtääksesi";
 "stkit.hint.tapToAddText" = "Napauta lisätäksesi tekstiä";
 "stkit.hint.erase" = "Pyyhkäise poistaaksesi";
+
+/* Order */
 "stkit.order" = "Järjestys";
 "stkit.order.front" = "Tuo etualalle";
 "stkit.order.forward" = "Tuo eteen";
 "stkit.order.backward" = "Lähetä taakse";
 "stkit.order.back" = "Lähetä taustalle";
+
+/* Page Editor */
 "stkit.page.newPage" = "Uusi sivu";
 "stkit.page.remove" = "Poista";
 "stkit.page.duplicate" = "Kopioi";
@@ -125,6 +166,8 @@
 "stkit.page.color.white" = "Valkoinen";
 "stkit.page.color.cream" = "Kerma";
 "stkit.page.color.gray" = "Harmaa";
+
+/* Ribbon Tabs */
 "stkit.ribbon.home" = "Koti";
 "stkit.ribbon.para" = "Muotoilu";
 "stkit.ribbon.insert" = "Lisää";
@@ -133,6 +176,8 @@
 "stkit.ribbon.layout" = "Asettelu";
 "stkit.ribbon.review" = "Tarkista";
 "stkit.ribbon.view" = "Näkymä";
+
+/* Ribbon Home */
 "stkit.ribbon.bold" = "Lihavoitu";
 "stkit.ribbon.italic" = "Kursiivi";
 "stkit.ribbon.underline" = "Alleviivaus";
@@ -146,6 +191,8 @@
 "stkit.ribbon.alignRight" = "Oikea";
 "stkit.ribbon.justify" = "Tasaa";
 "stkit.ribbon.lineSpacing" = "Riviväli";
+
+/* Ribbon Insert */
 "stkit.ribbon.image" = "Kuva";
 "stkit.ribbon.table" = "Taulukko";
 "stkit.ribbon.shape" = "Muoto";
@@ -157,10 +204,14 @@
 "stkit.ribbon.endnote" = "Loppuviite";
 "stkit.ribbon.tab" = "Sarkain";
 "stkit.ribbon.lineBreak" = "Rivitys";
+
+/* Ribbon Layout */
 "stkit.ribbon.orientation" = "Suunta";
 "stkit.ribbon.pageSize" = "Koko";
 "stkit.ribbon.margins" = "Marginaalit";
 "stkit.ribbon.columns" = "Sarakkeet";
+
+/* Ribbon Home+ */
 "stkit.ribbon.paste" = "Liitä";
 "stkit.ribbon.copyFormat" = "Muotoilu";
 "stkit.ribbon.subscript" = "Alaindeksi";
@@ -171,6 +222,8 @@
 "stkit.ribbon.decreaseIndent" = "Sisennys-";
 "stkit.ribbon.selectAll" = "Valitse kaikki";
 "stkit.ribbon.edit" = "Muokkaa";
+
+/* Ribbon Insert+ */
 "stkit.ribbon.pageBreak" = "Sivunvaihto";
 "stkit.ribbon.textBox" = "Tekstiruutu";
 "stkit.ribbon.link" = "Linkki";
@@ -179,14 +232,22 @@
 "stkit.ribbon.comment" = "Kommentti";
 "stkit.ribbon.header" = "Ylätunniste";
 "stkit.ribbon.footer" = "Alatunniste";
+
+/* Ribbon Design */
 "stkit.ribbon.themes" = "Teemat";
 "stkit.ribbon.watermark" = "Vesileima";
+
+/* Ribbon Layout+ */
 "stkit.ribbon.textDirection" = "Suunta";
 "stkit.ribbon.sectionBreak" = "Osanvaihto";
 "stkit.ribbon.pageBreaks" = "Sivunvaihto";
+
+/* Ribbon Review */
 "stkit.ribbon.trackChanges" = "Seuraa muutoksia";
 "stkit.ribbon.acceptChange" = "Hyväksy";
 "stkit.ribbon.rejectChange" = "Hylkää";
+
+/* Ribbon Table */
 "stkit.ribbon.addRow" = "Lisää rivi";
 "stkit.ribbon.deleteRow" = "Poista rivi";
 "stkit.ribbon.addColumn" = "Lisää sarake";
@@ -196,10 +257,16 @@
 "stkit.ribbon.tableStyle" = "Tyyli";
 "stkit.ribbon.tableColor" = "Väri";
 "stkit.tableStyles" = "Taulukkotyylit";
+
+/* Ribbon Review+ */
 "stkit.ribbon.comments" = "Kommentit";
 "stkit.selectTextForComment" = "Valitse ensin teksti asiakirjasta ja lisää sitten kommentti.";
+
+/* General */
 "stkit.comingSoon" = "Tulossa pian";
 "stkit.custom" = "Mukautettu";
+
+/* Ribbon View */
 "stkit.ribbon.zoom" = "Zoomaus";
 "stkit.ribbon.thumbnails" = "Sivut";
 "stkit.ribbon.outline" = "Jäsennys";

@@ -1,0 +1,165 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 6.2.4 effective-5.10 (swiftlang-6.2.4.1.4 clang-1700.6.4.2)
+// swift-module-flags: -target arm64-apple-ios16.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-experimental-feature DebugDescriptionMacro -module-name STExcel -package-name stkit
+// swift-module-flags-ignorable:  -formal-cxx-interoperability-mode=off -interface-compiler-version 6.2.4
+import Combine
+import Foundation
+import Foundation/*.Bundle*/
+import Foundation/*.ProcessInfo*/
+import Foundation/*.URL*/
+import STKit
+import Swift
+import SwiftUI
+import ZIPFoundation
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+public struct STExcelConfiguration {
+  public static let `default`: STExcel.STExcelConfiguration
+  public var columnWidth: CoreFoundation.CGFloat
+  public var rowHeight: CoreFoundation.CGFloat
+  public var rowHeaderWidth: CoreFoundation.CGFloat
+  public var columnHeaderHeight: CoreFoundation.CGFloat
+  public var isEditable: Swift.Bool
+  public var showSaveButton: Swift.Bool
+  public var showMoreMenu: Swift.Bool
+  public var showExport: Swift.Bool
+  public var showSheetTabs: Swift.Bool
+  public var gridLineColor: SwiftUICore.Color
+  public var headerBackgroundColor: SwiftUICore.Color
+  public var selectionColor: SwiftUICore.Color
+  public var cellBackgroundColor: SwiftUICore.Color
+  public init()
+  public static var viewerDefault: STExcel.STExcelConfiguration {
+    get
+  }
+}
+final public class STExcelDocument : STKit.STDocument {
+  final public var sheets: [STExcel.STExcelSheet] {
+    get
+  }
+  final public var activeSheetIndex: Swift.Int
+  final public var activeSheet: STExcel.STExcelSheet {
+    get
+  }
+  final public let sourceURL: Foundation.URL?
+  final public let title: Swift.String
+  final public var plainText: Swift.String {
+    get
+  }
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(url: Foundation.URL, title: Swift.String? = nil)
+  #endif
+  public init(title: Swift.String = "Untitled", rows: Swift.Int = 100, columns: Swift.Int = 26)
+  final public var stats: STKit.STDocumentStats {
+    get
+  }
+  @discardableResult
+  final public func save(to url: Foundation.URL) -> Swift.Bool
+  @discardableResult
+  final public func exportAsCSV(to url: Foundation.URL) -> Swift.Bool
+  @objc deinit
+}
+public class STExcelSheet : Swift.Identifiable, Foundation.ObservableObject {
+  final public let id: Foundation.UUID
+  public var name: Swift.String
+  @Combine.Published @_projectedValueProperty($cells) public var cells: [[STExcel.STExcelCell]] {
+    get
+    @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+    set
+    @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+    _modify
+  }
+  public var $cells: Combine.Published<[[STExcel.STExcelCell]]>.Publisher {
+    get
+    @available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)
+    set
+  }
+  public var rowCount: Swift.Int {
+    get
+  }
+  public var columnCount: Swift.Int {
+    get
+  }
+  public init(name: Swift.String, rows: Swift.Int = 100, columns: Swift.Int = 26)
+  public init(name: Swift.String, cells: [[STExcel.STExcelCell]])
+  public func cell(row: Swift.Int, column: Swift.Int) -> STExcel.STExcelCell
+  public func setCell(row: Swift.Int, column: Swift.Int, value: Swift.String)
+  public func toCSV(separator: Swift.String = ",") -> Swift.String
+  public static func columnLetter(_ index: Swift.Int) -> Swift.String
+  public typealias ID = Foundation.UUID
+  public typealias ObjectWillChangePublisher = Combine.ObservableObjectPublisher
+  @objc deinit
+}
+public struct STExcelCell {
+  public var value: Swift.String
+  public var isBold: Swift.Bool
+  public var isNumeric: Swift.Bool
+  public init(value: Swift.String = "", isBold: Swift.Bool = false)
+}
+@_Concurrency.MainActor @preconcurrency public struct STExcelEditorView : SwiftUICore.View {
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor @preconcurrency public init(url: Foundation.URL, title: Swift.String? = nil, configuration: STExcel.STExcelConfiguration = .default, onSave: ((Foundation.URL) -> Swift.Void)? = nil, onDismiss: (() -> Swift.Void)? = nil)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor @preconcurrency public init(title: Swift.String = "Untitled", configuration: STExcel.STExcelConfiguration = .default, onSave: ((Foundation.URL) -> Swift.Void)? = nil, onDismiss: (() -> Swift.Void)? = nil)
+  #endif
+  @_Concurrency.MainActor @preconcurrency public var body: some SwiftUICore.View {
+    get
+  }
+  public typealias Body = @_opaqueReturnTypeOf("$s7STExcel0A10EditorViewV4bodyQrvp", 0) __
+}
+@_Concurrency.MainActor @preconcurrency public struct STExcelExportView : SwiftUICore.View {
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor @preconcurrency public init(document: STExcel.STExcelDocument?, documentTitle: Swift.String, onExport: @escaping (Foundation.URL) -> Swift.Void)
+  #endif
+  @_Concurrency.MainActor @preconcurrency public var body: some SwiftUICore.View {
+    get
+  }
+  public typealias Body = @_opaqueReturnTypeOf("$s7STExcel0A10ExportViewV4bodyQrvp", 0) __
+}
+@_Concurrency.MainActor public enum STExcelKit {
+  @_Concurrency.MainActor public static let version: Swift.String
+  @_Concurrency.MainActor public static let featureId: Swift.String
+  @_Concurrency.MainActor public static var isLicensed: Swift.Bool {
+    get
+  }
+}
+public enum STExcelStrings {
+  public static var sheet: Swift.String {
+    get
+  }
+  public static var cell: Swift.String {
+    get
+  }
+  public static var row: Swift.String {
+    get
+  }
+  public static var column: Swift.String {
+    get
+  }
+  public static var value: Swift.String {
+    get
+  }
+}
+@_Concurrency.MainActor @preconcurrency public struct STExcelGridView : SwiftUICore.View {
+  @_Concurrency.MainActor @preconcurrency public init(sheet: STExcel.STExcelSheet, configuration: STExcel.STExcelConfiguration = .default, isEditable: Swift.Bool = true)
+  @_Concurrency.MainActor @preconcurrency public var body: some SwiftUICore.View {
+    get
+  }
+  public typealias Body = @_opaqueReturnTypeOf("$s7STExcel0A8GridViewV4bodyQrvp", 0) __
+}
+@_Concurrency.MainActor @preconcurrency public struct STExcelViewerView : SwiftUICore.View {
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor @preconcurrency public init(url: Foundation.URL, title: Swift.String? = nil, configuration: STExcel.STExcelConfiguration = .viewerDefault, onDismiss: (() -> Swift.Void)? = nil)
+  #endif
+  @_Concurrency.MainActor @preconcurrency public var body: some SwiftUICore.View {
+    get
+  }
+  public typealias Body = @_opaqueReturnTypeOf("$s7STExcel0A10ViewerViewV4bodyQrvp", 0) __
+}
+extension STExcel.STExcelEditorView : Swift.Sendable {}
+extension STExcel.STExcelExportView : Swift.Sendable {}
+extension STExcel.STExcelKit : Swift.Sendable {}
+extension STExcel.STExcelGridView : Swift.Sendable {}
+extension STExcel.STExcelViewerView : Swift.Sendable {}
