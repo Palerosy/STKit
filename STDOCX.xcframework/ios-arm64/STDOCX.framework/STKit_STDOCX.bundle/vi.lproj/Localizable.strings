@@ -1,7 +1,10 @@
+/* Editor */
 "stdocx.font" = "Phông chữ";
 "stdocx.textColor" = "Màu văn bản";
 "stdocx.exportAs" = "Xuất dưới dạng";
 "stdocx.findReplace" = "Tìm và thay thế";
+
+/* Formatting */
 "stdocx.bold" = "In đậm";
 "stdocx.italic" = "In nghiêng";
 "stdocx.underline" = "Gạch chân";

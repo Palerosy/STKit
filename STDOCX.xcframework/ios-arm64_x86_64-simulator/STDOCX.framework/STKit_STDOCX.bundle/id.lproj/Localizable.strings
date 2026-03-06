@@ -1,7 +1,10 @@
+/* Editor */
 "stdocx.font" = "Font";
 "stdocx.textColor" = "Warna Teks";
 "stdocx.exportAs" = "Ekspor Sebagai";
 "stdocx.findReplace" = "Cari & Ganti";
+
+/* Formatting */
 "stdocx.bold" = "Tebal";
 "stdocx.italic" = "Miring";
 "stdocx.underline" = "Garis Bawah";

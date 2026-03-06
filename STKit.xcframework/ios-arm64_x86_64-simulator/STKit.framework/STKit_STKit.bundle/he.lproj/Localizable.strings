@@ -1,3 +1,4 @@
+/* Common */
 "stkit.done" = "סיום";
 "stkit.cancel" = "ביטול";
 "stkit.save" = "שמירה";
@@ -10,18 +11,26 @@
 "stkit.undo" = "ביטול פעולה";
 "stkit.redo" = "ביצוע מחדש";
 "stkit.add" = "הוספה";
+
+/* License */
 "stkit.unlicensed" = "STKit — ללא רישיון";
+
+/* Word Count */
 "stkit.wordCount" = "ספירת מילים";
 "stkit.words" = "מילים";
 "stkit.characters" = "תווים";
 "stkit.charactersWithSpaces" = "תווים (עם רווחים)";
 "stkit.paragraphs" = "פסקאות";
 "stkit.lines" = "שורות";
+
+/* Document */
 "stkit.newDocument" = "מסמך חדש";
 "stkit.unsavedChanges" = "שינויים שלא נשמרו";
 "stkit.unsavedChangesMessage" = "יש לך שינויים שלא נשמרו. מה תרצה לעשות?";
 "stkit.discard" = "ביטול שינויים";
 "stkit.saveAndClose" = "שמירה וסגירה";
+
+/* Navigation */
 "stkit.pages" = "עמודים";
 "stkit.bookmark" = "סימניה";
 "stkit.settings" = "הגדרות";
@@ -29,6 +38,8 @@
 "stkit.editPages" = "עריכת עמודים";
 "stkit.print" = "הדפסה";
 "stkit.saveAsText" = "שמירה כטקסט";
+
+/* Search */
 "stkit.searchInDocument" = "חיפוש במסמך...";
 "stkit.searching" = "מחפש...";
 "stkit.noResultsFound" = "לא נמצאו תוצאות";
@@ -38,18 +49,26 @@
 "stkit.replaceAll" = "הכל";
 "stkit.showReplace" = "החלפה";
 "stkit.hideReplace" = "הסתרת החלפה";
+
+/* Outline */
 "stkit.noOutlineAvailable" = "אין מתווה זמין";
+
+/* Settings */
 "stkit.display" = "תצוגה";
 "stkit.scrollDirection" = "כיוון גלילה";
 "stkit.pageMode" = "מצב עמוד";
 "stkit.view" = "תצוגה";
 "stkit.pageShadows" = "צללי עמוד";
 "stkit.backgroundColor" = "צבע רקע";
+
+/* Property */
 "stkit.color" = "צבע";
 "stkit.width" = "רוחב";
 "stkit.fontSize" = "גודל גופן";
 "stkit.opacity" = "אטימות";
 "stkit.font" = "גופן";
+
+/* Tools */
 "stkit.tool.pen" = "עט";
 "stkit.tool.highlighter" = "סמן";
 "stkit.tool.text" = "טקסט";
@@ -69,6 +88,8 @@
 "stkit.tapOnTextToEdit" = "הקש על הטקסט לעריכה";
 "stkit.selection.word" = "מילה";
 "stkit.selection.line" = "שורה";
+
+/* Toolbar */
 "stkit.hand" = "יד";
 "stkit.select" = "בחירה";
 "stkit.style" = "סגנון";
@@ -76,16 +97,26 @@
 "stkit.zoomOut" = "הקטנה";
 "stkit.addText" = "הוספת טקסט";
 "stkit.removeText" = "הסרת טקסט";
+
+/* Groups */
 "stkit.group.draw" = "ציור";
 "stkit.group.shapes" = "צורות";
 "stkit.group.text" = "טקסט";
 "stkit.group.markup" = "סימון";
 "stkit.group.extras" = "נוספות";
+
+/* Text */
 "stkit.enterText" = "הזן טקסט...";
+
+/* Markup */
 "stkit.applyTool" = "החל %@";
+
+/* Signature */
 "stkit.signature.clear" = "ניקוי";
 "stkit.signature.drawNew" = "ציור חדש";
 "stkit.signature.saved" = "חתימות שמורות";
+
+/* Stamps */
 "stkit.stamp.approved" = "מאושר";
 "stkit.stamp.rejected" = "נדחה";
 "stkit.stamp.draft" = "טיוטה";
@@ -93,21 +124,31 @@
 "stkit.stamp.forComment" = "להערות";
 "stkit.stamp.asIs" = "כפי שהוא";
 "stkit.stamp.final" = "סופי";
+
+/* Placement */
 "stkit.tapToPlace" = "הקש להנחה";
+
+/* Selection */
 "stkit.selection.copy" = "העתקה";
 "stkit.selection.paste" = "הדבקה";
 "stkit.selection.delete" = "מחיקה";
 "stkit.selection.inspector" = "בדיקה";
 "stkit.selection.note" = "הערה";
+
+/* Hints */
 "stkit.hint.draw" = "גע וצייר";
 "stkit.hint.shape" = "גרור לציור";
 "stkit.hint.tapToAddText" = "הקש להוספת טקסט";
 "stkit.hint.erase" = "החלק למחיקה";
+
+/* Order */
 "stkit.order" = "סדר";
 "stkit.order.front" = "הבא קדימה";
 "stkit.order.forward" = "הזז קדימה";
 "stkit.order.backward" = "הזז אחורה";
 "stkit.order.back" = "שלח לאחור";
+
+/* Page Editor */
 "stkit.page.newPage" = "עמוד חדש";
 "stkit.page.remove" = "הסרה";
 "stkit.page.duplicate" = "שכפול";
@@ -125,6 +166,8 @@
 "stkit.page.color.white" = "לבן";
 "stkit.page.color.cream" = "קרם";
 "stkit.page.color.gray" = "אפור";
+
+/* Ribbon Tabs */
 "stkit.ribbon.home" = "בית";
 "stkit.ribbon.para" = "עיצוב";
 "stkit.ribbon.insert" = "הוספה";
@@ -133,6 +176,8 @@
 "stkit.ribbon.layout" = "פריסה";
 "stkit.ribbon.review" = "סקירה";
 "stkit.ribbon.view" = "תצוגה";
+
+/* Ribbon Home */
 "stkit.ribbon.bold" = "מודגש";
 "stkit.ribbon.italic" = "נטוי";
 "stkit.ribbon.underline" = "קו תחתון";
@@ -146,6 +191,8 @@
 "stkit.ribbon.alignRight" = "ימין";
 "stkit.ribbon.justify" = "יישור";
 "stkit.ribbon.lineSpacing" = "רווח שורות";
+
+/* Ribbon Insert */
 "stkit.ribbon.image" = "תמונה";
 "stkit.ribbon.table" = "טבלה";
 "stkit.ribbon.shape" = "צורה";
@@ -157,10 +204,14 @@
 "stkit.ribbon.endnote" = "הערת סיום";
 "stkit.ribbon.tab" = "טאב";
 "stkit.ribbon.lineBreak" = "מעבר";
+
+/* Ribbon Layout */
 "stkit.ribbon.orientation" = "כיוון";
 "stkit.ribbon.pageSize" = "גודל";
 "stkit.ribbon.margins" = "שוליים";
 "stkit.ribbon.columns" = "עמודות";
+
+/* Ribbon Home+ */
 "stkit.ribbon.paste" = "הדבקה";
 "stkit.ribbon.copyFormat" = "עיצוב";
 "stkit.ribbon.subscript" = "כתב תחתון";
@@ -171,6 +222,8 @@
 "stkit.ribbon.decreaseIndent" = "הקטן הזחה";
 "stkit.ribbon.selectAll" = "בחר הכל";
 "stkit.ribbon.edit" = "עריכה";
+
+/* Ribbon Insert+ */
 "stkit.ribbon.pageBreak" = "מעבר עמוד";
 "stkit.ribbon.textBox" = "תיבת טקסט";
 "stkit.ribbon.link" = "קישור";
@@ -179,14 +232,22 @@
 "stkit.ribbon.comment" = "הערה";
 "stkit.ribbon.header" = "כותרת עליונה";
 "stkit.ribbon.footer" = "כותרת תחתונה";
+
+/* Ribbon Design */
 "stkit.ribbon.themes" = "ערכות נושא";
 "stkit.ribbon.watermark" = "סימן מים";
+
+/* Ribbon Layout+ */
 "stkit.ribbon.textDirection" = "כיוון";
 "stkit.ribbon.sectionBreak" = "מעבר קטע";
 "stkit.ribbon.pageBreaks" = "מעבר עמוד";
+
+/* Ribbon Review */
 "stkit.ribbon.trackChanges" = "מעקב שינויים";
 "stkit.ribbon.acceptChange" = "קבלה";
 "stkit.ribbon.rejectChange" = "דחייה";
+
+/* Ribbon Table */
 "stkit.ribbon.addRow" = "הוסף שורה";
 "stkit.ribbon.deleteRow" = "מחק שורה";
 "stkit.ribbon.addColumn" = "הוסף עמודה";
@@ -196,10 +257,16 @@
 "stkit.ribbon.tableStyle" = "סגנון";
 "stkit.ribbon.tableColor" = "צבע";
 "stkit.tableStyles" = "סגנונות טבלה";
+
+/* Ribbon Review+ */
 "stkit.ribbon.comments" = "הערות";
 "stkit.selectTextForComment" = "בחר תחילה טקסט במסמך, ולאחר מכן הוסף הערה.";
+
+/* General */
 "stkit.comingSoon" = "בקרוב";
 "stkit.custom" = "מותאם אישית";
+
+/* Ribbon View */
 "stkit.ribbon.zoom" = "זום";
 "stkit.ribbon.thumbnails" = "עמודים";
 "stkit.ribbon.outline" = "מתווה";

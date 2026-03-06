@@ -1,7 +1,10 @@
+/* Editor */
 "stdocx.font" = "フォント";
 "stdocx.textColor" = "テキストカラー";
 "stdocx.exportAs" = "形式を選んで書き出し";
 "stdocx.findReplace" = "検索と置換";
+
+/* Formatting */
 "stdocx.bold" = "太字";
 "stdocx.italic" = "斜体";
 "stdocx.underline" = "下線";

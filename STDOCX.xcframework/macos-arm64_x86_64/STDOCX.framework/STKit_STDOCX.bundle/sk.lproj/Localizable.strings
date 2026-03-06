@@ -1,7 +1,10 @@
+/* Editor */
 "stdocx.font" = "Písmo";
 "stdocx.textColor" = "Farba textu";
 "stdocx.exportAs" = "Exportovať ako";
 "stdocx.findReplace" = "Nájsť a nahradiť";
+
+/* Formatting */
 "stdocx.bold" = "Tučné";
 "stdocx.italic" = "Kurzíva";
 "stdocx.underline" = "Podčiarknutie";
@@ -10,4 +13,4 @@
 "stdocx.alignLeft" = "Zarovnať vľavo";
 "stdocx.alignCenter" = "Zarovnať na stred";
 "stdocx.alignRight" = "Zarovnať vpravo";
-"stdocx.justify" = "Zarovnať";
+"stdocx.justify" = "Zarovnať do bloku";

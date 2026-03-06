@@ -18,6 +18,17 @@ public final class STKitConfiguration {
     /// ```
     public var isPurchased: Bool = true
 
+    /// Optional callback invoked when the user taps Print / Save / Export.
+    /// Return `true` to allow, `false` to block. Use this to gate behind purchase.
+    ///
+    /// ```swift
+    /// STKitConfiguration.shared.onPrint = {
+    ///     guard isPurchased else { showPaywall(); return false }
+    ///     return true
+    /// }
+    /// ```
+    public var onPrint: (() -> Bool)?
+
     /// Optional callback invoked when an unlicensed user taps a premium feature.
     /// Use this to present your own paywall / purchase screen.
     /// If nil, a default "Premium Required" alert is shown.

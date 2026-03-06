@@ -1,3 +1,4 @@
+/* Common */
 "stkit.done" = "Xong";
 "stkit.cancel" = "Hủy";
 "stkit.save" = "Lưu";
@@ -10,18 +11,26 @@
 "stkit.undo" = "Hoàn tác";
 "stkit.redo" = "Làm lại";
 "stkit.add" = "Thêm";
+
+/* License */
 "stkit.unlicensed" = "STKit — Chưa có giấy phép";
+
+/* Word Count */
 "stkit.wordCount" = "Số từ";
 "stkit.words" = "Từ";
 "stkit.characters" = "Ký tự";
 "stkit.charactersWithSpaces" = "Ký tự (kể cả dấu cách)";
 "stkit.paragraphs" = "Đoạn văn";
 "stkit.lines" = "Dòng";
+
+/* Document */
 "stkit.newDocument" = "Tài liệu mới";
 "stkit.unsavedChanges" = "Thay đổi chưa lưu";
 "stkit.unsavedChangesMessage" = "Bạn có những thay đổi chưa lưu. Bạn muốn làm gì?";
 "stkit.discard" = "Bỏ qua";
 "stkit.saveAndClose" = "Lưu và đóng";
+
+/* Navigation & Controls */
 "stkit.pages" = "Trang";
 "stkit.bookmark" = "Dấu trang";
 "stkit.settings" = "Cài đặt";
@@ -29,6 +38,8 @@
 "stkit.editPages" = "Chỉnh sửa trang";
 "stkit.print" = "In";
 "stkit.saveAsText" = "Lưu dưới dạng văn bản";
+
+/* Search & Replace */
 "stkit.searchInDocument" = "Tìm trong tài liệu...";
 "stkit.searching" = "Đang tìm kiếm...";
 "stkit.noResultsFound" = "Không tìm thấy kết quả";
@@ -38,18 +49,26 @@
 "stkit.replaceAll" = "Tất cả";
 "stkit.showReplace" = "Thay thế";
 "stkit.hideReplace" = "Ẩn thay thế";
+
+/* Outline */
 "stkit.noOutlineAvailable" = "Không có phác thảo";
+
+/* Settings */
 "stkit.display" = "Hiển thị";
 "stkit.scrollDirection" = "Hướng cuộn";
 "stkit.pageMode" = "Chế độ trang";
 "stkit.view" = "Xem";
 "stkit.pageShadows" = "Bóng trang";
 "stkit.backgroundColor" = "Màu nền";
+
+/* Property Inspector */
 "stkit.color" = "Màu";
 "stkit.width" = "Chiều rộng";
 "stkit.fontSize" = "Cỡ chữ";
 "stkit.opacity" = "Độ mờ";
 "stkit.font" = "Phông chữ";
+
+/* Annotation Tools */
 "stkit.tool.pen" = "Bút";
 "stkit.tool.highlighter" = "Bút đánh dấu";
 "stkit.tool.text" = "Văn bản";
@@ -69,6 +88,8 @@
 "stkit.tapOnTextToEdit" = "Nhấn vào văn bản để chỉnh sửa";
 "stkit.selection.word" = "Từ";
 "stkit.selection.line" = "Dòng";
+
+/* Toolbar Labels */
 "stkit.hand" = "Tay";
 "stkit.select" = "Chọn";
 "stkit.style" = "Kiểu";
@@ -76,16 +97,26 @@
 "stkit.zoomOut" = "Thu nhỏ";
 "stkit.addText" = "Thêm văn bản";
 "stkit.removeText" = "Xóa văn bản";
+
+/* Annotation Groups */
 "stkit.group.draw" = "Vẽ";
 "stkit.group.shapes" = "Hình dạng";
 "stkit.group.text" = "Văn bản";
 "stkit.group.markup" = "Chú thích";
 "stkit.group.extras" = "Thêm";
+
+/* Text Input */
 "stkit.enterText" = "Nhập văn bản...";
+
+/* Markup */
 "stkit.applyTool" = "Áp dụng %@";
+
+/* Signature */
 "stkit.signature.clear" = "Xóa";
 "stkit.signature.drawNew" = "Vẽ mới";
 "stkit.signature.saved" = "Chữ ký đã lưu";
+
+/* Stamp Types */
 "stkit.stamp.approved" = "Đã phê duyệt";
 "stkit.stamp.rejected" = "Đã từ chối";
 "stkit.stamp.draft" = "Nháp";
@@ -93,21 +124,31 @@
 "stkit.stamp.forComment" = "Để bình luận";
 "stkit.stamp.asIs" = "Nguyên trạng";
 "stkit.stamp.final" = "Cuối cùng";
+
+/* Placement */
 "stkit.tapToPlace" = "Nhấn để đặt";
+
+/* Selection Menu */
 "stkit.selection.copy" = "Sao chép";
 "stkit.selection.paste" = "Dán";
 "stkit.selection.delete" = "Xóa";
 "stkit.selection.inspector" = "Trình kiểm tra";
 "stkit.selection.note" = "Ghi chú";
+
+/* Tool Hints */
 "stkit.hint.draw" = "Chạm và vẽ";
 "stkit.hint.shape" = "Kéo để vẽ";
 "stkit.hint.tapToAddText" = "Nhấn để thêm văn bản";
 "stkit.hint.erase" = "Vuốt để xóa";
+
+/* Order (Layer) */
 "stkit.order" = "Thứ tự";
 "stkit.order.front" = "Đưa lên trước";
 "stkit.order.forward" = "Chuyển lên trước";
 "stkit.order.backward" = "Chuyển xuống sau";
 "stkit.order.back" = "Đưa xuống sau";
+
+/* Page Editor */
 "stkit.page.newPage" = "Trang mới";
 "stkit.page.remove" = "Xóa";
 "stkit.page.duplicate" = "Sao chép";
@@ -125,6 +166,8 @@
 "stkit.page.color.white" = "Trắng";
 "stkit.page.color.cream" = "Kem";
 "stkit.page.color.gray" = "Xám";
+
+/* Ribbon Tabs */
 "stkit.ribbon.home" = "Trang chủ";
 "stkit.ribbon.para" = "Định dạng";
 "stkit.ribbon.insert" = "Chèn";
@@ -133,6 +176,8 @@
 "stkit.ribbon.layout" = "Bố cục";
 "stkit.ribbon.review" = "Xem xét";
 "stkit.ribbon.view" = "Xem";
+
+/* Ribbon Home */
 "stkit.ribbon.bold" = "In đậm";
 "stkit.ribbon.italic" = "In nghiêng";
 "stkit.ribbon.underline" = "Gạch chân";
@@ -146,6 +191,8 @@
 "stkit.ribbon.alignRight" = "Phải";
 "stkit.ribbon.justify" = "Căn đều";
 "stkit.ribbon.lineSpacing" = "Khoảng cách dòng";
+
+/* Ribbon Insert */
 "stkit.ribbon.image" = "Hình ảnh";
 "stkit.ribbon.table" = "Bảng";
 "stkit.ribbon.shape" = "Hình dạng";
@@ -157,10 +204,14 @@
 "stkit.ribbon.endnote" = "Chú thích cuối";
 "stkit.ribbon.tab" = "Tab";
 "stkit.ribbon.lineBreak" = "Ngắt dòng";
+
+/* Ribbon Layout */
 "stkit.ribbon.orientation" = "Hướng";
 "stkit.ribbon.pageSize" = "Cỡ";
 "stkit.ribbon.margins" = "Lề";
 "stkit.ribbon.columns" = "Cột";
+
+/* Ribbon Home (additional) */
 "stkit.ribbon.paste" = "Dán";
 "stkit.ribbon.copyFormat" = "Định dạng";
 "stkit.ribbon.subscript" = "Chỉ số dưới";
@@ -171,6 +222,8 @@
 "stkit.ribbon.decreaseIndent" = "Thụt lề-";
 "stkit.ribbon.selectAll" = "Chọn tất cả";
 "stkit.ribbon.edit" = "Chỉnh sửa";
+
+/* Ribbon Insert (additional) */
 "stkit.ribbon.pageBreak" = "Ngắt trang";
 "stkit.ribbon.textBox" = "Hộp văn bản";
 "stkit.ribbon.link" = "Liên kết";
@@ -179,14 +232,22 @@
 "stkit.ribbon.comment" = "Bình luận";
 "stkit.ribbon.header" = "Đầu trang";
 "stkit.ribbon.footer" = "Chân trang";
+
+/* Ribbon Design (additional) */
 "stkit.ribbon.themes" = "Chủ đề";
 "stkit.ribbon.watermark" = "Hình mờ";
+
+/* Ribbon Layout (additional) */
 "stkit.ribbon.textDirection" = "Hướng";
 "stkit.ribbon.sectionBreak" = "Ngắt phần";
 "stkit.ribbon.pageBreaks" = "Ngắt trang";
+
+/* Ribbon Review (additional) */
 "stkit.ribbon.trackChanges" = "Theo dõi thay đổi";
 "stkit.ribbon.acceptChange" = "Chấp nhận";
 "stkit.ribbon.rejectChange" = "Từ chối";
+
+/* Ribbon Table Tab */
 "stkit.ribbon.addRow" = "Thêm hàng";
 "stkit.ribbon.deleteRow" = "Xóa hàng";
 "stkit.ribbon.addColumn" = "Thêm cột";
@@ -196,10 +257,16 @@
 "stkit.ribbon.tableStyle" = "Kiểu";
 "stkit.ribbon.tableColor" = "Màu";
 "stkit.tableStyles" = "Kiểu bảng";
+
+/* Ribbon Review (comments) */
 "stkit.ribbon.comments" = "Bình luận";
 "stkit.selectTextForComment" = "Trước tiên hãy chọn văn bản trong tài liệu, sau đó thêm bình luận.";
+
+/* General */
 "stkit.comingSoon" = "Sắp ra mắt";
 "stkit.custom" = "Tùy chỉnh";
+
+/* Ribbon View */
 "stkit.ribbon.zoom" = "Thu phóng";
 "stkit.ribbon.thumbnails" = "Trang";
 "stkit.ribbon.outline" = "Phác thảo";

@@ -1,13 +1,15 @@
+/* Editor */
 "stdocx.font" = "Schriftart";
 "stdocx.textColor" = "Textfarbe";
 "stdocx.exportAs" = "Exportieren als";
-"stdocx.findReplace" = "Suchen und ersetzen";
+"stdocx.findReplace" = "Suchen und Ersetzen";
+/* Formatting */
 "stdocx.bold" = "Fett";
 "stdocx.italic" = "Kursiv";
 "stdocx.underline" = "Unterstreichen";
 "stdocx.strikethrough" = "Durchstreichen";
 "stdocx.alignment" = "Ausrichtung";
 "stdocx.alignLeft" = "Linksbündig";
-"stdocx.alignCenter" = "Zentrieren";
+"stdocx.alignCenter" = "Zentriert";
 "stdocx.alignRight" = "Rechtsbündig";
 "stdocx.justify" = "Blocksatz";

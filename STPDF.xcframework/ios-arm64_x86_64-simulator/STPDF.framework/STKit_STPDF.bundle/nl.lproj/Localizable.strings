@@ -1,0 +1,143 @@
+/* Navigation & Controls */
+"stpdfkit.done" = "Klaar";
+"stpdfkit.pages" = "Pagina's";
+"stpdfkit.bookmark" = "Bladwijzer";
+"stpdfkit.search" = "Zoeken";
+"stpdfkit.settings" = "Instellingen";
+"stpdfkit.outline" = "Overzicht";
+"stpdfkit.editPages" = "Pagina's bewerken";
+"stpdfkit.share" = "Delen";
+"stpdfkit.print" = "Afdrukken";
+"stpdfkit.saveAsText" = "Opslaan als tekst";
+"stpdfkit.untitled" = "Naamloos";
+
+/* Search */
+"stpdfkit.searchInDocument" = "Zoeken in document...";
+"stpdfkit.searching" = "Zoeken...";
+"stpdfkit.noResultsFound" = "Geen resultaten gevonden";
+"stpdfkit.page" = "Pagina %d";
+
+/* Outline */
+"stpdfkit.noOutlineAvailable" = "Geen overzicht beschikbaar";
+
+/* Settings */
+"stpdfkit.display" = "Weergave";
+"stpdfkit.scrollDirection" = "Scrollrichting";
+"stpdfkit.pageMode" = "Paginamodus";
+"stpdfkit.view" = "Weergave";
+"stpdfkit.pageShadows" = "Paginaschaduwen";
+"stpdfkit.backgroundColor" = "Achtergrondkleur";
+
+/* Property Inspector */
+"stpdfkit.color" = "Kleur";
+"stpdfkit.width" = "Breedte";
+"stpdfkit.fontSize" = "Lettergrootte";
+"stpdfkit.opacity" = "Dekking";
+"stpdfkit.font" = "Lettertype";
+
+/* Annotation Tools */
+"stpdfkit.tool.pen" = "Pen";
+"stpdfkit.tool.highlighter" = "Markeerstift";
+"stpdfkit.tool.text" = "Tekst";
+"stpdfkit.tool.highlight" = "Markeren";
+"stpdfkit.tool.underline" = "Onderstrepen";
+"stpdfkit.tool.strikethrough" = "Doorhalen";
+"stpdfkit.tool.rectangle" = "Rechthoek";
+"stpdfkit.tool.circle" = "Cirkel";
+"stpdfkit.tool.line" = "Lijn";
+"stpdfkit.tool.arrow" = "Pijl";
+"stpdfkit.tool.signature" = "Handtekening";
+"stpdfkit.tool.stamp" = "Stempel";
+"stpdfkit.tool.note" = "Noot";
+"stpdfkit.tool.eraser" = "Gum";
+"stpdfkit.tool.photo" = "Foto";
+"stpdfkit.tool.textEdit" = "Tekst bewerken";
+"stpdfkit.tapOnTextToEdit" = "Tik op tekst om te bewerken";
+"stpdfkit.selection.word" = "Woord";
+"stpdfkit.selection.line" = "Regel";
+
+/* Toolbar Labels */
+"stpdfkit.hand" = "Hand";
+"stpdfkit.undo" = "Ongedaan maken";
+"stpdfkit.redo" = "Opnieuw";
+"stpdfkit.select" = "Selecteren";
+"stpdfkit.style" = "Stijl";
+"stpdfkit.close" = "Sluiten";
+"stpdfkit.zoomIn" = "Inzoomen";
+"stpdfkit.zoomOut" = "Uitzoomen";
+"stpdfkit.addText" = "Tekst toevoegen";
+"stpdfkit.removeText" = "Tekst verwijderen";
+
+/* Annotation Groups */
+"stpdfkit.group.draw" = "Tekenen";
+"stpdfkit.group.shapes" = "Vormen";
+"stpdfkit.group.text" = "Tekst";
+"stpdfkit.group.markup" = "Opmaak";
+"stpdfkit.group.extras" = "Extra's";
+
+/* Text Input */
+"stpdfkit.enterText" = "Tekst invoeren...";
+"stpdfkit.cancel" = "Annuleer";
+"stpdfkit.add" = "Toevoegen";
+
+/* Markup */
+"stpdfkit.applyTool" = "Toepassen %@";
+
+/* Signature */
+"stpdfkit.signature.clear" = "Wissen";
+"stpdfkit.signature.drawNew" = "Nieuw tekenen";
+"stpdfkit.signature.saved" = "Opgeslagen handtekeningen";
+
+/* Stamp Types */
+"stpdfkit.stamp.approved" = "Goedgekeurd";
+"stpdfkit.stamp.rejected" = "Afgewezen";
+"stpdfkit.stamp.draft" = "Concept";
+"stpdfkit.stamp.confidential" = "Vertrouwelijk";
+"stpdfkit.stamp.forComment" = "Ter commentaar";
+"stpdfkit.stamp.asIs" = "Zoals het is";
+"stpdfkit.stamp.final" = "Definitief";
+
+/* Placement */
+"stpdfkit.tapToPlace" = "Tik om te plaatsen";
+
+/* Selection Menu */
+"stpdfkit.selection.copy" = "Kopiëren";
+"stpdfkit.selection.paste" = "Plakken";
+"stpdfkit.selection.delete" = "Verwijderen";
+"stpdfkit.selection.inspector" = "Inspector";
+"stpdfkit.selection.note" = "Noot";
+
+/* Tool Hints */
+"stpdfkit.hint.draw" = "Raak aan en teken";
+"stpdfkit.hint.shape" = "Sleep om te tekenen";
+"stpdfkit.hint.tapToAddText" = "Tik om tekst toe te voegen";
+"stpdfkit.hint.erase" = "Veeg om te wissen";
+
+/* Order (Layer) */
+"stpdfkit.order" = "Volgorde";
+"stpdfkit.order.front" = "Naar voren brengen";
+"stpdfkit.order.forward" = "Naar voren";
+"stpdfkit.order.backward" = "Naar achteren";
+"stpdfkit.order.back" = "Naar achter sturen";
+
+/* Page Editor */
+"stpdfkit.page.newPage" = "Nieuwe pagina";
+"stpdfkit.page.remove" = "Verwijderen";
+"stpdfkit.page.duplicate" = "Dupliceren";
+"stpdfkit.page.rotate" = "Roteren";
+"stpdfkit.page.selectAll" = "Alles selecteren";
+"stpdfkit.page.deselectAll" = "Selectie opheffen";
+"stpdfkit.page.cut" = "Knippen";
+"stpdfkit.page.copy" = "Kopiëren";
+"stpdfkit.page.paste" = "Plakken";
+"stpdfkit.page.numberOfPages" = "Aantal pagina's";
+"stpdfkit.page.format" = "Paginaopmaak";
+"stpdfkit.page.color" = "Paginakleur";
+"stpdfkit.page.addAfter" = "Toevoegen na pagina";
+"stpdfkit.page.beginning" = "Begin";
+"stpdfkit.page.color.white" = "Wit";
+"stpdfkit.page.color.cream" = "Crème";
+"stpdfkit.page.color.gray" = "Grijs";
+
+/* License */
+"stpdfkit.unlicensed" = "STPDFKit — Niet gelicenseerd";

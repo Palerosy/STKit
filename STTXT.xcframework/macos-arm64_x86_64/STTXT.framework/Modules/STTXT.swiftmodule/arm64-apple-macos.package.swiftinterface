@@ -24,7 +24,7 @@ public struct STTXTConfiguration {
   public var showSaveButton: Swift.Bool
   public var showMoreMenu: Swift.Bool
   public var showLineNumbers: Swift.Bool
-  public var onPrint: (() -> Swift.Bool)?
+  public var paywallPlacement: Swift.String
   public init()
   public static var viewerDefault: STTXT.STTXTConfiguration {
     get

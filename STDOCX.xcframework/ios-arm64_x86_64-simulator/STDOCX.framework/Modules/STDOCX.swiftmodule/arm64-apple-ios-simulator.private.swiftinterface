@@ -147,11 +147,11 @@ public struct STDOCXConfiguration {
   public var showShare: Swift.Bool
   public var showPrint: Swift.Bool
   public var showSaveAsText: Swift.Bool
+  public var paywallPlacement: Swift.String
   public var allowAnnotationEditing: Swift.Bool
   public var allowDocumentEditing: Swift.Bool
   public var autosaveEnabled: Swift.Bool
   public var autosaveInterval: Swift.Double
-  public var onPrint: (() -> Swift.Bool)?
   public var appearance: STDOCX.STAppearanceConfiguration
   public init()
 }

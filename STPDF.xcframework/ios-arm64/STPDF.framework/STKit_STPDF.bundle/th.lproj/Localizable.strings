@@ -1,0 +1,143 @@
+/* Navigation & Controls */
+"stpdfkit.done" = "เสร็จสิ้น";
+"stpdfkit.pages" = "หน้า";
+"stpdfkit.bookmark" = "บุ๊กมาร์ก";
+"stpdfkit.search" = "ค้นหา";
+"stpdfkit.settings" = "การตั้งค่า";
+"stpdfkit.outline" = "โครงร่าง";
+"stpdfkit.editPages" = "แก้ไขหน้า";
+"stpdfkit.share" = "แชร์";
+"stpdfkit.print" = "พิมพ์";
+"stpdfkit.saveAsText" = "บันทึกเป็นข้อความ";
+"stpdfkit.untitled" = "ไม่มีชื่อ";
+
+/* Search */
+"stpdfkit.searchInDocument" = "ค้นหาในเอกสาร...";
+"stpdfkit.searching" = "กำลังค้นหา...";
+"stpdfkit.noResultsFound" = "ไม่พบผลลัพธ์";
+"stpdfkit.page" = "หน้า %d";
+
+/* Outline */
+"stpdfkit.noOutlineAvailable" = "ไม่มีโครงร่าง";
+
+/* Settings */
+"stpdfkit.display" = "การแสดงผล";
+"stpdfkit.scrollDirection" = "ทิศทางการเลื่อน";
+"stpdfkit.pageMode" = "โหมดหน้า";
+"stpdfkit.view" = "มุมมอง";
+"stpdfkit.pageShadows" = "เงาหน้า";
+"stpdfkit.backgroundColor" = "สีพื้นหลัง";
+
+/* Property Inspector */
+"stpdfkit.color" = "สี";
+"stpdfkit.width" = "ความกว้าง";
+"stpdfkit.fontSize" = "ขนาดตัวอักษร";
+"stpdfkit.opacity" = "ความทึบ";
+"stpdfkit.font" = "แบบอักษร";
+
+/* Annotation Tools */
+"stpdfkit.tool.pen" = "ปากกา";
+"stpdfkit.tool.highlighter" = "ปากกาเน้นข้อความ";
+"stpdfkit.tool.text" = "ข้อความ";
+"stpdfkit.tool.highlight" = "เน้นข้อความ";
+"stpdfkit.tool.underline" = "ขีดเส้นใต้";
+"stpdfkit.tool.strikethrough" = "ขีดฆ่า";
+"stpdfkit.tool.rectangle" = "สี่เหลี่ยม";
+"stpdfkit.tool.circle" = "วงกลม";
+"stpdfkit.tool.line" = "เส้น";
+"stpdfkit.tool.arrow" = "ลูกศร";
+"stpdfkit.tool.signature" = "ลายเซ็น";
+"stpdfkit.tool.stamp" = "ตราประทับ";
+"stpdfkit.tool.note" = "โน้ต";
+"stpdfkit.tool.eraser" = "ยางลบ";
+"stpdfkit.tool.photo" = "รูปภาพ";
+"stpdfkit.tool.textEdit" = "แก้ไขข้อความ";
+"stpdfkit.tapOnTextToEdit" = "แตะที่ข้อความเพื่อแก้ไข";
+"stpdfkit.selection.word" = "คำ";
+"stpdfkit.selection.line" = "บรรทัด";
+
+/* Toolbar Labels */
+"stpdfkit.hand" = "มือ";
+"stpdfkit.undo" = "เลิกทำ";
+"stpdfkit.redo" = "ทำซ้ำ";
+"stpdfkit.select" = "เลือก";
+"stpdfkit.style" = "สไตล์";
+"stpdfkit.close" = "ปิด";
+"stpdfkit.zoomIn" = "ขยาย";
+"stpdfkit.zoomOut" = "ย่อ";
+"stpdfkit.addText" = "เพิ่มข้อความ";
+"stpdfkit.removeText" = "ลบข้อความ";
+
+/* Annotation Groups */
+"stpdfkit.group.draw" = "วาด";
+"stpdfkit.group.shapes" = "รูปทรง";
+"stpdfkit.group.text" = "ข้อความ";
+"stpdfkit.group.markup" = "มาร์กอัป";
+"stpdfkit.group.extras" = "เพิ่มเติม";
+
+/* Text Input */
+"stpdfkit.enterText" = "ป้อนข้อความ...";
+"stpdfkit.cancel" = "ยกเลิก";
+"stpdfkit.add" = "เพิ่ม";
+
+/* Markup */
+"stpdfkit.applyTool" = "ใช้ %@";
+
+/* Signature */
+"stpdfkit.signature.clear" = "ล้าง";
+"stpdfkit.signature.drawNew" = "วาดใหม่";
+"stpdfkit.signature.saved" = "ลายเซ็นที่บันทึกไว้";
+
+/* Stamp Types */
+"stpdfkit.stamp.approved" = "อนุมัติ";
+"stpdfkit.stamp.rejected" = "ปฏิเสธ";
+"stpdfkit.stamp.draft" = "ฉบับร่าง";
+"stpdfkit.stamp.confidential" = "ลับเฉพาะ";
+"stpdfkit.stamp.forComment" = "สำหรับความคิดเห็น";
+"stpdfkit.stamp.asIs" = "ตามสภาพ";
+"stpdfkit.stamp.final" = "ฉบับสุดท้าย";
+
+/* Placement */
+"stpdfkit.tapToPlace" = "แตะเพื่อวาง";
+
+/* Selection Menu */
+"stpdfkit.selection.copy" = "คัดลอก";
+"stpdfkit.selection.paste" = "วาง";
+"stpdfkit.selection.delete" = "ลบ";
+"stpdfkit.selection.inspector" = "ตัวตรวจสอบ";
+"stpdfkit.selection.note" = "โน้ต";
+
+/* Tool Hints */
+"stpdfkit.hint.draw" = "สัมผัสแล้ววาด";
+"stpdfkit.hint.shape" = "ลากเพื่อวาด";
+"stpdfkit.hint.tapToAddText" = "แตะเพื่อเพิ่มข้อความ";
+"stpdfkit.hint.erase" = "ปัดเพื่อลบ";
+
+/* Order (Layer) */
+"stpdfkit.order" = "ลำดับ";
+"stpdfkit.order.front" = "นำไปข้างหน้าสุด";
+"stpdfkit.order.forward" = "นำไปข้างหน้า";
+"stpdfkit.order.backward" = "ส่งไปข้างหลัง";
+"stpdfkit.order.back" = "ส่งไปข้างหลังสุด";
+
+/* Page Editor */
+"stpdfkit.page.newPage" = "หน้าใหม่";
+"stpdfkit.page.remove" = "ลบ";
+"stpdfkit.page.duplicate" = "ทำสำเนา";
+"stpdfkit.page.rotate" = "หมุน";
+"stpdfkit.page.selectAll" = "เลือกทั้งหมด";
+"stpdfkit.page.deselectAll" = "ยกเลิกการเลือกทั้งหมด";
+"stpdfkit.page.cut" = "ตัด";
+"stpdfkit.page.copy" = "คัดลอก";
+"stpdfkit.page.paste" = "วาง";
+"stpdfkit.page.numberOfPages" = "จำนวนหน้า";
+"stpdfkit.page.format" = "รูปแบบหน้า";
+"stpdfkit.page.color" = "สีหน้า";
+"stpdfkit.page.addAfter" = "เพิ่มหลังหน้า";
+"stpdfkit.page.beginning" = "จุดเริ่มต้น";
+"stpdfkit.page.color.white" = "ขาว";
+"stpdfkit.page.color.cream" = "ครีม";
+"stpdfkit.page.color.gray" = "เทา";
+
+/* License */
+"stpdfkit.unlicensed" = "STPDFKit — ไม่มีใบอนุญาต";

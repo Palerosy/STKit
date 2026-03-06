@@ -1,7 +1,10 @@
+/* Editor */
 "stdocx.font" = "גופן";
 "stdocx.textColor" = "צבע טקסט";
 "stdocx.exportAs" = "ייצוא כ";
 "stdocx.findReplace" = "חיפוש והחלפה";
+
+/* Formatting */
 "stdocx.bold" = "מודגש";
 "stdocx.italic" = "נטוי";
 "stdocx.underline" = "קו תחתון";

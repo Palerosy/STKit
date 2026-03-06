@@ -1,7 +1,10 @@
+/* Editor */
 "stdocx.font" = "Carattere";
 "stdocx.textColor" = "Colore testo";
 "stdocx.exportAs" = "Esporta come";
 "stdocx.findReplace" = "Trova e sostituisci";
+
+/* Formatting */
 "stdocx.bold" = "Grassetto";
 "stdocx.italic" = "Corsivo";
 "stdocx.underline" = "Sottolineato";

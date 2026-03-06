@@ -1,3 +1,4 @@
+/* Common */
 "stkit.done" = "Klar";
 "stkit.cancel" = "Avbryt";
 "stkit.save" = "Spara";
@@ -10,18 +11,26 @@
 "stkit.undo" = "Ångra";
 "stkit.redo" = "Gör om";
 "stkit.add" = "Lägg till";
+
+/* License */
 "stkit.unlicensed" = "STKit — Ej licensierad";
+
+/* Word Count */
 "stkit.wordCount" = "Ordantal";
 "stkit.words" = "Ord";
 "stkit.characters" = "Tecken";
 "stkit.charactersWithSpaces" = "Tecken (med blanksteg)";
 "stkit.paragraphs" = "Stycken";
 "stkit.lines" = "Rader";
+
+/* Document */
 "stkit.newDocument" = "Nytt dokument";
 "stkit.unsavedChanges" = "Osparade ändringar";
 "stkit.unsavedChangesMessage" = "Du har osparade ändringar. Vad vill du göra?";
 "stkit.discard" = "Ignorera";
 "stkit.saveAndClose" = "Spara och stäng";
+
+/* Navigation & Controls */
 "stkit.pages" = "Sidor";
 "stkit.bookmark" = "Bokmärke";
 "stkit.settings" = "Inställningar";
@@ -29,32 +38,42 @@
 "stkit.editPages" = "Redigera sidor";
 "stkit.print" = "Skriv ut";
 "stkit.saveAsText" = "Spara som text";
+
+/* Search & Replace */
 "stkit.searchInDocument" = "Sök i dokument...";
 "stkit.searching" = "Söker...";
-"stkit.noResultsFound" = "Inga resultat";
+"stkit.noResultsFound" = "Inga resultat hittades";
 "stkit.page" = "Sida %d";
 "stkit.replace" = "Ersätt";
 "stkit.replaceWith" = "Ersätt med...";
 "stkit.replaceAll" = "Alla";
 "stkit.showReplace" = "Ersätt";
 "stkit.hideReplace" = "Dölj ersättning";
+
+/* Outline */
 "stkit.noOutlineAvailable" = "Ingen disposition tillgänglig";
+
+/* Settings */
 "stkit.display" = "Visning";
-"stkit.scrollDirection" = "Bläddrigriktning";
+"stkit.scrollDirection" = "Rullningsriktning";
 "stkit.pageMode" = "Sidläge";
-"stkit.view" = "Visa";
+"stkit.view" = "Vy";
 "stkit.pageShadows" = "Sidskuggor";
 "stkit.backgroundColor" = "Bakgrundsfärg";
+
+/* Property Inspector */
 "stkit.color" = "Färg";
 "stkit.width" = "Bredd";
 "stkit.fontSize" = "Teckenstorlek";
 "stkit.opacity" = "Opacitet";
 "stkit.font" = "Teckensnitt";
+
+/* Annotation Tools */
 "stkit.tool.pen" = "Penna";
 "stkit.tool.highlighter" = "Överstrykningspenna";
 "stkit.tool.text" = "Text";
 "stkit.tool.highlight" = "Markera";
-"stkit.tool.underline" = "Understreck";
+"stkit.tool.underline" = "Understrykning";
 "stkit.tool.strikethrough" = "Genomstrykning";
 "stkit.tool.rectangle" = "Rektangel";
 "stkit.tool.circle" = "Cirkel";
@@ -69,6 +88,8 @@
 "stkit.tapOnTextToEdit" = "Tryck på text för att redigera";
 "stkit.selection.word" = "Ord";
 "stkit.selection.line" = "Rad";
+
+/* Toolbar Labels */
 "stkit.hand" = "Hand";
 "stkit.select" = "Välj";
 "stkit.style" = "Stil";
@@ -76,16 +97,26 @@
 "stkit.zoomOut" = "Zooma ut";
 "stkit.addText" = "Lägg till text";
 "stkit.removeText" = "Ta bort text";
+
+/* Annotation Groups */
 "stkit.group.draw" = "Rita";
 "stkit.group.shapes" = "Former";
 "stkit.group.text" = "Text";
-"stkit.group.markup" = "Anteckning";
+"stkit.group.markup" = "Markering";
 "stkit.group.extras" = "Extra";
+
+/* Text Input */
 "stkit.enterText" = "Ange text...";
+
+/* Markup */
 "stkit.applyTool" = "Tillämpa %@";
+
+/* Signature */
 "stkit.signature.clear" = "Rensa";
 "stkit.signature.drawNew" = "Rita ny";
 "stkit.signature.saved" = "Sparade signaturer";
+
+/* Stamp Types */
 "stkit.stamp.approved" = "Godkänd";
 "stkit.stamp.rejected" = "Avslagen";
 "stkit.stamp.draft" = "Utkast";
@@ -93,21 +124,31 @@
 "stkit.stamp.forComment" = "För kommentar";
 "stkit.stamp.asIs" = "Som det är";
 "stkit.stamp.final" = "Slutgiltig";
+
+/* Placement */
 "stkit.tapToPlace" = "Tryck för att placera";
+
+/* Selection Menu */
 "stkit.selection.copy" = "Kopiera";
 "stkit.selection.paste" = "Klistra in";
 "stkit.selection.delete" = "Ta bort";
 "stkit.selection.inspector" = "Inspektör";
 "stkit.selection.note" = "Anteckning";
+
+/* Tool Hints */
 "stkit.hint.draw" = "Tryck och rita";
 "stkit.hint.shape" = "Dra för att rita";
 "stkit.hint.tapToAddText" = "Tryck för att lägga till text";
 "stkit.hint.erase" = "Svep för att sudda";
+
+/* Order (Layer) */
 "stkit.order" = "Ordning";
-"stkit.order.front" = "Ta till framsidan";
+"stkit.order.front" = "Längst fram";
 "stkit.order.forward" = "Flytta framåt";
 "stkit.order.backward" = "Flytta bakåt";
-"stkit.order.back" = "Skicka till bakgrunden";
+"stkit.order.back" = "Längst bak";
+
+/* Page Editor */
 "stkit.page.newPage" = "Ny sida";
 "stkit.page.remove" = "Ta bort";
 "stkit.page.duplicate" = "Duplicera";
@@ -125,6 +166,8 @@
 "stkit.page.color.white" = "Vit";
 "stkit.page.color.cream" = "Grädde";
 "stkit.page.color.gray" = "Grå";
+
+/* Ribbon Tabs */
 "stkit.ribbon.home" = "Start";
 "stkit.ribbon.para" = "Format";
 "stkit.ribbon.insert" = "Infoga";
@@ -133,6 +176,8 @@
 "stkit.ribbon.layout" = "Layout";
 "stkit.ribbon.review" = "Granska";
 "stkit.ribbon.view" = "Visa";
+
+/* Ribbon Home */
 "stkit.ribbon.bold" = "Fet";
 "stkit.ribbon.italic" = "Kursiv";
 "stkit.ribbon.underline" = "Understruken";
@@ -146,6 +191,8 @@
 "stkit.ribbon.alignRight" = "Höger";
 "stkit.ribbon.justify" = "Justera";
 "stkit.ribbon.lineSpacing" = "Radavstånd";
+
+/* Ribbon Insert */
 "stkit.ribbon.image" = "Bild";
 "stkit.ribbon.table" = "Tabell";
 "stkit.ribbon.shape" = "Form";
@@ -157,10 +204,14 @@
 "stkit.ribbon.endnote" = "Slutnot";
 "stkit.ribbon.tab" = "Tabb";
 "stkit.ribbon.lineBreak" = "Radbrytning";
+
+/* Ribbon Layout */
 "stkit.ribbon.orientation" = "Orientering";
 "stkit.ribbon.pageSize" = "Storlek";
 "stkit.ribbon.margins" = "Marginaler";
 "stkit.ribbon.columns" = "Kolumner";
+
+/* Ribbon Home (additional) */
 "stkit.ribbon.paste" = "Klistra in";
 "stkit.ribbon.copyFormat" = "Format";
 "stkit.ribbon.subscript" = "Nedsänkt";
@@ -171,6 +222,8 @@
 "stkit.ribbon.decreaseIndent" = "Indrag-";
 "stkit.ribbon.selectAll" = "Markera alla";
 "stkit.ribbon.edit" = "Redigera";
+
+/* Ribbon Insert (additional) */
 "stkit.ribbon.pageBreak" = "Sidbrytning";
 "stkit.ribbon.textBox" = "Textruta";
 "stkit.ribbon.link" = "Länk";
@@ -179,31 +232,45 @@
 "stkit.ribbon.comment" = "Kommentar";
 "stkit.ribbon.header" = "Sidhuvud";
 "stkit.ribbon.footer" = "Sidfot";
+
+/* Ribbon Design (additional) */
 "stkit.ribbon.themes" = "Teman";
 "stkit.ribbon.watermark" = "Vattenstämpel";
+
+/* Ribbon Layout (additional) */
 "stkit.ribbon.textDirection" = "Riktning";
 "stkit.ribbon.sectionBreak" = "Avsnittsbrytning";
 "stkit.ribbon.pageBreaks" = "Sidbrytning";
+
+/* Ribbon Review (additional) */
 "stkit.ribbon.trackChanges" = "Spåra ändringar";
 "stkit.ribbon.acceptChange" = "Godkänn";
 "stkit.ribbon.rejectChange" = "Avslå";
+
+/* Ribbon Table Tab */
 "stkit.ribbon.addRow" = "Lägg till rad";
 "stkit.ribbon.deleteRow" = "Ta bort rad";
 "stkit.ribbon.addColumn" = "Lägg till kolumn";
 "stkit.ribbon.deleteColumn" = "Ta bort kolumn";
 "stkit.ribbon.cellColor" = "Cellfärg";
-"stkit.ribbon.borderColor" = "Kant";
+"stkit.ribbon.borderColor" = "Kantlinje";
 "stkit.ribbon.tableStyle" = "Stil";
 "stkit.ribbon.tableColor" = "Färg";
 "stkit.tableStyles" = "Tabellformat";
+
+/* Ribbon Review (comments) */
 "stkit.ribbon.comments" = "Kommentarer";
 "stkit.selectTextForComment" = "Välj först text i dokumentet och lägg sedan till en kommentar.";
+
+/* General */
 "stkit.comingSoon" = "Kommer snart";
 "stkit.custom" = "Anpassad";
+
+/* Ribbon View */
 "stkit.ribbon.zoom" = "Zoom";
 "stkit.ribbon.thumbnails" = "Sidor";
 "stkit.ribbon.outline" = "Disposition";
-"stkit.ribbon.readMode" = "Läs";
+"stkit.ribbon.readMode" = "Läsläge";
 "stkit.ribbon.editMode" = "Redigera";
 "stkit.ribbon.goToTop" = "Gå till toppen";
 "stkit.ribbon.goToBottom" = "Gå till botten";

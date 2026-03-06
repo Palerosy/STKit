@@ -1,3 +1,4 @@
+/* Common */
 "stkit.done" = "Hotovo";
 "stkit.cancel" = "Zrušiť";
 "stkit.save" = "Uložiť";
@@ -10,18 +11,26 @@
 "stkit.undo" = "Späť";
 "stkit.redo" = "Znovu";
 "stkit.add" = "Pridať";
+
+/* License */
 "stkit.unlicensed" = "STKit — Bez licencie";
+
+/* Word Count */
 "stkit.wordCount" = "Počet slov";
 "stkit.words" = "Slová";
 "stkit.characters" = "Znaky";
 "stkit.charactersWithSpaces" = "Znaky (s medzerami)";
 "stkit.paragraphs" = "Odseky";
 "stkit.lines" = "Riadky";
+
+/* Document */
 "stkit.newDocument" = "Nový dokument";
 "stkit.unsavedChanges" = "Neuložené zmeny";
 "stkit.unsavedChangesMessage" = "Máte neuložené zmeny. Čo chcete urobiť?";
 "stkit.discard" = "Zahodiť";
 "stkit.saveAndClose" = "Uložiť a zavrieť";
+
+/* Navigation & Controls */
 "stkit.pages" = "Stránky";
 "stkit.bookmark" = "Záložka";
 "stkit.settings" = "Nastavenia";
@@ -29,6 +38,8 @@
 "stkit.editPages" = "Upraviť stránky";
 "stkit.print" = "Tlač";
 "stkit.saveAsText" = "Uložiť ako text";
+
+/* Search & Replace */
 "stkit.searchInDocument" = "Hľadať v dokumente...";
 "stkit.searching" = "Hľadanie...";
 "stkit.noResultsFound" = "Žiadne výsledky";
@@ -38,18 +49,26 @@
 "stkit.replaceAll" = "Všetko";
 "stkit.showReplace" = "Nahradiť";
 "stkit.hideReplace" = "Skryť nahradenie";
+
+/* Outline */
 "stkit.noOutlineAvailable" = "Žiadna osnova nie je k dispozícii";
-"stkit.display" = "Zobraziť";
+
+/* Settings */
+"stkit.display" = "Zobrazenie";
 "stkit.scrollDirection" = "Smer posúvania";
 "stkit.pageMode" = "Režim stránky";
 "stkit.view" = "Zobrazenie";
 "stkit.pageShadows" = "Tiene stránok";
 "stkit.backgroundColor" = "Farba pozadia";
+
+/* Property Inspector */
 "stkit.color" = "Farba";
 "stkit.width" = "Šírka";
 "stkit.fontSize" = "Veľkosť písma";
 "stkit.opacity" = "Priehľadnosť";
 "stkit.font" = "Písmo";
+
+/* Annotation Tools */
 "stkit.tool.pen" = "Pero";
 "stkit.tool.highlighter" = "Zvýrazňovač";
 "stkit.tool.text" = "Text";
@@ -69,6 +88,8 @@
 "stkit.tapOnTextToEdit" = "Klepnutím upravte text";
 "stkit.selection.word" = "Slovo";
 "stkit.selection.line" = "Riadok";
+
+/* Toolbar Labels */
 "stkit.hand" = "Ruka";
 "stkit.select" = "Vybrať";
 "stkit.style" = "Štýl";
@@ -76,16 +97,26 @@
 "stkit.zoomOut" = "Oddialiť";
 "stkit.addText" = "Pridať text";
 "stkit.removeText" = "Odstrániť text";
+
+/* Annotation Groups */
 "stkit.group.draw" = "Kresliť";
 "stkit.group.shapes" = "Tvary";
 "stkit.group.text" = "Text";
 "stkit.group.markup" = "Anotácie";
 "stkit.group.extras" = "Ďalšie";
+
+/* Text Input */
 "stkit.enterText" = "Zadajte text...";
+
+/* Markup */
 "stkit.applyTool" = "Použiť %@";
+
+/* Signature */
 "stkit.signature.clear" = "Vymazať";
 "stkit.signature.drawNew" = "Nakresliť nový";
 "stkit.signature.saved" = "Uložené podpisy";
+
+/* Stamp Types */
 "stkit.stamp.approved" = "Schválené";
 "stkit.stamp.rejected" = "Zamietnuté";
 "stkit.stamp.draft" = "Návrh";
@@ -93,21 +124,31 @@
 "stkit.stamp.forComment" = "Na pripomienky";
 "stkit.stamp.asIs" = "Tak ako je";
 "stkit.stamp.final" = "Finálne";
+
+/* Placement */
 "stkit.tapToPlace" = "Klepnutím umiestnite";
+
+/* Selection Menu */
 "stkit.selection.copy" = "Kopírovať";
 "stkit.selection.paste" = "Vložiť";
 "stkit.selection.delete" = "Odstrániť";
 "stkit.selection.inspector" = "Inšpektor";
 "stkit.selection.note" = "Poznámka";
+
+/* Tool Hints */
 "stkit.hint.draw" = "Dotknite sa a kreslite";
 "stkit.hint.shape" = "Ťahaním nakreslite";
 "stkit.hint.tapToAddText" = "Klepnutím pridajte text";
-"stkit.hint.erase" = "Prechodom zmažte";
+"stkit.hint.erase" = "Potiahnutím zmažte";
+
+/* Order (Layer) */
 "stkit.order" = "Poradie";
 "stkit.order.front" = "Preniesť dopredu";
 "stkit.order.forward" = "Posunúť dopredu";
 "stkit.order.backward" = "Posunúť dozadu";
 "stkit.order.back" = "Odoslať dozadu";
+
+/* Page Editor */
 "stkit.page.newPage" = "Nová stránka";
 "stkit.page.remove" = "Odstrániť";
 "stkit.page.duplicate" = "Duplikovať";
@@ -125,14 +166,18 @@
 "stkit.page.color.white" = "Biela";
 "stkit.page.color.cream" = "Krémová";
 "stkit.page.color.gray" = "Sivá";
+
+/* Ribbon Tabs */
 "stkit.ribbon.home" = "Domov";
 "stkit.ribbon.para" = "Formát";
 "stkit.ribbon.insert" = "Vložiť";
 "stkit.ribbon.draw" = "Kresliť";
 "stkit.ribbon.design" = "Návrh";
 "stkit.ribbon.layout" = "Rozloženie";
-"stkit.ribbon.review" = "Recenzia";
+"stkit.ribbon.review" = "Revízia";
 "stkit.ribbon.view" = "Zobrazenie";
+
+/* Ribbon Home */
 "stkit.ribbon.bold" = "Tučné";
 "stkit.ribbon.italic" = "Kurzíva";
 "stkit.ribbon.underline" = "Podčiarknutie";
@@ -146,6 +191,8 @@
 "stkit.ribbon.alignRight" = "Vpravo";
 "stkit.ribbon.justify" = "Zarovnať";
 "stkit.ribbon.lineSpacing" = "Riadkovanie";
+
+/* Ribbon Insert */
 "stkit.ribbon.image" = "Obrázok";
 "stkit.ribbon.table" = "Tabuľka";
 "stkit.ribbon.shape" = "Tvar";
@@ -157,10 +204,14 @@
 "stkit.ribbon.endnote" = "Záverečná poznámka";
 "stkit.ribbon.tab" = "Tabulátor";
 "stkit.ribbon.lineBreak" = "Zalomenie";
+
+/* Ribbon Layout */
 "stkit.ribbon.orientation" = "Orientácia";
 "stkit.ribbon.pageSize" = "Veľkosť";
 "stkit.ribbon.margins" = "Okraje";
 "stkit.ribbon.columns" = "Stĺpce";
+
+/* Ribbon Home (additional) */
 "stkit.ribbon.paste" = "Vložiť";
 "stkit.ribbon.copyFormat" = "Formát";
 "stkit.ribbon.subscript" = "Dolný index";
@@ -171,6 +222,8 @@
 "stkit.ribbon.decreaseIndent" = "Odsadenie-";
 "stkit.ribbon.selectAll" = "Vybrať všetko";
 "stkit.ribbon.edit" = "Upraviť";
+
+/* Ribbon Insert (additional) */
 "stkit.ribbon.pageBreak" = "Koniec stránky";
 "stkit.ribbon.textBox" = "Textové pole";
 "stkit.ribbon.link" = "Odkaz";
@@ -179,14 +232,22 @@
 "stkit.ribbon.comment" = "Komentár";
 "stkit.ribbon.header" = "Záhlavie";
 "stkit.ribbon.footer" = "Päta";
+
+/* Ribbon Design (additional) */
 "stkit.ribbon.themes" = "Motívy";
 "stkit.ribbon.watermark" = "Vodoznak";
+
+/* Ribbon Layout (additional) */
 "stkit.ribbon.textDirection" = "Smer";
 "stkit.ribbon.sectionBreak" = "Koniec sekcie";
 "stkit.ribbon.pageBreaks" = "Koniec stránky";
+
+/* Ribbon Review (additional) */
 "stkit.ribbon.trackChanges" = "Sledovať zmeny";
 "stkit.ribbon.acceptChange" = "Prijať";
 "stkit.ribbon.rejectChange" = "Odmietnuť";
+
+/* Ribbon Table Tab */
 "stkit.ribbon.addRow" = "Pridať riadok";
 "stkit.ribbon.deleteRow" = "Vymazať riadok";
 "stkit.ribbon.addColumn" = "Pridať stĺpec";
@@ -196,10 +257,16 @@
 "stkit.ribbon.tableStyle" = "Štýl";
 "stkit.ribbon.tableColor" = "Farba";
 "stkit.tableStyles" = "Štýly tabuľky";
+
+/* Ribbon Review (comments) */
 "stkit.ribbon.comments" = "Komentáre";
 "stkit.selectTextForComment" = "Najskôr vyberte text v dokumente, potom pridajte komentár.";
+
+/* General */
 "stkit.comingSoon" = "Pripravujeme";
 "stkit.custom" = "Vlastné";
+
+/* Ribbon View */
 "stkit.ribbon.zoom" = "Priblíženie";
 "stkit.ribbon.thumbnails" = "Stránky";
 "stkit.ribbon.outline" = "Osnova";

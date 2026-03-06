@@ -1,4 +1,4 @@
-/* General */
+/* Navigation & Controls */
 "stpdfkit.done" = "Готово";
 "stpdfkit.pages" = "Страницы";
 "stpdfkit.bookmark" = "Закладка";
@@ -15,12 +15,12 @@
 "stpdfkit.searchInDocument" = "Поиск в документе...";
 "stpdfkit.searching" = "Поиск...";
 "stpdfkit.noResultsFound" = "Результаты не найдены";
-
-/* Pages */
 "stpdfkit.page" = "Страница %d";
+
+/* Outline */
 "stpdfkit.noOutlineAvailable" = "Оглавление недоступно";
 
-/* Display Settings */
+/* Settings */
 "stpdfkit.display" = "Отображение";
 "stpdfkit.scrollDirection" = "Направление прокрутки";
 "stpdfkit.pageMode" = "Режим страницы";
@@ -28,7 +28,7 @@
 "stpdfkit.pageShadows" = "Тени страниц";
 "stpdfkit.backgroundColor" = "Цвет фона";
 
-/* Annotation Properties */
+/* Property Inspector */
 "stpdfkit.color" = "Цвет";
 "stpdfkit.width" = "Ширина";
 "stpdfkit.fontSize" = "Размер шрифта";
@@ -50,15 +50,30 @@
 "stpdfkit.tool.stamp" = "Штамп";
 "stpdfkit.tool.note" = "Заметка";
 "stpdfkit.tool.eraser" = "Ластик";
+"stpdfkit.tool.photo" = "Фото";
 "stpdfkit.tool.textEdit" = "Редактировать текст";
 "stpdfkit.tapOnTextToEdit" = "Нажмите на текст для редактирования";
 "stpdfkit.selection.word" = "Слово";
 "stpdfkit.selection.line" = "Строка";
 
-/* Tool Groups */
+/* Toolbar Labels */
+"stpdfkit.hand" = "Рука";
+"stpdfkit.undo" = "Отменить";
+"stpdfkit.redo" = "Повторить";
+"stpdfkit.select" = "Выбрать";
+"stpdfkit.style" = "Стиль";
+"stpdfkit.close" = "Закрыть";
+"stpdfkit.zoomIn" = "Увеличить";
+"stpdfkit.zoomOut" = "Уменьшить";
+"stpdfkit.addText" = "Добавить текст";
+"stpdfkit.removeText" = "Удалить текст";
+
+/* Annotation Groups */
 "stpdfkit.group.draw" = "Рисование";
+"stpdfkit.group.shapes" = "Фигуры";
 "stpdfkit.group.text" = "Текст";
 "stpdfkit.group.markup" = "Разметка";
+"stpdfkit.group.extras" = "Дополнения";
 
 /* Text Input */
 "stpdfkit.enterText" = "Введите текст...";
@@ -70,11 +85,40 @@
 
 /* Signature */
 "stpdfkit.signature.clear" = "Очистить";
-"stpdfkit.signature.drawNew" = "Нарисовать";
+"stpdfkit.signature.drawNew" = "Нарисовать новую";
 "stpdfkit.signature.saved" = "Сохранённые подписи";
 
+/* Stamp Types */
+"stpdfkit.stamp.approved" = "Одобрено";
+"stpdfkit.stamp.rejected" = "Отклонено";
+"stpdfkit.stamp.draft" = "Черновик";
+"stpdfkit.stamp.confidential" = "Конфиденциально";
+"stpdfkit.stamp.forComment" = "Для комментария";
+"stpdfkit.stamp.asIs" = "Как есть";
+"stpdfkit.stamp.final" = "Финальный";
+
+/* Placement */
+"stpdfkit.tapToPlace" = "Нажмите для размещения";
+
 /* Selection Menu */
+"stpdfkit.selection.copy" = "Копировать";
 "stpdfkit.selection.paste" = "Вставить";
+"stpdfkit.selection.delete" = "Удалить";
+"stpdfkit.selection.inspector" = "Инспектор";
+"stpdfkit.selection.note" = "Заметка";
+
+/* Tool Hints */
+"stpdfkit.hint.draw" = "Коснитесь и рисуйте";
+"stpdfkit.hint.shape" = "Перетащите для рисования";
+"stpdfkit.hint.tapToAddText" = "Нажмите для добавления текста";
+"stpdfkit.hint.erase" = "Проведите для стирания";
+
+/* Order (Layer) */
+"stpdfkit.order" = "Порядок";
+"stpdfkit.order.front" = "На передний план";
+"stpdfkit.order.forward" = "Вперёд";
+"stpdfkit.order.backward" = "Назад";
+"stpdfkit.order.back" = "На задний план";
 
 /* Page Editor */
 "stpdfkit.page.newPage" = "Новая страница";
@@ -82,7 +126,7 @@
 "stpdfkit.page.duplicate" = "Дублировать";
 "stpdfkit.page.rotate" = "Повернуть";
 "stpdfkit.page.selectAll" = "Выбрать все";
-"stpdfkit.page.deselectAll" = "Снять выбор";
+"stpdfkit.page.deselectAll" = "Снять выделение";
 "stpdfkit.page.cut" = "Вырезать";
 "stpdfkit.page.copy" = "Копировать";
 "stpdfkit.page.paste" = "Вставить";
@@ -96,4 +140,4 @@
 "stpdfkit.page.color.gray" = "Серый";
 
 /* License */
-"stpdfkit.unlicensed" = "STPDFKit — Unlicensed";
+"stpdfkit.unlicensed" = "STPDFKit — Без лицензии";

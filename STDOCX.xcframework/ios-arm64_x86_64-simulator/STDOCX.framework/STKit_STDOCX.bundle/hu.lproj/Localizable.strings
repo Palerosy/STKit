@@ -1,7 +1,10 @@
+/* Editor */
 "stdocx.font" = "Betűtípus";
 "stdocx.textColor" = "Szövegszín";
 "stdocx.exportAs" = "Exportálás mint";
 "stdocx.findReplace" = "Keresés és csere";
+
+/* Formatting */
 "stdocx.bold" = "Félkövér";
 "stdocx.italic" = "Dőlt";
 "stdocx.underline" = "Aláhúzás";

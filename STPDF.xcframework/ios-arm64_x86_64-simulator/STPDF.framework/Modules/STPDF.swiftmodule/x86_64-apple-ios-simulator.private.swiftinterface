@@ -145,11 +145,11 @@ public struct STPDFConfiguration {
   public var showShare: Swift.Bool
   public var showPrint: Swift.Bool
   public var showSaveAsText: Swift.Bool
+  public var paywallPlacement: Swift.String
   public var allowAnnotationEditing: Swift.Bool
   public var allowDocumentEditing: Swift.Bool
   public var autosaveEnabled: Swift.Bool
   public var autosaveInterval: Swift.Double
-  public var onPrint: (() -> Swift.Bool)?
   public var appearance: STPDF.STAppearanceConfiguration
   public init()
 }
@@ -218,9 +218,6 @@ public class STPDFDocument : Foundation.ObservableObject {
   public func save() -> Swift.Bool
   @discardableResult
   public func save(to url: Foundation.URL) -> Swift.Bool
-  #if compiler(>=5.3) && $NonescapableTypes
-  public func flattenedData() -> Foundation.Data?
-  #endif
   public func extractFullText() -> Swift.String
   public typealias ObjectWillChangePublisher = Combine.ObservableObjectPublisher
   @objc deinit

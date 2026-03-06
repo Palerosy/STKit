@@ -2,16 +2,19 @@
 // swift-compiler-version: Apple Swift version 6.2.4 effective-5.10 (swiftlang-6.2.4.1.4 clang-1700.6.4.2)
 // swift-module-flags: -target x86_64-apple-ios16.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-experimental-feature DebugDescriptionMacro -module-name STExcel -package-name stkit
 // swift-module-flags-ignorable:  -formal-cxx-interoperability-mode=off -interface-compiler-version 6.2.4
+import Charts
 import Combine
 import Foundation
 import Foundation/*.Bundle*/
 import Foundation/*.ProcessInfo*/
 import Foundation/*.URL*/
+import PhotosUI
 import STKit
 import Swift
 import SwiftUI
 import ZIPFoundation
 import _Concurrency
+import _PhotosUI_SwiftUI
 import _StringProcessing
 import _SwiftConcurrencyShims
 public struct STExcelConfiguration {
@@ -25,12 +28,155 @@ public struct STExcelConfiguration {
   public var showMoreMenu: Swift.Bool
   public var showExport: Swift.Bool
   public var showSheetTabs: Swift.Bool
+  public var showRibbon: Swift.Bool
+  public var ribbonTabs: [STExcel.STExcelRibbonTab]?
+  public var paywallPlacement: Swift.String
   public var gridLineColor: SwiftUICore.Color
   public var headerBackgroundColor: SwiftUICore.Color
   public var selectionColor: SwiftUICore.Color
   public var cellBackgroundColor: SwiftUICore.Color
   public init()
   public static var viewerDefault: STExcel.STExcelConfiguration {
+    get
+  }
+}
+public struct STExcelCellStyle : Swift.Equatable, Swift.Sendable {
+  public var fontName: Swift.String
+  public var fontSize: Swift.Double
+  public var isBold: Swift.Bool
+  public var isItalic: Swift.Bool
+  public var isUnderline: Swift.Bool
+  public var isStrikethrough: Swift.Bool
+  public var textColor: Swift.String?
+  public var fillColor: Swift.String?
+  public var horizontalAlignment: STExcel.STHorizontalAlignment
+  public var verticalAlignment: STExcel.STVerticalAlignment
+  public var wrapText: Swift.Bool
+  public var indent: Swift.Int
+  public var borders: STExcel.STCellBorders
+  public var numberFormatId: Swift.Int
+  public var numberFormatCode: Swift.String?
+  public var isLocked: Swift.Bool
+  public var isHidden: Swift.Bool
+  public init()
+  public var isCustom: Swift.Bool {
+    get
+  }
+  public static func == (a: STExcel.STExcelCellStyle, b: STExcel.STExcelCellStyle) -> Swift.Bool
+}
+public enum STHorizontalAlignment : Swift.String, Swift.Equatable, Swift.Sendable, Swift.CaseIterable {
+  case general, left, center, right, justify
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.String)
+  #endif
+  public typealias AllCases = [STExcel.STHorizontalAlignment]
+  public typealias RawValue = Swift.String
+  nonisolated public static var allCases: [STExcel.STHorizontalAlignment] {
+    get
+  }
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum STVerticalAlignment : Swift.String, Swift.Equatable, Swift.Sendable, Swift.CaseIterable {
+  case top, center, bottom
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.String)
+  #endif
+  public typealias AllCases = [STExcel.STVerticalAlignment]
+  public typealias RawValue = Swift.String
+  nonisolated public static var allCases: [STExcel.STVerticalAlignment] {
+    get
+  }
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum STBorderStyle : Swift.String, Swift.Equatable, Swift.Sendable {
+  case none, thin, medium, thick, dashed, dotted, double_
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.String)
+  #endif
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum STBorderEdge : Swift.String, Swift.Equatable, Swift.Sendable, Swift.CaseIterable {
+  case left, right, top, bottom
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.String)
+  #endif
+  public typealias AllCases = [STExcel.STBorderEdge]
+  public typealias RawValue = Swift.String
+  nonisolated public static var allCases: [STExcel.STBorderEdge] {
+    get
+  }
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public struct STCellBorders : Swift.Equatable, Swift.Sendable {
+  public var left: STExcel.STBorderStyle
+  public var right: STExcel.STBorderStyle
+  public var top: STExcel.STBorderStyle
+  public var bottom: STExcel.STBorderStyle
+  public var color: Swift.String?
+  public init()
+  public static var allThin: STExcel.STCellBorders {
+    get
+  }
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init(left: STExcel.STBorderStyle = .none, right: STExcel.STBorderStyle = .none, top: STExcel.STBorderStyle = .none, bottom: STExcel.STBorderStyle = .none, color: Swift.String? = nil)
+  #endif
+  public var hasAny: Swift.Bool {
+    get
+  }
+  public static func == (a: STExcel.STCellBorders, b: STExcel.STCellBorders) -> Swift.Bool
+}
+public struct STMergedRegion : Swift.Equatable, Swift.Sendable {
+  public let startRow: Swift.Int
+  public let startCol: Swift.Int
+  public let endRow: Swift.Int
+  public let endCol: Swift.Int
+  public init(startRow: Swift.Int, startCol: Swift.Int, endRow: Swift.Int, endCol: Swift.Int)
+  public func contains(row: Swift.Int, col: Swift.Int) -> Swift.Bool
+  public var isOrigin: Swift.Bool {
+    get
+  }
+  public static func == (a: STExcel.STMergedRegion, b: STExcel.STMergedRegion) -> Swift.Bool
+}
+public enum STNumberFormat : Swift.Int, Swift.CaseIterable {
+  case general
+  case number
+  case currency
+  case percent
+  case date
+  case time
+  case accounting
+  case fraction
+  case scientific
+  case text
+  case special
+  case custom
+  public var displayName: Swift.String {
+    get
+  }
+  public var formatCode: Swift.String {
+    get
+  }
+  public var hasSubOptions: Swift.Bool {
+    get
+  }
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.Int)
+  #endif
+  public typealias AllCases = [STExcel.STNumberFormat]
+  public typealias RawValue = Swift.Int
+  nonisolated public static var allCases: [STExcel.STNumberFormat] {
+    get
+  }
+  public var rawValue: Swift.Int {
     get
   }
 }
@@ -54,6 +200,13 @@ final public class STExcelDocument : STKit.STDocument {
   final public var stats: STKit.STDocumentStats {
     get
   }
+  #if compiler(>=5.3) && $NonescapableTypes
+  final public func addSheet(name: Swift.String? = nil)
+  #endif
+  final public func removeSheet(at index: Swift.Int)
+  final public func renameSheet(at index: Swift.Int, to name: Swift.String)
+  final public func duplicateSheet(at index: Swift.Int)
+  final public func moveSheet(from source: Swift.Int, to destination: Swift.Int)
   @discardableResult
   final public func save(to url: Foundation.URL) -> Swift.Bool
   @discardableResult
@@ -75,6 +228,9 @@ public class STExcelSheet : Swift.Identifiable, Foundation.ObservableObject {
     @available(iOS 14.0, tvOS 14.0, watchOS 7.0, macOS 11.0, *)
     set
   }
+  public var mergedRegions: [STExcel.STMergedRegion]
+  public var columnWidths: [Swift.Int : CoreFoundation.CGFloat]
+  public var rowHeights: [Swift.Int : CoreFoundation.CGFloat]
   public var rowCount: Swift.Int {
     get
   }
@@ -85,17 +241,40 @@ public class STExcelSheet : Swift.Identifiable, Foundation.ObservableObject {
   public init(name: Swift.String, cells: [[STExcel.STExcelCell]])
   public func cell(row: Swift.Int, column: Swift.Int) -> STExcel.STExcelCell
   public func setCell(row: Swift.Int, column: Swift.Int, value: Swift.String)
+  public func setCellStyle(row: Swift.Int, column: Swift.Int, style: STExcel.STExcelCellStyle)
+  public func applyStyleToRange(startRow: Swift.Int, startCol: Swift.Int, endRow: Swift.Int, endCol: Swift.Int, transform: (inout STExcel.STExcelCellStyle) -> Swift.Void)
+  public func mergeCells(startRow: Swift.Int, startCol: Swift.Int, endRow: Swift.Int, endCol: Swift.Int)
+  public func unmergeCells(row: Swift.Int, col: Swift.Int)
+  #if compiler(>=5.3) && $NonescapableTypes
+  public func mergedRegion(for row: Swift.Int, col: Swift.Int) -> STExcel.STMergedRegion?
+  #endif
+  public func insertRow(at index: Swift.Int)
+  public func deleteRow(at index: Swift.Int)
+  public func insertColumn(at index: Swift.Int)
+  public func deleteColumn(at index: Swift.Int)
   public func toCSV(separator: Swift.String = ",") -> Swift.String
   public static func columnLetter(_ index: Swift.Int) -> Swift.String
+  public static func columnIndex(_ letter: Swift.String) -> Swift.Int
   public typealias ID = Foundation.UUID
   public typealias ObjectWillChangePublisher = Combine.ObservableObjectPublisher
   @objc deinit
 }
 public struct STExcelCell {
   public var value: Swift.String
-  public var isBold: Swift.Bool
-  public var isNumeric: Swift.Bool
+  public var style: STExcel.STExcelCellStyle
+  public var formula: Swift.String?
+  public var comment: Swift.String?
+  public var isBold: Swift.Bool {
+    get
+    set
+  }
+  public var isNumeric: Swift.Bool {
+    get
+  }
   public init(value: Swift.String = "", isBold: Swift.Bool = false)
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init(value: Swift.String, style: STExcel.STExcelCellStyle, formula: Swift.String? = nil, comment: Swift.String? = nil)
+  #endif
 }
 @_Concurrency.MainActor @preconcurrency public struct STExcelEditorView : SwiftUICore.View {
   #if compiler(>=5.3) && $NonescapableTypes
@@ -117,6 +296,30 @@ public struct STExcelCell {
     get
   }
   public typealias Body = @_opaqueReturnTypeOf("$s7STExcel0A10ExportViewV4bodyQrvp", 0) __
+}
+public enum STExcelRibbonTab : Swift.String, Swift.CaseIterable, Swift.Identifiable, Swift.Sendable {
+  case home, insert, format, formulas, data, review, view, chart, shape, table
+  public var id: Swift.String {
+    get
+  }
+  public var displayName: Swift.String {
+    get
+  }
+  public static var standardTabs: [STExcel.STExcelRibbonTab] {
+    get
+  }
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.String)
+  #endif
+  public typealias AllCases = [STExcel.STExcelRibbonTab]
+  public typealias ID = Swift.String
+  public typealias RawValue = Swift.String
+  nonisolated public static var allCases: [STExcel.STExcelRibbonTab] {
+    get
+  }
+  public var rawValue: Swift.String {
+    get
+  }
 }
 @_Concurrency.MainActor public enum STExcelKit {
   @_Concurrency.MainActor public static let version: Swift.String
@@ -141,9 +344,1161 @@ public enum STExcelStrings {
   public static var value: Swift.String {
     get
   }
+  public static var ribbonFormat: Swift.String {
+    get
+  }
+  public static var ribbonFormulas: Swift.String {
+    get
+  }
+  public static var ribbonData: Swift.String {
+    get
+  }
+  public static var cut: Swift.String {
+    get
+  }
+  public static var copy: Swift.String {
+    get
+  }
+  public static var fillColor: Swift.String {
+    get
+  }
+  public static var wrapText: Swift.String {
+    get
+  }
+  public static var merge: Swift.String {
+    get
+  }
+  public static var borders: Swift.String {
+    get
+  }
+  public static var noBorder: Swift.String {
+    get
+  }
+  public static var allBorders: Swift.String {
+    get
+  }
+  public static var outsideBorder: Swift.String {
+    get
+  }
+  public static var bottomBorder: Swift.String {
+    get
+  }
+  public static var thickBorder: Swift.String {
+    get
+  }
+  public static var numberFormat: Swift.String {
+    get
+  }
+  public static var currency: Swift.String {
+    get
+  }
+  public static var percent: Swift.String {
+    get
+  }
+  public static var decimalIncrease: Swift.String {
+    get
+  }
+  public static var decimalDecrease: Swift.String {
+    get
+  }
+  public static var clear: Swift.String {
+    get
+  }
+  public static var conditionalFormat: Swift.String {
+    get
+  }
+  public static var cellStyle: Swift.String {
+    get
+  }
+  public static var chart: Swift.String {
+    get
+  }
+  public static var picture: Swift.String {
+    get
+  }
+  public static var autoSum: Swift.String {
+    get
+  }
+  public static var recalculate: Swift.String {
+    get
+  }
+  public static var financial: Swift.String {
+    get
+  }
+  public static var logical: Swift.String {
+    get
+  }
+  public static var textFunctions: Swift.String {
+    get
+  }
+  public static var dateTime: Swift.String {
+    get
+  }
+  public static var reference: Swift.String {
+    get
+  }
+  public static var math: Swift.String {
+    get
+  }
+  public static var insertFunction: Swift.String {
+    get
+  }
+  public static var defineName: Swift.String {
+    get
+  }
+  public static var nameManager: Swift.String {
+    get
+  }
+  public static var sort: Swift.String {
+    get
+  }
+  public static var sortAZ: Swift.String {
+    get
+  }
+  public static var sortZA: Swift.String {
+    get
+  }
+  public static var sortByColor: Swift.String {
+    get
+  }
+  public static var filter: Swift.String {
+    get
+  }
+  public static var reapplyFilter: Swift.String {
+    get
+  }
+  public static var dataValidation: Swift.String {
+    get
+  }
+  public static var circleInvalid: Swift.String {
+    get
+  }
+  public static var group: Swift.String {
+    get
+  }
+  public static var ungroup: Swift.String {
+    get
+  }
+  public static var subtotal: Swift.String {
+    get
+  }
+  public static var removeAll: Swift.String {
+    get
+  }
+  public static var showDetail: Swift.String {
+    get
+  }
+  public static var hideDetail: Swift.String {
+    get
+  }
+  public static var textToColumns: Swift.String {
+    get
+  }
+  public static var apply: Swift.String {
+    get
+  }
+  public static var sortBy: Swift.String {
+    get
+  }
+  public static var thenBy: Swift.String {
+    get
+  }
+  public static var myDataHasHeaders: Swift.String {
+    get
+  }
+  public static var caseSensitive: Swift.String {
+    get
+  }
+  public static var none: Swift.String {
+    get
+  }
+  public static var addComment: Swift.String {
+    get
+  }
+  public static var editComment: Swift.String {
+    get
+  }
+  public static var deleteComment: Swift.String {
+    get
+  }
+  public static var protectSheet: Swift.String {
+    get
+  }
+  public static var unprotectSheet: Swift.String {
+    get
+  }
+  public static var sheetIsProtected: Swift.String {
+    get
+  }
+  public static var sheetNotProtected: Swift.String {
+    get
+  }
+  public static var gridlines: Swift.String {
+    get
+  }
+  public static var headings: Swift.String {
+    get
+  }
+  public static var formulaBar: Swift.String {
+    get
+  }
+  public static var freezePanes: Swift.String {
+    get
+  }
+  public static var goToCell: Swift.String {
+    get
+  }
+  public static var go: Swift.String {
+    get
+  }
+  public static var zoom: Swift.String {
+    get
+  }
+  public static var insertOptions: Swift.String {
+    get
+  }
+  public static var deleteOptions: Swift.String {
+    get
+  }
+  public static var shiftCellsRight: Swift.String {
+    get
+  }
+  public static var shiftCellsDown: Swift.String {
+    get
+  }
+  public static var shiftCellsLeft: Swift.String {
+    get
+  }
+  public static var shiftCellsUp: Swift.String {
+    get
+  }
+  public static var entireRow: Swift.String {
+    get
+  }
+  public static var entireColumn: Swift.String {
+    get
+  }
+  public static var rows: Swift.String {
+    get
+  }
+  public static var columns: Swift.String {
+    get
+  }
+  public static var worksheet: Swift.String {
+    get
+  }
+  public static var insert: Swift.String {
+    get
+  }
+  public static var delete: Swift.String {
+    get
+  }
+  public static var cellFont: Swift.String {
+    get
+  }
+  public static var cellBorder: Swift.String {
+    get
+  }
+  public static var lockCell: Swift.String {
+    get
+  }
+  public static var cellSize: Swift.String {
+    get
+  }
+  public static var rowHeight: Swift.String {
+    get
+  }
+  public static var columnWidth: Swift.String {
+    get
+  }
+  public static var autoFitRow: Swift.String {
+    get
+  }
+  public static var autoFitColumn: Swift.String {
+    get
+  }
+  public static var formatCells: Swift.String {
+    get
+  }
+  public static var number: Swift.String {
+    get
+  }
+  public static var cellTab: Swift.String {
+    get
+  }
+  public static var borderTab: Swift.String {
+    get
+  }
+  public static var protection: Swift.String {
+    get
+  }
+  public static var font: Swift.String {
+    get
+  }
+  public static var size: Swift.String {
+    get
+  }
+  public static var textColor: Swift.String {
+    get
+  }
+  public static var cellColor: Swift.String {
+    get
+  }
+  public static var indent: Swift.String {
+    get
+  }
+  public static var lineType: Swift.String {
+    get
+  }
+  public static var clearBorder: Swift.String {
+    get
+  }
+  public static var standardColors: Swift.String {
+    get
+  }
+  public static var locked: Swift.String {
+    get
+  }
+  public static var hidden: Swift.String {
+    get
+  }
+  public static var singleUnderline: Swift.String {
+    get
+  }
+  public static var doubleUnderline: Swift.String {
+    get
+  }
+  public static var sum: Swift.String {
+    get
+  }
+  public static var average: Swift.String {
+    get
+  }
+  public static var count: Swift.String {
+    get
+  }
+  public static var max: Swift.String {
+    get
+  }
+  public static var min: Swift.String {
+    get
+  }
+  public static var median: Swift.String {
+    get
+  }
+  public static var saveAs: Swift.String {
+    get
+  }
+  public static var fileInfo: Swift.String {
+    get
+  }
+  public static var failedToOpen: Swift.String {
+    get
+  }
+  public static var fileName: Swift.String {
+    get
+  }
+  public static var fileLocation: Swift.String {
+    get
+  }
+  public static var fileType: Swift.String {
+    get
+  }
+  public static var fileSize: Swift.String {
+    get
+  }
+  public static var createdDate: Swift.String {
+    get
+  }
+  public static var modifiedDate: Swift.String {
+    get
+  }
+  public static var onEnter: Swift.String {
+    get
+  }
+  public static var moveDown: Swift.String {
+    get
+  }
+  public static var moveRight: Swift.String {
+    get
+  }
+  public static var stay: Swift.String {
+    get
+  }
+  public static var autoCalculate: Swift.String {
+    get
+  }
+  public static var unknown: Swift.String {
+    get
+  }
+  public static var dontSave: Swift.String {
+    get
+  }
+  public static func saveChangesTitle(_ name: Swift.String) -> Swift.String
+  public static var licenseRequired: Swift.String {
+    get
+  }
+  public static var licenseRequiredMessage: Swift.String {
+    get
+  }
+  public static var addSheet: Swift.String {
+    get
+  }
+  public static var renameSheet: Swift.String {
+    get
+  }
+  public static var duplicateSheet: Swift.String {
+    get
+  }
+  public static var deleteSheet: Swift.String {
+    get
+  }
+  public static var moveSheetLeft: Swift.String {
+    get
+  }
+  public static var moveSheetRight: Swift.String {
+    get
+  }
+  public static var sheetName: Swift.String {
+    get
+  }
+  public static var chartAll: Swift.String {
+    get
+  }
+  public static var chartColumn: Swift.String {
+    get
+  }
+  public static var chartBar: Swift.String {
+    get
+  }
+  public static var chartLine: Swift.String {
+    get
+  }
+  public static var chartLineWithMarkers: Swift.String {
+    get
+  }
+  public static var chartArea: Swift.String {
+    get
+  }
+  public static var chartPie: Swift.String {
+    get
+  }
+  public static var chartScatter: Swift.String {
+    get
+  }
+  public static var chartClustered: Swift.String {
+    get
+  }
+  public static var chartStacked: Swift.String {
+    get
+  }
+  public static var chartPercentStacked: Swift.String {
+    get
+  }
+  public static var chartSmooth: Swift.String {
+    get
+  }
+  public static var chartSimple: Swift.String {
+    get
+  }
+  public static var chartMarkers: Swift.String {
+    get
+  }
+  public static var chartDots: Swift.String {
+    get
+  }
+  public static var chartLines: Swift.String {
+    get
+  }
+  public static var chart3DPie: Swift.String {
+    get
+  }
+  public static var chartDoughnut: Swift.String {
+    get
+  }
+  public static var chartExploded: Swift.String {
+    get
+  }
+  public static var shapeRectangle: Swift.String {
+    get
+  }
+  public static var shapeRoundedRect: Swift.String {
+    get
+  }
+  public static var shapeCircle: Swift.String {
+    get
+  }
+  public static var shapeOval: Swift.String {
+    get
+  }
+  public static var shapeTriangle: Swift.String {
+    get
+  }
+  public static var shapeRightTriangle: Swift.String {
+    get
+  }
+  public static var shapeDiamond: Swift.String {
+    get
+  }
+  public static var shapeArrowRight: Swift.String {
+    get
+  }
+  public static var shapeArrowLeft: Swift.String {
+    get
+  }
+  public static var shapeArrowUp: Swift.String {
+    get
+  }
+  public static var shapeArrowDown: Swift.String {
+    get
+  }
+  public static var shapeStar: Swift.String {
+    get
+  }
+  public static var shapeHexagon: Swift.String {
+    get
+  }
+  public static var shapePentagon: Swift.String {
+    get
+  }
+  public static var shapeLine: Swift.String {
+    get
+  }
+  public static var shapeDashedLine: Swift.String {
+    get
+  }
+  public static var basicShapes: Swift.String {
+    get
+  }
+  public static var arrowsTriangles: Swift.String {
+    get
+  }
+  public static var starsMore: Swift.String {
+    get
+  }
+  public static var lineShapes: Swift.String {
+    get
+  }
+  public static var insertTable: Swift.String {
+    get
+  }
+  public static var dataRange: Swift.String {
+    get
+  }
+  public static var tableStyle: Swift.String {
+    get
+  }
+  public static var myTableHasHeaders: Swift.String {
+    get
+  }
+  public static var styleBlue: Swift.String {
+    get
+  }
+  public static var styleGreen: Swift.String {
+    get
+  }
+  public static var styleOrange: Swift.String {
+    get
+  }
+  public static var stylePurple: Swift.String {
+    get
+  }
+  public static var styleRed: Swift.String {
+    get
+  }
+  public static var styleGray: Swift.String {
+    get
+  }
+  public static var styleDark: Swift.String {
+    get
+  }
+  public static var headerRow: Swift.String {
+    get
+  }
+  public static var bandedRows: Swift.String {
+    get
+  }
+  public static var bandedCols: Swift.String {
+    get
+  }
+  public static var labels: Swift.String {
+    get
+  }
+  public static var chartTitle: Swift.String {
+    get
+  }
+  public static var title: Swift.String {
+    get
+  }
+  public static var enterTitle: Swift.String {
+    get
+  }
+  public static var horizontalLabels: Swift.String {
+    get
+  }
+  public static var range: Swift.String {
+    get
+  }
+  public static var seriesIn: Swift.String {
+    get
+  }
+  public static var chartType: Swift.String {
+    get
+  }
+  public static var chartFormat: Swift.String {
+    get
+  }
+  public static var chartElements: Swift.String {
+    get
+  }
+  public static var chartLayouts: Swift.String {
+    get
+  }
+  public static var chartColors: Swift.String {
+    get
+  }
+  public static var chartStylesTitle: Swift.String {
+    get
+  }
+  public static var switchRowsCols: Swift.String {
+    get
+  }
+  public static var legend: Swift.String {
+    get
+  }
+  public static var axisLabels: Swift.String {
+    get
+  }
+  public static var dataLabels: Swift.String {
+    get
+  }
+  public static var axes: Swift.String {
+    get
+  }
+  public static var on: Swift.String {
+    get
+  }
+  public static var off: Swift.String {
+    get
+  }
+  public static var noNumericData: Swift.String {
+    get
+  }
+  public static var editDataRangeHint: Swift.String {
+    get
+  }
+  public static var points: Swift.String {
+    get
+  }
+  public static var noData: Swift.String {
+    get
+  }
+  public static var series: Swift.String {
+    get
+  }
+  public static var dataPoints: Swift.String {
+    get
+  }
+  public static var grid: Swift.String {
+    get
+  }
+  public static var layouts: Swift.String {
+    get
+  }
+  public static var noColor: Swift.String {
+    get
+  }
+  public static var lockingInfo: Swift.String {
+    get
+  }
+  public static var lineThin: Swift.String {
+    get
+  }
+  public static var lineMedium: Swift.String {
+    get
+  }
+  public static var lineThick: Swift.String {
+    get
+  }
+  public static var lineDashed: Swift.String {
+    get
+  }
+  public static var lineDotted: Swift.String {
+    get
+  }
+  public static var lineDouble: Swift.String {
+    get
+  }
+  public static var use1000Separator: Swift.String {
+    get
+  }
+  public static var accounting: Swift.String {
+    get
+  }
+  public static var date: Swift.String {
+    get
+  }
+  public static var time: Swift.String {
+    get
+  }
+  public static var percentage: Swift.String {
+    get
+  }
+  public static var fraction: Swift.String {
+    get
+  }
+  public static var scientific: Swift.String {
+    get
+  }
+  public static var special: Swift.String {
+    get
+  }
+  public static var custom: Swift.String {
+    get
+  }
+  public static var negativeNumbers: Swift.String {
+    get
+  }
+  public static var fill: Swift.String {
+    get
+  }
+  public static var fillColorTitle: Swift.String {
+    get
+  }
+  public static var outline: Swift.String {
+    get
+  }
+  public static var outlineColor: Swift.String {
+    get
+  }
+  public static var changeShape: Swift.String {
+    get
+  }
+  public static var zoomIn: Swift.String {
+    get
+  }
+  public static var zoomOut: Swift.String {
+    get
+  }
+  public static var newRule: Swift.String {
+    get
+  }
+  public static var highlightCellsRules: Swift.String {
+    get
+  }
+  public static var topBottomAvgRules: Swift.String {
+    get
+  }
+  public static var customFormula: Swift.String {
+    get
+  }
+  public static var dataBars: Swift.String {
+    get
+  }
+  public static var colorScales: Swift.String {
+    get
+  }
+  public static var clearRules: Swift.String {
+    get
+  }
+  public static var fromSelection: Swift.String {
+    get
+  }
+  public static var activeRules: Swift.String {
+    get
+  }
+  public static var conditionalFormatting: Swift.String {
+    get
+  }
+  public static var presets: Swift.String {
+    get
+  }
+  public static var condition: Swift.String {
+    get
+  }
+  public static var enterValue1: Swift.String {
+    get
+  }
+  public static var enterValue2: Swift.String {
+    get
+  }
+  public static var rank: Swift.String {
+    get
+  }
+  public static var barColor: Swift.String {
+    get
+  }
+  public static var colorScaleSection: Swift.String {
+    get
+  }
+  public static var formulaSection: Swift.String {
+    get
+  }
+  public static var chartStylesNav: Swift.String {
+    get
+  }
+  public static var decimalPlaces: Swift.String {
+    get
+  }
+  public static var fromEntireSheet: Swift.String {
+    get
+  }
+  public static var formatCellsFormula: Swift.String {
+    get
+  }
+  public static var goodBadNeutral: Swift.String {
+    get
+  }
+  public static var dataModel: Swift.String {
+    get
+  }
+  public static var titlesHeadings: Swift.String {
+    get
+  }
+  public static var allow: Swift.String {
+    get
+  }
+  public static var useFunction: Swift.String {
+    get
+  }
+  public static var insertSubtotal: Swift.String {
+    get
+  }
+  public static var delimiter: Swift.String {
+    get
+  }
+  public static var convertAction: Swift.String {
+    get
+  }
+  public static var enterDelimiter: Swift.String {
+    get
+  }
+  public static var anyValue: Swift.String {
+    get
+  }
+  public static var wholeNumber: Swift.String {
+    get
+  }
+  public static var decimalType: Swift.String {
+    get
+  }
+  public static var listType: Swift.String {
+    get
+  }
+  public static var textLength: Swift.String {
+    get
+  }
+  public static var commaDelimiter: Swift.String {
+    get
+  }
+  public static var tabDelimiter: Swift.String {
+    get
+  }
+  public static var semicolonDelimiter: Swift.String {
+    get
+  }
+  public static var spaceDelimiter: Swift.String {
+    get
+  }
+  public static var sourceList: Swift.String {
+    get
+  }
+  public static var searchFunctions: Swift.String {
+    get
+  }
+  public static var noDefinedNames: Swift.String {
+    get
+  }
+  public static var text: Swift.String {
+    get
+  }
+  public static var general: Swift.String {
+    get
+  }
+  public static var cfGreaterThan: Swift.String {
+    get
+  }
+  public static var cfLessThan: Swift.String {
+    get
+  }
+  public static var cfBetween: Swift.String {
+    get
+  }
+  public static var cfEqualTo: Swift.String {
+    get
+  }
+  public static var cfNotEqualTo: Swift.String {
+    get
+  }
+  public static var cfTextContains: Swift.String {
+    get
+  }
+  public static var cfTextNotContains: Swift.String {
+    get
+  }
+  public static var cfDuplicates: Swift.String {
+    get
+  }
+  public static var cfUniqueValues: Swift.String {
+    get
+  }
+  public static var cfTop: Swift.String {
+    get
+  }
+  public static var cfBottom: Swift.String {
+    get
+  }
+  public static var cfAboveAverage: Swift.String {
+    get
+  }
+  public static var cfBelowAverage: Swift.String {
+    get
+  }
+  public static var cfItems: Swift.String {
+    get
+  }
+  public static var value1Label: Swift.String {
+    get
+  }
+  public static var value2Label: Swift.String {
+    get
+  }
+  public static var layoutLabel: Swift.String {
+    get
+  }
+  public static var chartDataRange: Swift.String {
+    get
+  }
+  public static var dataLabel: Swift.String {
+    get
+  }
+  public static var presetNormal: Swift.String {
+    get
+  }
+  public static var presetGood: Swift.String {
+    get
+  }
+  public static var presetBad: Swift.String {
+    get
+  }
+  public static var presetNeutral: Swift.String {
+    get
+  }
+  public static var presetInput: Swift.String {
+    get
+  }
+  public static var presetOutput: Swift.String {
+    get
+  }
+  public static var presetCalculation: Swift.String {
+    get
+  }
+  public static var presetCheckCell: Swift.String {
+    get
+  }
+  public static var presetNote: Swift.String {
+    get
+  }
+  public static var presetWarning: Swift.String {
+    get
+  }
+  public static var presetLinkedCell: Swift.String {
+    get
+  }
+  public static var presetExplanatory: Swift.String {
+    get
+  }
+  public static var presetTitle: Swift.String {
+    get
+  }
+  public static var presetHeading1: Swift.String {
+    get
+  }
+  public static var presetHeading2: Swift.String {
+    get
+  }
+  public static var presetHeading3: Swift.String {
+    get
+  }
+  public static var presetHeading4: Swift.String {
+    get
+  }
+  public static var presetTotal: Swift.String {
+    get
+  }
+  public static var presetComma: Swift.String {
+    get
+  }
+  public static var presetCurrency: Swift.String {
+    get
+  }
+  public static var presetPercent: Swift.String {
+    get
+  }
+  public static var funcPMT: Swift.String {
+    get
+  }
+  public static var funcFV: Swift.String {
+    get
+  }
+  public static var funcPV: Swift.String {
+    get
+  }
+  public static var funcRATE: Swift.String {
+    get
+  }
+  public static var funcNPV: Swift.String {
+    get
+  }
+  public static var funcIRR: Swift.String {
+    get
+  }
+  public static var funcIF: Swift.String {
+    get
+  }
+  public static var funcAND: Swift.String {
+    get
+  }
+  public static var funcOR: Swift.String {
+    get
+  }
+  public static var funcNOT: Swift.String {
+    get
+  }
+  public static var funcIFERROR: Swift.String {
+    get
+  }
+  public static var funcTRUE: Swift.String {
+    get
+  }
+  public static var funcFALSE: Swift.String {
+    get
+  }
+  public static var funcCONCATENATE: Swift.String {
+    get
+  }
+  public static var funcLEN: Swift.String {
+    get
+  }
+  public static var funcLEFT: Swift.String {
+    get
+  }
+  public static var funcRIGHT: Swift.String {
+    get
+  }
+  public static var funcMID: Swift.String {
+    get
+  }
+  public static var funcUPPER: Swift.String {
+    get
+  }
+  public static var funcLOWER: Swift.String {
+    get
+  }
+  public static var funcTRIM: Swift.String {
+    get
+  }
+  public static var funcFIND: Swift.String {
+    get
+  }
+  public static var funcREPLACE: Swift.String {
+    get
+  }
+  public static var funcSUBSTITUTE: Swift.String {
+    get
+  }
+  public static var funcNOW: Swift.String {
+    get
+  }
+  public static var funcTODAY: Swift.String {
+    get
+  }
+  public static var funcDATE: Swift.String {
+    get
+  }
+  public static var funcYEAR: Swift.String {
+    get
+  }
+  public static var funcMONTH: Swift.String {
+    get
+  }
+  public static var funcDAY: Swift.String {
+    get
+  }
+  public static var funcHOUR: Swift.String {
+    get
+  }
+  public static var funcMINUTE: Swift.String {
+    get
+  }
+  public static var funcSECOND: Swift.String {
+    get
+  }
+  public static var funcVLOOKUP: Swift.String {
+    get
+  }
+  public static var funcHLOOKUP: Swift.String {
+    get
+  }
+  public static var funcINDEX: Swift.String {
+    get
+  }
+  public static var funcMATCH: Swift.String {
+    get
+  }
+  public static var funcCHOOSE: Swift.String {
+    get
+  }
+  public static var funcINDIRECT: Swift.String {
+    get
+  }
+  public static var funcSUM: Swift.String {
+    get
+  }
+  public static var funcAVERAGE: Swift.String {
+    get
+  }
+  public static var funcCOUNT: Swift.String {
+    get
+  }
+  public static var funcCOUNTA: Swift.String {
+    get
+  }
+  public static var funcMIN: Swift.String {
+    get
+  }
+  public static var funcMAX: Swift.String {
+    get
+  }
+  public static var funcABS: Swift.String {
+    get
+  }
+  public static var funcROUND: Swift.String {
+    get
+  }
+  public static var funcINT: Swift.String {
+    get
+  }
+  public static var funcMOD: Swift.String {
+    get
+  }
+  public static var funcPOWER: Swift.String {
+    get
+  }
+  public static var funcSQRT: Swift.String {
+    get
+  }
+  public static var funcSUMIF: Swift.String {
+    get
+  }
+  public static var funcCOUNTIF: Swift.String {
+    get
+  }
+  public static var funcPRODUCT: Swift.String {
+    get
+  }
 }
 @_Concurrency.MainActor @preconcurrency public struct STExcelGridView : SwiftUICore.View {
-  @_Concurrency.MainActor @preconcurrency public init(sheet: STExcel.STExcelSheet, configuration: STExcel.STExcelConfiguration = .default, isEditable: Swift.Bool = true)
   @_Concurrency.MainActor @preconcurrency public var body: some SwiftUICore.View {
     get
   }
@@ -158,8 +1513,22 @@ public enum STExcelStrings {
   }
   public typealias Body = @_opaqueReturnTypeOf("$s7STExcel0A10ViewerViewV4bodyQrvp", 0) __
 }
+extension STExcel.STHorizontalAlignment : Swift.Hashable {}
+extension STExcel.STHorizontalAlignment : Swift.RawRepresentable {}
+extension STExcel.STVerticalAlignment : Swift.Hashable {}
+extension STExcel.STVerticalAlignment : Swift.RawRepresentable {}
+extension STExcel.STBorderStyle : Swift.Hashable {}
+extension STExcel.STBorderStyle : Swift.RawRepresentable {}
+extension STExcel.STBorderEdge : Swift.Hashable {}
+extension STExcel.STBorderEdge : Swift.RawRepresentable {}
+extension STExcel.STNumberFormat : Swift.Equatable {}
+extension STExcel.STNumberFormat : Swift.Hashable {}
+extension STExcel.STNumberFormat : Swift.RawRepresentable {}
 extension STExcel.STExcelEditorView : Swift.Sendable {}
 extension STExcel.STExcelExportView : Swift.Sendable {}
+extension STExcel.STExcelRibbonTab : Swift.Equatable {}
+extension STExcel.STExcelRibbonTab : Swift.Hashable {}
+extension STExcel.STExcelRibbonTab : Swift.RawRepresentable {}
 extension STExcel.STExcelKit : Swift.Sendable {}
 extension STExcel.STExcelGridView : Swift.Sendable {}
 extension STExcel.STExcelViewerView : Swift.Sendable {}

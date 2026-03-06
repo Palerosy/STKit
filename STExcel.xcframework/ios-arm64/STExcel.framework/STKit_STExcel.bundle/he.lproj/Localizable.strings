@@ -1,5 +1,464 @@
+/* STExcel */
 "stexcel.sheet" = "גיליון";
 "stexcel.cell" = "תא";
 "stexcel.row" = "שורה";
 "stexcel.column" = "עמודה";
 "stexcel.value" = "ערך";
+
+/* Ribbon Tabs */
+"stexcel.ribbon.format" = "עיצוב";
+"stexcel.ribbon.formulas" = "נוסחאות";
+"stexcel.ribbon.data" = "נתונים";
+
+/* Home Tab */
+"stexcel.cut" = "גזור";
+"stexcel.copy" = "העתק";
+"stexcel.fillColor" = "מילוי";
+"stexcel.wrapText" = "גלישה";
+"stexcel.merge" = "מיזוג";
+"stexcel.borders" = "גבולות";
+
+/* Border Picker */
+"stexcel.noBorder" = "ללא גבול";
+"stexcel.allBorders" = "כל הגבולות";
+"stexcel.outsideBorder" = "גבול חיצוני";
+"stexcel.bottomBorder" = "גבול תחתון";
+"stexcel.thickBorder" = "גבול עבה";
+
+/* Format Tab */
+"stexcel.numberFormat" = "תבנית מספר";
+"stexcel.currency" = "מטבע";
+"stexcel.percent" = "אחוז";
+"stexcel.decimalIncrease" = ".0→.00";
+"stexcel.decimalDecrease" = ".00→.0";
+"stexcel.clear" = "נקה";
+"stexcel.conditionalFormat" = "עיצוב\nמותנה";
+"stexcel.cellStyle" = "סגנון";
+
+/* Insert Tab */
+"stexcel.chart" = "תרשים";
+"stexcel.picture" = "תמונה";
+
+/* Formulas Tab */
+"stexcel.autoSum" = "סכום\nאוטומטי";
+"stexcel.recalculate" = "חשב מחדש";
+"stexcel.financial" = "פיננסי";
+"stexcel.logical" = "לוגי";
+"stexcel.textFunctions" = "טקסט";
+"stexcel.dateTime" = "תאריך\nושעה";
+"stexcel.reference" = "הפניה";
+"stexcel.math" = "מתמטיקה";
+"stexcel.insertFunction" = "הוספת\nפונקציה";
+"stexcel.defineName" = "הגדרת\nשם";
+"stexcel.nameManager" = "מנהל\nשמות";
+
+/* Data Tab */
+"stexcel.sort" = "מיון";
+"stexcel.sortAZ" = "מיון א→ת";
+"stexcel.sortZA" = "מיון ת→א";
+"stexcel.sortByColor" = "מיון לפי צבע";
+"stexcel.filter" = "סינון";
+"stexcel.reapplyFilter" = "החל מחדש\nסינון";
+"stexcel.dataValidation" = "אימות\nנתונים";
+"stexcel.circleInvalid" = "הקף נתונים\nלא חוקיים";
+"stexcel.group" = "קיבוץ";
+"stexcel.ungroup" = "ביטול קיבוץ";
+"stexcel.subtotal" = "סכום ביניים";
+"stexcel.removeAll" = "הסר\nהכל";
+"stexcel.showDetail" = "הצג\nפרטים";
+"stexcel.hideDetail" = "הסתר\nפרטים";
+"stexcel.textToColumns" = "טקסט\nלעמודות";
+"stexcel.apply" = "החל";
+"stexcel.sortBy" = "מיין לפי";
+"stexcel.thenBy" = "לאחר מכן לפי";
+"stexcel.myDataHasHeaders" = "לנתונים שלי יש כותרות";
+"stexcel.caseSensitive" = "תלוי רישיות";
+"stexcel.none" = "ללא";
+
+/* Review Tab */
+"stexcel.addComment" = "הערה";
+"stexcel.editComment" = "עריכת\nהערה";
+"stexcel.deleteComment" = "מחיקת\nהערה";
+"stexcel.protectSheet" = "הגנה על\nגיליון";
+"stexcel.unprotectSheet" = "הסר הגנה מגיליון";
+"stexcel.sheetIsProtected" = "גיליון זה מוגן.";
+"stexcel.sheetNotProtected" = "גיליון זה אינו מוגן.";
+
+/* View Tab */
+"stexcel.gridlines" = "קווי רשת";
+"stexcel.headings" = "כותרות";
+"stexcel.formulaBar" = "נוסחה";
+"stexcel.freezePanes" = "הקפאה";
+"stexcel.goToCell" = "עבור לתא";
+"stexcel.go" = "עבור";
+"stexcel.zoom" = "תקריב";
+
+/* Home Tab — Insert/Delete Menus */
+"stexcel.insertOptions" = "אפשרויות הוספה";
+"stexcel.deleteOptions" = "אפשרויות מחיקה";
+"stexcel.shiftCellsRight" = "הזז תאים ימינה";
+"stexcel.shiftCellsDown" = "הזז תאים למטה";
+"stexcel.shiftCellsLeft" = "הזז תאים שמאלה";
+"stexcel.shiftCellsUp" = "הזז תאים למעלה";
+"stexcel.entireRow" = "שורה שלמה";
+"stexcel.entireColumn" = "עמודה שלמה";
+"stexcel.rows" = "שורות";
+"stexcel.columns" = "עמודות";
+"stexcel.worksheet" = "גיליון עבודה";
+"stexcel.insert" = "הוספה";
+"stexcel.delete" = "מחיקה";
+
+/* AutoSum */
+"stexcel.sum" = "סכום";
+"stexcel.average" = "ממוצע";
+"stexcel.count" = "ספירה";
+"stexcel.max" = "מקסימום";
+"stexcel.min" = "מינימום";
+"stexcel.median" = "חציון";
+
+/* Format Tab */
+"stexcel.cellFont" = "גופן\nתא";
+"stexcel.cellBorder" = "גבול\nתא";
+"stexcel.lockCell" = "נעילת\nתא";
+"stexcel.cellSize" = "גודל\nתא";
+"stexcel.rowHeight" = "גובה שורה";
+"stexcel.columnWidth" = "רוחב עמודה";
+"stexcel.autoFitRow" = "התאמה אוטומטית לגובה שורה";
+"stexcel.autoFitColumn" = "התאמה אוטומטית לרוחב עמודה";
+
+/* Format Cells Dialog */
+"stexcel.formatCells" = "עיצוב תאים";
+"stexcel.number" = "מספר";
+"stexcel.cellTab" = "תא";
+"stexcel.borderTab" = "גבול";
+"stexcel.protection" = "הגנה";
+"stexcel.font" = "גופן";
+"stexcel.size" = "גודל";
+"stexcel.textColor" = "צבע טקסט";
+"stexcel.cellColor" = "צבע תא";
+"stexcel.indent" = "הזחה";
+"stexcel.lineType" = "סוג קו";
+"stexcel.clearBorder" = "נקה גבול";
+"stexcel.standardColors" = "צבעים סטנדרטיים";
+"stexcel.locked" = "נעול";
+"stexcel.hidden" = "מוסתר";
+"stexcel.singleUnderline" = "יחיד";
+"stexcel.doubleUnderline" = "כפול";
+
+/* More Menu */
+"stexcel.saveAs" = "שמור בשם";
+"stexcel.fileInfo" = "מידע על הקובץ";
+"stexcel.failedToOpen" = "לא ניתן לפתוח את הקובץ";
+"stexcel.fileName" = "שם הקובץ";
+"stexcel.fileLocation" = "מיקום";
+"stexcel.fileType" = "סוג הקובץ";
+"stexcel.fileSize" = "גודל הקובץ";
+"stexcel.createdDate" = "נוצר";
+"stexcel.modifiedDate" = "שונה";
+"stexcel.onEnter" = "בלחיצת Enter";
+"stexcel.moveDown" = "הזז למטה";
+"stexcel.moveRight" = "הזז ימינה";
+"stexcel.stay" = "הישאר";
+"stexcel.autoCalculate" = "חישוב אוטומטי";
+"stexcel.unknown" = "לא ידוע";
+"stexcel.dontSave" = "ללא שמירה";
+"stexcel.saveChangesTitle" = "לשמור שינויים ב-%@?";
+"stexcel.licenseRequired" = "נדרש רישיון";
+"stexcel.licenseRequiredMessage" = "נדרש רישיון STKit תקף לשימוש בתכונה זו. הפעל את הרישיון שלך כדי לפתוח שמירה, ייצוא והדפסה.";
+
+/* Sheet Management */
+"stexcel.addSheet" = "הוספת גיליון";
+"stexcel.renameSheet" = "שנה שם";
+"stexcel.duplicateSheet" = "שכפל";
+"stexcel.deleteSheet" = "מחק";
+"stexcel.moveSheetLeft" = "הזז שמאלה";
+"stexcel.moveSheetRight" = "הזז ימינה";
+"stexcel.sheetName" = "שם גיליון";
+
+/* Chart Categories */
+"stexcel.chartAll" = "הכל";
+"stexcel.chartColumn" = "עמודות";
+"stexcel.chartBar" = "פסים";
+"stexcel.chartLine" = "קו";
+"stexcel.chartLineWithMarkers" = "קו עם סמנים";
+"stexcel.chartArea" = "שטח";
+"stexcel.chartPie" = "עוגה";
+"stexcel.chartScatter" = "פיזור";
+
+/* Chart Subtypes */
+"stexcel.chartClustered" = "מקובץ";
+"stexcel.chartStacked" = "מוערם";
+"stexcel.chartPercentStacked" = "100% מוערם";
+"stexcel.chartSmooth" = "חלק";
+"stexcel.chartSimple" = "פשוט";
+"stexcel.chartMarkers" = "סמנים";
+"stexcel.chartDots" = "נקודות";
+"stexcel.chartLines" = "קווים";
+"stexcel.chart3DPie" = "עוגה תלת-ממדית";
+"stexcel.chartDoughnut" = "טבעת";
+"stexcel.chartExploded" = "מפורק";
+
+/* Shape Types */
+"stexcel.shapeRectangle" = "מלבן";
+"stexcel.shapeRoundedRect" = "מלבן מעוגל";
+"stexcel.shapeCircle" = "עיגול";
+"stexcel.shapeOval" = "אליפסה";
+"stexcel.shapeTriangle" = "משולש";
+"stexcel.shapeRightTriangle" = "משולש ישר-זווית";
+"stexcel.shapeDiamond" = "מעוין";
+"stexcel.shapeArrowRight" = "חץ ימינה";
+"stexcel.shapeArrowLeft" = "חץ שמאלה";
+"stexcel.shapeArrowUp" = "חץ למעלה";
+"stexcel.shapeArrowDown" = "חץ למטה";
+"stexcel.shapeStar" = "כוכב";
+"stexcel.shapeHexagon" = "משושה";
+"stexcel.shapePentagon" = "מחומש";
+"stexcel.shapeLine" = "קו";
+"stexcel.shapeDashedLine" = "קו מקווקו";
+
+/* Shape Picker Sections */
+"stexcel.basicShapes" = "צורות בסיסיות";
+"stexcel.arrowsTriangles" = "חיצים ומשולשים";
+"stexcel.starsMore" = "כוכבים ועוד";
+"stexcel.lineShapes" = "קווים";
+
+/* Table Insert */
+"stexcel.insertTable" = "הוספת טבלה";
+"stexcel.dataRange" = "טווח נתונים";
+"stexcel.tableStyle" = "סגנון טבלה";
+"stexcel.myTableHasHeaders" = "לטבלה שלי יש כותרות";
+
+/* Table Styles */
+"stexcel.styleBlue" = "כחול";
+"stexcel.styleGreen" = "ירוק";
+"stexcel.styleOrange" = "כתום";
+"stexcel.stylePurple" = "סגול";
+"stexcel.styleRed" = "אדום";
+"stexcel.styleGray" = "אפור";
+"stexcel.styleDark" = "כהה";
+
+/* Table Tab */
+"stexcel.headerRow" = "שורת\nכותרת";
+"stexcel.bandedRows" = "שורות\nמפוספסות";
+"stexcel.bandedCols" = "עמודות\nמפוספסות";
+
+/* Chart Format */
+"stexcel.labels" = "תוויות";
+"stexcel.chartTitle" = "כותרת תרשים";
+"stexcel.title" = "כותרת";
+"stexcel.enterTitle" = "הזן כותרת";
+"stexcel.horizontalLabels" = "תוויות אופקיות";
+"stexcel.range" = "טווח";
+"stexcel.seriesIn" = "סדרות ב";
+"stexcel.chartType" = "סוג";
+"stexcel.chartFormat" = "עיצוב";
+"stexcel.chartElements" = "רכיבים";
+"stexcel.chartLayouts" = "פריסות\nתרשים";
+"stexcel.chartColors" = "צבעים";
+"stexcel.chartStylesTitle" = "סגנונות\nתרשים";
+"stexcel.switchRowsCols" = "החלף\nשורות/עמודות";
+"stexcel.legend" = "מקרא";
+"stexcel.axisLabels" = "תוויות ציר";
+"stexcel.dataLabels" = "תוויות נתונים";
+"stexcel.axes" = "צירים";
+"stexcel.on" = "פעיל";
+"stexcel.off" = "כבוי";
+"stexcel.noNumericData" = "לא נמצאו נתונים מספריים בטווח";
+"stexcel.editDataRangeHint" = "ערוך את טווח הנתונים או הוסף מספרים לתאים";
+"stexcel.points" = "נקודות";
+"stexcel.noData" = "אין נתונים";
+"stexcel.series" = "סדרות";
+"stexcel.dataPoints" = "נקודות נתונים";
+"stexcel.grid" = "רשת";
+"stexcel.layouts" = "פריסות";
+"stexcel.chartStylesNav" = "סגנונות תרשים";
+
+/* Format Cells Extra */
+"stexcel.noColor" = "ללא צבע";
+"stexcel.lockingInfo" = "נעילת תאים או הסתרת נוסחאות לא תיכנס לתוקף עד שתגן על הגיליון.";
+"stexcel.lineThin" = "דק";
+"stexcel.lineMedium" = "בינוני";
+"stexcel.lineThick" = "עבה";
+"stexcel.lineDashed" = "מקווקו";
+"stexcel.lineDotted" = "מנוקד";
+"stexcel.lineDouble" = "כפול";
+
+/* Number Format Picker */
+"stexcel.use1000Separator" = "השתמש במפריד אלפים";
+"stexcel.accounting" = "חשבונאות";
+"stexcel.date" = "תאריך";
+"stexcel.time" = "שעה";
+"stexcel.percentage" = "אחוז";
+"stexcel.fraction" = "שבר";
+"stexcel.scientific" = "מדעי";
+"stexcel.special" = "מיוחד";
+"stexcel.custom" = "מותאם אישית";
+"stexcel.negativeNumbers" = "מספרים שליליים";
+
+/* Shape Tab */
+"stexcel.fill" = "מילוי";
+"stexcel.fillColorTitle" = "צבע מילוי";
+"stexcel.outline" = "מתאר";
+"stexcel.outlineColor" = "צבע מתאר";
+"stexcel.changeShape" = "שנה\nצורה";
+
+/* View Tab */
+"stexcel.zoomIn" = "הגדל";
+"stexcel.zoomOut" = "הקטן";
+
+/* Conditional Formatting */
+"stexcel.newRule" = "כלל חדש";
+"stexcel.highlightCellsRules" = "כללי הדגשת תאים";
+"stexcel.topBottomAvgRules" = "כללי עליון/תחתון/ממוצע";
+"stexcel.customFormula" = "נוסחה מותאמת אישית";
+"stexcel.dataBars" = "פסי נתונים";
+"stexcel.colorScales" = "סולמות צבעים";
+"stexcel.clearRules" = "נקה כללים";
+"stexcel.fromSelection" = "מהבחירה";
+"stexcel.activeRules" = "כללים פעילים";
+"stexcel.conditionalFormatting" = "עיצוב מותנה";
+"stexcel.presets" = "הגדרות מוכנות";
+"stexcel.condition" = "תנאי";
+"stexcel.enterValue1" = "הזן ערך 1";
+"stexcel.enterValue2" = "הזן ערך 2";
+"stexcel.rank" = "דירוג";
+"stexcel.barColor" = "צבע פס";
+"stexcel.colorScaleSection" = "סולם צבעים";
+"stexcel.formulaSection" = "נוסחה";
+
+/* Additional */
+"stexcel.decimalPlaces" = "ספרות עשרוניות";
+"stexcel.fromEntireSheet" = "מכל הגיליון";
+"stexcel.formatCellsFormula" = "עצב תאים שבהם נוסחה זו נכונה:";
+"stexcel.goodBadNeutral" = "טוב, רע וניטרלי";
+"stexcel.dataModel" = "נתונים ומודל";
+"stexcel.titlesHeadings" = "כותרות וכותרות משנה";
+"stexcel.allow" = "אפשר";
+"stexcel.useFunction" = "השתמש בפונקציה";
+"stexcel.insertSubtotal" = "הוסף סכום ביניים";
+"stexcel.delimiter" = "תוחם";
+"stexcel.convert" = "המר";
+"stexcel.enterDelimiter" = "הזן תוחם";
+"stexcel.anyValue" = "כל ערך";
+"stexcel.wholeNumber" = "מספר שלם";
+"stexcel.decimalType" = "עשרוני";
+"stexcel.listType" = "רשימה";
+"stexcel.textLength" = "אורך טקסט";
+"stexcel.commaDelimiter" = "פסיק (,)";
+"stexcel.tabDelimiter" = "טאב";
+"stexcel.semicolonDelimiter" = "נקודה-פסיק (;)";
+"stexcel.spaceDelimiter" = "רווח";
+"stexcel.sourceList" = "מקור (מופרד בפסיקים)";
+"stexcel.searchFunctions" = "חפש פונקציות";
+"stexcel.noDefinedNames" = "אין שמות מוגדרים";
+
+/* Number Format General */
+"stexcel.general" = "כללי";
+
+/* Conditional Format Conditions */
+"stexcel.cfGreaterThan" = "גדול מ";
+"stexcel.cfLessThan" = "קטן מ";
+"stexcel.cfBetween" = "בין";
+"stexcel.cfEqualTo" = "שווה ל";
+"stexcel.cfNotEqualTo" = "לא שווה ל";
+"stexcel.cfTextContains" = "טקסט מכיל";
+"stexcel.cfTextNotContains" = "טקסט לא מכיל";
+"stexcel.cfDuplicates" = "ערכים כפולים";
+"stexcel.cfUniqueValues" = "ערכים ייחודיים";
+
+/* Conditional Format Ranks */
+"stexcel.cfTop" = "עליון";
+"stexcel.cfBottom" = "תחתון";
+"stexcel.cfAboveAverage" = "מעל הממוצע";
+"stexcel.cfBelowAverage" = "מתחת לממוצע";
+
+/* Conditional Format View */
+"stexcel.cfItems" = "פריטים";
+"stexcel.value1Label" = "ערך 1";
+"stexcel.value2Label" = "ערך 2";
+
+/* Chart Layout */
+"stexcel.layoutLabel" = "פריסה";
+
+/* Chart Data */
+"stexcel.chartDataRange" = "טווח נתונים";
+"stexcel.dataLabel" = "נתונים";
+
+/* Cell Style Presets */
+"stexcel.presetNormal" = "רגיל";
+"stexcel.presetGood" = "טוב";
+"stexcel.presetBad" = "רע";
+"stexcel.presetNeutral" = "ניטרלי";
+"stexcel.presetInput" = "קלט";
+"stexcel.presetOutput" = "פלט";
+"stexcel.presetCalculation" = "חישוב";
+"stexcel.presetCheckCell" = "תא ביקורת";
+"stexcel.presetNote" = "הערה";
+"stexcel.presetWarning" = "אזהרה";
+"stexcel.presetLinkedCell" = "תא מקושר";
+"stexcel.presetExplanatory" = "הסברי";
+"stexcel.presetTitle" = "כותרת";
+"stexcel.presetHeading1" = "כותרת 1";
+"stexcel.presetHeading2" = "כותרת 2";
+"stexcel.presetHeading3" = "כותרת 3";
+"stexcel.presetHeading4" = "כותרת 4";
+"stexcel.presetTotal" = "סה\"כ";
+"stexcel.presetComma" = "פסיק";
+"stexcel.presetCurrency" = "מטבע";
+"stexcel.presetPercent" = "אחוז";
+
+/* Function Descriptions */
+"stexcel.func.PMT" = "מחשב את התשלום עבור הלוואה על בסיס תשלומים קבועים ושיעור ריבית.";
+"stexcel.func.FV" = "מחזיר את הערך העתידי של השקעה.";
+"stexcel.func.PV" = "מחזיר את הערך הנוכחי של השקעה.";
+"stexcel.func.RATE" = "מחזיר את שיעור הריבית לתקופה.";
+"stexcel.func.NPV" = "מחזיר את הערך הנוכחי הנקי של השקעה.";
+"stexcel.func.IRR" = "מחזיר את שיעור התשואה הפנימי לסדרת תזרימי מזומנים.";
+"stexcel.func.IF" = "מחזיר ערך אחד אם תנאי נכון וערך אחר אם שגוי.";
+"stexcel.func.AND" = "מחזיר TRUE אם כל הארגומנטים נכונים.";
+"stexcel.func.OR" = "מחזיר TRUE אם ארגומנט כלשהו נכון.";
+"stexcel.func.NOT" = "הופך את ערך הארגומנט שלו.";
+"stexcel.func.IFERROR" = "מחזיר ערך_אם_שגיאה אם הארגומנט הראשון הוא שגיאה.";
+"stexcel.func.TRUE" = "מחזיר את הערך הלוגי TRUE.";
+"stexcel.func.FALSE" = "מחזיר את הערך הלוגי FALSE.";
+"stexcel.func.CONCATENATE" = "מחבר מספר מחרוזות טקסט לאחת.";
+"stexcel.func.LEN" = "מחזיר את מספר התווים במחרוזת.";
+"stexcel.func.LEFT" = "מחזיר את התווים השמאליים ביותר מערך טקסט.";
+"stexcel.func.RIGHT" = "מחזיר את התווים הימניים ביותר מערך טקסט.";
+"stexcel.func.MID" = "מחזיר מספר מסוים של תווים ממחרוזת טקסט.";
+"stexcel.func.UPPER" = "ממיר טקסט לאותיות רישיות.";
+"stexcel.func.LOWER" = "ממיר טקסט לאותיות קטנות.";
+"stexcel.func.TRIM" = "מסיר רווחים מטקסט.";
+"stexcel.func.FIND" = "מוצא ערך טקסט אחד בתוך אחר (תלוי רישיות).";
+"stexcel.func.REPLACE" = "מחליף תווים בתוך טקסט.";
+"stexcel.func.SUBSTITUTE" = "מחליף טקסט ישן בטקסט חדש במחרוזת.";
+"stexcel.func.NOW" = "מחזיר את התאריך והשעה הנוכחיים.";
+"stexcel.func.TODAY" = "מחזיר את תאריך היום.";
+"stexcel.func.DATE" = "מחזיר את המספר הסידורי של תאריך מסוים.";
+"stexcel.func.YEAR" = "מחזיר את השנה מתאריך.";
+"stexcel.func.MONTH" = "מחזיר את החודש מתאריך.";
+"stexcel.func.DAY" = "מחזיר את היום מתאריך.";
+"stexcel.func.HOUR" = "מחזיר את השעה.";
+"stexcel.func.MINUTE" = "מחזיר את הדקה.";
+"stexcel.func.SECOND" = "מחזיר את השנייה.";
+"stexcel.func.VLOOKUP" = "מחפש ערך בעמודה השמאלית ביותר של טבלה.";
+"stexcel.func.HLOOKUP" = "מחפש ערך בשורה העליונה של טבלה.";
+"stexcel.func.INDEX" = "מחזיר ערך מטבלה או טווח.";
+"stexcel.func.MATCH" = "מחזיר את המיקום של ערך בטווח.";
+"stexcel.func.CHOOSE" = "בוחר ערך מרשימה לפי מספר אינדקס.";
+"stexcel.func.INDIRECT" = "מחזיר הפניה המצוינת על ידי ערך טקסט.";
+"stexcel.func.SUM" = "מסכם את כל המספרים בטווח תאים.";
+"stexcel.func.AVERAGE" = "מחזיר את הממוצע של הארגומנטים.";
+"stexcel.func.COUNT" = "סופר את מספר התאים המכילים מספרים.";
+"stexcel.func.COUNTA" = "סופר את מספר התאים שאינם ריקים.";
+"stexcel.func.MIN" = "מחזיר את הערך הקטן ביותר בקבוצה.";
+"stexcel.func.MAX" = "מחזיר את הערך הגדול ביותר בקבוצה.";
+"stexcel.func.ABS" = "מחזיר את הערך המוחלט של מספר.";
+"stexcel.func.ROUND" = "מעגל מספר למספר ספרות מוגדר.";
+"stexcel.func.INT" = "מעגל מספר כלפי מטה למספר שלם הקרוב ביותר.";
+"stexcel.func.MOD" = "מחזיר את השארית מחלוקה.";
+"stexcel.func.POWER" = "מחזיר את התוצאה של העלאת מספר בחזקה.";
+"stexcel.func.SQRT" = "מחזיר שורש ריבועי חיובי.";
+"stexcel.func.SUMIF" = "מסכם תאים שעונים על קריטריון נתון.";
+"stexcel.func.COUNTIF" = "סופר תאים התואמים לקריטריון.";
+"stexcel.func.PRODUCT" = "מכפיל את כל המספרים שניתנו כארגומנטים.";

@@ -1,7 +1,10 @@
+/* Editor */
 "stdocx.font" = "Шрифт";
 "stdocx.textColor" = "Колір тексту";
-"stdocx.exportAs" = "Експорт як";
+"stdocx.exportAs" = "Експортувати як";
 "stdocx.findReplace" = "Знайти і замінити";
+
+/* Formatting */
 "stdocx.bold" = "Жирний";
 "stdocx.italic" = "Курсив";
 "stdocx.underline" = "Підкреслений";

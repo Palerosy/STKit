@@ -1,0 +1,143 @@
+/* Navigation & Controls */
+"stpdfkit.done" = "Xong";
+"stpdfkit.pages" = "Trang";
+"stpdfkit.bookmark" = "Dấu trang";
+"stpdfkit.search" = "Tìm kiếm";
+"stpdfkit.settings" = "Cài đặt";
+"stpdfkit.outline" = "Phác thảo";
+"stpdfkit.editPages" = "Chỉnh sửa trang";
+"stpdfkit.share" = "Chia sẻ";
+"stpdfkit.print" = "In";
+"stpdfkit.saveAsText" = "Lưu dưới dạng văn bản";
+"stpdfkit.untitled" = "Không có tiêu đề";
+
+/* Search */
+"stpdfkit.searchInDocument" = "Tìm trong tài liệu...";
+"stpdfkit.searching" = "Đang tìm kiếm...";
+"stpdfkit.noResultsFound" = "Không tìm thấy kết quả";
+"stpdfkit.page" = "Trang %d";
+
+/* Outline */
+"stpdfkit.noOutlineAvailable" = "Không có phác thảo";
+
+/* Settings */
+"stpdfkit.display" = "Hiển thị";
+"stpdfkit.scrollDirection" = "Hướng cuộn";
+"stpdfkit.pageMode" = "Chế độ trang";
+"stpdfkit.view" = "Xem";
+"stpdfkit.pageShadows" = "Bóng trang";
+"stpdfkit.backgroundColor" = "Màu nền";
+
+/* Property Inspector */
+"stpdfkit.color" = "Màu";
+"stpdfkit.width" = "Chiều rộng";
+"stpdfkit.fontSize" = "Cỡ chữ";
+"stpdfkit.opacity" = "Độ mờ";
+"stpdfkit.font" = "Phông chữ";
+
+/* Annotation Tools */
+"stpdfkit.tool.pen" = "Bút";
+"stpdfkit.tool.highlighter" = "Bút đánh dấu";
+"stpdfkit.tool.text" = "Văn bản";
+"stpdfkit.tool.highlight" = "Đánh dấu";
+"stpdfkit.tool.underline" = "Gạch chân";
+"stpdfkit.tool.strikethrough" = "Gạch ngang";
+"stpdfkit.tool.rectangle" = "Hình chữ nhật";
+"stpdfkit.tool.circle" = "Hình tròn";
+"stpdfkit.tool.line" = "Đường thẳng";
+"stpdfkit.tool.arrow" = "Mũi tên";
+"stpdfkit.tool.signature" = "Chữ ký";
+"stpdfkit.tool.stamp" = "Con dấu";
+"stpdfkit.tool.note" = "Ghi chú";
+"stpdfkit.tool.eraser" = "Tẩy";
+"stpdfkit.tool.photo" = "Ảnh";
+"stpdfkit.tool.textEdit" = "Chỉnh sửa văn bản";
+"stpdfkit.tapOnTextToEdit" = "Nhấn vào văn bản để chỉnh sửa";
+"stpdfkit.selection.word" = "Từ";
+"stpdfkit.selection.line" = "Dòng";
+
+/* Toolbar Labels */
+"stpdfkit.hand" = "Tay";
+"stpdfkit.undo" = "Hoàn tác";
+"stpdfkit.redo" = "Làm lại";
+"stpdfkit.select" = "Chọn";
+"stpdfkit.style" = "Kiểu";
+"stpdfkit.close" = "Đóng";
+"stpdfkit.zoomIn" = "Phóng to";
+"stpdfkit.zoomOut" = "Thu nhỏ";
+"stpdfkit.addText" = "Thêm văn bản";
+"stpdfkit.removeText" = "Xóa văn bản";
+
+/* Annotation Groups */
+"stpdfkit.group.draw" = "Vẽ";
+"stpdfkit.group.shapes" = "Hình dạng";
+"stpdfkit.group.text" = "Văn bản";
+"stpdfkit.group.markup" = "Chú thích";
+"stpdfkit.group.extras" = "Thêm";
+
+/* Text Input */
+"stpdfkit.enterText" = "Nhập văn bản...";
+"stpdfkit.cancel" = "Hủy";
+"stpdfkit.add" = "Thêm";
+
+/* Markup */
+"stpdfkit.applyTool" = "Áp dụng %@";
+
+/* Signature */
+"stpdfkit.signature.clear" = "Xóa";
+"stpdfkit.signature.drawNew" = "Vẽ mới";
+"stpdfkit.signature.saved" = "Chữ ký đã lưu";
+
+/* Stamp Types */
+"stpdfkit.stamp.approved" = "Đã phê duyệt";
+"stpdfkit.stamp.rejected" = "Đã từ chối";
+"stpdfkit.stamp.draft" = "Nháp";
+"stpdfkit.stamp.confidential" = "Bí mật";
+"stpdfkit.stamp.forComment" = "Để bình luận";
+"stpdfkit.stamp.asIs" = "Nguyên trạng";
+"stpdfkit.stamp.final" = "Cuối cùng";
+
+/* Placement */
+"stpdfkit.tapToPlace" = "Nhấn để đặt";
+
+/* Selection Menu */
+"stpdfkit.selection.copy" = "Sao chép";
+"stpdfkit.selection.paste" = "Dán";
+"stpdfkit.selection.delete" = "Xóa";
+"stpdfkit.selection.inspector" = "Trình kiểm tra";
+"stpdfkit.selection.note" = "Ghi chú";
+
+/* Tool Hints */
+"stpdfkit.hint.draw" = "Chạm và vẽ";
+"stpdfkit.hint.shape" = "Kéo để vẽ";
+"stpdfkit.hint.tapToAddText" = "Nhấn để thêm văn bản";
+"stpdfkit.hint.erase" = "Vuốt để xóa";
+
+/* Order (Layer) */
+"stpdfkit.order" = "Thứ tự";
+"stpdfkit.order.front" = "Đưa lên trước";
+"stpdfkit.order.forward" = "Chuyển lên trước";
+"stpdfkit.order.backward" = "Chuyển xuống sau";
+"stpdfkit.order.back" = "Đưa xuống sau";
+
+/* Page Editor */
+"stpdfkit.page.newPage" = "Trang mới";
+"stpdfkit.page.remove" = "Xóa";
+"stpdfkit.page.duplicate" = "Sao chép";
+"stpdfkit.page.rotate" = "Xoay";
+"stpdfkit.page.selectAll" = "Chọn tất cả";
+"stpdfkit.page.deselectAll" = "Bỏ chọn tất cả";
+"stpdfkit.page.cut" = "Cắt";
+"stpdfkit.page.copy" = "Sao chép";
+"stpdfkit.page.paste" = "Dán";
+"stpdfkit.page.numberOfPages" = "Số trang";
+"stpdfkit.page.format" = "Định dạng trang";
+"stpdfkit.page.color" = "Màu trang";
+"stpdfkit.page.addAfter" = "Thêm sau trang";
+"stpdfkit.page.beginning" = "Đầu";
+"stpdfkit.page.color.white" = "Trắng";
+"stpdfkit.page.color.cream" = "Kem";
+"stpdfkit.page.color.gray" = "Xám";
+
+/* License */
+"stpdfkit.unlicensed" = "STPDFKit — Chưa có giấy phép";

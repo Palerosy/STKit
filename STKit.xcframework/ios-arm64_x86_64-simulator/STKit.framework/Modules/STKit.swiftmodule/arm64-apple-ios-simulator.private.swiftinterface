@@ -42,7 +42,10 @@ public struct STDocumentStats {
 }
 @_hasMissingDesignatedInitializers final public class STKitConfiguration {
   public static let shared: STKit.STKitConfiguration
+  final public var isPurchased: Swift.Bool
   final public var onPrint: (() -> Swift.Bool)?
+  final public var onPremiumFeatureTapped: (() -> Swift.Void)?
+  final public var premiumPaywallView: ((Swift.String) -> SwiftUICore.AnyView)?
   final public var languageCode: Swift.String? {
     get
     set

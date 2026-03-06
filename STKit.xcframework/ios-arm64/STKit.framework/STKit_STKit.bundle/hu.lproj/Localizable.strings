@@ -1,3 +1,4 @@
+/* Common */
 "stkit.done" = "Kész";
 "stkit.cancel" = "Mégse";
 "stkit.save" = "Mentés";
@@ -10,18 +11,26 @@
 "stkit.undo" = "Visszavonás";
 "stkit.redo" = "Újra";
 "stkit.add" = "Hozzáadás";
+
+/* License */
 "stkit.unlicensed" = "STKit — Nem licencelt";
+
+/* Word Count */
 "stkit.wordCount" = "Szószám";
 "stkit.words" = "Szavak";
 "stkit.characters" = "Karakterek";
 "stkit.charactersWithSpaces" = "Karakterek (szóközökkel)";
 "stkit.paragraphs" = "Bekezdések";
 "stkit.lines" = "Sorok";
+
+/* Document */
 "stkit.newDocument" = "Új dokumentum";
 "stkit.unsavedChanges" = "Nem mentett változások";
 "stkit.unsavedChangesMessage" = "Nem mentett módosításai vannak. Mit szeretne tenni?";
 "stkit.discard" = "Elvetés";
 "stkit.saveAndClose" = "Mentés és bezárás";
+
+/* Navigation & Controls */
 "stkit.pages" = "Oldalak";
 "stkit.bookmark" = "Könyvjelző";
 "stkit.settings" = "Beállítások";
@@ -29,6 +38,8 @@
 "stkit.editPages" = "Oldalak szerkesztése";
 "stkit.print" = "Nyomtatás";
 "stkit.saveAsText" = "Mentés szövegként";
+
+/* Search & Replace */
 "stkit.searchInDocument" = "Keresés a dokumentumban...";
 "stkit.searching" = "Keresés...";
 "stkit.noResultsFound" = "Nincs találat";
@@ -38,18 +49,26 @@
 "stkit.replaceAll" = "Mind";
 "stkit.showReplace" = "Csere";
 "stkit.hideReplace" = "Csere elrejtése";
+
+/* Outline */
 "stkit.noOutlineAvailable" = "Nincs elérhető vázlat";
+
+/* Settings */
 "stkit.display" = "Megjelenítés";
 "stkit.scrollDirection" = "Görgetési irány";
 "stkit.pageMode" = "Oldalmód";
 "stkit.view" = "Nézet";
 "stkit.pageShadows" = "Oldal árnyékok";
 "stkit.backgroundColor" = "Háttérszín";
+
+/* Property Inspector */
 "stkit.color" = "Szín";
 "stkit.width" = "Szélesség";
 "stkit.fontSize" = "Betűméret";
 "stkit.opacity" = "Átlátszatlanság";
 "stkit.font" = "Betűtípus";
+
+/* Annotation Tools */
 "stkit.tool.pen" = "Toll";
 "stkit.tool.highlighter" = "Kiemelő";
 "stkit.tool.text" = "Szöveg";
@@ -69,6 +88,8 @@
 "stkit.tapOnTextToEdit" = "Koppintson a szövegre a szerkesztéshez";
 "stkit.selection.word" = "Szó";
 "stkit.selection.line" = "Sor";
+
+/* Toolbar Labels */
 "stkit.hand" = "Kéz";
 "stkit.select" = "Kijelölés";
 "stkit.style" = "Stílus";
@@ -76,16 +97,26 @@
 "stkit.zoomOut" = "Kicsinyítés";
 "stkit.addText" = "Szöveg hozzáadása";
 "stkit.removeText" = "Szöveg eltávolítása";
+
+/* Annotation Groups */
 "stkit.group.draw" = "Rajz";
 "stkit.group.shapes" = "Alakzatok";
 "stkit.group.text" = "Szöveg";
-"stkit.group.markup" = "Megjegyzések";
+"stkit.group.markup" = "Jelölések";
 "stkit.group.extras" = "Egyéb";
+
+/* Text Input */
 "stkit.enterText" = "Szöveg megadása...";
+
+/* Markup */
 "stkit.applyTool" = "Alkalmaz: %@";
+
+/* Signature */
 "stkit.signature.clear" = "Törlés";
 "stkit.signature.drawNew" = "Új rajzolása";
 "stkit.signature.saved" = "Mentett aláírások";
+
+/* Stamp Types */
 "stkit.stamp.approved" = "Jóváhagyva";
 "stkit.stamp.rejected" = "Elutasítva";
 "stkit.stamp.draft" = "Piszkozat";
@@ -93,21 +124,31 @@
 "stkit.stamp.forComment" = "Megjegyzésre";
 "stkit.stamp.asIs" = "Ahogy van";
 "stkit.stamp.final" = "Végleges";
+
+/* Placement */
 "stkit.tapToPlace" = "Koppintson az elhelyezéshez";
+
+/* Selection Menu */
 "stkit.selection.copy" = "Másolás";
 "stkit.selection.paste" = "Beillesztés";
 "stkit.selection.delete" = "Törlés";
 "stkit.selection.inspector" = "Ellenőrző";
 "stkit.selection.note" = "Megjegyzés";
+
+/* Tool Hints */
 "stkit.hint.draw" = "Érintse meg és rajzoljon";
 "stkit.hint.shape" = "Húzza a rajzoláshoz";
 "stkit.hint.tapToAddText" = "Koppintson szöveg hozzáadásához";
 "stkit.hint.erase" = "Húzza a törléséhez";
+
+/* Order (Layer) */
 "stkit.order" = "Sorrend";
 "stkit.order.front" = "Előre hozás";
 "stkit.order.forward" = "Egy szinttel előre";
 "stkit.order.backward" = "Egy szinttel hátra";
 "stkit.order.back" = "Hátra küldés";
+
+/* Page Editor */
 "stkit.page.newPage" = "Új oldal";
 "stkit.page.remove" = "Eltávolítás";
 "stkit.page.duplicate" = "Másolat";
@@ -125,6 +166,8 @@
 "stkit.page.color.white" = "Fehér";
 "stkit.page.color.cream" = "Krém";
 "stkit.page.color.gray" = "Szürke";
+
+/* Ribbon Tabs */
 "stkit.ribbon.home" = "Kezdőlap";
 "stkit.ribbon.para" = "Formátum";
 "stkit.ribbon.insert" = "Beszúrás";
@@ -133,6 +176,8 @@
 "stkit.ribbon.layout" = "Elrendezés";
 "stkit.ribbon.review" = "Ellenőrzés";
 "stkit.ribbon.view" = "Nézet";
+
+/* Ribbon Home */
 "stkit.ribbon.bold" = "Félkövér";
 "stkit.ribbon.italic" = "Dőlt";
 "stkit.ribbon.underline" = "Aláhúzás";
@@ -146,6 +191,8 @@
 "stkit.ribbon.alignRight" = "Jobb";
 "stkit.ribbon.justify" = "Sorkizárás";
 "stkit.ribbon.lineSpacing" = "Sorköz";
+
+/* Ribbon Insert */
 "stkit.ribbon.image" = "Kép";
 "stkit.ribbon.table" = "Táblázat";
 "stkit.ribbon.shape" = "Alakzat";
@@ -157,10 +204,14 @@
 "stkit.ribbon.endnote" = "Végjegyzet";
 "stkit.ribbon.tab" = "Tabulátor";
 "stkit.ribbon.lineBreak" = "Törés";
+
+/* Ribbon Layout */
 "stkit.ribbon.orientation" = "Tájolás";
 "stkit.ribbon.pageSize" = "Méret";
 "stkit.ribbon.margins" = "Margók";
 "stkit.ribbon.columns" = "Hasábok";
+
+/* Ribbon Home (additional) */
 "stkit.ribbon.paste" = "Beillesztés";
 "stkit.ribbon.copyFormat" = "Formátum";
 "stkit.ribbon.subscript" = "Alsó index";
@@ -171,6 +222,8 @@
 "stkit.ribbon.decreaseIndent" = "Behúzás-";
 "stkit.ribbon.selectAll" = "Összes kijelölése";
 "stkit.ribbon.edit" = "Szerkesztés";
+
+/* Ribbon Insert (additional) */
 "stkit.ribbon.pageBreak" = "Oldaltörés";
 "stkit.ribbon.textBox" = "Szövegdoboz";
 "stkit.ribbon.link" = "Hivatkozás";
@@ -179,14 +232,22 @@
 "stkit.ribbon.comment" = "Megjegyzés";
 "stkit.ribbon.header" = "Fejléc";
 "stkit.ribbon.footer" = "Lábléc";
+
+/* Ribbon Design (additional) */
 "stkit.ribbon.themes" = "Témák";
 "stkit.ribbon.watermark" = "Vízjel";
+
+/* Ribbon Layout (additional) */
 "stkit.ribbon.textDirection" = "Irány";
 "stkit.ribbon.sectionBreak" = "Szakasztörés";
 "stkit.ribbon.pageBreaks" = "Oldaltörés";
+
+/* Ribbon Review (additional) */
 "stkit.ribbon.trackChanges" = "Változások követése";
 "stkit.ribbon.acceptChange" = "Elfogadás";
 "stkit.ribbon.rejectChange" = "Elutasítás";
+
+/* Ribbon Table Tab */
 "stkit.ribbon.addRow" = "Sor hozzáadása";
 "stkit.ribbon.deleteRow" = "Sor törlése";
 "stkit.ribbon.addColumn" = "Oszlop hozzáadása";
@@ -196,10 +257,16 @@
 "stkit.ribbon.tableStyle" = "Stílus";
 "stkit.ribbon.tableColor" = "Szín";
 "stkit.tableStyles" = "Táblázatstílusok";
+
+/* Ribbon Review (comments) */
 "stkit.ribbon.comments" = "Megjegyzések";
 "stkit.selectTextForComment" = "Először jelöljön ki szöveget a dokumentumban, majd adjon hozzá megjegyzést.";
+
+/* General */
 "stkit.comingSoon" = "Hamarosan";
 "stkit.custom" = "Egyéni";
+
+/* Ribbon View */
 "stkit.ribbon.zoom" = "Nagyítás";
 "stkit.ribbon.thumbnails" = "Oldalak";
 "stkit.ribbon.outline" = "Vázlat";
