@@ -3,48 +3,44 @@ import PackageDescription
 
 let package = Package(
     name: "STKit",
-    defaultLocalization: "en",
-    platforms: [.iOS(.v16), .macOS(.v13)],
+    platforms: [.iOS(.v16)],
     products: [
         .library(name: "STKit", targets: ["STKit"]),
-        .library(name: "STDOCX", targets: ["STDOCX", "STKit"]),
-        .library(name: "STExcel", targets: ["STExcel", "STKit"]),
+        .library(name: "STDOCX", targets: ["STDOCX", "STKit", "_ZIPFoundation"]),
+        .library(name: "STExcel", targets: ["STExcel", "STKit", "_ZIPFoundation"]),
         .library(name: "STTXT", targets: ["STTXT", "STKit"]),
         .library(name: "STPDF", targets: ["STPDF", "STKit"]),
     ],
-    dependencies: [
-        .package(url: "https://github.com/weichsel/ZIPFoundation.git", from: "0.9.0"),
-    ],
     targets: [
-        .target(
+        .binaryTarget(
             name: "STKit",
-            dependencies: [],
-            path: "Sources/STKit",
-            resources: [.process("Resources")]
+            url: "https://github.com/Palerosy/STKit/releases/download/0.8.0/STKit.xcframework.zip",
+            checksum: "811ba249993904c3f87e82d2e32d12c2b2bd6eb0d5782573855e1e9900cb631a"
         ),
-        .target(
-            name: "STPDF",
-            dependencies: ["STKit"],
-            path: "Sources/STPDF",
-            resources: [.process("Resources")]
-        ),
-        .target(
+        .binaryTarget(
             name: "STDOCX",
-            dependencies: ["STKit", .product(name: "ZIPFoundation", package: "ZIPFoundation")],
-            path: "Sources/STDOCX",
-            resources: [.process("Resources")]
+            url: "https://github.com/Palerosy/STKit/releases/download/0.8.0/STDOCX.xcframework.zip",
+            checksum: "4dc33e12d366b35970bc7d63e8e8a17ec8fdf32c832aa3f2026bf23f9c3082a1"
         ),
-        .target(
+        .binaryTarget(
             name: "STExcel",
-            dependencies: ["STKit", .product(name: "ZIPFoundation", package: "ZIPFoundation")],
-            path: "Sources/STExcel",
-            resources: [.process("Resources")]
+            url: "https://github.com/Palerosy/STKit/releases/download/0.8.0/STExcel.xcframework.zip",
+            checksum: "4197ecc359af8d061808b152220693c3472addcbe6400dbeb3b387c19288ac24"
         ),
-        .target(
+        .binaryTarget(
             name: "STTXT",
-            dependencies: ["STKit"],
-            path: "Sources/STTXT",
-            resources: [.process("Resources")]
+            url: "https://github.com/Palerosy/STKit/releases/download/0.8.0/STTXT.xcframework.zip",
+            checksum: "0ccc1b0f81230f2d32440f6abb4ac27fd68f021de690f16692582fff5e95eb13"
+        ),
+        .binaryTarget(
+            name: "STPDF",
+            url: "https://github.com/Palerosy/STKit/releases/download/0.8.0/STPDF.xcframework.zip",
+            checksum: "6ec26b192287cc17dc9a4660eb8fcaae27775e6c7b45c3e138c14217d4d57501"
+        ),
+        .binaryTarget(
+            name: "_ZIPFoundation",
+            url: "https://github.com/Palerosy/STKit/releases/download/0.8.0/_ZIPFoundation.xcframework.zip",
+            checksum: "1cda4a5a577e0eb5e9951fcf131aaee338f3e06e8ee3f443e0f79404e3636ea7"
         ),
     ]
 )
