@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-# STKit Static XCFramework Build Script (framework format)
-# SwiftDocX sources are compiled as part of STDOCX — no separate module
+# STKit Static XCFramework Build Script (library format)
+# Uses .a static libraries with proper Swift module support
 # Builds for iOS Device, iOS Simulator, and macOS
 # Usage: ./scripts/build-xcframework.sh
 
@@ -23,7 +23,7 @@ echo ""
 
 # Clean
 rm -rf "$BUILD_DIR"
-mkdir -p "$BUILD_DIR/frameworks/iphoneos" "$BUILD_DIR/frameworks/iphonesimulator" "$BUILD_DIR/frameworks/macosx" "$DIST_DIR"
+mkdir -p "$BUILD_DIR/libs/iphoneos" "$BUILD_DIR/libs/iphonesimulator" "$BUILD_DIR/libs/macosx" "$DIST_DIR"
 
 # 1. Build for iOS Device
 echo "[1/8] Building for iOS Device..."
@@ -69,9 +69,7 @@ echo "   Done"
 IOS_PRODUCTS="$DERIVED_DATA/Build/Products/Release-iphoneos"
 SIM_PRODUCTS="$DERIVED_DATA/Build/Products/Release-iphonesimulator"
 MAC_PRODUCTS="$DERIVED_DATA/Build/Products/Release"
-IOS_INTERMEDIATES="$DERIVED_DATA/Build/Intermediates.noindex"
-SIM_INTERMEDIATES="$DERIVED_DATA/Build/Intermediates.noindex"
-MAC_INTERMEDIATES="$DERIVED_DATA/Build/Intermediates.noindex"
+INTERMEDIATES="$DERIVED_DATA/Build/Intermediates.noindex"
 
 # 4. Verify build artifacts
 echo "[4/8] Verifying build artifacts..."
@@ -93,13 +91,13 @@ for PLATFORM in "iphoneos" "iphonesimulator" "macosx"; do
     done
 done
 
-# 5. Create framework bundles
-echo "[5/8] Creating framework bundles..."
+# 5. Create static libraries with headers
+echo "[5/8] Creating static libraries..."
 
-create_framework() {
+create_library() {
     local MODULE="$1"
     local PLATFORM="$2"
-    local FW_DIR="$BUILD_DIR/frameworks/$PLATFORM/$MODULE.framework"
+    local LIB_DIR="$BUILD_DIR/libs/$PLATFORM/$MODULE"
     local PRODUCTS
 
     if [ "$PLATFORM" = "macosx" ]; then
@@ -109,7 +107,6 @@ create_framework() {
     fi
 
     local OBJS_TO_MERGE=()
-    local SOURCE_NAME="$MODULE"
 
     case "$MODULE" in
         "STKit"|"STTXT"|"STExcel"|"STPDF")
@@ -126,68 +123,42 @@ create_framework() {
         return 1
     fi
 
-    local BUNDLE_ID="${MODULE}"
-    [ "$MODULE" = "_ZIPFoundation" ] && BUNDLE_ID="ZIPFoundation"
+    # Create directory structure
+    mkdir -p "$LIB_DIR/Headers"
 
-    # All platforms use shallow bundle (same structure)
-    mkdir -p "$FW_DIR/Modules/$MODULE.swiftmodule" "$FW_DIR/Headers"
+    # Create static library
+    libtool -static -o "$LIB_DIR/lib${MODULE}.a" "${OBJS_TO_MERGE[@]}" 2>/dev/null
 
-    libtool -static -o "$FW_DIR/$MODULE" "${OBJS_TO_MERGE[@]}" 2>/dev/null
+    local LIB_SIZE=$(ls -lh "$LIB_DIR/lib${MODULE}.a" | awk '{print $5}')
 
-    local LIB_SIZE=$(ls -lh "$FW_DIR/$MODULE" | awk '{print $5}')
-
-    # Copy swiftinterface files
-    local SM="$PRODUCTS/$SOURCE_NAME.swiftmodule"
+    # Copy swiftmodule (swiftinterface files)
+    local SM="$PRODUCTS/$MODULE.swiftmodule"
     if [ -d "$SM" ]; then
-        for f in "$SM"/*.swiftinterface "$SM"/*.private.swiftinterface "$SM"/*.package.swiftinterface "$SM"/*.swiftdoc; do
-            [ -f "$f" ] && cp "$f" "$FW_DIR/Modules/$MODULE.swiftmodule/"
-        done
+        cp -R "$SM" "$LIB_DIR/$MODULE.swiftmodule"
     fi
 
-    local IFACE_COUNT=$(ls "$FW_DIR/Modules/$MODULE.swiftmodule/"*.swiftinterface 2>/dev/null | wc -l | tr -d ' ')
+    local IFACE_COUNT=$(ls "$LIB_DIR/$MODULE.swiftmodule/"*.swiftinterface 2>/dev/null | wc -l | tr -d ' ')
 
     # Find and copy -Swift.h header
     local HEADER=""
     if [ "$PLATFORM" = "iphoneos" ]; then
-        HEADER=$(find "$IOS_INTERMEDIATES" -name "${SOURCE_NAME}-Swift.h" -path "*/Release-iphoneos/*" -path "*/arm64/*" 2>/dev/null | head -1)
+        HEADER=$(find "$INTERMEDIATES" -name "${MODULE}-Swift.h" -path "*/Release-iphoneos/*" -path "*/arm64/*" 2>/dev/null | head -1)
     elif [ "$PLATFORM" = "iphonesimulator" ]; then
-        HEADER=$(find "$SIM_INTERMEDIATES" -name "${SOURCE_NAME}-Swift.h" -path "*/Release-iphonesimulator/*" -path "*/arm64/*" 2>/dev/null | head -1)
+        HEADER=$(find "$INTERMEDIATES" -name "${MODULE}-Swift.h" -path "*/Release-iphonesimulator/*" -path "*/arm64/*" 2>/dev/null | head -1)
     else
-        HEADER=$(find "$MAC_INTERMEDIATES" -name "${SOURCE_NAME}-Swift.h" -path "*/Release/*" -path "*/arm64/*" 2>/dev/null | grep -v "Release-" | head -1)
+        HEADER=$(find "$INTERMEDIATES" -name "${MODULE}-Swift.h" -path "*/Release/*" -path "*/arm64/*" 2>/dev/null | grep -v "Release-" | head -1)
     fi
     if [ -n "$HEADER" ]; then
-        cp "$HEADER" "$FW_DIR/Headers/$MODULE-Swift.h"
+        cp "$HEADER" "$LIB_DIR/Headers/$MODULE-Swift.h"
     fi
 
     # Create module.modulemap
-    cat > "$FW_DIR/Modules/module.modulemap" << EOF
-framework module $MODULE {
+    cat > "$LIB_DIR/Headers/module.modulemap" << EOF
+module $MODULE {
     header "$MODULE-Swift.h"
     export *
 }
 EOF
-
-    # Create Info.plist
-    cat > "$FW_DIR/Info.plist" << PLIST
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-    <key>CFBundleExecutable</key>
-    <string>${MODULE}</string>
-    <key>CFBundleIdentifier</key>
-    <string>com.stkit.${BUNDLE_ID}</string>
-    <key>CFBundleName</key>
-    <string>${MODULE}</string>
-    <key>CFBundleVersion</key>
-    <string>0.9.4</string>
-    <key>CFBundleShortVersionString</key>
-    <string>0.9.4</string>
-    <key>CFBundlePackageType</key>
-    <string>FMWK</string>
-</dict>
-</plist>
-PLIST
 
     echo "   $MODULE ($PLATFORM): $LIB_SIZE, $IFACE_COUNT swiftinterface files"
     return 0
@@ -195,23 +166,46 @@ PLIST
 
 for PLATFORM in "iphoneos" "iphonesimulator" "macosx"; do
     for MODULE in "${ALL_XCFRAMEWORKS[@]}"; do
-        create_framework "$MODULE" "$PLATFORM"
+        create_library "$MODULE" "$PLATFORM"
     done
 done
 
-# 6. Create XCFrameworks (framework format, shallow bundles for all platforms)
+# 6. Create XCFrameworks (library format)
 echo "[6/8] Creating XCFrameworks..."
 for MODULE in "${ALL_XCFRAMEWORKS[@]}"; do
-    IOS_FW="$BUILD_DIR/frameworks/iphoneos/$MODULE.framework"
-    SIM_FW="$BUILD_DIR/frameworks/iphonesimulator/$MODULE.framework"
-    MAC_FW="$BUILD_DIR/frameworks/macosx/$MODULE.framework"
+    IOS_DIR="$BUILD_DIR/libs/iphoneos/$MODULE"
+    SIM_DIR="$BUILD_DIR/libs/iphonesimulator/$MODULE"
+    MAC_DIR="$BUILD_DIR/libs/macosx/$MODULE"
 
     rm -rf "$BUILD_DIR/$MODULE.xcframework"
     xcodebuild -create-xcframework \
-        -framework "$IOS_FW" \
-        -framework "$SIM_FW" \
-        -framework "$MAC_FW" \
+        -library "$IOS_DIR/lib${MODULE}.a" \
+        -headers "$IOS_DIR/Headers" \
+        -library "$SIM_DIR/lib${MODULE}.a" \
+        -headers "$SIM_DIR/Headers" \
+        -library "$MAC_DIR/lib${MODULE}.a" \
+        -headers "$MAC_DIR/Headers" \
         -output "$BUILD_DIR/$MODULE.xcframework"
+
+    # Add Swift module files to each slice
+    for SLICE_DIR in "$BUILD_DIR/$MODULE.xcframework"/*/; do
+        SLICE_NAME=$(basename "$SLICE_DIR")
+        # Determine which platform this slice is for
+        if [[ "$SLICE_NAME" == *"ios-arm64_x86_64-simulator"* ]] || [[ "$SLICE_NAME" == *"ios-arm64-simulator"* ]]; then
+            SRC_SM="$SIM_DIR/$MODULE.swiftmodule"
+        elif [[ "$SLICE_NAME" == *"ios-arm64"* ]]; then
+            SRC_SM="$IOS_DIR/$MODULE.swiftmodule"
+        elif [[ "$SLICE_NAME" == *"macos"* ]]; then
+            SRC_SM="$MAC_DIR/$MODULE.swiftmodule"
+        else
+            continue
+        fi
+
+        if [ -d "$SRC_SM" ]; then
+            cp -R "$SRC_SM" "$SLICE_DIR/$MODULE.swiftmodule"
+            echo "   Added $MODULE.swiftmodule to $SLICE_NAME"
+        fi
+    done
 
     echo "   $MODULE.xcframework created (iOS + macOS)"
 done
@@ -220,7 +214,6 @@ done
 echo "[7/8] Packaging..."
 for MODULE in "${ALL_XCFRAMEWORKS[@]}"; do
     local_name="$MODULE"
-    [ "$MODULE" = "_ZIPFoundation" ] && local_name="ZIPFoundation"
 
     # SPM resource bundles use PackageName_TargetName pattern
     RESOURCE_BUNDLE=$(find "$DERIVED_DATA" -name "STKit_${local_name}.bundle" -path "*/Release-iphoneos/*" 2>/dev/null | head -1)
@@ -229,8 +222,8 @@ for MODULE in "${ALL_XCFRAMEWORKS[@]}"; do
     fi
     if [ -n "$RESOURCE_BUNDLE" ]; then
         BUNDLE_NAME=$(basename "$RESOURCE_BUNDLE")
-        for SLICE in "$BUILD_DIR/$MODULE.xcframework"/*/$MODULE.framework; do
-            [ -d "$SLICE" ] && cp -RL "$RESOURCE_BUNDLE" "$SLICE/$BUNDLE_NAME"
+        for SLICE_DIR in "$BUILD_DIR/$MODULE.xcframework"/*/; do
+            [ -d "$SLICE_DIR" ] && cp -RL "$RESOURCE_BUNDLE" "$SLICE_DIR/$BUNDLE_NAME"
         done
         echo "   $MODULE: resource bundle embedded ($BUNDLE_NAME)"
     fi
