@@ -123,8 +123,8 @@ create_library() {
         return 1
     fi
 
-    # Create directory structure
-    mkdir -p "$LIB_DIR/Headers"
+    # Create directory structure — use module subdirectory to avoid modulemap collisions
+    mkdir -p "$LIB_DIR/Headers/$MODULE"
 
     # Create static library
     libtool -static -o "$LIB_DIR/lib${MODULE}.a" "${OBJS_TO_MERGE[@]}" 2>/dev/null
@@ -149,11 +149,11 @@ create_library() {
         HEADER=$(find "$INTERMEDIATES" -name "${MODULE}-Swift.h" -path "*/Release/*" -path "*/arm64/*" 2>/dev/null | grep -v "Release-" | head -1)
     fi
     if [ -n "$HEADER" ]; then
-        cp "$HEADER" "$LIB_DIR/Headers/$MODULE-Swift.h"
+        cp "$HEADER" "$LIB_DIR/Headers/$MODULE/$MODULE-Swift.h"
     fi
 
-    # Create module.modulemap
-    cat > "$LIB_DIR/Headers/module.modulemap" << EOF
+    # Create module.modulemap inside module subdirectory
+    cat > "$LIB_DIR/Headers/$MODULE/module.modulemap" << EOF
 module $MODULE {
     header "$MODULE-Swift.h"
     export *

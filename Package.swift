@@ -1,7 +1,7 @@
 // swift-tools-version: 5.9
 import PackageDescription
 
-let version = "0.9.6"
+let version = "0.9.7"
 let repo = "https://github.com/Palerosy/STKit/releases/download/\(version)"
 
 let package = Package(
@@ -16,14 +16,14 @@ let package = Package(
     ],
     targets: [
         .binaryTarget(name: "STKit", url: "\(repo)/STKit.xcframework.zip",
-                       checksum: "a04ebe0b3931b9941feaefcae848d23561a747b42542321b8873fbb6e10caaea"),
+                       checksum: "414594ee0178a7a92e20259467b8d83266ab5626fbc7d9f82eed7791c81d3904"),
         .binaryTarget(name: "STDOCX", url: "\(repo)/STDOCX.xcframework.zip",
-                       checksum: "31a3b617685c8ed1a3508efc74f5c4026061fc6ef47308ad6f9bdc534a9f9012"),
+                       checksum: "e38d92b75af847b6a8b126bc0b7698c526b3f442155d3d0b442a09833c7e5221"),
         .binaryTarget(name: "STExcel", url: "\(repo)/STExcel.xcframework.zip",
-                       checksum: "da58a35be418da18799b01b326f315a7c3252d82cd29d80933cc987740587862"),
+                       checksum: "007b037526c7faf02628c91929496d75f52f08ac1cc510bf2c6b72c1ed3f0a12"),
         .binaryTarget(name: "STTXT", url: "\(repo)/STTXT.xcframework.zip",
-                       checksum: "c1daaddbd52d0d8d19378b0511533cc0c9abaf4f77de369594ac08f2a53169a0"),
+                       checksum: "8bd66caacf15afa880ed413a5de5424dc1a58c2cfa91c378e75b73120ca1072b"),
         .binaryTarget(name: "STPDF", url: "\(repo)/STPDF.xcframework.zip",
-                       checksum: "9b0b079c4e226e7bd4f0460c20310da7d8fd0382e6b003ef9542a8e0a046fd8e"),
+                       checksum: "e980541617c6a78a9f64291da98fa8d9878e6d14c9d8235b52ef72526e1564dd"),
     ]
 )
