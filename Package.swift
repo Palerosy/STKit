@@ -1,7 +1,7 @@
 // swift-tools-version: 5.9
 import PackageDescription
 
-let version = "0.10.1"
+let version = "0.10.2"
 let repo = "https://github.com/Palerosy/STKit/releases/download/\(version)"
 
 let package = Package(
