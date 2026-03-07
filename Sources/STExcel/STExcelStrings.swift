@@ -493,6 +493,13 @@ internal enum STExcelBundleHelper {
             }
         }
 
+        if let resourceURL = Bundle.main.resourceURL {
+            let url = resourceURL.appendingPathComponent("\(bundleName).bundle")
+            if let bundle = Bundle(url: url) {
+                return bundle
+            }
+        }
+
         return Bundle.main
     }()
 }

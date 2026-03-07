@@ -340,6 +340,12 @@ public struct STDOCXEditorView: View {
                 paywallView(paywallPlacement)
             }
         }
+        #else
+        .sheet(isPresented: $showPremiumPaywall) {
+            if let paywallView = STKitConfiguration.shared.premiumPaywallView {
+                paywallView(paywallPlacement)
+            }
+        }
         #endif
         .sheet(isPresented: Binding(
             get: { viewModel.webEditorViewModel.isChartEditorVisible },

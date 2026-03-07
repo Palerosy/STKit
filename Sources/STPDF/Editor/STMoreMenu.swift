@@ -64,6 +64,12 @@ struct STMoreMenu: View {
                 paywallView(paywallPlacement)
             }
         }
+        #else
+        .sheet(isPresented: $showPremiumPaywall) {
+            if let paywallView = STKitConfiguration.shared.premiumPaywallView {
+                paywallView(paywallPlacement)
+            }
+        }
         #endif
     }
 

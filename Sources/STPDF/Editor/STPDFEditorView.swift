@@ -215,6 +215,12 @@ public struct STPDFEditorView: View {
                 paywallView(paywallPlacement)
             }
         }
+        #else
+        .sheet(isPresented: $showPremiumPaywall) {
+            if let paywallView = STKitConfiguration.shared.premiumPaywallView {
+                paywallView(paywallPlacement)
+            }
+        }
         #endif
         .sheet(item: $viewModel.activeSheet) { sheet in
             switch sheet {

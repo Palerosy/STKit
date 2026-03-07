@@ -249,6 +249,12 @@ public struct STExcelEditorView: View {
                     paywallView(paywallPlacement)
                 }
             }
+            #else
+            .sheet(isPresented: $showPremiumPaywall) {
+                if let paywallView = STKitConfiguration.shared.premiumPaywallView {
+                    paywallView(paywallPlacement)
+                }
+            }
             #endif
         }
         .onAppear {

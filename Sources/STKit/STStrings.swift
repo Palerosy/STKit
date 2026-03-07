@@ -313,7 +313,15 @@ internal enum STKitBundleHelper {
             }
         }
 
-        // 3. Fallback to main bundle
+        // 3. Inside app Resources directory (library format xcframework)
+        if let resourceURL = Bundle.main.resourceURL {
+            let url = resourceURL.appendingPathComponent("\(bundleName).bundle")
+            if let bundle = Bundle(url: url) {
+                return bundle
+            }
+        }
+
+        // 4. Fallback to main bundle
         return Bundle.main
     }()
 }
