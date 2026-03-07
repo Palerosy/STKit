@@ -1,7 +1,7 @@
 // swift-tools-version: 5.9
 import PackageDescription
 
-let version = "0.10.2"
+let version = "0.10.3"
 let repo = "https://github.com/Palerosy/STKit/releases/download/\(version)"
 
 let package = Package(
@@ -11,7 +11,7 @@ let package = Package(
     products: [
         .library(name: "STKit", targets: ["STKit", "STKitResources"]),
         .library(name: "STDOCX", targets: ["STDOCX", "STKit", "STKitResources"]),
-        .library(name: "STExcel", targets: ["STExcel", "STKit", "STKitResources"]),
+        .library(name: "STExcel", targets: ["STExcel", "STKit", "STKitResources", "ZIPFoundation"]),
         .library(name: "STTXT", targets: ["STTXT", "STKit", "STKitResources"]),
         .library(name: "STPDF", targets: ["STPDF", "STKit", "STKitResources"]),
     ],
@@ -26,6 +26,8 @@ let package = Package(
                        checksum: "5c2fc8ea00aa9e5a3d821b57363728c081af46762d9493004837d8f47e3b0f09"),
         .binaryTarget(name: "STPDF", url: "\(repo)/STPDF.xcframework.zip",
                        checksum: "b087f28726ec0d4504b440991333fb756e54a0555ca3e40d80e1cf688cbcf0be"),
+        .binaryTarget(name: "ZIPFoundation", url: "\(repo)/ZIPFoundation.xcframework.zip",
+                       checksum: "49abf7ab0d6f0247c5602429bb54a4b941b991e26c0fec256f00f20ccc370b3d"),
         .target(name: "STKitResources", dependencies: [], path: "STKitResources", resources: [
             .copy("STKit_STKit.bundle"),
             .copy("STKit_STPDF.bundle"),
