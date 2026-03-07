@@ -8,11 +8,11 @@ let package = Package(
     name: "STKit",
     platforms: [.iOS(.v16), .macOS(.v13)],
     products: [
-        .library(name: "STKit", targets: ["STKit"]),
-        .library(name: "STDOCX", targets: ["STDOCX", "STKit"]),
-        .library(name: "STExcel", targets: ["STExcel", "STKit"]),
-        .library(name: "STTXT", targets: ["STTXT", "STKit"]),
-        .library(name: "STPDF", targets: ["STPDF", "STKit"]),
+        .library(name: "STKit", type: .static, targets: ["STKit"]),
+        .library(name: "STDOCX", type: .static, targets: ["STDOCX", "STKit"]),
+        .library(name: "STExcel", type: .static, targets: ["STExcel", "STKit"]),
+        .library(name: "STTXT", type: .static, targets: ["STTXT", "STKit"]),
+        .library(name: "STPDF", type: .static, targets: ["STPDF", "STKit"]),
     ],
     targets: [
         .binaryTarget(name: "STKit", url: "\(repo)/STKit.xcframework.zip",
