@@ -45,6 +45,15 @@ public final class STKitConfiguration {
     /// ```
     public var premiumPaywallView: ((String) -> AnyView)?
 
+    /// Default paywall placement identifier for all editor modules.
+    /// Set once at app launch (e.g. "main.macos", "main.ios").
+    /// Individual editor configurations can still override this per-editor.
+    ///
+    /// ```swift
+    /// STKitConfiguration.shared.paywallPlacement = "main.macos"
+    /// ```
+    public var paywallPlacement: String = "main"
+
     /// Override language code (e.g. "tr", "sv", "de"). Set to nil to use system default.
     public var languageCode: String? {
         didSet {

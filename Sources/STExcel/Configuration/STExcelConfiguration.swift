@@ -45,8 +45,9 @@ public struct STExcelConfiguration {
 
     // MARK: - Paywall
 
-    /// Adapty placement identifier for paywall. Set from host app.
-    public var paywallPlacement: String = "main"
+    /// Paywall placement identifier. Defaults to `STKitConfiguration.shared.paywallPlacement`.
+    /// Override per-editor if needed.
+    public var paywallPlacement: String = STKitConfiguration.shared.paywallPlacement
 
     // MARK: - Appearance
 
