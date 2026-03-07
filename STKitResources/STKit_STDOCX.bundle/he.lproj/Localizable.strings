@@ -1,0 +1,16 @@
+/* Editor */
+"stdocx.font" = "גופן";
+"stdocx.textColor" = "צבע טקסט";
+"stdocx.exportAs" = "ייצוא כ";
+"stdocx.findReplace" = "חיפוש והחלפה";
+
+/* Formatting */
+"stdocx.bold" = "מודגש";
+"stdocx.italic" = "נטוי";
+"stdocx.underline" = "קו תחתון";
+"stdocx.strikethrough" = "קו חוצה";
+"stdocx.alignment" = "יישור";
+"stdocx.alignLeft" = "יישור שמאל";
+"stdocx.alignCenter" = "מרכוז";
+"stdocx.alignRight" = "יישור ימין";
+"stdocx.justify" = "יישור";

@@ -305,7 +305,14 @@ internal enum STKitBundleHelper {
             return bundle
         }
 
-        // 2. Inside framework in Frameworks directory (static xcframework)
+        // 2. Inside STKitResources module bundle (binary xcframework with resource wrapper)
+        if let resBundle = findSTKitResourcesBundle(),
+           let url = resBundle.url(forResource: bundleName, withExtension: "bundle"),
+           let bundle = Bundle(url: url) {
+            return bundle
+        }
+
+        // 3. Inside framework in Frameworks directory (static xcframework)
         if let frameworksURL = Bundle.main.privateFrameworksURL {
             let url = frameworksURL.appendingPathComponent("STKit.framework/\(bundleName).bundle")
             if let bundle = Bundle(url: url) {
@@ -313,7 +320,7 @@ internal enum STKitBundleHelper {
             }
         }
 
-        // 3. Inside app Resources directory (library format xcframework)
+        // 4. Inside app Resources directory (library format xcframework)
         if let resourceURL = Bundle.main.resourceURL {
             let url = resourceURL.appendingPathComponent("\(bundleName).bundle")
             if let bundle = Bundle(url: url) {
@@ -321,7 +328,22 @@ internal enum STKitBundleHelper {
             }
         }
 
-        // 4. Fallback to main bundle
+        // 5. Fallback to main bundle
         return Bundle.main
     }()
+}
+
+/// Finds the STKitResources SPM module bundle in the app's resources
+public func findSTKitResourcesBundle() -> Bundle? {
+    let candidates = [
+        "STKitResources_STKitResources",
+        "STKit_STKitResources",
+    ]
+    for name in candidates {
+        if let url = Bundle.main.url(forResource: name, withExtension: "bundle"),
+           let bundle = Bundle(url: url) {
+            return bundle
+        }
+    }
+    return nil
 }

@@ -1,0 +1,464 @@
+/* STExcel */
+"stexcel.sheet" = "Tabelle";
+"stexcel.cell" = "Zelle";
+"stexcel.row" = "Zeile";
+"stexcel.column" = "Spalte";
+"stexcel.value" = "Wert";
+
+/* Ribbon Tabs */
+"stexcel.ribbon.format" = "Format";
+"stexcel.ribbon.formulas" = "Formeln";
+"stexcel.ribbon.data" = "Daten";
+
+/* Home Tab */
+"stexcel.cut" = "Ausschneiden";
+"stexcel.copy" = "Kopieren";
+"stexcel.fillColor" = "Füllung";
+"stexcel.wrapText" = "Umbrechen";
+"stexcel.merge" = "Verbinden";
+"stexcel.borders" = "Rahmen";
+
+/* Border Picker */
+"stexcel.noBorder" = "Kein Rahmen";
+"stexcel.allBorders" = "Alle Rahmen";
+"stexcel.outsideBorder" = "Außenrahmen";
+"stexcel.bottomBorder" = "Unterer Rahmen";
+"stexcel.thickBorder" = "Dicker Rahmen";
+
+/* Format Tab */
+"stexcel.numberFormat" = "Zahlenformat";
+"stexcel.currency" = "Währung";
+"stexcel.percent" = "Prozent";
+"stexcel.decimalIncrease" = ".0→.00";
+"stexcel.decimalDecrease" = ".00→.0";
+"stexcel.clear" = "Löschen";
+"stexcel.conditionalFormat" = "Bed. Format";
+"stexcel.cellStyle" = "Formatvorlage";
+
+/* Insert Tab */
+"stexcel.chart" = "Diagramm";
+"stexcel.picture" = "Bild";
+
+/* Formulas Tab */
+"stexcel.autoSum" = "Auto-\nSumme";
+"stexcel.recalculate" = "Neu berechnen";
+"stexcel.financial" = "Finanzen";
+"stexcel.logical" = "Logisch";
+"stexcel.textFunctions" = "Text";
+"stexcel.dateTime" = "Datum &\nUhrzeit";
+"stexcel.reference" = "Verweis";
+"stexcel.math" = "Mathematik";
+"stexcel.insertFunction" = "Funktion\neinfügen";
+"stexcel.defineName" = "Name\ndefinieren";
+"stexcel.nameManager" = "Namens-\nmanager";
+
+/* Data Tab */
+"stexcel.sort" = "Sortieren";
+"stexcel.sortAZ" = "Sortieren A→Z";
+"stexcel.sortZA" = "Sortieren Z→A";
+"stexcel.sortByColor" = "Nach Farbe sortieren";
+"stexcel.filter" = "Filter";
+"stexcel.reapplyFilter" = "Filter erneut\nanwenden";
+"stexcel.dataValidation" = "Daten-\nüberprüfung";
+"stexcel.circleInvalid" = "Ungültige Daten\neinkreisen";
+"stexcel.group" = "Gruppieren";
+"stexcel.ungroup" = "Gruppierung aufheben";
+"stexcel.subtotal" = "Teilergebnis";
+"stexcel.removeAll" = "Alle\nentfernen";
+"stexcel.showDetail" = "Detail\nanzeigen";
+"stexcel.hideDetail" = "Detail\nausblenden";
+"stexcel.textToColumns" = "Text in\nSpalten";
+"stexcel.apply" = "Anwenden";
+"stexcel.sortBy" = "Sortieren nach";
+"stexcel.thenBy" = "Dann nach";
+"stexcel.myDataHasHeaders" = "Daten haben Überschriften";
+"stexcel.caseSensitive" = "Groß-/Kleinschreibung";
+"stexcel.none" = "Keine";
+
+/* Review Tab */
+"stexcel.addComment" = "Kommentar";
+"stexcel.editComment" = "Kommentar\nbearbeiten";
+"stexcel.deleteComment" = "Kommentar\nlöschen";
+"stexcel.protectSheet" = "Blatt\nschützen";
+"stexcel.unprotectSheet" = "Blattschutz aufheben";
+"stexcel.sheetIsProtected" = "Dieses Blatt ist geschützt.";
+"stexcel.sheetNotProtected" = "Dieses Blatt ist nicht geschützt.";
+
+/* View Tab */
+"stexcel.gridlines" = "Gitternetzlinien";
+"stexcel.headings" = "Überschriften";
+"stexcel.formulaBar" = "Formel";
+"stexcel.freezePanes" = "Fixieren";
+"stexcel.goToCell" = "Gehe zu Zelle";
+"stexcel.go" = "Gehe";
+"stexcel.zoom" = "Zoom";
+
+/* Home Tab — Insert/Delete Menus */
+"stexcel.insertOptions" = "Einfügeoptionen";
+"stexcel.deleteOptions" = "Löschoptionen";
+"stexcel.shiftCellsRight" = "Zellen nach rechts verschieben";
+"stexcel.shiftCellsDown" = "Zellen nach unten verschieben";
+"stexcel.shiftCellsLeft" = "Zellen nach links verschieben";
+"stexcel.shiftCellsUp" = "Zellen nach oben verschieben";
+"stexcel.entireRow" = "Ganze Zeile";
+"stexcel.entireColumn" = "Ganze Spalte";
+"stexcel.rows" = "Zeilen";
+"stexcel.columns" = "Spalten";
+"stexcel.worksheet" = "Arbeitsblatt";
+"stexcel.insert" = "Einfügen";
+"stexcel.delete" = "Löschen";
+
+/* AutoSum */
+"stexcel.sum" = "Summe";
+"stexcel.average" = "Mittelwert";
+"stexcel.count" = "Anzahl";
+"stexcel.max" = "Maximum";
+"stexcel.min" = "Minimum";
+"stexcel.median" = "Median";
+
+/* Format Tab */
+"stexcel.cellFont" = "Zellen-\nschrift";
+"stexcel.cellBorder" = "Zellen-\nrahmen";
+"stexcel.lockCell" = "Zelle\nsperren";
+"stexcel.cellSize" = "Zellen-\ngröße";
+"stexcel.rowHeight" = "Zeilenhöhe";
+"stexcel.columnWidth" = "Spaltenbreite";
+"stexcel.autoFitRow" = "Zeilenhöhe automatisch anpassen";
+"stexcel.autoFitColumn" = "Spaltenbreite automatisch anpassen";
+
+/* Format Cells Dialog */
+"stexcel.formatCells" = "Zellen formatieren";
+"stexcel.number" = "Zahl";
+"stexcel.cellTab" = "Zelle";
+"stexcel.borderTab" = "Rahmen";
+"stexcel.protection" = "Schutz";
+"stexcel.font" = "Schrift";
+"stexcel.size" = "Größe";
+"stexcel.textColor" = "Textfarbe";
+"stexcel.cellColor" = "Zellenfarbe";
+"stexcel.indent" = "Einzug";
+"stexcel.lineType" = "Linienart";
+"stexcel.clearBorder" = "Rahmen löschen";
+"stexcel.standardColors" = "STANDARDFARBEN";
+"stexcel.locked" = "Gesperrt";
+"stexcel.hidden" = "Ausgeblendet";
+"stexcel.singleUnderline" = "Einfach";
+"stexcel.doubleUnderline" = "Doppelt";
+
+/* More Menu */
+"stexcel.saveAs" = "Speichern unter";
+"stexcel.fileInfo" = "Dateiinfo";
+"stexcel.failedToOpen" = "Datei konnte nicht geöffnet werden";
+"stexcel.fileName" = "Dateiname";
+"stexcel.fileLocation" = "Speicherort";
+"stexcel.fileType" = "Dateityp";
+"stexcel.fileSize" = "Dateigröße";
+"stexcel.createdDate" = "Erstellt";
+"stexcel.modifiedDate" = "Geändert";
+"stexcel.onEnter" = "Bei Enter";
+"stexcel.moveDown" = "Nach unten";
+"stexcel.moveRight" = "Nach rechts";
+"stexcel.stay" = "Bleiben";
+"stexcel.autoCalculate" = "Automatisch berechnen";
+"stexcel.unknown" = "Unbekannt";
+"stexcel.dontSave" = "Nicht speichern";
+"stexcel.saveChangesTitle" = "Änderungen in %@ speichern?";
+"stexcel.licenseRequired" = "Lizenz erforderlich";
+"stexcel.licenseRequiredMessage" = "Für diese Funktion ist eine gültige STKit-Lizenz erforderlich. Bitte aktivieren Sie Ihre Lizenz, um Speichern, Exportieren und Drucken freizuschalten.";
+
+/* Sheet Management */
+"stexcel.addSheet" = "Blatt hinzufügen";
+"stexcel.renameSheet" = "Umbenennen";
+"stexcel.duplicateSheet" = "Duplizieren";
+"stexcel.deleteSheet" = "Löschen";
+"stexcel.moveSheetLeft" = "Nach links";
+"stexcel.moveSheetRight" = "Nach rechts";
+"stexcel.sheetName" = "Blattname";
+
+/* Chart Categories */
+"stexcel.chartAll" = "Alle";
+"stexcel.chartColumn" = "Säule";
+"stexcel.chartBar" = "Balken";
+"stexcel.chartLine" = "Linie";
+"stexcel.chartLineWithMarkers" = "Linie mit Markierungen";
+"stexcel.chartArea" = "Fläche";
+"stexcel.chartPie" = "Kreis";
+"stexcel.chartScatter" = "Punkt";
+
+/* Chart Subtypes */
+"stexcel.chartClustered" = "Gruppiert";
+"stexcel.chartStacked" = "Gestapelt";
+"stexcel.chartPercentStacked" = "100% gestapelt";
+"stexcel.chartSmooth" = "Geglättet";
+"stexcel.chartSimple" = "Einfach";
+"stexcel.chartMarkers" = "Markierungen";
+"stexcel.chartDots" = "Punkte";
+"stexcel.chartLines" = "Linien";
+"stexcel.chart3DPie" = "3D-Kreis";
+"stexcel.chartDoughnut" = "Ring";
+"stexcel.chartExploded" = "Aufgelöst";
+
+/* Shape Types */
+"stexcel.shapeRectangle" = "Rechteck";
+"stexcel.shapeRoundedRect" = "Abgerundetes Rechteck";
+"stexcel.shapeCircle" = "Kreis";
+"stexcel.shapeOval" = "Oval";
+"stexcel.shapeTriangle" = "Dreieck";
+"stexcel.shapeRightTriangle" = "Rechtwinkliges Dreieck";
+"stexcel.shapeDiamond" = "Raute";
+"stexcel.shapeArrowRight" = "Pfeil rechts";
+"stexcel.shapeArrowLeft" = "Pfeil links";
+"stexcel.shapeArrowUp" = "Pfeil oben";
+"stexcel.shapeArrowDown" = "Pfeil unten";
+"stexcel.shapeStar" = "Stern";
+"stexcel.shapeHexagon" = "Sechseck";
+"stexcel.shapePentagon" = "Fünfeck";
+"stexcel.shapeLine" = "Linie";
+"stexcel.shapeDashedLine" = "Gestrichelte Linie";
+
+/* Shape Picker Sections */
+"stexcel.basicShapes" = "Grundformen";
+"stexcel.arrowsTriangles" = "Pfeile und Dreiecke";
+"stexcel.starsMore" = "Sterne und mehr";
+"stexcel.lineShapes" = "Linien";
+
+/* Table Insert */
+"stexcel.insertTable" = "Tabelle einfügen";
+"stexcel.dataRange" = "DATENBEREICH";
+"stexcel.tableStyle" = "TABELLENFORMAT";
+"stexcel.myTableHasHeaders" = "Meine Tabelle hat Überschriften";
+
+/* Table Styles */
+"stexcel.styleBlue" = "Blau";
+"stexcel.styleGreen" = "Grün";
+"stexcel.styleOrange" = "Orange";
+"stexcel.stylePurple" = "Lila";
+"stexcel.styleRed" = "Rot";
+"stexcel.styleGray" = "Grau";
+"stexcel.styleDark" = "Dunkel";
+
+/* Table Tab */
+"stexcel.headerRow" = "Kopf-\nzeile";
+"stexcel.bandedRows" = "Gebänderte\nZeilen";
+"stexcel.bandedCols" = "Gebänderte\nSpalten";
+
+/* Chart Format */
+"stexcel.labels" = "BESCHRIFTUNGEN";
+"stexcel.chartTitle" = "Diagrammtitel";
+"stexcel.title" = "Titel";
+"stexcel.enterTitle" = "Titel eingeben";
+"stexcel.horizontalLabels" = "Horizontale Beschriftungen";
+"stexcel.range" = "Bereich";
+"stexcel.seriesIn" = "Reihen in";
+"stexcel.chartType" = "Typ";
+"stexcel.chartFormat" = "Format";
+"stexcel.chartElements" = "Elemente";
+"stexcel.chartLayouts" = "Diagramm-\nlayouts";
+"stexcel.chartColors" = "Farben";
+"stexcel.chartStylesTitle" = "Diagramm-\nformate";
+"stexcel.switchRowsCols" = "Zeilen/Spalten\ntauschen";
+"stexcel.legend" = "Legende";
+"stexcel.axisLabels" = "Achsenbeschriftungen";
+"stexcel.dataLabels" = "Datenbeschriftungen";
+"stexcel.axes" = "Achsen";
+"stexcel.on" = "Ein";
+"stexcel.off" = "Aus";
+"stexcel.noNumericData" = "Keine numerischen Daten im Bereich gefunden";
+"stexcel.editDataRangeHint" = "Bearbeiten Sie den Datenbereich oben oder fügen Sie Zahlen in Ihre Zellen ein";
+"stexcel.points" = "Punkte";
+"stexcel.noData" = "Keine Daten";
+"stexcel.series" = "Reihen";
+"stexcel.dataPoints" = "Datenpunkte";
+"stexcel.grid" = "Raster";
+"stexcel.layouts" = "Layouts";
+"stexcel.chartStylesNav" = "Diagrammformate";
+
+/* Format Cells Extra */
+"stexcel.noColor" = "Keine Farbe";
+"stexcel.lockingInfo" = "Das Sperren von Zellen oder Ausblenden von Formeln hat keine Wirkung, bis Sie das Arbeitsblatt schützen.";
+"stexcel.lineThin" = "Dünn";
+"stexcel.lineMedium" = "Mittel";
+"stexcel.lineThick" = "Dick";
+"stexcel.lineDashed" = "Gestrichelt";
+"stexcel.lineDotted" = "Gepunktet";
+"stexcel.lineDouble" = "Doppelt";
+
+/* Number Format Picker */
+"stexcel.use1000Separator" = "Tausendertrennzeichen verwenden";
+"stexcel.accounting" = "Buchhaltung";
+"stexcel.date" = "Datum";
+"stexcel.time" = "Uhrzeit";
+"stexcel.percentage" = "Prozent";
+"stexcel.fraction" = "Bruch";
+"stexcel.scientific" = "Wissenschaftlich";
+"stexcel.special" = "Sonderformat";
+"stexcel.custom" = "Benutzerdefiniert";
+"stexcel.negativeNumbers" = "Negative Zahlen";
+
+/* Shape Tab */
+"stexcel.fill" = "Füllung";
+"stexcel.fillColorTitle" = "Füllfarbe";
+"stexcel.outline" = "Kontur";
+"stexcel.outlineColor" = "Konturfarbe";
+"stexcel.changeShape" = "Form\nändern";
+
+/* View Tab */
+"stexcel.zoomIn" = "Vergrößern";
+"stexcel.zoomOut" = "Verkleinern";
+
+/* Conditional Formatting */
+"stexcel.newRule" = "NEUE REGEL";
+"stexcel.highlightCellsRules" = "Regeln zum Hervorheben von Zellen";
+"stexcel.topBottomAvgRules" = "Regeln für Oben/Unten/Durchschnitt";
+"stexcel.customFormula" = "Benutzerdefinierte Formel";
+"stexcel.dataBars" = "Datenbalken";
+"stexcel.colorScales" = "Farbskalen";
+"stexcel.clearRules" = "REGELN LÖSCHEN";
+"stexcel.fromSelection" = "Aus Auswahl";
+"stexcel.activeRules" = "AKTIVE REGELN";
+"stexcel.conditionalFormatting" = "Bedingte Formatierung";
+"stexcel.presets" = "VOREINSTELLUNGEN";
+"stexcel.condition" = "Bedingung";
+"stexcel.enterValue1" = "Wert 1 eingeben";
+"stexcel.enterValue2" = "Wert 2 eingeben";
+"stexcel.rank" = "Rang";
+"stexcel.barColor" = "BALKENFARBE";
+"stexcel.colorScaleSection" = "FARBSKALA";
+"stexcel.formulaSection" = "FORMEL";
+
+/* Additional */
+"stexcel.decimalPlaces" = "Dezimalstellen";
+"stexcel.fromEntireSheet" = "Vom gesamten Blatt";
+"stexcel.formatCellsFormula" = "Zellen formatieren, bei denen diese Formel wahr ist:";
+"stexcel.goodBadNeutral" = "Gut, schlecht und neutral";
+"stexcel.dataModel" = "Daten und Modell";
+"stexcel.titlesHeadings" = "Titel und Überschriften";
+"stexcel.allow" = "Zulassen";
+"stexcel.useFunction" = "Funktion verwenden";
+"stexcel.insertSubtotal" = "Teilergebnis einfügen";
+"stexcel.delimiter" = "Trennzeichen";
+"stexcel.convert" = "Konvertieren";
+"stexcel.enterDelimiter" = "Trennzeichen eingeben";
+"stexcel.anyValue" = "Jeder Wert";
+"stexcel.wholeNumber" = "Ganze Zahl";
+"stexcel.decimalType" = "Dezimal";
+"stexcel.listType" = "Liste";
+"stexcel.textLength" = "Textlänge";
+"stexcel.commaDelimiter" = "Komma (,)";
+"stexcel.tabDelimiter" = "Tabulator";
+"stexcel.semicolonDelimiter" = "Semikolon (;)";
+"stexcel.spaceDelimiter" = "Leerzeichen";
+"stexcel.sourceList" = "Quelle (kommagetrennt)";
+"stexcel.searchFunctions" = "Funktionen suchen";
+"stexcel.noDefinedNames" = "Keine definierten Namen";
+
+/* Number Format General */
+"stexcel.general" = "Standard";
+
+/* Conditional Format Conditions */
+"stexcel.cfGreaterThan" = "Größer als";
+"stexcel.cfLessThan" = "Kleiner als";
+"stexcel.cfBetween" = "Zwischen";
+"stexcel.cfEqualTo" = "Gleich";
+"stexcel.cfNotEqualTo" = "Ungleich";
+"stexcel.cfTextContains" = "Text enthält";
+"stexcel.cfTextNotContains" = "Text enthält nicht";
+"stexcel.cfDuplicates" = "Doppelte Werte";
+"stexcel.cfUniqueValues" = "Eindeutige Werte";
+
+/* Conditional Format Ranks */
+"stexcel.cfTop" = "Oben";
+"stexcel.cfBottom" = "Unten";
+"stexcel.cfAboveAverage" = "Über dem Durchschnitt";
+"stexcel.cfBelowAverage" = "Unter dem Durchschnitt";
+
+/* Conditional Format View */
+"stexcel.cfItems" = "Elemente";
+"stexcel.value1Label" = "Wert 1";
+"stexcel.value2Label" = "Wert 2";
+
+/* Chart Layout */
+"stexcel.layoutLabel" = "Layout";
+
+/* Chart Data */
+"stexcel.chartDataRange" = "Datenbereich";
+"stexcel.dataLabel" = "Daten";
+
+/* Cell Style Presets */
+"stexcel.presetNormal" = "Standard";
+"stexcel.presetGood" = "Gut";
+"stexcel.presetBad" = "Schlecht";
+"stexcel.presetNeutral" = "Neutral";
+"stexcel.presetInput" = "Eingabe";
+"stexcel.presetOutput" = "Ausgabe";
+"stexcel.presetCalculation" = "Berechnung";
+"stexcel.presetCheckCell" = "Prüfzelle";
+"stexcel.presetNote" = "Notiz";
+"stexcel.presetWarning" = "Warnung";
+"stexcel.presetLinkedCell" = "Verknüpfte Zelle";
+"stexcel.presetExplanatory" = "Erklärend";
+"stexcel.presetTitle" = "Titel";
+"stexcel.presetHeading1" = "Überschrift 1";
+"stexcel.presetHeading2" = "Überschrift 2";
+"stexcel.presetHeading3" = "Überschrift 3";
+"stexcel.presetHeading4" = "Überschrift 4";
+"stexcel.presetTotal" = "Ergebnis";
+"stexcel.presetComma" = "Komma";
+"stexcel.presetCurrency" = "Währung";
+"stexcel.presetPercent" = "Prozent";
+
+/* Function Descriptions */
+"stexcel.func.PMT" = "Berechnet die Zahlung für ein Darlehen basierend auf konstanten Zahlungen und Zinssatz.";
+"stexcel.func.FV" = "Gibt den zukünftigen Wert einer Investition zurück.";
+"stexcel.func.PV" = "Gibt den Barwert einer Investition zurück.";
+"stexcel.func.RATE" = "Gibt den Zinssatz pro Periode zurück.";
+"stexcel.func.NPV" = "Gibt den Nettobarwert einer Investition zurück.";
+"stexcel.func.IRR" = "Gibt den internen Zinsfuß für eine Reihe von Zahlungsströmen zurück.";
+"stexcel.func.IF" = "Gibt einen Wert zurück, wenn eine Bedingung wahr ist, und einen anderen, wenn sie falsch ist.";
+"stexcel.func.AND" = "Gibt WAHR zurück, wenn alle Argumente wahr sind.";
+"stexcel.func.OR" = "Gibt WAHR zurück, wenn ein Argument wahr ist.";
+"stexcel.func.NOT" = "Kehrt den Wert des Arguments um.";
+"stexcel.func.IFERROR" = "Gibt Wert_bei_Fehler zurück, wenn das erste Argument ein Fehler ist.";
+"stexcel.func.TRUE" = "Gibt den logischen Wert WAHR zurück.";
+"stexcel.func.FALSE" = "Gibt den logischen Wert FALSCH zurück.";
+"stexcel.func.CONCATENATE" = "Verbindet mehrere Textzeichenfolgen zu einer.";
+"stexcel.func.LEN" = "Gibt die Anzahl der Zeichen in einer Zeichenfolge zurück.";
+"stexcel.func.LEFT" = "Gibt die linksten Zeichen eines Textwerts zurück.";
+"stexcel.func.RIGHT" = "Gibt die rechtesten Zeichen eines Textwerts zurück.";
+"stexcel.func.MID" = "Gibt eine bestimmte Anzahl von Zeichen aus einer Textzeichenfolge zurück.";
+"stexcel.func.UPPER" = "Wandelt Text in Großbuchstaben um.";
+"stexcel.func.LOWER" = "Wandelt Text in Kleinbuchstaben um.";
+"stexcel.func.TRIM" = "Entfernt Leerzeichen aus Text.";
+"stexcel.func.FIND" = "Sucht einen Textwert in einem anderen (Groß-/Kleinschreibung beachtend).";
+"stexcel.func.REPLACE" = "Ersetzt Zeichen innerhalb von Text.";
+"stexcel.func.SUBSTITUTE" = "Ersetzt alten Text durch neuen Text in einer Zeichenfolge.";
+"stexcel.func.NOW" = "Gibt das aktuelle Datum und die Uhrzeit zurück.";
+"stexcel.func.TODAY" = "Gibt das heutige Datum zurück.";
+"stexcel.func.DATE" = "Gibt die Seriennummer eines bestimmten Datums zurück.";
+"stexcel.func.YEAR" = "Gibt das Jahr eines Datums zurück.";
+"stexcel.func.MONTH" = "Gibt den Monat eines Datums zurück.";
+"stexcel.func.DAY" = "Gibt den Tag eines Datums zurück.";
+"stexcel.func.HOUR" = "Gibt die Stunde zurück.";
+"stexcel.func.MINUTE" = "Gibt die Minute zurück.";
+"stexcel.func.SECOND" = "Gibt die Sekunde zurück.";
+"stexcel.func.VLOOKUP" = "Sucht einen Wert in der linken Spalte einer Tabelle.";
+"stexcel.func.HLOOKUP" = "Sucht einen Wert in der oberen Zeile einer Tabelle.";
+"stexcel.func.INDEX" = "Gibt einen Wert aus einer Tabelle oder einem Bereich zurück.";
+"stexcel.func.MATCH" = "Gibt die Position eines Werts in einem Bereich zurück.";
+"stexcel.func.CHOOSE" = "Wählt einen Wert aus einer Liste basierend auf einer Indexnummer.";
+"stexcel.func.INDIRECT" = "Gibt einen Bezug zurück, der durch einen Textwert angegeben wird.";
+"stexcel.func.SUM" = "Addiert alle Zahlen in einem Zellbereich.";
+"stexcel.func.AVERAGE" = "Gibt den Mittelwert der Argumente zurück.";
+"stexcel.func.COUNT" = "Zählt die Anzahl der Zellen, die Zahlen enthalten.";
+"stexcel.func.COUNTA" = "Zählt die Anzahl der nicht leeren Zellen.";
+"stexcel.func.MIN" = "Gibt den kleinsten Wert in einer Menge zurück.";
+"stexcel.func.MAX" = "Gibt den größten Wert in einer Menge zurück.";
+"stexcel.func.ABS" = "Gibt den Absolutwert einer Zahl zurück.";
+"stexcel.func.ROUND" = "Rundet eine Zahl auf eine angegebene Anzahl von Stellen.";
+"stexcel.func.INT" = "Rundet eine Zahl auf die nächste ganze Zahl ab.";
+"stexcel.func.MOD" = "Gibt den Rest einer Division zurück.";
+"stexcel.func.POWER" = "Gibt das Ergebnis einer Potenzierung zurück.";
+"stexcel.func.SQRT" = "Gibt eine positive Quadratwurzel zurück.";
+"stexcel.func.SUMIF" = "Addiert Zellen, die einem Kriterium entsprechen.";
+"stexcel.func.COUNTIF" = "Zählt Zellen, die einem Kriterium entsprechen.";
+"stexcel.func.PRODUCT" = "Multipliziert alle als Argumente angegebenen Zahlen.";

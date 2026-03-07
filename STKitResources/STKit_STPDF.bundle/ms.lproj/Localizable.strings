@@ -1,0 +1,143 @@
+/* Navigation & Controls */
+"stpdfkit.done" = "Selesai";
+"stpdfkit.pages" = "Halaman";
+"stpdfkit.bookmark" = "Penanda Buku";
+"stpdfkit.search" = "Cari";
+"stpdfkit.settings" = "Tetapan";
+"stpdfkit.outline" = "Rangka";
+"stpdfkit.editPages" = "Edit Halaman";
+"stpdfkit.share" = "Kongsi";
+"stpdfkit.print" = "Cetak";
+"stpdfkit.saveAsText" = "Simpan sebagai Teks";
+"stpdfkit.untitled" = "Tanpa Tajuk";
+
+/* Search */
+"stpdfkit.searchInDocument" = "Cari dalam dokumen...";
+"stpdfkit.searching" = "Mencari...";
+"stpdfkit.noResultsFound" = "Tiada hasil ditemui";
+"stpdfkit.page" = "Halaman %d";
+
+/* Outline */
+"stpdfkit.noOutlineAvailable" = "Tiada rangka tersedia";
+
+/* Settings */
+"stpdfkit.display" = "Paparan";
+"stpdfkit.scrollDirection" = "Arah Tatal";
+"stpdfkit.pageMode" = "Mod Halaman";
+"stpdfkit.view" = "Lihat";
+"stpdfkit.pageShadows" = "Bayang Halaman";
+"stpdfkit.backgroundColor" = "Warna Latar Belakang";
+
+/* Property Inspector */
+"stpdfkit.color" = "Warna";
+"stpdfkit.width" = "Lebar";
+"stpdfkit.fontSize" = "Saiz Fon";
+"stpdfkit.opacity" = "Kelegapan";
+"stpdfkit.font" = "Fon";
+
+/* Annotation Tools */
+"stpdfkit.tool.pen" = "Pen";
+"stpdfkit.tool.highlighter" = "Penanda";
+"stpdfkit.tool.text" = "Teks";
+"stpdfkit.tool.highlight" = "Serlahkan";
+"stpdfkit.tool.underline" = "Garis Bawah";
+"stpdfkit.tool.strikethrough" = "Garisan Tengah";
+"stpdfkit.tool.rectangle" = "Segiempat";
+"stpdfkit.tool.circle" = "Bulatan";
+"stpdfkit.tool.line" = "Garis";
+"stpdfkit.tool.arrow" = "Anak Panah";
+"stpdfkit.tool.signature" = "Tandatangan";
+"stpdfkit.tool.stamp" = "Cop";
+"stpdfkit.tool.note" = "Nota";
+"stpdfkit.tool.eraser" = "Pemadam";
+"stpdfkit.tool.photo" = "Foto";
+"stpdfkit.tool.textEdit" = "Edit Teks";
+"stpdfkit.tapOnTextToEdit" = "Ketik teks untuk mengedit";
+"stpdfkit.selection.word" = "Perkataan";
+"stpdfkit.selection.line" = "Baris";
+
+/* Toolbar Labels */
+"stpdfkit.hand" = "Tangan";
+"stpdfkit.undo" = "Buat Asal";
+"stpdfkit.redo" = "Buat Semula";
+"stpdfkit.select" = "Pilih";
+"stpdfkit.style" = "Gaya";
+"stpdfkit.close" = "Tutup";
+"stpdfkit.zoomIn" = "Zum Masuk";
+"stpdfkit.zoomOut" = "Zum Keluar";
+"stpdfkit.addText" = "Tambah Teks";
+"stpdfkit.removeText" = "Buang Teks";
+
+/* Annotation Groups */
+"stpdfkit.group.draw" = "Lukis";
+"stpdfkit.group.shapes" = "Bentuk";
+"stpdfkit.group.text" = "Teks";
+"stpdfkit.group.markup" = "Tanda";
+"stpdfkit.group.extras" = "Tambahan";
+
+/* Text Input */
+"stpdfkit.enterText" = "Masukkan teks...";
+"stpdfkit.cancel" = "Batal";
+"stpdfkit.add" = "Tambah";
+
+/* Markup */
+"stpdfkit.applyTool" = "Guna %@";
+
+/* Signature */
+"stpdfkit.signature.clear" = "Kosongkan";
+"stpdfkit.signature.drawNew" = "Lukis Baru";
+"stpdfkit.signature.saved" = "Tandatangan Tersimpan";
+
+/* Stamp Types */
+"stpdfkit.stamp.approved" = "Diluluskan";
+"stpdfkit.stamp.rejected" = "Ditolak";
+"stpdfkit.stamp.draft" = "Draf";
+"stpdfkit.stamp.confidential" = "Sulit";
+"stpdfkit.stamp.forComment" = "Untuk Ulasan";
+"stpdfkit.stamp.asIs" = "Sebagaimana Adanya";
+"stpdfkit.stamp.final" = "Muktamad";
+
+/* Placement */
+"stpdfkit.tapToPlace" = "Ketik untuk meletak";
+
+/* Selection Menu */
+"stpdfkit.selection.copy" = "Salin";
+"stpdfkit.selection.paste" = "Tampal";
+"stpdfkit.selection.delete" = "Padam";
+"stpdfkit.selection.inspector" = "Pemeriksa";
+"stpdfkit.selection.note" = "Nota";
+
+/* Tool Hints */
+"stpdfkit.hint.draw" = "Sentuh dan lukis";
+"stpdfkit.hint.shape" = "Seret untuk melukis";
+"stpdfkit.hint.tapToAddText" = "Ketik untuk menambah teks";
+"stpdfkit.hint.erase" = "Leret untuk memadam";
+
+/* Order (Layer) */
+"stpdfkit.order" = "Susunan";
+"stpdfkit.order.front" = "Bawa ke Hadapan";
+"stpdfkit.order.forward" = "Hadapkan";
+"stpdfkit.order.backward" = "Ke Belakang";
+"stpdfkit.order.back" = "Hantar ke Belakang";
+
+/* Page Editor */
+"stpdfkit.page.newPage" = "Halaman Baru";
+"stpdfkit.page.remove" = "Buang";
+"stpdfkit.page.duplicate" = "Pendua";
+"stpdfkit.page.rotate" = "Putar";
+"stpdfkit.page.selectAll" = "Pilih Semua";
+"stpdfkit.page.deselectAll" = "Nyahpilih Semua";
+"stpdfkit.page.cut" = "Potong";
+"stpdfkit.page.copy" = "Salin";
+"stpdfkit.page.paste" = "Tampal";
+"stpdfkit.page.numberOfPages" = "Bilangan Halaman";
+"stpdfkit.page.format" = "Format Halaman";
+"stpdfkit.page.color" = "Warna Halaman";
+"stpdfkit.page.addAfter" = "Tambah Selepas Halaman";
+"stpdfkit.page.beginning" = "Permulaan";
+"stpdfkit.page.color.white" = "Putih";
+"stpdfkit.page.color.cream" = "Krim";
+"stpdfkit.page.color.gray" = "Kelabu";
+
+/* License */
+"stpdfkit.unlicensed" = "STPDFKit — Tidak Berlesen";

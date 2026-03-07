@@ -486,6 +486,12 @@ internal enum STExcelBundleHelper {
             return bundle
         }
 
+        if let resBundle = findSTKitResourcesBundle(),
+           let url = resBundle.url(forResource: bundleName, withExtension: "bundle"),
+           let bundle = Bundle(url: url) {
+            return bundle
+        }
+
         if let frameworksURL = Bundle.main.privateFrameworksURL {
             let url = frameworksURL.appendingPathComponent("STExcel.framework/\(bundleName).bundle")
             if let bundle = Bundle(url: url) {

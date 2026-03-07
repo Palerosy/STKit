@@ -1,0 +1,143 @@
+/* Navigation & Controls */
+"stpdfkit.done" = "Gotovo";
+"stpdfkit.pages" = "Stranice";
+"stpdfkit.bookmark" = "Oznaka";
+"stpdfkit.search" = "Pretraži";
+"stpdfkit.settings" = "Postavke";
+"stpdfkit.outline" = "Struktura";
+"stpdfkit.editPages" = "Uredi stranice";
+"stpdfkit.share" = "Podijeli";
+"stpdfkit.print" = "Ispiši";
+"stpdfkit.saveAsText" = "Spremi kao tekst";
+"stpdfkit.untitled" = "Bez naslova";
+
+/* Search */
+"stpdfkit.searchInDocument" = "Pretraži dokument...";
+"stpdfkit.searching" = "Pretraživanje...";
+"stpdfkit.noResultsFound" = "Nema rezultata";
+"stpdfkit.page" = "Stranica %d";
+
+/* Outline */
+"stpdfkit.noOutlineAvailable" = "Nema dostupne strukture";
+
+/* Settings */
+"stpdfkit.display" = "Prikaz";
+"stpdfkit.scrollDirection" = "Smjer pomicanja";
+"stpdfkit.pageMode" = "Način prikaza stranice";
+"stpdfkit.view" = "Pogled";
+"stpdfkit.pageShadows" = "Sjene stranica";
+"stpdfkit.backgroundColor" = "Boja pozadine";
+
+/* Property Inspector */
+"stpdfkit.color" = "Boja";
+"stpdfkit.width" = "Širina";
+"stpdfkit.fontSize" = "Veličina fonta";
+"stpdfkit.opacity" = "Neprozirnost";
+"stpdfkit.font" = "Font";
+
+/* Annotation Tools */
+"stpdfkit.tool.pen" = "Olovka";
+"stpdfkit.tool.highlighter" = "Marker";
+"stpdfkit.tool.text" = "Tekst";
+"stpdfkit.tool.highlight" = "Označi";
+"stpdfkit.tool.underline" = "Podvuci";
+"stpdfkit.tool.strikethrough" = "Precrtaj";
+"stpdfkit.tool.rectangle" = "Pravokutnik";
+"stpdfkit.tool.circle" = "Kružnica";
+"stpdfkit.tool.line" = "Crta";
+"stpdfkit.tool.arrow" = "Strelica";
+"stpdfkit.tool.signature" = "Potpis";
+"stpdfkit.tool.stamp" = "Pečat";
+"stpdfkit.tool.note" = "Bilješka";
+"stpdfkit.tool.eraser" = "Gumica";
+"stpdfkit.tool.photo" = "Fotografija";
+"stpdfkit.tool.textEdit" = "Uredi tekst";
+"stpdfkit.tapOnTextToEdit" = "Dodirnite tekst za uređivanje";
+"stpdfkit.selection.word" = "Riječ";
+"stpdfkit.selection.line" = "Redak";
+
+/* Toolbar Labels */
+"stpdfkit.hand" = "Ruka";
+"stpdfkit.undo" = "Poništi";
+"stpdfkit.redo" = "Ponovi";
+"stpdfkit.select" = "Odaberi";
+"stpdfkit.style" = "Stil";
+"stpdfkit.close" = "Zatvori";
+"stpdfkit.zoomIn" = "Povećaj";
+"stpdfkit.zoomOut" = "Smanji";
+"stpdfkit.addText" = "Dodaj tekst";
+"stpdfkit.removeText" = "Ukloni tekst";
+
+/* Annotation Groups */
+"stpdfkit.group.draw" = "Crtanje";
+"stpdfkit.group.shapes" = "Oblici";
+"stpdfkit.group.text" = "Tekst";
+"stpdfkit.group.markup" = "Oznake";
+"stpdfkit.group.extras" = "Dodatno";
+
+/* Text Input */
+"stpdfkit.enterText" = "Unesite tekst...";
+"stpdfkit.cancel" = "Odustani";
+"stpdfkit.add" = "Dodaj";
+
+/* Markup */
+"stpdfkit.applyTool" = "Primijeni %@";
+
+/* Signature */
+"stpdfkit.signature.clear" = "Očisti";
+"stpdfkit.signature.drawNew" = "Nacrtaj novi";
+"stpdfkit.signature.saved" = "Spremljeni potpisi";
+
+/* Stamp Types */
+"stpdfkit.stamp.approved" = "Odobreno";
+"stpdfkit.stamp.rejected" = "Odbijeno";
+"stpdfkit.stamp.draft" = "Nacrt";
+"stpdfkit.stamp.confidential" = "Povjerljivo";
+"stpdfkit.stamp.forComment" = "Za komentar";
+"stpdfkit.stamp.asIs" = "Kao što jest";
+"stpdfkit.stamp.final" = "Završno";
+
+/* Placement */
+"stpdfkit.tapToPlace" = "Dodirnite za postavljanje";
+
+/* Selection Menu */
+"stpdfkit.selection.copy" = "Kopiraj";
+"stpdfkit.selection.paste" = "Zalijepi";
+"stpdfkit.selection.delete" = "Obriši";
+"stpdfkit.selection.inspector" = "Inspektor";
+"stpdfkit.selection.note" = "Bilješka";
+
+/* Tool Hints */
+"stpdfkit.hint.draw" = "Dodirnite i crtajte";
+"stpdfkit.hint.shape" = "Povucite za crtanje";
+"stpdfkit.hint.tapToAddText" = "Dodirnite za dodavanje teksta";
+"stpdfkit.hint.erase" = "Prijeđite za brisanje";
+
+/* Order (Layer) */
+"stpdfkit.order" = "Redoslijed";
+"stpdfkit.order.front" = "Pomakni naprijed";
+"stpdfkit.order.forward" = "Pomakni unaprijed";
+"stpdfkit.order.backward" = "Pomakni unatrag";
+"stpdfkit.order.back" = "Pomakni na kraj";
+
+/* Page Editor */
+"stpdfkit.page.newPage" = "Nova stranica";
+"stpdfkit.page.remove" = "Ukloni";
+"stpdfkit.page.duplicate" = "Dupliciraj";
+"stpdfkit.page.rotate" = "Rotiraj";
+"stpdfkit.page.selectAll" = "Odaberi sve";
+"stpdfkit.page.deselectAll" = "Poništi odabir";
+"stpdfkit.page.cut" = "Izreži";
+"stpdfkit.page.copy" = "Kopiraj";
+"stpdfkit.page.paste" = "Zalijepi";
+"stpdfkit.page.numberOfPages" = "Broj stranica";
+"stpdfkit.page.format" = "Format stranice";
+"stpdfkit.page.color" = "Boja stranice";
+"stpdfkit.page.addAfter" = "Dodaj nakon stranice";
+"stpdfkit.page.beginning" = "Početak";
+"stpdfkit.page.color.white" = "Bijela";
+"stpdfkit.page.color.cream" = "Krem";
+"stpdfkit.page.color.gray" = "Siva";
+
+/* License */
+"stpdfkit.unlicensed" = "STPDFKit — Bez licence";

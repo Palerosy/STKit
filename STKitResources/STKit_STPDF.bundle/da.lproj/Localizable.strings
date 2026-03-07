@@ -1,0 +1,126 @@
+/* Navigation & Controls */
+"stpdfkit.done" = "Færdig";
+"stpdfkit.pages" = "Sider";
+"stpdfkit.bookmark" = "Bogmærke";
+"stpdfkit.search" = "Søg";
+"stpdfkit.settings" = "Indstillinger";
+"stpdfkit.outline" = "Disposition";
+"stpdfkit.editPages" = "Rediger sider";
+"stpdfkit.share" = "Del";
+"stpdfkit.print" = "Udskriv";
+"stpdfkit.saveAsText" = "Gem som tekst";
+"stpdfkit.untitled" = "Uden titel";
+/* Search */
+"stpdfkit.searchInDocument" = "Søg i dokument...";
+"stpdfkit.searching" = "Søger...";
+"stpdfkit.noResultsFound" = "Ingen resultater fundet";
+"stpdfkit.page" = "Side %d";
+/* Outline */
+"stpdfkit.noOutlineAvailable" = "Ingen disposition tilgængelig";
+/* Settings */
+"stpdfkit.display" = "Visning";
+"stpdfkit.scrollDirection" = "Rulleretning";
+"stpdfkit.pageMode" = "Sidetilstand";
+"stpdfkit.view" = "Visning";
+"stpdfkit.pageShadows" = "Sideskygger";
+"stpdfkit.backgroundColor" = "Baggrundsfarve";
+/* Property Inspector */
+"stpdfkit.color" = "Farve";
+"stpdfkit.width" = "Bredde";
+"stpdfkit.fontSize" = "Skriftstørrelse";
+"stpdfkit.opacity" = "Gennemsigtighed";
+"stpdfkit.font" = "Skrifttype";
+/* Annotation Tools */
+"stpdfkit.tool.pen" = "Pen";
+"stpdfkit.tool.highlighter" = "Overstregningstift";
+"stpdfkit.tool.text" = "Tekst";
+"stpdfkit.tool.highlight" = "Fremhæv";
+"stpdfkit.tool.underline" = "Understregning";
+"stpdfkit.tool.strikethrough" = "Gennemstregning";
+"stpdfkit.tool.rectangle" = "Rektangel";
+"stpdfkit.tool.circle" = "Cirkel";
+"stpdfkit.tool.line" = "Linje";
+"stpdfkit.tool.arrow" = "Pil";
+"stpdfkit.tool.signature" = "Underskrift";
+"stpdfkit.tool.stamp" = "Stempel";
+"stpdfkit.tool.note" = "Note";
+"stpdfkit.tool.eraser" = "Viskelæder";
+"stpdfkit.tool.photo" = "Foto";
+"stpdfkit.tool.textEdit" = "Rediger tekst";
+"stpdfkit.tapOnTextToEdit" = "Tryk på tekst for at redigere";
+"stpdfkit.selection.word" = "Ord";
+"stpdfkit.selection.line" = "Linje";
+/* Toolbar Labels */
+"stpdfkit.hand" = "Hånd";
+"stpdfkit.undo" = "Fortryd";
+"stpdfkit.redo" = "Gentag";
+"stpdfkit.select" = "Vælg";
+"stpdfkit.style" = "Stil";
+"stpdfkit.close" = "Luk";
+"stpdfkit.zoomIn" = "Zoom ind";
+"stpdfkit.zoomOut" = "Zoom ud";
+"stpdfkit.addText" = "Tilføj tekst";
+"stpdfkit.removeText" = "Fjern tekst";
+/* Annotation Groups */
+"stpdfkit.group.draw" = "Tegn";
+"stpdfkit.group.shapes" = "Figurer";
+"stpdfkit.group.text" = "Tekst";
+"stpdfkit.group.markup" = "Markering";
+"stpdfkit.group.extras" = "Ekstra";
+/* Text Input */
+"stpdfkit.enterText" = "Indtast tekst...";
+"stpdfkit.cancel" = "Annuller";
+"stpdfkit.add" = "Tilføj";
+/* Markup */
+"stpdfkit.applyTool" = "Anvend %@";
+/* Signature */
+"stpdfkit.signature.clear" = "Ryd";
+"stpdfkit.signature.drawNew" = "Tegn ny";
+"stpdfkit.signature.saved" = "Gemte underskrifter";
+/* Stamp Types */
+"stpdfkit.stamp.approved" = "Godkendt";
+"stpdfkit.stamp.rejected" = "Afvist";
+"stpdfkit.stamp.draft" = "Kladde";
+"stpdfkit.stamp.confidential" = "Fortroligt";
+"stpdfkit.stamp.forComment" = "Til kommentar";
+"stpdfkit.stamp.asIs" = "Som det er";
+"stpdfkit.stamp.final" = "Endelig";
+/* Placement */
+"stpdfkit.tapToPlace" = "Tryk for at placere";
+/* Selection Menu */
+"stpdfkit.selection.copy" = "Kopier";
+"stpdfkit.selection.paste" = "Indsæt";
+"stpdfkit.selection.delete" = "Slet";
+"stpdfkit.selection.inspector" = "Inspektør";
+"stpdfkit.selection.note" = "Note";
+/* Tool Hints */
+"stpdfkit.hint.draw" = "Berør og tegn";
+"stpdfkit.hint.shape" = "Træk for at tegne";
+"stpdfkit.hint.tapToAddText" = "Tryk for at tilføje tekst";
+"stpdfkit.hint.erase" = "Stryg for at slette";
+/* Order (Layer) */
+"stpdfkit.order" = "Rækkefølge";
+"stpdfkit.order.front" = "Placer forrest";
+"stpdfkit.order.forward" = "Flyt fremad";
+"stpdfkit.order.backward" = "Flyt bagud";
+"stpdfkit.order.back" = "Placer bagest";
+/* Page Editor */
+"stpdfkit.page.newPage" = "Ny side";
+"stpdfkit.page.remove" = "Fjern";
+"stpdfkit.page.duplicate" = "Dupliker";
+"stpdfkit.page.rotate" = "Roter";
+"stpdfkit.page.selectAll" = "Vælg alle";
+"stpdfkit.page.deselectAll" = "Fravælg alle";
+"stpdfkit.page.cut" = "Klip";
+"stpdfkit.page.copy" = "Kopier";
+"stpdfkit.page.paste" = "Indsæt";
+"stpdfkit.page.numberOfPages" = "Antal sider";
+"stpdfkit.page.format" = "Sideformat";
+"stpdfkit.page.color" = "Sidefarve";
+"stpdfkit.page.addAfter" = "Tilføj efter side";
+"stpdfkit.page.beginning" = "Begyndelse";
+"stpdfkit.page.color.white" = "Hvid";
+"stpdfkit.page.color.cream" = "Creme";
+"stpdfkit.page.color.gray" = "Grå";
+/* License */
+"stpdfkit.unlicensed" = "STPDFKit — Ulicenseret";
