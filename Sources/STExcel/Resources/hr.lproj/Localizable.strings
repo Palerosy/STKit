@@ -1,5 +1,464 @@
+/* STExcel */
 "stexcel.sheet" = "List";
 "stexcel.cell" = "Ćelija";
 "stexcel.row" = "Redak";
 "stexcel.column" = "Stupac";
 "stexcel.value" = "Vrijednost";
+
+/* Ribbon Tabs */
+"stexcel.ribbon.format" = "Oblikovanje";
+"stexcel.ribbon.formulas" = "Formule";
+"stexcel.ribbon.data" = "Podaci";
+
+/* Home Tab */
+"stexcel.cut" = "Izreži";
+"stexcel.copy" = "Kopiraj";
+"stexcel.fillColor" = "Ispuna";
+"stexcel.wrapText" = "Prelomi";
+"stexcel.merge" = "Spoji";
+"stexcel.borders" = "Obrubi";
+
+/* Border Picker */
+"stexcel.noBorder" = "Bez obruba";
+"stexcel.allBorders" = "Svi obrubi";
+"stexcel.outsideBorder" = "Vanjski obrub";
+"stexcel.bottomBorder" = "Donji obrub";
+"stexcel.thickBorder" = "Debeli obrub";
+
+/* Format Tab */
+"stexcel.numberFormat" = "Format broja";
+"stexcel.currency" = "Valuta";
+"stexcel.percent" = "Postotak";
+"stexcel.decimalIncrease" = ".0→.00";
+"stexcel.decimalDecrease" = ".00→.0";
+"stexcel.clear" = "Očisti";
+"stexcel.conditionalFormat" = "Uvj. oblik.";
+"stexcel.cellStyle" = "Stil";
+
+/* Insert Tab */
+"stexcel.chart" = "Grafikon";
+"stexcel.picture" = "Slika";
+
+/* Formulas Tab */
+"stexcel.autoSum" = "Auto\nzbroj";
+"stexcel.recalculate" = "Preračunaj";
+"stexcel.financial" = "Financijske";
+"stexcel.logical" = "Logičke";
+"stexcel.textFunctions" = "Tekst";
+"stexcel.dateTime" = "Datum i\nvrijeme";
+"stexcel.reference" = "Referenca";
+"stexcel.math" = "Matematika";
+"stexcel.insertFunction" = "Umetni\nfunkciju";
+"stexcel.defineName" = "Definiraj\nnaziv";
+"stexcel.nameManager" = "Upravitelj\nnaziva";
+
+/* Data Tab */
+"stexcel.sort" = "Sortiraj";
+"stexcel.sortAZ" = "Sortiraj A→Z";
+"stexcel.sortZA" = "Sortiraj Z→A";
+"stexcel.sortByColor" = "Sortiraj po boji";
+"stexcel.filter" = "Filtar";
+"stexcel.reapplyFilter" = "Ponovno primijeni\nfiltar";
+"stexcel.dataValidation" = "Provjera\npodataka";
+"stexcel.circleInvalid" = "Označi\nnevažeće podatke";
+"stexcel.group" = "Grupiraj";
+"stexcel.ungroup" = "Razgrupiraj";
+"stexcel.subtotal" = "Međuzbroj";
+"stexcel.removeAll" = "Ukloni\nsve";
+"stexcel.showDetail" = "Prikaži\ndetalje";
+"stexcel.hideDetail" = "Sakrij\ndetalje";
+"stexcel.textToColumns" = "Tekst u\nstupce";
+"stexcel.apply" = "Primijeni";
+"stexcel.sortBy" = "Sortiraj po";
+"stexcel.thenBy" = "Zatim po";
+"stexcel.myDataHasHeaders" = "Moji podaci imaju zaglavlja";
+"stexcel.caseSensitive" = "Razlikuj velika/mala slova";
+"stexcel.none" = "Ništa";
+
+/* Review Tab */
+"stexcel.addComment" = "Komentar";
+"stexcel.editComment" = "Uredi\nkomentar";
+"stexcel.deleteComment" = "Obriši\nkomentar";
+"stexcel.protectSheet" = "Zaštiti\nlist";
+"stexcel.unprotectSheet" = "Ukloni zaštitu lista";
+"stexcel.sheetIsProtected" = "Ovaj list je zaštićen.";
+"stexcel.sheetNotProtected" = "Ovaj list nije zaštićen.";
+
+/* View Tab */
+"stexcel.gridlines" = "Crte rešetke";
+"stexcel.headings" = "Zaglavlja";
+"stexcel.formulaBar" = "Formula";
+"stexcel.freezePanes" = "Zamrzni";
+"stexcel.goToCell" = "Idi na ćeliju";
+"stexcel.go" = "Idi";
+"stexcel.zoom" = "Zum";
+
+/* Home Tab — Insert/Delete Menus */
+"stexcel.insertOptions" = "Opcije umetanja";
+"stexcel.deleteOptions" = "Opcije brisanja";
+"stexcel.shiftCellsRight" = "Pomakni ćelije udesno";
+"stexcel.shiftCellsDown" = "Pomakni ćelije prema dolje";
+"stexcel.shiftCellsLeft" = "Pomakni ćelije ulijevo";
+"stexcel.shiftCellsUp" = "Pomakni ćelije prema gore";
+"stexcel.entireRow" = "Cijeli redak";
+"stexcel.entireColumn" = "Cijeli stupac";
+"stexcel.rows" = "Retci";
+"stexcel.columns" = "Stupci";
+"stexcel.worksheet" = "Radni list";
+"stexcel.insert" = "Umetni";
+"stexcel.delete" = "Obriši";
+
+/* AutoSum */
+"stexcel.sum" = "Zbroj";
+"stexcel.average" = "Prosjek";
+"stexcel.count" = "Brojanje";
+"stexcel.max" = "Maks";
+"stexcel.min" = "Min";
+"stexcel.median" = "Medijan";
+
+/* Format Tab */
+"stexcel.cellFont" = "Font\nćelije";
+"stexcel.cellBorder" = "Obrub\nćelije";
+"stexcel.lockCell" = "Zaključaj\nćeliju";
+"stexcel.cellSize" = "Veličina\nćelije";
+"stexcel.rowHeight" = "Visina retka";
+"stexcel.columnWidth" = "Širina stupca";
+"stexcel.autoFitRow" = "Automatski prilagodi visinu retka";
+"stexcel.autoFitColumn" = "Automatski prilagodi širinu stupca";
+
+/* Format Cells Dialog */
+"stexcel.formatCells" = "Oblikuj ćelije";
+"stexcel.number" = "Broj";
+"stexcel.cellTab" = "Ćelija";
+"stexcel.borderTab" = "Obrub";
+"stexcel.protection" = "Zaštita";
+"stexcel.font" = "Font";
+"stexcel.size" = "Veličina";
+"stexcel.textColor" = "Boja teksta";
+"stexcel.cellColor" = "Boja ćelije";
+"stexcel.indent" = "Uvlaka";
+"stexcel.lineType" = "Vrsta crte";
+"stexcel.clearBorder" = "Očisti obrub";
+"stexcel.standardColors" = "STANDARDNE BOJE";
+"stexcel.locked" = "Zaključano";
+"stexcel.hidden" = "Skriveno";
+"stexcel.singleUnderline" = "Jednostruko";
+"stexcel.doubleUnderline" = "Dvostruko";
+
+/* More Menu */
+"stexcel.saveAs" = "Spremi kao";
+"stexcel.fileInfo" = "Podaci o datoteci";
+"stexcel.failedToOpen" = "Otvaranje datoteke nije uspjelo";
+"stexcel.fileName" = "Naziv datoteke";
+"stexcel.fileLocation" = "Lokacija";
+"stexcel.fileType" = "Vrsta datoteke";
+"stexcel.fileSize" = "Veličina datoteke";
+"stexcel.createdDate" = "Stvoreno";
+"stexcel.modifiedDate" = "Izmijenjeno";
+"stexcel.onEnter" = "Na Enter";
+"stexcel.moveDown" = "Pomakni dolje";
+"stexcel.moveRight" = "Pomakni desno";
+"stexcel.stay" = "Ostani";
+"stexcel.autoCalculate" = "Automatski izračun";
+"stexcel.unknown" = "Nepoznato";
+"stexcel.dontSave" = "Ne spremi";
+"stexcel.saveChangesTitle" = "Spremiti promjene u %@?";
+"stexcel.licenseRequired" = "Potrebna licenca";
+"stexcel.licenseRequiredMessage" = "Za korištenje ove značajke potrebna je valjana STKit licenca. Aktivirajte licencu za otključavanje Spremanja, Izvoza i Ispisa.";
+
+/* Sheet Management */
+"stexcel.addSheet" = "Dodaj list";
+"stexcel.renameSheet" = "Preimenuj";
+"stexcel.duplicateSheet" = "Dupliciraj";
+"stexcel.deleteSheet" = "Obriši";
+"stexcel.moveSheetLeft" = "Pomakni lijevo";
+"stexcel.moveSheetRight" = "Pomakni desno";
+"stexcel.sheetName" = "Naziv lista";
+
+/* Chart Categories */
+"stexcel.chartAll" = "Sve";
+"stexcel.chartColumn" = "Stupac";
+"stexcel.chartBar" = "Traka";
+"stexcel.chartLine" = "Crta";
+"stexcel.chartLineWithMarkers" = "Crta s oznakama";
+"stexcel.chartArea" = "Površina";
+"stexcel.chartPie" = "Kružni";
+"stexcel.chartScatter" = "Raspršeni";
+
+/* Chart Subtypes */
+"stexcel.chartClustered" = "Grupirani";
+"stexcel.chartStacked" = "Složeni";
+"stexcel.chartPercentStacked" = "100% složeni";
+"stexcel.chartSmooth" = "Glatki";
+"stexcel.chartSimple" = "Jednostavni";
+"stexcel.chartMarkers" = "Oznake";
+"stexcel.chartDots" = "Točke";
+"stexcel.chartLines" = "Crte";
+"stexcel.chart3DPie" = "3D kružni";
+"stexcel.chartDoughnut" = "Krafna";
+"stexcel.chartExploded" = "Razdvojeni";
+
+/* Shape Types */
+"stexcel.shapeRectangle" = "Pravokutnik";
+"stexcel.shapeRoundedRect" = "Zaobljeni pravokutnik";
+"stexcel.shapeCircle" = "Krug";
+"stexcel.shapeOval" = "Oval";
+"stexcel.shapeTriangle" = "Trokut";
+"stexcel.shapeRightTriangle" = "Pravokutni trokut";
+"stexcel.shapeDiamond" = "Romb";
+"stexcel.shapeArrowRight" = "Strelica desno";
+"stexcel.shapeArrowLeft" = "Strelica lijevo";
+"stexcel.shapeArrowUp" = "Strelica gore";
+"stexcel.shapeArrowDown" = "Strelica dolje";
+"stexcel.shapeStar" = "Zvijezda";
+"stexcel.shapeHexagon" = "Šesterokut";
+"stexcel.shapePentagon" = "Peterokut";
+"stexcel.shapeLine" = "Crta";
+"stexcel.shapeDashedLine" = "Isprekidana crta";
+
+/* Shape Picker Sections */
+"stexcel.basicShapes" = "Osnovni oblici";
+"stexcel.arrowsTriangles" = "Strelice i trokuti";
+"stexcel.starsMore" = "Zvijezde i više";
+"stexcel.lineShapes" = "Crte";
+
+/* Table Insert */
+"stexcel.insertTable" = "Umetni tablicu";
+"stexcel.dataRange" = "RASPON PODATAKA";
+"stexcel.tableStyle" = "STIL TABLICE";
+"stexcel.myTableHasHeaders" = "Moja tablica ima zaglavlja";
+
+/* Table Styles */
+"stexcel.styleBlue" = "Plava";
+"stexcel.styleGreen" = "Zelena";
+"stexcel.styleOrange" = "Narančasta";
+"stexcel.stylePurple" = "Ljubičasta";
+"stexcel.styleRed" = "Crvena";
+"stexcel.styleGray" = "Siva";
+"stexcel.styleDark" = "Tamna";
+
+/* Table Tab */
+"stexcel.headerRow" = "Redak\nzaglavlja";
+"stexcel.bandedRows" = "Izmjenični\nretci";
+"stexcel.bandedCols" = "Izmjenični\nstupci";
+
+/* Chart Format */
+"stexcel.labels" = "OZNAKE";
+"stexcel.chartTitle" = "Naslov grafikona";
+"stexcel.title" = "Naslov";
+"stexcel.enterTitle" = "Unesite naslov";
+"stexcel.horizontalLabels" = "Vodoravne oznake";
+"stexcel.range" = "Raspon";
+"stexcel.seriesIn" = "Nizovi u";
+"stexcel.chartType" = "Vrsta";
+"stexcel.chartFormat" = "Oblikovanje";
+"stexcel.chartElements" = "Elementi";
+"stexcel.chartLayouts" = "Rasporedi\ngrafikona";
+"stexcel.chartColors" = "Boje";
+"stexcel.chartStylesTitle" = "Stilovi\ngrafikona";
+"stexcel.switchRowsCols" = "Zamijeni\nretke/stupce";
+"stexcel.legend" = "Legenda";
+"stexcel.axisLabels" = "Oznake osi";
+"stexcel.dataLabels" = "Oznake podataka";
+"stexcel.axes" = "Osi";
+"stexcel.on" = "Uključeno";
+"stexcel.off" = "Isključeno";
+"stexcel.noNumericData" = "Nema numeričkih podataka u rasponu";
+"stexcel.editDataRangeHint" = "Uredite raspon podataka iznad ili dodajte brojeve u ćelije";
+"stexcel.points" = "točke";
+"stexcel.noData" = "Nema podataka";
+"stexcel.series" = "nizovi";
+"stexcel.dataPoints" = "podatkovne točke";
+"stexcel.grid" = "Mreža";
+"stexcel.layouts" = "Rasporedi";
+"stexcel.chartStylesNav" = "Stilovi grafikona";
+
+/* Format Cells Extra */
+"stexcel.noColor" = "Bez boje";
+"stexcel.lockingInfo" = "Zaključavanje ćelija ili skrivanje formula nema učinka dok ne zaštitite radni list.";
+"stexcel.lineThin" = "Tanko";
+"stexcel.lineMedium" = "Srednje";
+"stexcel.lineThick" = "Debelo";
+"stexcel.lineDashed" = "Isprekidano";
+"stexcel.lineDotted" = "Točkasto";
+"stexcel.lineDouble" = "Dvostruko";
+
+/* Number Format Picker */
+"stexcel.use1000Separator" = "Koristi razdjelnik tisućica";
+"stexcel.accounting" = "Računovodstvo";
+"stexcel.date" = "Datum";
+"stexcel.time" = "Vrijeme";
+"stexcel.percentage" = "Postotak";
+"stexcel.fraction" = "Razlomak";
+"stexcel.scientific" = "Znanstveni";
+"stexcel.special" = "Posebno";
+"stexcel.custom" = "Prilagođeno";
+"stexcel.negativeNumbers" = "Negativni brojevi";
+
+/* Shape Tab */
+"stexcel.fill" = "Ispuna";
+"stexcel.fillColorTitle" = "Boja ispune";
+"stexcel.outline" = "Obris";
+"stexcel.outlineColor" = "Boja obrisa";
+"stexcel.changeShape" = "Promijeni\noblik";
+
+/* View Tab */
+"stexcel.zoomIn" = "Povećaj";
+"stexcel.zoomOut" = "Smanji";
+
+/* Conditional Formatting */
+"stexcel.newRule" = "NOVO PRAVILO";
+"stexcel.highlightCellsRules" = "Pravila za isticanje ćelija";
+"stexcel.topBottomAvgRules" = "Pravila za vrh/dno/prosjek";
+"stexcel.customFormula" = "Prilagođena formula";
+"stexcel.dataBars" = "Podatkovne trake";
+"stexcel.colorScales" = "Ljestvice boja";
+"stexcel.clearRules" = "OČISTI PRAVILA";
+"stexcel.fromSelection" = "Iz odabira";
+"stexcel.activeRules" = "AKTIVNA PRAVILA";
+"stexcel.conditionalFormatting" = "Uvjetno oblikovanje";
+"stexcel.presets" = "PREDLOŠCI";
+"stexcel.condition" = "Uvjet";
+"stexcel.enterValue1" = "Unesite vrijednost 1";
+"stexcel.enterValue2" = "Unesite vrijednost 2";
+"stexcel.rank" = "Rang";
+"stexcel.barColor" = "BOJA TRAKE";
+"stexcel.colorScaleSection" = "LJESTVICA BOJA";
+"stexcel.formulaSection" = "FORMULA";
+
+/* Additional */
+"stexcel.decimalPlaces" = "Decimalna mjesta";
+"stexcel.fromEntireSheet" = "S cijelog lista";
+"stexcel.formatCellsFormula" = "Oblikuj ćelije gdje je ova formula istinita:";
+"stexcel.goodBadNeutral" = "Dobro, loše i neutralno";
+"stexcel.dataModel" = "Podaci i model";
+"stexcel.titlesHeadings" = "Naslovi i zaglavlja";
+"stexcel.allow" = "Dopusti";
+"stexcel.useFunction" = "Koristi funkciju";
+"stexcel.insertSubtotal" = "Umetni međuzbroj";
+"stexcel.delimiter" = "Razdjelnik";
+"stexcel.convert" = "Pretvori";
+"stexcel.enterDelimiter" = "Unesite razdjelnik";
+"stexcel.anyValue" = "Bilo koja vrijednost";
+"stexcel.wholeNumber" = "Cijeli broj";
+"stexcel.decimalType" = "Decimalni";
+"stexcel.listType" = "Popis";
+"stexcel.textLength" = "Duljina teksta";
+"stexcel.commaDelimiter" = "Zarez (,)";
+"stexcel.tabDelimiter" = "Tabulator";
+"stexcel.semicolonDelimiter" = "Točka sa zarezom (;)";
+"stexcel.spaceDelimiter" = "Razmak";
+"stexcel.sourceList" = "Izvor (odvojeno zarezom)";
+"stexcel.searchFunctions" = "Pretraži funkcije";
+"stexcel.noDefinedNames" = "Nema definiranih naziva";
+
+/* Number Format General */
+"stexcel.general" = "Općenito";
+
+/* Conditional Format Conditions */
+"stexcel.cfGreaterThan" = "Veće od";
+"stexcel.cfLessThan" = "Manje od";
+"stexcel.cfBetween" = "Između";
+"stexcel.cfEqualTo" = "Jednako";
+"stexcel.cfNotEqualTo" = "Nije jednako";
+"stexcel.cfTextContains" = "Tekst sadrži";
+"stexcel.cfTextNotContains" = "Tekst ne sadrži";
+"stexcel.cfDuplicates" = "Duplicirane vrijednosti";
+"stexcel.cfUniqueValues" = "Jedinstvene vrijednosti";
+
+/* Conditional Format Ranks */
+"stexcel.cfTop" = "Vrh";
+"stexcel.cfBottom" = "Dno";
+"stexcel.cfAboveAverage" = "Iznad prosjeka";
+"stexcel.cfBelowAverage" = "Ispod prosjeka";
+
+/* Conditional Format View */
+"stexcel.cfItems" = "Stavke";
+"stexcel.value1Label" = "Vrijednost 1";
+"stexcel.value2Label" = "Vrijednost 2";
+
+/* Chart Layout */
+"stexcel.layoutLabel" = "Raspored";
+
+/* Chart Data */
+"stexcel.chartDataRange" = "Raspon podataka";
+"stexcel.dataLabel" = "Podaci";
+
+/* Cell Style Presets */
+"stexcel.presetNormal" = "Normalno";
+"stexcel.presetGood" = "Dobro";
+"stexcel.presetBad" = "Loše";
+"stexcel.presetNeutral" = "Neutralno";
+"stexcel.presetInput" = "Unos";
+"stexcel.presetOutput" = "Izlaz";
+"stexcel.presetCalculation" = "Izračun";
+"stexcel.presetCheckCell" = "Kontrolna ćelija";
+"stexcel.presetNote" = "Bilješka";
+"stexcel.presetWarning" = "Upozorenje";
+"stexcel.presetLinkedCell" = "Povezana ćelija";
+"stexcel.presetExplanatory" = "Pojašnjenje";
+"stexcel.presetTitle" = "Naslov";
+"stexcel.presetHeading1" = "Naslov 1";
+"stexcel.presetHeading2" = "Naslov 2";
+"stexcel.presetHeading3" = "Naslov 3";
+"stexcel.presetHeading4" = "Naslov 4";
+"stexcel.presetTotal" = "Ukupno";
+"stexcel.presetComma" = "Zarez";
+"stexcel.presetCurrency" = "Valuta";
+"stexcel.presetPercent" = "Postotak";
+
+/* Function Descriptions */
+"stexcel.func.PMT" = "Izračunava plaćanje za zajam na temelju konstantnih uplata i kamatne stope.";
+"stexcel.func.FV" = "Vraća buduću vrijednost ulaganja.";
+"stexcel.func.PV" = "Vraća sadašnju vrijednost ulaganja.";
+"stexcel.func.RATE" = "Vraća kamatnu stopu po razdoblju.";
+"stexcel.func.NPV" = "Vraća neto sadašnju vrijednost ulaganja.";
+"stexcel.func.IRR" = "Vraća internu stopu povrata za niz novčanih tokova.";
+"stexcel.func.IF" = "Vraća jednu vrijednost ako je uvjet istinit, a drugu ako je lažan.";
+"stexcel.func.AND" = "Vraća TRUE ako su svi argumenti istiniti.";
+"stexcel.func.OR" = "Vraća TRUE ako je bilo koji argument istinit.";
+"stexcel.func.NOT" = "Obrće vrijednost svog argumenta.";
+"stexcel.func.IFERROR" = "Vraća vrijednost_ako_greška ako je prvi argument greška.";
+"stexcel.func.TRUE" = "Vraća logičku vrijednost TRUE.";
+"stexcel.func.FALSE" = "Vraća logičku vrijednost FALSE.";
+"stexcel.func.CONCATENATE" = "Spaja nekoliko tekstualnih nizova u jedan.";
+"stexcel.func.LEN" = "Vraća broj znakova u nizu.";
+"stexcel.func.LEFT" = "Vraća krajnje lijeve znakove iz tekstualne vrijednosti.";
+"stexcel.func.RIGHT" = "Vraća krajnje desne znakove iz tekstualne vrijednosti.";
+"stexcel.func.MID" = "Vraća određeni broj znakova iz tekstualnog niza.";
+"stexcel.func.UPPER" = "Pretvara tekst u velika slova.";
+"stexcel.func.LOWER" = "Pretvara tekst u mala slova.";
+"stexcel.func.TRIM" = "Uklanja razmake iz teksta.";
+"stexcel.func.FIND" = "Pronalazi jednu tekstualnu vrijednost unutar druge (razlikuje velika/mala slova).";
+"stexcel.func.REPLACE" = "Zamjenjuje znakove unutar teksta.";
+"stexcel.func.SUBSTITUTE" = "Zamjenjuje novi tekst za stari tekst u nizu.";
+"stexcel.func.NOW" = "Vraća trenutni datum i vrijeme.";
+"stexcel.func.TODAY" = "Vraća današnji datum.";
+"stexcel.func.DATE" = "Vraća serijski broj određenog datuma.";
+"stexcel.func.YEAR" = "Vraća godinu iz datuma.";
+"stexcel.func.MONTH" = "Vraća mjesec iz datuma.";
+"stexcel.func.DAY" = "Vraća dan iz datuma.";
+"stexcel.func.HOUR" = "Vraća sat.";
+"stexcel.func.MINUTE" = "Vraća minutu.";
+"stexcel.func.SECOND" = "Vraća sekundu.";
+"stexcel.func.VLOOKUP" = "Traži vrijednost u krajnjem lijevom stupcu tablice.";
+"stexcel.func.HLOOKUP" = "Traži vrijednost u gornjem retku tablice.";
+"stexcel.func.INDEX" = "Vraća vrijednost iz tablice ili raspona.";
+"stexcel.func.MATCH" = "Vraća položaj vrijednosti u rasponu.";
+"stexcel.func.CHOOSE" = "Odabire vrijednost s popisa na temelju rednog broja.";
+"stexcel.func.INDIRECT" = "Vraća referencu označenu tekstualnom vrijednošću.";
+"stexcel.func.SUM" = "Zbraja sve brojeve u rasponu ćelija.";
+"stexcel.func.AVERAGE" = "Vraća prosjek argumenata.";
+"stexcel.func.COUNT" = "Broji ćelije koje sadrže brojeve.";
+"stexcel.func.COUNTA" = "Broji neprazne ćelije.";
+"stexcel.func.MIN" = "Vraća najmanju vrijednost u skupu.";
+"stexcel.func.MAX" = "Vraća najveću vrijednost u skupu.";
+"stexcel.func.ABS" = "Vraća apsolutnu vrijednost broja.";
+"stexcel.func.ROUND" = "Zaokružuje broj na zadani broj znamenki.";
+"stexcel.func.INT" = "Zaokružuje broj prema dolje na najbliži cijeli broj.";
+"stexcel.func.MOD" = "Vraća ostatak dijeljenja.";
+"stexcel.func.POWER" = "Vraća rezultat broja podignutog na potenciju.";
+"stexcel.func.SQRT" = "Vraća pozitivni drugi korijen.";
+"stexcel.func.SUMIF" = "Zbraja ćelije zadane određenim kriterijem.";
+"stexcel.func.COUNTIF" = "Broji ćelije koje odgovaraju kriteriju.";
+"stexcel.func.PRODUCT" = "Množi sve brojeve dane kao argumente.";
