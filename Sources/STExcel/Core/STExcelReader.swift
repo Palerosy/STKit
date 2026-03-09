@@ -23,7 +23,11 @@ enum STExcelReader {
             }
         }
 
-        return sheets.isEmpty ? nil : sheets
+        // If no sheets were parsed, return a single blank sheet
+        if sheets.isEmpty {
+            return [STExcelSheet(name: sheetNames.first ?? "Sheet 1")]
+        }
+        return sheets
     }
 
     // MARK: - Shared Strings
@@ -57,7 +61,10 @@ enum STExcelReader {
         xmlParser.delegate = parser
         xmlParser.parse()
 
-        guard !parser.cells.isEmpty else { return nil }
+        // Empty worksheet → return blank grid
+        if parser.cells.isEmpty {
+            return (0..<100).map { _ in (0..<26).map { _ in STExcelCell() } }
+        }
 
         // Convert sparse cells to 2D array
         let maxRow = parser.cells.keys.map(\.row).max() ?? 0
