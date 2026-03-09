@@ -67,6 +67,11 @@ public struct STDOCXConfiguration {
     /// Autosave interval in seconds
     public var autosaveInterval: TimeInterval = 10
 
+    // MARK: - Paywall
+
+    /// Override paywall placement for this view (defaults to STKitConfiguration.shared.paywallPlacement)
+    public var paywallPlacement: String?
+
     // MARK: - Appearance
 
     /// Appearance configuration (colors, theming)

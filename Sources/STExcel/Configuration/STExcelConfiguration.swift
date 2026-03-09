@@ -37,6 +37,11 @@ public struct STExcelConfiguration {
     /// Show sheet tabs
     public var showSheetTabs: Bool = true
 
+    // MARK: - Paywall
+
+    /// Override paywall placement for this view (defaults to STKitConfiguration.shared.paywallPlacement)
+    public var paywallPlacement: String?
+
     // MARK: - Appearance
 
     /// Grid line color

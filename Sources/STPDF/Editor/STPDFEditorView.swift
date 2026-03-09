@@ -278,13 +278,13 @@ public struct STPDFEditorView: View {
         #if os(iOS)
         .fullScreenCover(isPresented: $viewModel.showPaywall) {
             if let paywallView = STKitConfiguration.shared.premiumPaywallView {
-                paywallView(STKitConfiguration.shared.paywallPlacement)
+                paywallView(configuration.paywallPlacement ?? STKitConfiguration.shared.paywallPlacement)
             }
         }
         #else
         .sheet(isPresented: $viewModel.showPaywall) {
             if let paywallView = STKitConfiguration.shared.premiumPaywallView {
-                paywallView(STKitConfiguration.shared.paywallPlacement)
+                paywallView(configuration.paywallPlacement ?? STKitConfiguration.shared.paywallPlacement)
             }
         }
         #endif
