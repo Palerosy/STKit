@@ -224,6 +224,9 @@ enum STSignaturePlacer {
         let width = image.size.width * scale
         let height = image.size.height * scale
 
+        // Downsample to 3x annotation size (good for print, saves memory)
+        let downsampledImage = downsample(image, to: CGSize(width: width * 3, height: height * 3))
+
         let bounds = CGRect(
             x: pdfPoint.x - width / 2,
             y: pdfPoint.y - height / 2,
@@ -231,8 +234,20 @@ enum STSignaturePlacer {
             height: height
         )
 
-        let annotation = STImageAnnotation(bounds: bounds, image: image)
+        let annotation = STImageAnnotation(bounds: bounds, image: downsampledImage)
         return annotation
+    }
+
+    /// Downsample an image to a target size. Returns original if already smaller.
+    private static func downsample(_ image: PlatformImage, to targetSize: CGSize) -> PlatformImage {
+        let currentSize = image.size
+        guard currentSize.width > targetSize.width || currentSize.height > targetSize.height else {
+            return image
+        }
+        let renderer = UIGraphicsImageRenderer(size: targetSize)
+        return renderer.image { _ in
+            image.draw(in: CGRect(origin: .zero, size: targetSize))
+        }
     }
 }
 

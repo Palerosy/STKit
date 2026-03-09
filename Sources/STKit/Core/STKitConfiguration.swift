@@ -5,54 +5,20 @@ import SwiftUI
 public final class STKitConfiguration {
     public static let shared = STKitConfiguration()
 
-    /// Whether the end-user has purchased / subscribed in the host app.
-    /// Defaults to `true`. Set to `false` to gate premium features (Export, Print)
-    /// behind your own in-app purchase / subscription.
-    ///
-    /// ```swift
-    /// // Block features until user subscribes
-    /// STKitConfiguration.shared.isPurchased = false
-    ///
-    /// // After purchase verified
-    /// STKitConfiguration.shared.isPurchased = true
-    /// ```
-    public var isPurchased: Bool = true
+    /// Whether the user has an active premium subscription
+    public var isPurchased: Bool = false
 
-    /// Optional callback invoked when the user taps Print / Save / Export.
-    /// Return `true` to allow, `false` to block. Use this to gate behind purchase.
-    ///
-    /// ```swift
-    /// STKitConfiguration.shared.onPrint = {
-    ///     guard isPurchased else { showPaywall(); return false }
-    ///     return true
-    /// }
-    /// ```
-    public var onPrint: (() -> Bool)?
+    /// Default paywall placement identifier (each app can override, e.g. "main.macos")
+    public var paywallPlacement: String = "main"
 
-    /// Optional callback invoked when an unlicensed user taps a premium feature.
-    /// Use this to present your own paywall / purchase screen.
-    /// If nil, a default "Premium Required" alert is shown.
-    public var onPremiumFeatureTapped: (() -> Void)?
-
-    /// Provide your paywall SwiftUI view. STKit will present it as a fullScreenCover
-    /// so the editor state is preserved. Preferred over `onPremiumFeatureTapped`.
-    /// The `String` parameter is a placement identifier (e.g. "excel_save", "pdf_export").
-    ///
-    /// ```swift
-    /// STKitConfiguration.shared.premiumPaywallView = { placement in
-    ///     AnyView(MyPaywallView(placement: placement))
-    /// }
-    /// ```
+    /// Closure that returns a paywall view for a given placement
     public var premiumPaywallView: ((String) -> AnyView)?
 
-    /// Default paywall placement identifier for all editor modules.
-    /// Set once at app launch (e.g. "main.macos", "main.ios").
-    /// Individual editor configurations can still override this per-editor.
-    ///
-    /// ```swift
-    /// STKitConfiguration.shared.paywallPlacement = "main.macos"
-    /// ```
-    public var paywallPlacement: String = "main"
+    /// Alternative: simple callback when a premium feature is tapped (no paywall UI)
+    public var onPremiumFeatureTapped: (() -> Void)?
+
+    /// Called before printing — return true to allow, false to block
+    public var onPrint: (() -> Bool)?
 
     /// Override language code (e.g. "tr", "sv", "de"). Set to nil to use system default.
     public var languageCode: String? {
@@ -88,4 +54,5 @@ public final class STKitConfiguration {
 
 public extension Notification.Name {
     static let stKitLanguageChanged = Notification.Name("STKitLanguageChanged")
+    static let purchaseStatusChanged = Notification.Name("purchaseStatusChanged")
 }

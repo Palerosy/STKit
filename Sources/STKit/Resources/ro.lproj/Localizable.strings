@@ -1,8 +1,7 @@
-/* Common */
 "stkit.done" = "Terminat";
 "stkit.cancel" = "Anulare";
 "stkit.save" = "Salvare";
-"stkit.share" = "Partajare";
+"stkit.share" = "Distribuire";
 "stkit.export" = "Exportare";
 "stkit.delete" = "Ștergere";
 "stkit.close" = "Închidere";
@@ -11,26 +10,18 @@
 "stkit.undo" = "Anulare";
 "stkit.redo" = "Refacere";
 "stkit.add" = "Adăugare";
-
-/* License */
 "stkit.unlicensed" = "STKit — Fără licență";
-
-/* Word Count */
 "stkit.wordCount" = "Număr de cuvinte";
 "stkit.words" = "Cuvinte";
 "stkit.characters" = "Caractere";
 "stkit.charactersWithSpaces" = "Caractere (cu spații)";
 "stkit.paragraphs" = "Paragrafe";
 "stkit.lines" = "Linii";
-
-/* Document */
 "stkit.newDocument" = "Document nou";
 "stkit.unsavedChanges" = "Modificări nesalvate";
 "stkit.unsavedChangesMessage" = "Aveți modificări nesalvate. Ce doriți să faceți?";
 "stkit.discard" = "Renunțare";
 "stkit.saveAndClose" = "Salvare și închidere";
-
-/* Navigation & Controls */
 "stkit.pages" = "Pagini";
 "stkit.bookmark" = "Marcaj";
 "stkit.settings" = "Setări";
@@ -38,8 +29,6 @@
 "stkit.editPages" = "Editare pagini";
 "stkit.print" = "Tipărire";
 "stkit.saveAsText" = "Salvare ca text";
-
-/* Search & Replace */
 "stkit.searchInDocument" = "Căutare în document...";
 "stkit.searching" = "Se caută...";
 "stkit.noResultsFound" = "Nu s-au găsit rezultate";
@@ -49,26 +38,18 @@
 "stkit.replaceAll" = "Tot";
 "stkit.showReplace" = "Înlocuire";
 "stkit.hideReplace" = "Ascundere înlocuire";
-
-/* Outline */
 "stkit.noOutlineAvailable" = "Nicio schiță disponibilă";
-
-/* Settings */
 "stkit.display" = "Afișare";
 "stkit.scrollDirection" = "Direcție de defilare";
 "stkit.pageMode" = "Mod pagină";
 "stkit.view" = "Vizualizare";
 "stkit.pageShadows" = "Umbre pagină";
 "stkit.backgroundColor" = "Culoare fundal";
-
-/* Property Inspector */
 "stkit.color" = "Culoare";
 "stkit.width" = "Lățime";
 "stkit.fontSize" = "Dimensiune font";
 "stkit.opacity" = "Opacitate";
 "stkit.font" = "Font";
-
-/* Annotation Tools */
 "stkit.tool.pen" = "Stilou";
 "stkit.tool.highlighter" = "Marker";
 "stkit.tool.text" = "Text";
@@ -82,14 +63,13 @@
 "stkit.tool.signature" = "Semnătură";
 "stkit.tool.stamp" = "Ștampilă";
 "stkit.tool.note" = "Notă";
+"stkit.tool.notes" = "Note";
 "stkit.tool.eraser" = "Radieră";
 "stkit.tool.photo" = "Fotografie";
 "stkit.tool.textEdit" = "Editare text";
 "stkit.tapOnTextToEdit" = "Atingeți textul pentru a edita";
 "stkit.selection.word" = "Cuvânt";
 "stkit.selection.line" = "Linie";
-
-/* Toolbar Labels */
 "stkit.hand" = "Mână";
 "stkit.select" = "Selectare";
 "stkit.style" = "Stil";
@@ -97,26 +77,16 @@
 "stkit.zoomOut" = "Micșorare";
 "stkit.addText" = "Adăugare text";
 "stkit.removeText" = "Eliminare text";
-
-/* Annotation Groups */
 "stkit.group.draw" = "Desenare";
 "stkit.group.shapes" = "Forme";
 "stkit.group.text" = "Text";
 "stkit.group.markup" = "Adnotări";
 "stkit.group.extras" = "Extra";
-
-/* Text Input */
 "stkit.enterText" = "Introduceți text...";
-
-/* Markup */
 "stkit.applyTool" = "Aplicare %@";
-
-/* Signature */
 "stkit.signature.clear" = "Ștergere";
 "stkit.signature.drawNew" = "Desenare nouă";
 "stkit.signature.saved" = "Semnături salvate";
-
-/* Stamp Types */
 "stkit.stamp.approved" = "Aprobat";
 "stkit.stamp.rejected" = "Respins";
 "stkit.stamp.draft" = "Ciornă";
@@ -124,31 +94,21 @@
 "stkit.stamp.forComment" = "Pentru comentariu";
 "stkit.stamp.asIs" = "Ca atare";
 "stkit.stamp.final" = "Final";
-
-/* Placement */
 "stkit.tapToPlace" = "Atingeți pentru a plasa";
-
-/* Selection Menu */
 "stkit.selection.copy" = "Copiere";
 "stkit.selection.paste" = "Lipire";
 "stkit.selection.delete" = "Ștergere";
 "stkit.selection.inspector" = "Inspector";
 "stkit.selection.note" = "Notă";
-
-/* Tool Hints */
 "stkit.hint.draw" = "Atingeți și desenați";
 "stkit.hint.shape" = "Trageți pentru a desena";
 "stkit.hint.tapToAddText" = "Atingeți pentru a adăuga text";
 "stkit.hint.erase" = "Glisați pentru a șterge";
-
-/* Order (Layer) */
 "stkit.order" = "Ordine";
 "stkit.order.front" = "Aducere în față";
 "stkit.order.forward" = "Deplasare înainte";
 "stkit.order.backward" = "Deplasare înapoi";
 "stkit.order.back" = "Trimitere în spate";
-
-/* Page Editor */
 "stkit.page.newPage" = "Pagină nouă";
 "stkit.page.remove" = "Eliminare";
 "stkit.page.duplicate" = "Duplicare";
@@ -166,8 +126,6 @@
 "stkit.page.color.white" = "Alb";
 "stkit.page.color.cream" = "Crem";
 "stkit.page.color.gray" = "Gri";
-
-/* Ribbon Tabs */
 "stkit.ribbon.home" = "Acasă";
 "stkit.ribbon.para" = "Format";
 "stkit.ribbon.insert" = "Inserare";
@@ -176,8 +134,6 @@
 "stkit.ribbon.layout" = "Aspect";
 "stkit.ribbon.review" = "Revizuire";
 "stkit.ribbon.view" = "Vizualizare";
-
-/* Ribbon Home */
 "stkit.ribbon.bold" = "Aldin";
 "stkit.ribbon.italic" = "Cursiv";
 "stkit.ribbon.underline" = "Subliniat";
@@ -190,9 +146,7 @@
 "stkit.ribbon.alignCenter" = "Centrare";
 "stkit.ribbon.alignRight" = "Dreapta";
 "stkit.ribbon.justify" = "Aliniere";
-"stkit.ribbon.lineSpacing" = "Spațiere";
-
-/* Ribbon Insert */
+"stkit.ribbon.lineSpacing" = "Spațiere rânduri";
 "stkit.ribbon.image" = "Imagine";
 "stkit.ribbon.table" = "Tabel";
 "stkit.ribbon.shape" = "Formă";
@@ -204,26 +158,20 @@
 "stkit.ribbon.endnote" = "Notă de final";
 "stkit.ribbon.tab" = "Tab";
 "stkit.ribbon.lineBreak" = "Întrerupere";
-
-/* Ribbon Layout */
 "stkit.ribbon.orientation" = "Orientare";
 "stkit.ribbon.pageSize" = "Dimensiune";
 "stkit.ribbon.margins" = "Margini";
 "stkit.ribbon.columns" = "Coloane";
-
-/* Ribbon Home (additional) */
 "stkit.ribbon.paste" = "Lipire";
 "stkit.ribbon.copyFormat" = "Format";
 "stkit.ribbon.subscript" = "Indice inferior";
 "stkit.ribbon.superscript" = "Indice superior";
 "stkit.ribbon.bulletList" = "Marcatori";
 "stkit.ribbon.numberedList" = "Numerotare";
-"stkit.ribbon.increaseIndent" = "Indentare+";
-"stkit.ribbon.decreaseIndent" = "Indentare-";
+"stkit.ribbon.increaseIndent" = "Mărire indent";
+"stkit.ribbon.decreaseIndent" = "Micșorare indent";
 "stkit.ribbon.selectAll" = "Selectare tot";
 "stkit.ribbon.edit" = "Editare";
-
-/* Ribbon Insert (additional) */
 "stkit.ribbon.pageBreak" = "Salt de pagină";
 "stkit.ribbon.textBox" = "Casetă text";
 "stkit.ribbon.link" = "Hyperlink";
@@ -232,22 +180,14 @@
 "stkit.ribbon.comment" = "Comentariu";
 "stkit.ribbon.header" = "Antet";
 "stkit.ribbon.footer" = "Subsol";
-
-/* Ribbon Design (additional) */
 "stkit.ribbon.themes" = "Teme";
 "stkit.ribbon.watermark" = "Filigran";
-
-/* Ribbon Layout (additional) */
 "stkit.ribbon.textDirection" = "Direcție";
 "stkit.ribbon.sectionBreak" = "Salt de secțiune";
 "stkit.ribbon.pageBreaks" = "Salt de pagină";
-
-/* Ribbon Review (additional) */
 "stkit.ribbon.trackChanges" = "Urmărire modificări";
 "stkit.ribbon.acceptChange" = "Acceptare";
 "stkit.ribbon.rejectChange" = "Respingere";
-
-/* Ribbon Table Tab */
 "stkit.ribbon.addRow" = "Adăugare rând";
 "stkit.ribbon.deleteRow" = "Ștergere rând";
 "stkit.ribbon.addColumn" = "Adăugare coloană";
@@ -257,16 +197,10 @@
 "stkit.ribbon.tableStyle" = "Stil";
 "stkit.ribbon.tableColor" = "Culoare";
 "stkit.tableStyles" = "Stiluri tabel";
-
-/* Ribbon Review (comments) */
 "stkit.ribbon.comments" = "Comentarii";
 "stkit.selectTextForComment" = "Selectați mai întâi text în document, apoi adăugați un comentariu.";
-
-/* General */
 "stkit.comingSoon" = "În curând";
 "stkit.custom" = "Personalizat";
-
-/* Ribbon View */
 "stkit.ribbon.zoom" = "Zoom";
 "stkit.ribbon.thumbnails" = "Pagini";
 "stkit.ribbon.outline" = "Schiță";

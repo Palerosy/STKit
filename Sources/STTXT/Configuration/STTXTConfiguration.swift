@@ -33,10 +33,6 @@ public struct STTXTConfiguration {
     /// Show line numbers (future feature)
     public var showLineNumbers: Bool = false
 
-    /// Paywall placement identifier. Defaults to `STKitConfiguration.shared.paywallPlacement`.
-    /// Override per-editor if needed.
-    public var paywallPlacement: String = STKitConfiguration.shared.paywallPlacement
-
     public init() {}
 
     /// Read-only configuration

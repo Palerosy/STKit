@@ -63,6 +63,7 @@
 "stkit.tool.signature" = "Tandatangan";
 "stkit.tool.stamp" = "Cop";
 "stkit.tool.note" = "Nota";
+"stkit.tool.notes" = "Nota";
 "stkit.tool.eraser" = "Pemadam";
 "stkit.tool.photo" = "Foto";
 "stkit.tool.textEdit" = "Edit Teks";

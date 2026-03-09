@@ -36,21 +36,8 @@ internal enum STDOCXBundleHelper {
             return bundle
         }
 
-        if let resBundle = findSTKitResourcesBundle(),
-           let url = resBundle.url(forResource: bundleName, withExtension: "bundle"),
-           let bundle = Bundle(url: url) {
-            return bundle
-        }
-
         if let frameworksURL = Bundle.main.privateFrameworksURL {
             let url = frameworksURL.appendingPathComponent("STDOCX.framework/\(bundleName).bundle")
-            if let bundle = Bundle(url: url) {
-                return bundle
-            }
-        }
-
-        if let resourceURL = Bundle.main.resourceURL {
-            let url = resourceURL.appendingPathComponent("\(bundleName).bundle")
             if let bundle = Bundle(url: url) {
                 return bundle
             }

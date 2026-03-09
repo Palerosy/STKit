@@ -52,17 +52,7 @@ struct STPDFRibbonViewTab: View {
                     viewModel.annotationManager.zoomOut()
                 }
 
-                #if os(iOS)
-                STPDFRibbonSeparator()
-
-                // Settings (iOS only)
-                STPDFRibbonToolButton(
-                    iconName: "gearshape",
-                    label: STStrings.settings
-                ) {
-                    viewModel.activeSheet = .settings
-                }
-                #endif
+                // Settings removed — not useful on iOS
             }
             .padding(.horizontal, 8)
         }

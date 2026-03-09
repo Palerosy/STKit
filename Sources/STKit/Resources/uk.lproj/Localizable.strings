@@ -1,4 +1,3 @@
-/* Common */
 "stkit.done" = "Готово";
 "stkit.cancel" = "Скасувати";
 "stkit.save" = "Зберегти";
@@ -11,26 +10,18 @@
 "stkit.undo" = "Скасувати";
 "stkit.redo" = "Повторити";
 "stkit.add" = "Додати";
-
-/* License */
 "stkit.unlicensed" = "STKit — Без ліцензії";
-
-/* Word Count */
 "stkit.wordCount" = "Кількість слів";
 "stkit.words" = "Слова";
 "stkit.characters" = "Символи";
 "stkit.charactersWithSpaces" = "Символи (з пробілами)";
 "stkit.paragraphs" = "Абзаци";
 "stkit.lines" = "Рядки";
-
-/* Document */
 "stkit.newDocument" = "Новий документ";
 "stkit.unsavedChanges" = "Незбережені зміни";
 "stkit.unsavedChangesMessage" = "У вас є незбережені зміни. Що ви хочете зробити?";
 "stkit.discard" = "Відхилити";
 "stkit.saveAndClose" = "Зберегти та закрити";
-
-/* Navigation & Controls */
 "stkit.pages" = "Сторінки";
 "stkit.bookmark" = "Закладка";
 "stkit.settings" = "Налаштування";
@@ -38,8 +29,6 @@
 "stkit.editPages" = "Редагувати сторінки";
 "stkit.print" = "Друк";
 "stkit.saveAsText" = "Зберегти як текст";
-
-/* Search & Replace */
 "stkit.searchInDocument" = "Пошук у документі...";
 "stkit.searching" = "Пошук...";
 "stkit.noResultsFound" = "Результатів не знайдено";
@@ -49,26 +38,18 @@
 "stkit.replaceAll" = "Всі";
 "stkit.showReplace" = "Замінити";
 "stkit.hideReplace" = "Сховати заміну";
-
-/* Outline */
 "stkit.noOutlineAvailable" = "Структура недоступна";
-
-/* Settings */
 "stkit.display" = "Відображення";
 "stkit.scrollDirection" = "Напрямок прокручування";
 "stkit.pageMode" = "Режим сторінки";
 "stkit.view" = "Вигляд";
 "stkit.pageShadows" = "Тіні сторінок";
 "stkit.backgroundColor" = "Колір фону";
-
-/* Property Inspector */
 "stkit.color" = "Колір";
 "stkit.width" = "Ширина";
 "stkit.fontSize" = "Розмір шрифту";
 "stkit.opacity" = "Непрозорість";
 "stkit.font" = "Шрифт";
-
-/* Annotation Tools */
 "stkit.tool.pen" = "Ручка";
 "stkit.tool.highlighter" = "Маркер";
 "stkit.tool.text" = "Текст";
@@ -82,14 +63,13 @@
 "stkit.tool.signature" = "Підпис";
 "stkit.tool.stamp" = "Штамп";
 "stkit.tool.note" = "Примітка";
+"stkit.tool.notes" = "Нотатки";
 "stkit.tool.eraser" = "Ластик";
 "stkit.tool.photo" = "Фото";
 "stkit.tool.textEdit" = "Редагувати текст";
 "stkit.tapOnTextToEdit" = "Натисніть на текст для редагування";
 "stkit.selection.word" = "Слово";
 "stkit.selection.line" = "Рядок";
-
-/* Toolbar Labels */
 "stkit.hand" = "Рука";
 "stkit.select" = "Вибрати";
 "stkit.style" = "Стиль";
@@ -97,26 +77,16 @@
 "stkit.zoomOut" = "Зменшити";
 "stkit.addText" = "Додати текст";
 "stkit.removeText" = "Видалити текст";
-
-/* Annotation Groups */
 "stkit.group.draw" = "Малювання";
 "stkit.group.shapes" = "Фігури";
 "stkit.group.text" = "Текст";
 "stkit.group.markup" = "Розмітка";
 "stkit.group.extras" = "Додатково";
-
-/* Text Input */
 "stkit.enterText" = "Введіть текст...";
-
-/* Markup */
 "stkit.applyTool" = "Застосувати %@";
-
-/* Signature */
 "stkit.signature.clear" = "Очистити";
 "stkit.signature.drawNew" = "Намалювати нову";
 "stkit.signature.saved" = "Збережені підписи";
-
-/* Stamp Types */
 "stkit.stamp.approved" = "Схвалено";
 "stkit.stamp.rejected" = "Відхилено";
 "stkit.stamp.draft" = "Чернетка";
@@ -124,31 +94,21 @@
 "stkit.stamp.forComment" = "Для коментаря";
 "stkit.stamp.asIs" = "Як є";
 "stkit.stamp.final" = "Фінальний";
-
-/* Placement */
 "stkit.tapToPlace" = "Натисніть для розміщення";
-
-/* Selection Menu */
 "stkit.selection.copy" = "Копіювати";
 "stkit.selection.paste" = "Вставити";
 "stkit.selection.delete" = "Видалити";
 "stkit.selection.inspector" = "Інспектор";
 "stkit.selection.note" = "Примітка";
-
-/* Tool Hints */
 "stkit.hint.draw" = "Торкніться і малюйте";
 "stkit.hint.shape" = "Перетягніть для малювання";
 "stkit.hint.tapToAddText" = "Натисніть для додавання тексту";
 "stkit.hint.erase" = "Проведіть для стирання";
-
-/* Order (Layer) */
 "stkit.order" = "Порядок";
 "stkit.order.front" = "На передній план";
 "stkit.order.forward" = "Вперед";
 "stkit.order.backward" = "Назад";
 "stkit.order.back" = "На задній план";
-
-/* Page Editor */
 "stkit.page.newPage" = "Нова сторінка";
 "stkit.page.remove" = "Видалити";
 "stkit.page.duplicate" = "Дублювати";
@@ -166,8 +126,6 @@
 "stkit.page.color.white" = "Білий";
 "stkit.page.color.cream" = "Кремовий";
 "stkit.page.color.gray" = "Сірий";
-
-/* Ribbon Tabs */
 "stkit.ribbon.home" = "Головна";
 "stkit.ribbon.para" = "Формат";
 "stkit.ribbon.insert" = "Вставити";
@@ -176,8 +134,6 @@
 "stkit.ribbon.layout" = "Макет";
 "stkit.ribbon.review" = "Рецензування";
 "stkit.ribbon.view" = "Вигляд";
-
-/* Ribbon Home */
 "stkit.ribbon.bold" = "Жирний";
 "stkit.ribbon.italic" = "Курсив";
 "stkit.ribbon.underline" = "Підкреслений";
@@ -191,8 +147,6 @@
 "stkit.ribbon.alignRight" = "По правому краю";
 "stkit.ribbon.justify" = "По ширині";
 "stkit.ribbon.lineSpacing" = "Міжрядковий інтервал";
-
-/* Ribbon Insert */
 "stkit.ribbon.image" = "Зображення";
 "stkit.ribbon.table" = "Таблиця";
 "stkit.ribbon.shape" = "Фігура";
@@ -204,14 +158,10 @@
 "stkit.ribbon.endnote" = "Кінцева виноска";
 "stkit.ribbon.tab" = "Табуляція";
 "stkit.ribbon.lineBreak" = "Розрив";
-
-/* Ribbon Layout */
 "stkit.ribbon.orientation" = "Орієнтація";
 "stkit.ribbon.pageSize" = "Розмір";
 "stkit.ribbon.margins" = "Поля";
 "stkit.ribbon.columns" = "Колонки";
-
-/* Ribbon Home (additional) */
 "stkit.ribbon.paste" = "Вставити";
 "stkit.ribbon.copyFormat" = "Формат";
 "stkit.ribbon.subscript" = "Нижній індекс";
@@ -222,32 +172,22 @@
 "stkit.ribbon.decreaseIndent" = "Зменш. відступ";
 "stkit.ribbon.selectAll" = "Вибрати все";
 "stkit.ribbon.edit" = "Редагувати";
-
-/* Ribbon Insert (additional) */
 "stkit.ribbon.pageBreak" = "Розрив сторінки";
 "stkit.ribbon.textBox" = "Текстове поле";
 "stkit.ribbon.link" = "Посилання";
 "stkit.ribbon.bookmark" = "Закладка";
 "stkit.ribbon.symbol" = "Символ";
 "stkit.ribbon.comment" = "Коментар";
-"stkit.ribbon.header" = "Верхній колонтитул";
-"stkit.ribbon.footer" = "Нижній колонтитул";
-
-/* Ribbon Design (additional) */
+"stkit.ribbon.header" = "Колонтитул (верхній)";
+"stkit.ribbon.footer" = "Колонтитул (нижній)";
 "stkit.ribbon.themes" = "Теми";
 "stkit.ribbon.watermark" = "Водяний знак";
-
-/* Ribbon Layout (additional) */
 "stkit.ribbon.textDirection" = "Напрямок";
 "stkit.ribbon.sectionBreak" = "Розрив розділу";
 "stkit.ribbon.pageBreaks" = "Розрив сторінки";
-
-/* Ribbon Review (additional) */
 "stkit.ribbon.trackChanges" = "Відстеження змін";
 "stkit.ribbon.acceptChange" = "Прийняти";
 "stkit.ribbon.rejectChange" = "Відхилити";
-
-/* Ribbon Table Tab */
 "stkit.ribbon.addRow" = "Додати рядок";
 "stkit.ribbon.deleteRow" = "Видалити рядок";
 "stkit.ribbon.addColumn" = "Додати стовпець";
@@ -257,16 +197,10 @@
 "stkit.ribbon.tableStyle" = "Стиль";
 "stkit.ribbon.tableColor" = "Колір";
 "stkit.tableStyles" = "Стилі таблиці";
-
-/* Ribbon Review (comments) */
 "stkit.ribbon.comments" = "Коментарі";
 "stkit.selectTextForComment" = "Спочатку виберіть текст у документі, а потім додайте коментар.";
-
-/* General */
 "stkit.comingSoon" = "Скоро";
 "stkit.custom" = "Налаштований";
-
-/* Ribbon View */
 "stkit.ribbon.zoom" = "Масштаб";
 "stkit.ribbon.thumbnails" = "Сторінки";
 "stkit.ribbon.outline" = "Структура";

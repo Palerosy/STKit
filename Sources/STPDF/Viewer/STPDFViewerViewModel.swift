@@ -9,6 +9,7 @@ enum STSheetType: String, Identifiable {
     case search
     case outline
     case settings
+    case notes
 
     var id: String { rawValue }
 }

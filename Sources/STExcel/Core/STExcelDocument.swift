@@ -24,78 +24,12 @@ public final class STExcelDocument: STDocument {
 
     // MARK: - Init
 
-    /// Create from an xlsx or csv URL
-    /// Tries XLSX first (regardless of extension), falls back to CSV/TSV parsing.
-    /// This allows files originally imported as CSV but later saved as XLSX to reopen correctly.
+    /// Create from an xlsx URL
     public init?(url: URL, title: String? = nil) {
-        // 1. Try XLSX parse first (works for any extension if content is XLSX)
-        if let parsed = STExcelReader.read(url: url) {
-            self.sheets = parsed
-        }
-        // 2. Fall back to CSV/TSV text parsing
-        else if let text = try? String(contentsOf: url, encoding: .utf8),
-                !text.isEmpty,
-                text.utf8.count < 50_000_000 {
-            let ext = url.pathExtension.lowercased()
-            let separator: Character = ext == "tsv" ? "\t" : ","
-            let rows = text.components(separatedBy: .newlines).filter { !$0.isEmpty }
-            var cells: [[STExcelCell]] = []
-            var maxCols = 0
-            for row in rows {
-                let values = STExcelDocument.parseCSVRow(row, separator: separator)
-                maxCols = max(maxCols, values.count)
-                cells.append(values.map { STExcelCell(value: $0) })
-            }
-            // Pad rows to uniform column count
-            for i in 0..<cells.count {
-                while cells[i].count < maxCols {
-                    cells[i].append(STExcelCell(value: ""))
-                }
-            }
-            let sheet = STExcelSheet(name: "Sheet 1", cells: cells)
-            self.sheets = [sheet]
-        } else {
-            return nil
-        }
+        guard let parsed = STExcelReader.read(url: url) else { return nil }
+        self.sheets = parsed
         self.sourceURL = url
         self.title = title ?? url.deletingPathExtension().lastPathComponent
-    }
-
-    /// Parse a single CSV row handling quoted fields
-    private static func parseCSVRow(_ row: String, separator: Character) -> [String] {
-        var fields: [String] = []
-        var current = ""
-        var inQuotes = false
-        var i = row.startIndex
-        while i < row.endIndex {
-            let c = row[i]
-            if inQuotes {
-                if c == "\"" {
-                    let next = row.index(after: i)
-                    if next < row.endIndex && row[next] == "\"" {
-                        current.append("\"")
-                        i = row.index(after: next)
-                        continue
-                    } else {
-                        inQuotes = false
-                    }
-                } else {
-                    current.append(c)
-                }
-            } else {
-                if c == "\"" {
-                    inQuotes = true
-                } else if c == separator {
-                    fields.append(current)
-                    current = ""
-                } else {
-                    current.append(c)
-                }
-            }
-            i = row.index(after: i)
-        }
-        fields.append(current)
-        return fields
     }
 
     /// Create a blank spreadsheet
@@ -111,16 +45,15 @@ public final class STExcelDocument: STDocument {
         return STDocumentStats(from: text)
     }
 
-    // MARK: - Sheet Management
+    // MARK: - Save
 
-    /// Add a new empty sheet
-    public func addSheet(name: String? = nil) {
-        let sheetName = name ?? "Sheet \(sheets.count + 1)"
-        let cols = sheets.first?.columnCount ?? 26
-        sheets.append(STExcelSheet(name: sheetName, rows: 100, columns: cols))
+    /// Save as xlsx
+    @discardableResult
+    public func save(to url: URL) -> Bool {
+        STExcelWriter.write(sheets: sheets, to: url)
     }
 
-    /// Remove sheet at index
+    /// Remove a sheet at the given index
     public func removeSheet(at index: Int) {
         guard sheets.count > 1, index < sheets.count else { return }
         sheets.remove(at: index)
@@ -129,39 +62,10 @@ public final class STExcelDocument: STDocument {
         }
     }
 
-    /// Rename sheet at index
-    public func renameSheet(at index: Int, to name: String) {
-        guard index < sheets.count else { return }
-        sheets[index].name = name
-    }
-
-    /// Duplicate sheet at index
-    public func duplicateSheet(at index: Int) {
-        guard index < sheets.count else { return }
-        let source = sheets[index]
-        let newCells = source.cells.map { row in row.map { $0 } }
-        let copy = STExcelSheet(name: "\(source.name) (2)", cells: newCells)
-        copy.mergedRegions = source.mergedRegions
-        copy.columnWidths = source.columnWidths
-        copy.rowHeights = source.rowHeights
-        sheets.insert(copy, at: index + 1)
-    }
-
-    /// Move sheet from one index to another
-    public func moveSheet(from source: Int, to destination: Int) {
-        guard source < sheets.count, destination <= sheets.count, source != destination else { return }
-        let sheet = sheets.remove(at: source)
-        let insertAt = destination > source ? destination - 1 : destination
-        sheets.insert(sheet, at: insertAt)
-        activeSheetIndex = insertAt
-    }
-
-    // MARK: - Save
-
-    /// Save as xlsx
-    @discardableResult
-    public func save(to url: URL) -> Bool {
-        STExcelWriter.write(sheets: sheets, to: url)
+    /// Add a new blank sheet
+    public func addSheet() {
+        let name = "Sheet \(sheets.count + 1)"
+        sheets.append(STExcelSheet(name: name))
     }
 
     /// Export as CSV
@@ -183,15 +87,6 @@ public class STExcelSheet: Identifiable, ObservableObject {
 
     /// 2D array of cell values [row][column]
     @Published public var cells: [[STExcelCell]]
-
-    /// Merged cell regions
-    public var mergedRegions: [STMergedRegion] = []
-
-    /// Column widths (index → width in points); nil means default
-    public var columnWidths: [Int: CGFloat] = [:]
-
-    /// Row heights (index → height in points); nil means default
-    public var rowHeights: [Int: CGFloat] = [:]
 
     /// Number of rows
     public var rowCount: Int { cells.count }
@@ -229,106 +124,6 @@ public class STExcelSheet: Identifiable, ObservableObject {
         cells[row][column].style = style
     }
 
-    /// Apply style to a range of cells
-    public func applyStyleToRange(startRow: Int, startCol: Int, endRow: Int, endCol: Int,
-                                  transform: (inout STExcelCellStyle) -> Void) {
-        for r in startRow...min(endRow, rowCount - 1) {
-            for c in startCol...min(endCol, columnCount - 1) {
-                transform(&cells[r][c].style)
-            }
-        }
-    }
-
-    /// Merge cells in a range
-    public func mergeCells(startRow: Int, startCol: Int, endRow: Int, endCol: Int) {
-        let region = STMergedRegion(startRow: startRow, startCol: startCol,
-                                    endRow: endRow, endCol: endCol)
-        // Remove overlapping merges
-        mergedRegions.removeAll { existing in
-            existing.contains(row: startRow, col: startCol) ||
-            region.contains(row: existing.startRow, col: existing.startCol)
-        }
-        mergedRegions.append(region)
-    }
-
-    /// Unmerge cells containing the given position
-    public func unmergeCells(row: Int, col: Int) {
-        mergedRegions.removeAll { $0.contains(row: row, col: col) }
-    }
-
-    /// Find the merged region containing a cell, if any
-    public func mergedRegion(for row: Int, col: Int) -> STMergedRegion? {
-        mergedRegions.first { $0.contains(row: row, col: col) }
-    }
-
-    // MARK: - Row/Column Operations
-
-    /// Insert a row at the given index
-    public func insertRow(at index: Int) {
-        guard index <= rowCount else { return }
-        let newRow = (0..<columnCount).map { _ in STExcelCell() }
-        cells.insert(newRow, at: index)
-        // Shift merged regions
-        mergedRegions = mergedRegions.map { region in
-            if region.startRow >= index {
-                return STMergedRegion(startRow: region.startRow + 1, startCol: region.startCol,
-                                      endRow: region.endRow + 1, endCol: region.endCol)
-            } else if region.endRow >= index {
-                return STMergedRegion(startRow: region.startRow, startCol: region.startCol,
-                                      endRow: region.endRow + 1, endCol: region.endCol)
-            }
-            return region
-        }
-    }
-
-    /// Delete a row at the given index
-    public func deleteRow(at index: Int) {
-        guard index < rowCount, rowCount > 1 else { return }
-        cells.remove(at: index)
-        mergedRegions = mergedRegions.compactMap { region in
-            if region.startRow == index && region.endRow == index { return nil }
-            var sr = region.startRow, er = region.endRow
-            if sr > index { sr -= 1 }
-            if er >= index { er = max(sr, er - 1) }
-            return STMergedRegion(startRow: sr, startCol: region.startCol,
-                                  endRow: er, endCol: region.endCol)
-        }
-    }
-
-    /// Insert a column at the given index
-    public func insertColumn(at index: Int) {
-        guard index <= columnCount else { return }
-        for r in 0..<rowCount {
-            cells[r].insert(STExcelCell(), at: index)
-        }
-        mergedRegions = mergedRegions.map { region in
-            if region.startCol >= index {
-                return STMergedRegion(startRow: region.startRow, startCol: region.startCol + 1,
-                                      endRow: region.endRow, endCol: region.endCol + 1)
-            } else if region.endCol >= index {
-                return STMergedRegion(startRow: region.startRow, startCol: region.startCol,
-                                      endRow: region.endRow, endCol: region.endCol + 1)
-            }
-            return region
-        }
-    }
-
-    /// Delete a column at the given index
-    public func deleteColumn(at index: Int) {
-        guard index < columnCount, columnCount > 1 else { return }
-        for r in 0..<rowCount {
-            cells[r].remove(at: index)
-        }
-        mergedRegions = mergedRegions.compactMap { region in
-            if region.startCol == index && region.endCol == index { return nil }
-            var sc = region.startCol, ec = region.endCol
-            if sc > index { sc -= 1 }
-            if ec >= index { ec = max(sc, ec - 1) }
-            return STMergedRegion(startRow: region.startRow, startCol: sc,
-                                  endRow: region.endRow, endCol: ec)
-        }
-    }
-
     /// Convert to CSV string
     public func toCSV(separator: String = ",") -> String {
         cells.map { row in
@@ -342,6 +137,59 @@ public class STExcelSheet: Identifiable, ObservableObject {
         }.joined(separator: "\n")
     }
 
+    // MARK: - Merged Regions
+
+    public var mergedRegions: [STMergedRegion] = []
+
+    /// Merge cells in the given range
+    public func mergeCells(startRow: Int, startCol: Int, endRow: Int, endCol: Int) {
+        let region = STMergedRegion(startRow: startRow, startCol: startCol, endRow: endRow, endCol: endCol)
+        mergedRegions.append(region)
+    }
+
+    /// Unmerge cells at the given position
+    public func unmergeCells(row: Int, col: Int) {
+        mergedRegions.removeAll { $0.contains(row: row, col: col) }
+    }
+
+    /// Get the merged region containing the given cell, if any
+    public func mergedRegion(for row: Int, col: Int) -> STMergedRegion? {
+        mergedRegions.first { $0.contains(row: row, col: col) }
+    }
+
+    // MARK: - Row Operations
+
+    /// Insert a blank row at the given index
+    public func insertRow(at index: Int) {
+        guard index <= rowCount else { return }
+        let newRow = (0..<columnCount).map { _ in STExcelCell() }
+        cells.insert(newRow, at: index)
+    }
+
+    /// Delete the row at the given index
+    public func deleteRow(at index: Int) {
+        guard index < rowCount, rowCount > 1 else { return }
+        cells.remove(at: index)
+    }
+
+    // MARK: - Column Operations
+
+    /// Insert a blank column at the given index
+    public func insertColumn(at index: Int) {
+        guard index <= columnCount else { return }
+        for r in 0..<rowCount {
+            cells[r].insert(STExcelCell(), at: index)
+        }
+    }
+
+    /// Delete the column at the given index
+    public func deleteColumn(at index: Int) {
+        guard index < columnCount, columnCount > 1 else { return }
+        for r in 0..<rowCount {
+            cells[r].remove(at: index)
+        }
+    }
+
     /// Column header letter (A, B, C, ... Z, AA, AB, ...)
     public static func columnLetter(_ index: Int) -> String {
         var result = ""
@@ -352,46 +200,21 @@ public class STExcelSheet: Identifiable, ObservableObject {
         } while n >= 0
         return result
     }
-
-    /// Parse column letter to index (A=0, B=1, ..., AA=26)
-    public static func columnIndex(_ letter: String) -> Int {
-        var col = 0
-        for char in letter.uppercased() {
-            guard let ascii = char.asciiValue else { continue }
-            col = col * 26 + Int(ascii) - 64
-        }
-        return col - 1
-    }
 }
 
 /// Represents a single cell in a spreadsheet
 public struct STExcelCell {
     public var value: String
-    public var style: STExcelCellStyle
-    public var formula: String?    // e.g. "=SUM(A1:A5)", nil = no formula
-    public var comment: String?    // cell comment/note
+    public var isBold: Bool
+    public var isNumeric: Bool
+    public var formula: String?
+    public var comment: String?
+    public var style: STExcelCellStyle = STExcelCellStyle()
 
-    /// Backward-compatible computed properties
-    public var isBold: Bool {
-        get { style.isBold }
-        set { style.isBold = newValue }
-    }
-
-    public var isNumeric: Bool {
-        Double(value) != nil
-    }
-
-    public init(value: String = "", isBold: Bool = false) {
+    public init(value: String = "", isBold: Bool = false, formula: String? = nil, comment: String? = nil) {
         self.value = value
-        self.style = STExcelCellStyle()
-        self.style.isBold = isBold
-        self.formula = nil
-        self.comment = nil
-    }
-
-    public init(value: String, style: STExcelCellStyle, formula: String? = nil, comment: String? = nil) {
-        self.value = value
-        self.style = style
+        self.isBold = isBold
+        self.isNumeric = Double(value) != nil
         self.formula = formula
         self.comment = comment
     }

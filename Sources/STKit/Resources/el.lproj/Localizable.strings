@@ -1,4 +1,3 @@
-/* Common */
 "stkit.done" = "Τέλος";
 "stkit.cancel" = "Ακύρωση";
 "stkit.save" = "Αποθήκευση";
@@ -11,30 +10,25 @@
 "stkit.undo" = "Αναίρεση";
 "stkit.redo" = "Επανάληψη";
 "stkit.add" = "Προσθήκη";
-/* License */
 "stkit.unlicensed" = "STKit — Χωρίς άδεια";
-/* Word Count */
-"stkit.wordCount" = "Αριθμός λέξεων";
+"stkit.wordCount" = "Αρίθμηση λέξεων";
 "stkit.words" = "Λέξεις";
 "stkit.characters" = "Χαρακτήρες";
 "stkit.charactersWithSpaces" = "Χαρακτήρες (με κενά)";
 "stkit.paragraphs" = "Παράγραφοι";
 "stkit.lines" = "Γραμμές";
-/* Document */
 "stkit.newDocument" = "Νέο έγγραφο";
 "stkit.unsavedChanges" = "Μη αποθηκευμένες αλλαγές";
 "stkit.unsavedChangesMessage" = "Έχετε μη αποθηκευμένες αλλαγές. Τι θέλετε να κάνετε;";
 "stkit.discard" = "Απόρριψη";
-"stkit.saveAndClose" = "Αποθήκευση & Κλείσιμο";
-/* Navigation & Controls */
+"stkit.saveAndClose" = "Αποθήκευση και κλείσιμο";
 "stkit.pages" = "Σελίδες";
 "stkit.bookmark" = "Σελιδοδείκτης";
 "stkit.settings" = "Ρυθμίσεις";
-"stkit.outline" = "Περιεχόμενα";
+"stkit.outline" = "Διάρθρωση";
 "stkit.editPages" = "Επεξεργασία σελίδων";
 "stkit.print" = "Εκτύπωση";
 "stkit.saveAsText" = "Αποθήκευση ως κείμενο";
-/* Search & Replace */
 "stkit.searchInDocument" = "Αναζήτηση στο έγγραφο...";
 "stkit.searching" = "Αναζήτηση...";
 "stkit.noResultsFound" = "Δεν βρέθηκαν αποτελέσματα";
@@ -44,28 +38,24 @@
 "stkit.replaceAll" = "Όλα";
 "stkit.showReplace" = "Αντικατάσταση";
 "stkit.hideReplace" = "Απόκρυψη αντικατάστασης";
-/* Outline */
-"stkit.noOutlineAvailable" = "Δεν υπάρχουν διαθέσιμα περιεχόμενα";
-/* Settings */
+"stkit.noOutlineAvailable" = "Δεν υπάρχει διαθέσιμη διάρθρωση";
 "stkit.display" = "Εμφάνιση";
 "stkit.scrollDirection" = "Κατεύθυνση κύλισης";
 "stkit.pageMode" = "Λειτουργία σελίδας";
 "stkit.view" = "Προβολή";
 "stkit.pageShadows" = "Σκιές σελίδας";
 "stkit.backgroundColor" = "Χρώμα φόντου";
-/* Property Inspector */
 "stkit.color" = "Χρώμα";
 "stkit.width" = "Πλάτος";
 "stkit.fontSize" = "Μέγεθος γραμματοσειράς";
 "stkit.opacity" = "Αδιαφάνεια";
 "stkit.font" = "Γραμματοσειρά";
-/* Annotation Tools */
 "stkit.tool.pen" = "Στυλό";
 "stkit.tool.highlighter" = "Μαρκαδόρος";
 "stkit.tool.text" = "Κείμενο";
 "stkit.tool.highlight" = "Επισήμανση";
 "stkit.tool.underline" = "Υπογράμμιση";
-"stkit.tool.strikethrough" = "Διαγράμμιση";
+"stkit.tool.strikethrough" = "Διαγραφή";
 "stkit.tool.rectangle" = "Ορθογώνιο";
 "stkit.tool.circle" = "Κύκλος";
 "stkit.tool.line" = "Γραμμή";
@@ -73,13 +63,13 @@
 "stkit.tool.signature" = "Υπογραφή";
 "stkit.tool.stamp" = "Σφραγίδα";
 "stkit.tool.note" = "Σημείωση";
+"stkit.tool.notes" = "Σημειώσεις";
 "stkit.tool.eraser" = "Γόμα";
 "stkit.tool.photo" = "Φωτογραφία";
 "stkit.tool.textEdit" = "Επεξεργασία κειμένου";
 "stkit.tapOnTextToEdit" = "Πατήστε στο κείμενο για επεξεργασία";
 "stkit.selection.word" = "Λέξη";
 "stkit.selection.line" = "Γραμμή";
-/* Toolbar Labels */
 "stkit.hand" = "Χέρι";
 "stkit.select" = "Επιλογή";
 "stkit.style" = "Στυλ";
@@ -87,51 +77,41 @@
 "stkit.zoomOut" = "Σμίκρυνση";
 "stkit.addText" = "Προσθήκη κειμένου";
 "stkit.removeText" = "Αφαίρεση κειμένου";
-/* Annotation Groups */
 "stkit.group.draw" = "Σχεδίαση";
 "stkit.group.shapes" = "Σχήματα";
 "stkit.group.text" = "Κείμενο";
-"stkit.group.markup" = "Σήμανση";
-"stkit.group.extras" = "Πρόσθετα";
-/* Text Input */
-"stkit.enterText" = "Εισαγωγή κειμένου...";
-/* Markup */
+"stkit.group.markup" = "Σχολιασμός";
+"stkit.group.extras" = "Επιπλέον";
+"stkit.enterText" = "Εισάγετε κείμενο...";
 "stkit.applyTool" = "Εφαρμογή %@";
-/* Signature */
-"stkit.signature.clear" = "Καθαρισμός";
-"stkit.signature.drawNew" = "Σχεδίαση νέας";
+"stkit.signature.clear" = "Εκκαθάριση";
+"stkit.signature.drawNew" = "Νέο σχέδιο";
 "stkit.signature.saved" = "Αποθηκευμένες υπογραφές";
-/* Stamp Types */
 "stkit.stamp.approved" = "Εγκεκριμένο";
 "stkit.stamp.rejected" = "Απορριφθέν";
 "stkit.stamp.draft" = "Πρόχειρο";
 "stkit.stamp.confidential" = "Εμπιστευτικό";
-"stkit.stamp.forComment" = "Για σχόλια";
+"stkit.stamp.forComment" = "Για σχόλιο";
 "stkit.stamp.asIs" = "Ως έχει";
 "stkit.stamp.final" = "Τελικό";
-/* Placement */
 "stkit.tapToPlace" = "Πατήστε για τοποθέτηση";
-/* Selection Menu */
 "stkit.selection.copy" = "Αντιγραφή";
 "stkit.selection.paste" = "Επικόλληση";
 "stkit.selection.delete" = "Διαγραφή";
 "stkit.selection.inspector" = "Επιθεωρητής";
 "stkit.selection.note" = "Σημείωση";
-/* Tool Hints */
 "stkit.hint.draw" = "Αγγίξτε και σχεδιάστε";
 "stkit.hint.shape" = "Σύρετε για σχεδίαση";
 "stkit.hint.tapToAddText" = "Πατήστε για προσθήκη κειμένου";
-"stkit.hint.erase" = "Σύρετε για διαγραφή";
-/* Order (Layer) */
+"stkit.hint.erase" = "Σαρώστε για διαγραφή";
 "stkit.order" = "Σειρά";
-"stkit.order.front" = "Μεταφορά μπροστά";
-"stkit.order.forward" = "Μεταφορά εμπρός";
-"stkit.order.backward" = "Μεταφορά πίσω";
-"stkit.order.back" = "Μεταφορά στο βάθος";
-/* Page Editor */
+"stkit.order.front" = "Μπροστά";
+"stkit.order.forward" = "Ένα επίπεδο μπροστά";
+"stkit.order.backward" = "Ένα επίπεδο πίσω";
+"stkit.order.back" = "Πίσω";
 "stkit.page.newPage" = "Νέα σελίδα";
-"stkit.page.remove" = "Αφαίρεση";
-"stkit.page.duplicate" = "Αντίγραφο";
+"stkit.page.remove" = "Κατάργηση";
+"stkit.page.duplicate" = "Αναπαραγωγή";
 "stkit.page.rotate" = "Περιστροφή";
 "stkit.page.selectAll" = "Επιλογή όλων";
 "stkit.page.deselectAll" = "Αποεπιλογή όλων";
@@ -146,58 +126,52 @@
 "stkit.page.color.white" = "Λευκό";
 "stkit.page.color.cream" = "Κρεμ";
 "stkit.page.color.gray" = "Γκρι";
-/* Ribbon Tabs */
 "stkit.ribbon.home" = "Αρχική";
-"stkit.ribbon.para" = "Μορφοποίηση";
+"stkit.ribbon.para" = "Μορφή";
 "stkit.ribbon.insert" = "Εισαγωγή";
 "stkit.ribbon.draw" = "Σχεδίαση";
 "stkit.ribbon.design" = "Σχεδιασμός";
 "stkit.ribbon.layout" = "Διάταξη";
 "stkit.ribbon.review" = "Αναθεώρηση";
 "stkit.ribbon.view" = "Προβολή";
-/* Ribbon Home */
 "stkit.ribbon.bold" = "Έντονα";
 "stkit.ribbon.italic" = "Πλάγια";
 "stkit.ribbon.underline" = "Υπογράμμιση";
-"stkit.ribbon.strikethrough" = "Διαγράμμιση";
+"stkit.ribbon.strikethrough" = "Διαγραφή";
 "stkit.ribbon.font" = "Γραμματοσειρά";
 "stkit.ribbon.fontSize" = "Μέγεθος";
 "stkit.ribbon.textColor" = "Χρώμα";
 "stkit.ribbon.highlightColor" = "Επισήμανση";
 "stkit.ribbon.alignLeft" = "Αριστερά";
-"stkit.ribbon.alignCenter" = "Κέντρο";
+"stkit.ribbon.alignCenter" = "Κεντράρισμα";
 "stkit.ribbon.alignRight" = "Δεξιά";
 "stkit.ribbon.justify" = "Πλήρης στοίχιση";
 "stkit.ribbon.lineSpacing" = "Διάστιχο";
-/* Ribbon Insert */
 "stkit.ribbon.image" = "Εικόνα";
 "stkit.ribbon.table" = "Πίνακας";
 "stkit.ribbon.shape" = "Σχήμα";
 "stkit.ribbon.rectangle" = "Ορθογώνιο";
 "stkit.ribbon.circle" = "Κύκλος";
 "stkit.ribbon.line" = "Γραμμή";
-"stkit.ribbon.pageNumber" = "Αρ. σελίδας";
+"stkit.ribbon.pageNumber" = "Αρ. σελ.";
 "stkit.ribbon.footnote" = "Υποσημείωση";
 "stkit.ribbon.endnote" = "Σημείωση τέλους";
 "stkit.ribbon.tab" = "Στηλοθέτης";
 "stkit.ribbon.lineBreak" = "Αλλαγή";
-/* Ribbon Layout */
 "stkit.ribbon.orientation" = "Προσανατολισμός";
 "stkit.ribbon.pageSize" = "Μέγεθος";
 "stkit.ribbon.margins" = "Περιθώρια";
 "stkit.ribbon.columns" = "Στήλες";
-/* Ribbon Home (additional) */
 "stkit.ribbon.paste" = "Επικόλληση";
-"stkit.ribbon.copyFormat" = "Μορφοποίηση";
+"stkit.ribbon.copyFormat" = "Μορφή";
 "stkit.ribbon.subscript" = "Δείκτης";
 "stkit.ribbon.superscript" = "Εκθέτης";
 "stkit.ribbon.bulletList" = "Κουκκίδες";
 "stkit.ribbon.numberedList" = "Αρίθμηση";
-"stkit.ribbon.increaseIndent" = "Αύξηση εσοχής";
-"stkit.ribbon.decreaseIndent" = "Μείωση εσοχής";
+"stkit.ribbon.increaseIndent" = "Εσοχή+";
+"stkit.ribbon.decreaseIndent" = "Εσοχή-";
 "stkit.ribbon.selectAll" = "Επιλογή όλων";
 "stkit.ribbon.edit" = "Επεξεργασία";
-/* Ribbon Insert (additional) */
 "stkit.ribbon.pageBreak" = "Αλλαγή σελίδας";
 "stkit.ribbon.textBox" = "Πλαίσιο κειμένου";
 "stkit.ribbon.link" = "Σύνδεσμος";
@@ -206,37 +180,30 @@
 "stkit.ribbon.comment" = "Σχόλιο";
 "stkit.ribbon.header" = "Κεφαλίδα";
 "stkit.ribbon.footer" = "Υποσέλιδο";
-/* Ribbon Design */
 "stkit.ribbon.themes" = "Θέματα";
 "stkit.ribbon.watermark" = "Υδατογράφημα";
-/* Ribbon Layout (additional) */
 "stkit.ribbon.textDirection" = "Κατεύθυνση";
 "stkit.ribbon.sectionBreak" = "Αλλαγή ενότητας";
 "stkit.ribbon.pageBreaks" = "Αλλαγή σελίδας";
-/* Ribbon Review */
 "stkit.ribbon.trackChanges" = "Παρακολούθηση αλλαγών";
 "stkit.ribbon.acceptChange" = "Αποδοχή";
 "stkit.ribbon.rejectChange" = "Απόρριψη";
-/* Ribbon Table Tab */
 "stkit.ribbon.addRow" = "Προσθήκη γραμμής";
-"stkit.ribbon.deleteRow" = "Διαγραφή γραμμής";
+"stkit.ribbon.deleteRow" = "Διαγ. γραμμής";
 "stkit.ribbon.addColumn" = "Προσθήκη στήλης";
-"stkit.ribbon.deleteColumn" = "Διαγραφή στήλης";
+"stkit.ribbon.deleteColumn" = "Διαγ. στήλης";
 "stkit.ribbon.cellColor" = "Χρώμα κελιού";
 "stkit.ribbon.borderColor" = "Περίγραμμα";
 "stkit.ribbon.tableStyle" = "Στυλ";
 "stkit.ribbon.tableColor" = "Χρώμα";
 "stkit.tableStyles" = "Στυλ πίνακα";
-/* Ribbon Review (comments) */
 "stkit.ribbon.comments" = "Σχόλια";
 "stkit.selectTextForComment" = "Επιλέξτε πρώτα κείμενο στο έγγραφο και μετά προσθέστε σχόλιο.";
-/* General */
 "stkit.comingSoon" = "Σύντομα";
 "stkit.custom" = "Προσαρμοσμένο";
-/* Ribbon View */
 "stkit.ribbon.zoom" = "Ζουμ";
 "stkit.ribbon.thumbnails" = "Σελίδες";
-"stkit.ribbon.outline" = "Περιεχόμενα";
+"stkit.ribbon.outline" = "Διάρθρωση";
 "stkit.ribbon.readMode" = "Ανάγνωση";
 "stkit.ribbon.editMode" = "Επεξεργασία";
 "stkit.ribbon.goToTop" = "Μετάβαση στην αρχή";

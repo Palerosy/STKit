@@ -200,14 +200,18 @@ final class STWebEditorViewModel: ObservableObject {
     func printContent() {
         guard let webView else { return }
         #if os(iOS)
-        let printInfo = UIPrintInfo(dictionary: nil)
-        printInfo.jobName = document.title
-        printInfo.outputType = .general
+        // Force a layout flush so inline style changes (cell colors etc.) are committed
+        // to the render tree before the print formatter captures the page.
+        webView.evaluateJavaScript("document.body.offsetHeight") { _, _ in
+            let printInfo = UIPrintInfo(dictionary: nil)
+            printInfo.jobName = self.document.title
+            printInfo.outputType = .general
 
-        let printController = UIPrintInteractionController.shared
-        printController.printInfo = printInfo
-        printController.printFormatter = webView.viewPrintFormatter()
-        printController.present(animated: true)
+            let printController = UIPrintInteractionController.shared
+            printController.printInfo = printInfo
+            printController.printFormatter = webView.viewPrintFormatter()
+            printController.present(animated: true)
+        }
         #elseif os(macOS)
         // Use WKWebView.createPDF to capture full visual content (images, charts, tables),
         // then split into letter-sized pages and print via PDFDocument.
@@ -762,17 +766,11 @@ final class STWebEditorViewModel: ObservableObject {
 
     func saveSelection() { evaluateJS("saveSelection()") }
 
-    // MARK: - Track Changes
-
-    @Published var isTrackChangesEnabled: Bool = false
-
-    func toggleTrackChanges() {
-        isTrackChangesEnabled.toggle()
-        evaluateJS("setTrackChanges(\(isTrackChangesEnabled ? "true" : "false"))")
+    /// Async version — waits for JS to finish before returning
+    func saveSelectionAsync() async {
+        guard let webView else { return }
+        _ = try? await webView.evaluateJavaScript("saveSelection()")
     }
-
-    func acceptAllChanges() { evaluateJS("acceptAllChanges()") }
-    func rejectAllChanges() { evaluateJS("rejectAllChanges()") }
 
     // MARK: - Settings
 

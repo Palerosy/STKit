@@ -1,10 +1,7 @@
-/* Editor */
 "stdocx.font" = "फ़ॉन्ट";
 "stdocx.textColor" = "टेक्स्ट रंग";
 "stdocx.exportAs" = "के रूप में निर्यात";
 "stdocx.findReplace" = "खोजें और बदलें";
-
-/* Formatting */
 "stdocx.bold" = "बोल्ड";
 "stdocx.italic" = "इटैलिक";
 "stdocx.underline" = "रेखांकन";

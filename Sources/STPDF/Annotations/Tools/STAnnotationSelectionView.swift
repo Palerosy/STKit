@@ -246,8 +246,8 @@ final class STAnnotationSelectionView: UIView {
                 return
             }
 
-            // Check if touching a handle (resize)
-            if let handle = handleAt(point) {
+            // Check if touching a handle (resize) — skip for note annotations (fixed size)
+            if selectedAnnotation?.type != "Text", let handle = handleAt(point) {
                 activeHandle = handle
                 isResizing = true
                 isDragging = false
@@ -851,8 +851,9 @@ final class STAnnotationSelectionView: UIView {
         layer.addSublayer(border)
         borderLayer = border
 
-        // Draw handles
-        for position in STHandlePosition.allCases {
+        // Draw handles (skip for note annotations — they are fixed size)
+        let isNoteAnnotation = annotation.type == "Text"
+        for position in STHandlePosition.allCases where !isNoteAnnotation {
             let center = handleCenter(for: position, in: rectInSelf)
             let handleLayer = CAShapeLayer()
             let handleRect = CGRect(

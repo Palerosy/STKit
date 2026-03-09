@@ -82,6 +82,7 @@
 "stkit.tool.signature" = "İmza";
 "stkit.tool.stamp" = "Damga";
 "stkit.tool.note" = "Not";
+"stkit.tool.notes" = "Notlar";
 "stkit.tool.eraser" = "Silgi";
 "stkit.tool.photo" = "Fotoğraf";
 "stkit.tool.textEdit" = "Metni Düzenle";

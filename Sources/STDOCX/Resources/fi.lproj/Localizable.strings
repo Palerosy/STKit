@@ -1,10 +1,7 @@
-/* Editor */
 "stdocx.font" = "Fontti";
 "stdocx.textColor" = "Tekstin väri";
 "stdocx.exportAs" = "Vie muodossa";
 "stdocx.findReplace" = "Etsi ja korvaa";
-
-/* Formatting */
 "stdocx.bold" = "Lihavoitu";
 "stdocx.italic" = "Kursiivi";
 "stdocx.underline" = "Alleviivaus";

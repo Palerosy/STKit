@@ -341,20 +341,13 @@ body {
     position: relative;
 }
 
-/* Track Changes */
-.st-insertion {
-    color: #00B050;
-    text-decoration: underline;
-    text-decoration-color: #00B050;
-}
-.st-deletion {
-    color: #FF0000;
-    text-decoration: line-through;
-    opacity: 0.75;
-}
-
 /* Print: hide UI elements */
 @media print {
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+    }
     .st-shape-handle,
     .st-shape-menu,
     .st-drag-placeholder {

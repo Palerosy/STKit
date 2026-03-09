@@ -88,6 +88,7 @@ public enum STStrings {
     public static var toolSignature: String { loc("stkit.tool.signature") }
     public static var toolStamp: String { loc("stkit.tool.stamp") }
     public static var toolNote: String { loc("stkit.tool.note") }
+    public static var toolNotes: String { loc("stkit.tool.notes") }
     public static var toolEraser: String { loc("stkit.tool.eraser") }
     public static var toolPhoto: String { loc("stkit.tool.photo") }
     public static var toolTextEdit: String { loc("stkit.tool.textEdit") }
@@ -299,15 +300,13 @@ internal enum STKitBundleHelper {
     static let resourceBundle: Bundle = {
         let bundleName = "STKit_STKit"
 
-        // 1. Standard SPM resource bundle in main app bundle
-        if let url = Bundle.main.url(forResource: bundleName, withExtension: "bundle"),
-           let bundle = Bundle(url: url) {
-            return bundle
-        }
+        // 1. SPM-generated Bundle.module (works with local & remote SPM)
+        #if SWIFT_PACKAGE
+        return Bundle.module
+        #else
 
-        // 2. Inside STKitResources module bundle (binary xcframework with resource wrapper)
-        if let resBundle = findSTKitResourcesBundle(),
-           let url = resBundle.url(forResource: bundleName, withExtension: "bundle"),
+        // 2. Standard SPM resource bundle in main app bundle
+        if let url = Bundle.main.url(forResource: bundleName, withExtension: "bundle"),
            let bundle = Bundle(url: url) {
             return bundle
         }
@@ -320,30 +319,8 @@ internal enum STKitBundleHelper {
             }
         }
 
-        // 4. Inside app Resources directory (library format xcframework)
-        if let resourceURL = Bundle.main.resourceURL {
-            let url = resourceURL.appendingPathComponent("\(bundleName).bundle")
-            if let bundle = Bundle(url: url) {
-                return bundle
-            }
-        }
-
-        // 5. Fallback to main bundle
+        // 4. Fallback to main bundle
         return Bundle.main
+        #endif
     }()
-}
-
-/// Finds the STKitResources SPM module bundle in the app's resources
-public func findSTKitResourcesBundle() -> Bundle? {
-    let candidates = [
-        "STKitResources_STKitResources",
-        "STKit_STKitResources",
-    ]
-    for name in candidates {
-        if let url = Bundle.main.url(forResource: name, withExtension: "bundle"),
-           let bundle = Bundle(url: url) {
-            return bundle
-        }
-    }
-    return nil
 }

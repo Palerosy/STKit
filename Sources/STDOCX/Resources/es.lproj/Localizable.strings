@@ -1,10 +1,7 @@
-/* Editor */
 "stdocx.font" = "Fuente";
 "stdocx.textColor" = "Color de texto";
 "stdocx.exportAs" = "Exportar como";
 "stdocx.findReplace" = "Buscar y reemplazar";
-
-/* Formatting */
 "stdocx.bold" = "Negrita";
 "stdocx.italic" = "Cursiva";
 "stdocx.underline" = "Subrayado";

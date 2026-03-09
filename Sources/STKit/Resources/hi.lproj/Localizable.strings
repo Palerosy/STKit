@@ -1,4 +1,3 @@
-/* Common */
 "stkit.done" = "हो गया";
 "stkit.cancel" = "रद्द करें";
 "stkit.save" = "सहेजें";
@@ -11,26 +10,18 @@
 "stkit.undo" = "पूर्ववत करें";
 "stkit.redo" = "फिर से करें";
 "stkit.add" = "जोड़ें";
-
-/* License */
 "stkit.unlicensed" = "STKit — अनलाइसेंस्ड";
-
-/* Word Count */
 "stkit.wordCount" = "शब्द गणना";
 "stkit.words" = "शब्द";
 "stkit.characters" = "अक्षर";
 "stkit.charactersWithSpaces" = "अक्षर (रिक्त स्थान सहित)";
 "stkit.paragraphs" = "अनुच्छेद";
 "stkit.lines" = "पंक्तियां";
-
-/* Document */
 "stkit.newDocument" = "नया दस्तावेज़";
 "stkit.unsavedChanges" = "असहेजे परिवर्तन";
 "stkit.unsavedChangesMessage" = "आपके पास असहेजे परिवर्तन हैं। आप क्या करना चाहेंगे?";
 "stkit.discard" = "अस्वीकार करें";
 "stkit.saveAndClose" = "सहेजें और बंद करें";
-
-/* Navigation */
 "stkit.pages" = "पृष्ठ";
 "stkit.bookmark" = "बुकमार्क";
 "stkit.settings" = "सेटिंग्स";
@@ -38,8 +29,6 @@
 "stkit.editPages" = "पृष्ठ संपादित करें";
 "stkit.print" = "प्रिंट करें";
 "stkit.saveAsText" = "टेक्स्ट के रूप में सहेजें";
-
-/* Search */
 "stkit.searchInDocument" = "दस्तावेज़ में खोजें...";
 "stkit.searching" = "खोज रहे हैं...";
 "stkit.noResultsFound" = "कोई परिणाम नहीं मिला";
@@ -49,26 +38,18 @@
 "stkit.replaceAll" = "सभी";
 "stkit.showReplace" = "बदलें";
 "stkit.hideReplace" = "बदलें छुपाएं";
-
-/* Outline */
 "stkit.noOutlineAvailable" = "कोई रूपरेखा उपलब्ध नहीं";
-
-/* Settings */
 "stkit.display" = "प्रदर्शन";
 "stkit.scrollDirection" = "स्क्रॉल दिशा";
 "stkit.pageMode" = "पृष्ठ मोड";
 "stkit.view" = "दृश्य";
 "stkit.pageShadows" = "पृष्ठ छाया";
 "stkit.backgroundColor" = "पृष्ठभूमि रंग";
-
-/* Property */
 "stkit.color" = "रंग";
 "stkit.width" = "चौड़ाई";
 "stkit.fontSize" = "फ़ॉन्ट आकार";
 "stkit.opacity" = "अपारदर्शिता";
 "stkit.font" = "फ़ॉन्ट";
-
-/* Tools */
 "stkit.tool.pen" = "पेन";
 "stkit.tool.highlighter" = "हाइलाइटर";
 "stkit.tool.text" = "टेक्स्ट";
@@ -82,14 +63,13 @@
 "stkit.tool.signature" = "हस्ताक्षर";
 "stkit.tool.stamp" = "मुहर";
 "stkit.tool.note" = "नोट";
+"stkit.tool.notes" = "नोट्स";
 "stkit.tool.eraser" = "इरेज़र";
 "stkit.tool.photo" = "फ़ोटो";
 "stkit.tool.textEdit" = "टेक्स्ट संपादित करें";
 "stkit.tapOnTextToEdit" = "संपादित करने के लिए टेक्स्ट पर टैप करें";
 "stkit.selection.word" = "शब्द";
 "stkit.selection.line" = "पंक्ति";
-
-/* Toolbar */
 "stkit.hand" = "हाथ";
 "stkit.select" = "चुनें";
 "stkit.style" = "शैली";
@@ -97,26 +77,16 @@
 "stkit.zoomOut" = "ज़ूम आउट";
 "stkit.addText" = "टेक्स्ट जोड़ें";
 "stkit.removeText" = "टेक्स्ट हटाएं";
-
-/* Groups */
 "stkit.group.draw" = "आरेखण";
 "stkit.group.shapes" = "आकार";
 "stkit.group.text" = "टेक्स्ट";
 "stkit.group.markup" = "मार्कअप";
 "stkit.group.extras" = "अतिरिक्त";
-
-/* Text */
 "stkit.enterText" = "टेक्स्ट दर्ज करें...";
-
-/* Markup */
 "stkit.applyTool" = "%@ लागू करें";
-
-/* Signature */
 "stkit.signature.clear" = "साफ करें";
 "stkit.signature.drawNew" = "नया बनाएं";
 "stkit.signature.saved" = "सहेजे गए हस्ताक्षर";
-
-/* Stamps */
 "stkit.stamp.approved" = "स्वीकृत";
 "stkit.stamp.rejected" = "अस्वीकृत";
 "stkit.stamp.draft" = "मसौदा";
@@ -124,31 +94,21 @@
 "stkit.stamp.forComment" = "टिप्पणी के लिए";
 "stkit.stamp.asIs" = "जैसा है";
 "stkit.stamp.final" = "अंतिम";
-
-/* Placement */
 "stkit.tapToPlace" = "रखने के लिए टैप करें";
-
-/* Selection */
 "stkit.selection.copy" = "कॉपी करें";
 "stkit.selection.paste" = "पेस्ट करें";
 "stkit.selection.delete" = "हटाएं";
 "stkit.selection.inspector" = "निरीक्षक";
 "stkit.selection.note" = "नोट";
-
-/* Hints */
 "stkit.hint.draw" = "स्पर्श करें और बनाएं";
 "stkit.hint.shape" = "खींचकर बनाएं";
 "stkit.hint.tapToAddText" = "टेक्स्ट जोड़ने के लिए टैप करें";
 "stkit.hint.erase" = "मिटाने के लिए स्वाइप करें";
-
-/* Order */
 "stkit.order" = "क्रम";
 "stkit.order.front" = "सामने लाएं";
 "stkit.order.forward" = "आगे लाएं";
 "stkit.order.backward" = "पीछे भेजें";
-"stkit.order.back" = "सबसे पीछे भेजें";
-
-/* Page Editor */
+"stkit.order.back" = "पीछे भेजें";
 "stkit.page.newPage" = "नया पृष्ठ";
 "stkit.page.remove" = "हटाएं";
 "stkit.page.duplicate" = "डुप्लिकेट करें";
@@ -166,8 +126,6 @@
 "stkit.page.color.white" = "सफेद";
 "stkit.page.color.cream" = "क्रीम";
 "stkit.page.color.gray" = "ग्रे";
-
-/* Ribbon Tabs */
 "stkit.ribbon.home" = "होम";
 "stkit.ribbon.para" = "प्रारूप";
 "stkit.ribbon.insert" = "सम्मिलित करें";
@@ -176,8 +134,6 @@
 "stkit.ribbon.layout" = "लेआउट";
 "stkit.ribbon.review" = "समीक्षा";
 "stkit.ribbon.view" = "दृश्य";
-
-/* Ribbon Home */
 "stkit.ribbon.bold" = "बोल्ड";
 "stkit.ribbon.italic" = "इटैलिक";
 "stkit.ribbon.underline" = "रेखांकन";
@@ -191,8 +147,6 @@
 "stkit.ribbon.alignRight" = "दाएं";
 "stkit.ribbon.justify" = "संरेखित करें";
 "stkit.ribbon.lineSpacing" = "पंक्ति रिक्ति";
-
-/* Ribbon Insert */
 "stkit.ribbon.image" = "छवि";
 "stkit.ribbon.table" = "तालिका";
 "stkit.ribbon.shape" = "आकार";
@@ -204,14 +158,10 @@
 "stkit.ribbon.endnote" = "अंतिम नोट";
 "stkit.ribbon.tab" = "टैब";
 "stkit.ribbon.lineBreak" = "विराम";
-
-/* Ribbon Layout */
 "stkit.ribbon.orientation" = "अभिविन्यास";
 "stkit.ribbon.pageSize" = "आकार";
 "stkit.ribbon.margins" = "मार्जिन";
 "stkit.ribbon.columns" = "कॉलम";
-
-/* Ribbon Home+ */
 "stkit.ribbon.paste" = "पेस्ट";
 "stkit.ribbon.copyFormat" = "प्रारूप";
 "stkit.ribbon.subscript" = "सबस्क्रिप्ट";
@@ -222,8 +172,6 @@
 "stkit.ribbon.decreaseIndent" = "इंडेंट-";
 "stkit.ribbon.selectAll" = "सभी चुनें";
 "stkit.ribbon.edit" = "संपादित करें";
-
-/* Ribbon Insert+ */
 "stkit.ribbon.pageBreak" = "पृष्ठ विराम";
 "stkit.ribbon.textBox" = "टेक्स्ट बॉक्स";
 "stkit.ribbon.link" = "लिंक";
@@ -232,22 +180,14 @@
 "stkit.ribbon.comment" = "टिप्पणी";
 "stkit.ribbon.header" = "हेडर";
 "stkit.ribbon.footer" = "फुटर";
-
-/* Ribbon Design */
 "stkit.ribbon.themes" = "थीम";
 "stkit.ribbon.watermark" = "वॉटरमार्क";
-
-/* Ribbon Layout+ */
 "stkit.ribbon.textDirection" = "दिशा";
 "stkit.ribbon.sectionBreak" = "अनुभाग विराम";
 "stkit.ribbon.pageBreaks" = "पृष्ठ विराम";
-
-/* Ribbon Review */
 "stkit.ribbon.trackChanges" = "परिवर्तन ट्रैक करें";
 "stkit.ribbon.acceptChange" = "स्वीकार करें";
 "stkit.ribbon.rejectChange" = "अस्वीकार करें";
-
-/* Ribbon Table */
 "stkit.ribbon.addRow" = "पंक्ति जोड़ें";
 "stkit.ribbon.deleteRow" = "पंक्ति हटाएं";
 "stkit.ribbon.addColumn" = "कॉलम जोड़ें";
@@ -257,16 +197,10 @@
 "stkit.ribbon.tableStyle" = "शैली";
 "stkit.ribbon.tableColor" = "रंग";
 "stkit.tableStyles" = "तालिका शैलियां";
-
-/* Ribbon Review+ */
 "stkit.ribbon.comments" = "टिप्पणियां";
 "stkit.selectTextForComment" = "पहले दस्तावेज़ में टेक्स्ट चुनें, फिर टिप्पणी जोड़ें।";
-
-/* General */
 "stkit.comingSoon" = "जल्द आ रहा है";
 "stkit.custom" = "कस्टम";
-
-/* Ribbon View */
 "stkit.ribbon.zoom" = "ज़ूम";
 "stkit.ribbon.thumbnails" = "पृष्ठ";
 "stkit.ribbon.outline" = "रूपरेखा";

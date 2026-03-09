@@ -5,6 +5,7 @@ import SwiftUI
 struct STPDFRibbonInsertTab: View {
 
     @ObservedObject var annotationManager: STAnnotationManager
+    @ObservedObject var viewModel: STPDFEditorViewModel
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -37,6 +38,16 @@ struct STPDFRibbonInsertTab: View {
                 toolButton(.stamp)
                 toolButton(.photo)
                 toolButton(.note)
+
+                STPDFRibbonSeparator()
+
+                // Notes list
+                STPDFRibbonToolButton(
+                    iconName: "list.bullet.rectangle",
+                    label: STStrings.toolNotes
+                ) {
+                    viewModel.activeSheet = .notes
+                }
             }
             .padding(.horizontal, 8)
         }

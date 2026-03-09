@@ -22,6 +22,11 @@ final class STDOCXEditorViewModel: ObservableObject {
     @Published var isAnnotationToolbarVisible = false
     @Published var activeSheet: STSheetType?
     @Published var isPageStripVisible = true
+    @Published var hasUnsavedChanges = false
+    @Published var showPaywall = false
+
+    /// Original file data for revert (discard changes)
+    private(set) var originalFileData: Data?
 
     private var cancellables = Set<AnyCancellable>()
 
@@ -32,6 +37,17 @@ final class STDOCXEditorViewModel: ObservableObject {
         self.annotationManager = STAnnotationManager(document: document)
         self.serializer = STAnnotationSerializer(document: document)
         self.webEditorViewModel = STWebEditorViewModel(document: document)
+
+        // Store original file data for revert
+        if let url = document.url {
+            self.originalFileData = try? Data(contentsOf: url)
+        }
+
+        // Track content dirty flag for unsaved changes
+        webEditorViewModel.$isContentDirty
+            .removeDuplicates()
+            .sink { [weak self] dirty in self?.hasUnsavedChanges = dirty }
+            .store(in: &cancellables)
 
         // Forward annotation manager changes to trigger SwiftUI view updates
         annotationManager.objectWillChange
@@ -92,6 +108,12 @@ final class STDOCXEditorViewModel: ObservableObject {
             serializer.startAutoSave()
         }
         annotationManager.setTool(tool)
+    }
+
+    /// Revert the document to its original state (discard all changes)
+    func revertToOriginal() {
+        guard let data = originalFileData, let url = document.url else { return }
+        try? data.write(to: url)
     }
 
     /// Highlight a search selection on the PDFView, then clear after delay

@@ -40,7 +40,7 @@ struct STPDFRibbonView: View {
         case .markup:
             STPDFRibbonMarkupTab(annotationManager: viewModel.annotationManager)
         case .insert:
-            STPDFRibbonInsertTab(annotationManager: viewModel.annotationManager)
+            STPDFRibbonInsertTab(annotationManager: viewModel.annotationManager, viewModel: viewModel)
         case .view:
             STPDFRibbonViewTab(viewModel: viewModel)
         case .pages:

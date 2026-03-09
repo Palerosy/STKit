@@ -37,18 +37,6 @@ public struct STExcelConfiguration {
     /// Show sheet tabs
     public var showSheetTabs: Bool = true
 
-    /// Show ribbon toolbar
-    public var showRibbon: Bool = true
-
-    /// Restrict available ribbon tabs (nil = show all)
-    public var ribbonTabs: [STExcelRibbonTab]? = nil
-
-    // MARK: - Paywall
-
-    /// Paywall placement identifier. Defaults to `STKitConfiguration.shared.paywallPlacement`.
-    /// Override per-editor if needed.
-    public var paywallPlacement: String = STKitConfiguration.shared.paywallPlacement
-
     // MARK: - Appearance
 
     /// Grid line color
@@ -58,7 +46,7 @@ public struct STExcelConfiguration {
     public var headerBackgroundColor: Color = .stSecondarySystemBackground
 
     /// Selected cell highlight color
-    public var selectionColor: Color = .stExcelAccent
+    public var selectionColor: Color = .accentColor
 
     /// Cell background color
     public var cellBackgroundColor: Color = .stSystemBackground
@@ -70,7 +58,6 @@ public struct STExcelConfiguration {
         var config = STExcelConfiguration()
         config.isEditable = false
         config.showSaveButton = false
-        config.showRibbon = false
         return config
     }
 }

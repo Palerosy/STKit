@@ -1,15 +1,13 @@
-/* Editor */
 "stdocx.font" = "Skrifttype";
 "stdocx.textColor" = "Tekstfarve";
 "stdocx.exportAs" = "Eksporter som";
 "stdocx.findReplace" = "Find og erstat";
-/* Formatting */
 "stdocx.bold" = "Fed";
 "stdocx.italic" = "Kursiv";
-"stdocx.underline" = "Understregning";
+"stdocx.underline" = "Understreg";
 "stdocx.strikethrough" = "Gennemstregning";
 "stdocx.alignment" = "Justering";
-"stdocx.alignLeft" = "Venstrejuster";
+"stdocx.alignLeft" = "Juster venstre";
 "stdocx.alignCenter" = "Centrer";
-"stdocx.alignRight" = "Højrejuster";
-"stdocx.justify" = "Lige margener";
+"stdocx.alignRight" = "Juster højre";
+"stdocx.justify" = "Justér";

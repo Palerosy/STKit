@@ -1,10 +1,7 @@
-/* Editor */
 "stdocx.font" = "Font";
 "stdocx.textColor" = "Culoare text";
 "stdocx.exportAs" = "Exportare ca";
 "stdocx.findReplace" = "Găsire și înlocuire";
-
-/* Formatting */
 "stdocx.bold" = "Aldin";
 "stdocx.italic" = "Cursiv";
 "stdocx.underline" = "Subliniat";
@@ -13,4 +10,4 @@
 "stdocx.alignLeft" = "Aliniere stânga";
 "stdocx.alignCenter" = "Centrare";
 "stdocx.alignRight" = "Aliniere dreapta";
-"stdocx.justify" = "Justificare";
+"stdocx.justify" = "Aliniere";

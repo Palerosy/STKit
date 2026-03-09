@@ -1,10 +1,7 @@
-/* Editor */
 "stdocx.font" = "Tipo de letra";
 "stdocx.textColor" = "Cor do texto";
 "stdocx.exportAs" = "Exportar como";
 "stdocx.findReplace" = "Localizar e substituir";
-
-/* Formatting */
 "stdocx.bold" = "Negrito";
 "stdocx.italic" = "Itálico";
 "stdocx.underline" = "Sublinhado";

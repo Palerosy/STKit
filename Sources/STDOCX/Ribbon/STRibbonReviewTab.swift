@@ -1,7 +1,7 @@
 import SwiftUI
 import STKit
 
-/// Review tab content — Word Count, Comment, Search, Track Changes
+/// Review tab content — Word Count, Comment, Search
 struct STRibbonReviewTab: View {
     @ObservedObject var webEditorViewModel: STWebEditorViewModel
     let onShowSearch: () -> Void
@@ -29,9 +29,11 @@ struct STRibbonReviewTab: View {
                     iconName: "text.bubble",
                     label: STStrings.ribbonComment
                 ) {
-                    webEditorViewModel.saveSelection()
-                    commentText = ""
-                    showCommentInput = true
+                    Task {
+                        await webEditorViewModel.saveSelectionAsync()
+                        commentText = ""
+                        showCommentInput = true
+                    }
                 }
                 .alert(STStrings.ribbonComment, isPresented: $showCommentInput) {
                     TextField(STStrings.ribbonComment, text: $commentText)
@@ -66,32 +68,6 @@ struct STRibbonReviewTab: View {
                     onShowSearch()
                 }
 
-                STRibbonSeparator()
-
-                // Track Changes toggle
-                STRibbonToolButton(
-                    iconName: "pencil.and.list.clipboard",
-                    label: STStrings.ribbonTrackChanges,
-                    isActive: webEditorViewModel.isTrackChangesEnabled
-                ) {
-                    webEditorViewModel.toggleTrackChanges()
-                }
-
-                // Accept All
-                STRibbonToolButton(
-                    iconName: "checkmark.circle",
-                    label: STStrings.ribbonAcceptChange
-                ) {
-                    webEditorViewModel.acceptAllChanges()
-                }
-
-                // Reject All
-                STRibbonToolButton(
-                    iconName: "xmark.circle",
-                    label: STStrings.ribbonRejectChange
-                ) {
-                    webEditorViewModel.rejectAllChanges()
-                }
             }
             .padding(.horizontal, 8)
         }

@@ -50,11 +50,7 @@ struct STPDFViewerView: View {
                             let viewPoint = pdfView.pointFromSwiftUI(screenPoint)
                             guard let page = pdfView.page(for: viewPoint, nearest: true) else { return }
                             let pdfPoint = pdfView.convert(viewPoint, to: page)
-                            if let annotation = annotationManager.addTextAnnotation(text: text, at: pdfPoint, on: page) {
-                                // Switch to selection mode and auto-select the new annotation
-                                annotationManager.setTool(nil)
-                                annotationManager.selectAnnotation(annotation, on: page)
-                            }
+                            annotationManager.addTextAnnotation(text: text, at: pdfPoint, on: page)
                         }
                     },
                     onCancel: { }

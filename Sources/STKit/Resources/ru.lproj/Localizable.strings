@@ -1,4 +1,3 @@
-/* Common */
 "stkit.done" = "Готово";
 "stkit.cancel" = "Отмена";
 "stkit.save" = "Сохранить";
@@ -11,26 +10,18 @@
 "stkit.undo" = "Отменить";
 "stkit.redo" = "Повторить";
 "stkit.add" = "Добавить";
-
-/* License */
 "stkit.unlicensed" = "STKit — Без лицензии";
-
-/* Word Count */
 "stkit.wordCount" = "Количество слов";
 "stkit.words" = "Слова";
 "stkit.characters" = "Символы";
 "stkit.charactersWithSpaces" = "Символы (с пробелами)";
 "stkit.paragraphs" = "Абзацы";
 "stkit.lines" = "Строки";
-
-/* Document */
 "stkit.newDocument" = "Новый документ";
 "stkit.unsavedChanges" = "Несохранённые изменения";
 "stkit.unsavedChangesMessage" = "У вас есть несохранённые изменения. Что вы хотите сделать?";
 "stkit.discard" = "Отклонить";
 "stkit.saveAndClose" = "Сохранить и закрыть";
-
-/* Navigation & Controls */
 "stkit.pages" = "Страницы";
 "stkit.bookmark" = "Закладка";
 "stkit.settings" = "Настройки";
@@ -38,8 +29,6 @@
 "stkit.editPages" = "Редактировать страницы";
 "stkit.print" = "Печать";
 "stkit.saveAsText" = "Сохранить как текст";
-
-/* Search & Replace */
 "stkit.searchInDocument" = "Поиск в документе...";
 "stkit.searching" = "Поиск...";
 "stkit.noResultsFound" = "Результаты не найдены";
@@ -49,26 +38,18 @@
 "stkit.replaceAll" = "Все";
 "stkit.showReplace" = "Заменить";
 "stkit.hideReplace" = "Скрыть замену";
-
-/* Outline */
 "stkit.noOutlineAvailable" = "Структура недоступна";
-
-/* Settings */
 "stkit.display" = "Отображение";
 "stkit.scrollDirection" = "Направление прокрутки";
 "stkit.pageMode" = "Режим страницы";
 "stkit.view" = "Вид";
 "stkit.pageShadows" = "Тени страниц";
 "stkit.backgroundColor" = "Цвет фона";
-
-/* Property Inspector */
 "stkit.color" = "Цвет";
 "stkit.width" = "Ширина";
 "stkit.fontSize" = "Размер шрифта";
 "stkit.opacity" = "Непрозрачность";
 "stkit.font" = "Шрифт";
-
-/* Annotation Tools */
 "stkit.tool.pen" = "Ручка";
 "stkit.tool.highlighter" = "Маркер";
 "stkit.tool.text" = "Текст";
@@ -82,14 +63,13 @@
 "stkit.tool.signature" = "Подпись";
 "stkit.tool.stamp" = "Штамп";
 "stkit.tool.note" = "Примечание";
+"stkit.tool.notes" = "Заметки";
 "stkit.tool.eraser" = "Ластик";
 "stkit.tool.photo" = "Фото";
 "stkit.tool.textEdit" = "Редактировать текст";
 "stkit.tapOnTextToEdit" = "Нажмите на текст для редактирования";
 "stkit.selection.word" = "Слово";
 "stkit.selection.line" = "Строка";
-
-/* Toolbar Labels */
 "stkit.hand" = "Рука";
 "stkit.select" = "Выбрать";
 "stkit.style" = "Стиль";
@@ -97,26 +77,16 @@
 "stkit.zoomOut" = "Уменьшить";
 "stkit.addText" = "Добавить текст";
 "stkit.removeText" = "Удалить текст";
-
-/* Annotation Groups */
 "stkit.group.draw" = "Рисование";
 "stkit.group.shapes" = "Фигуры";
 "stkit.group.text" = "Текст";
 "stkit.group.markup" = "Разметка";
 "stkit.group.extras" = "Дополнения";
-
-/* Text Input */
 "stkit.enterText" = "Введите текст...";
-
-/* Markup */
 "stkit.applyTool" = "Применить %@";
-
-/* Signature */
 "stkit.signature.clear" = "Очистить";
 "stkit.signature.drawNew" = "Нарисовать новую";
 "stkit.signature.saved" = "Сохранённые подписи";
-
-/* Stamp Types */
 "stkit.stamp.approved" = "Одобрено";
 "stkit.stamp.rejected" = "Отклонено";
 "stkit.stamp.draft" = "Черновик";
@@ -124,31 +94,21 @@
 "stkit.stamp.forComment" = "Для комментария";
 "stkit.stamp.asIs" = "Как есть";
 "stkit.stamp.final" = "Финальный";
-
-/* Placement */
 "stkit.tapToPlace" = "Нажмите для размещения";
-
-/* Selection Menu */
 "stkit.selection.copy" = "Копировать";
 "stkit.selection.paste" = "Вставить";
 "stkit.selection.delete" = "Удалить";
 "stkit.selection.inspector" = "Инспектор";
 "stkit.selection.note" = "Примечание";
-
-/* Tool Hints */
 "stkit.hint.draw" = "Коснитесь и рисуйте";
 "stkit.hint.shape" = "Перетащите для рисования";
 "stkit.hint.tapToAddText" = "Нажмите для добавления текста";
 "stkit.hint.erase" = "Проведите для стирания";
-
-/* Order (Layer) */
 "stkit.order" = "Порядок";
 "stkit.order.front" = "На передний план";
 "stkit.order.forward" = "Вперёд";
 "stkit.order.backward" = "Назад";
 "stkit.order.back" = "На задний план";
-
-/* Page Editor */
 "stkit.page.newPage" = "Новая страница";
 "stkit.page.remove" = "Удалить";
 "stkit.page.duplicate" = "Дублировать";
@@ -166,18 +126,14 @@
 "stkit.page.color.white" = "Белый";
 "stkit.page.color.cream" = "Кремовый";
 "stkit.page.color.gray" = "Серый";
-
-/* Ribbon Tabs */
 "stkit.ribbon.home" = "Главная";
 "stkit.ribbon.para" = "Формат";
-"stkit.ribbon.insert" = "Вставка";
+"stkit.ribbon.insert" = "Вставить";
 "stkit.ribbon.draw" = "Рисование";
 "stkit.ribbon.design" = "Дизайн";
 "stkit.ribbon.layout" = "Макет";
 "stkit.ribbon.review" = "Рецензирование";
 "stkit.ribbon.view" = "Вид";
-
-/* Ribbon Home */
 "stkit.ribbon.bold" = "Жирный";
 "stkit.ribbon.italic" = "Курсив";
 "stkit.ribbon.underline" = "Подчёркнутый";
@@ -190,9 +146,7 @@
 "stkit.ribbon.alignCenter" = "По центру";
 "stkit.ribbon.alignRight" = "По правому краю";
 "stkit.ribbon.justify" = "По ширине";
-"stkit.ribbon.lineSpacing" = "Интервал";
-
-/* Ribbon Insert */
+"stkit.ribbon.lineSpacing" = "Межстрочный интервал";
 "stkit.ribbon.image" = "Изображение";
 "stkit.ribbon.table" = "Таблица";
 "stkit.ribbon.shape" = "Фигура";
@@ -204,50 +158,36 @@
 "stkit.ribbon.endnote" = "Концевая сноска";
 "stkit.ribbon.tab" = "Табуляция";
 "stkit.ribbon.lineBreak" = "Разрыв";
-
-/* Ribbon Layout */
 "stkit.ribbon.orientation" = "Ориентация";
 "stkit.ribbon.pageSize" = "Размер";
 "stkit.ribbon.margins" = "Поля";
 "stkit.ribbon.columns" = "Колонки";
-
-/* Ribbon Home (additional) */
 "stkit.ribbon.paste" = "Вставить";
 "stkit.ribbon.copyFormat" = "Формат";
 "stkit.ribbon.subscript" = "Нижний индекс";
 "stkit.ribbon.superscript" = "Верхний индекс";
 "stkit.ribbon.bulletList" = "Маркированный";
 "stkit.ribbon.numberedList" = "Нумерованный";
-"stkit.ribbon.increaseIndent" = "Отступ+";
-"stkit.ribbon.decreaseIndent" = "Отступ-";
+"stkit.ribbon.increaseIndent" = "Увелич. отступ";
+"stkit.ribbon.decreaseIndent" = "Уменьш. отступ";
 "stkit.ribbon.selectAll" = "Выбрать все";
 "stkit.ribbon.edit" = "Редактировать";
-
-/* Ribbon Insert (additional) */
 "stkit.ribbon.pageBreak" = "Разрыв страницы";
 "stkit.ribbon.textBox" = "Текстовое поле";
 "stkit.ribbon.link" = "Ссылка";
 "stkit.ribbon.bookmark" = "Закладка";
 "stkit.ribbon.symbol" = "Символ";
 "stkit.ribbon.comment" = "Комментарий";
-"stkit.ribbon.header" = "Верхний колонтитул";
-"stkit.ribbon.footer" = "Нижний колонтитул";
-
-/* Ribbon Design (additional) */
+"stkit.ribbon.header" = "Колонтитул (верхний)";
+"stkit.ribbon.footer" = "Колонтитул (нижний)";
 "stkit.ribbon.themes" = "Темы";
 "stkit.ribbon.watermark" = "Водяной знак";
-
-/* Ribbon Layout (additional) */
 "stkit.ribbon.textDirection" = "Направление";
 "stkit.ribbon.sectionBreak" = "Разрыв раздела";
 "stkit.ribbon.pageBreaks" = "Разрыв страницы";
-
-/* Ribbon Review (additional) */
 "stkit.ribbon.trackChanges" = "Отслеживание изменений";
 "stkit.ribbon.acceptChange" = "Принять";
 "stkit.ribbon.rejectChange" = "Отклонить";
-
-/* Ribbon Table Tab */
 "stkit.ribbon.addRow" = "Добавить строку";
 "stkit.ribbon.deleteRow" = "Удалить строку";
 "stkit.ribbon.addColumn" = "Добавить столбец";
@@ -257,16 +197,10 @@
 "stkit.ribbon.tableStyle" = "Стиль";
 "stkit.ribbon.tableColor" = "Цвет";
 "stkit.tableStyles" = "Стили таблицы";
-
-/* Ribbon Review (comments) */
 "stkit.ribbon.comments" = "Комментарии";
 "stkit.selectTextForComment" = "Сначала выберите текст в документе, затем добавьте комментарий.";
-
-/* General */
 "stkit.comingSoon" = "Скоро";
 "stkit.custom" = "Настраиваемый";
-
-/* Ribbon View */
 "stkit.ribbon.zoom" = "Масштаб";
 "stkit.ribbon.thumbnails" = "Страницы";
 "stkit.ribbon.outline" = "Структура";

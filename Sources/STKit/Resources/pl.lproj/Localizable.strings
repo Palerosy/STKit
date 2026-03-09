@@ -63,6 +63,7 @@
 "stkit.tool.signature" = "Podpis";
 "stkit.tool.stamp" = "Pieczątka";
 "stkit.tool.note" = "Notatka";
+"stkit.tool.notes" = "Notatki";
 "stkit.tool.eraser" = "Gumka";
 "stkit.tool.photo" = "Zdjęcie";
 "stkit.tool.textEdit" = "Edytuj tekst";

@@ -1,6 +1,7 @@
 import SwiftUI
 import PDFKit
 import STKit
+import Combine
 
 /// Central manager for annotation state and operations
 @MainActor
@@ -80,9 +81,24 @@ final class STAnnotationManager: ObservableObject {
 
     // MARK: - Markup observation
     private var selectionObserver: NSObjectProtocol?
+    private var styleCancellable: AnyCancellable?
+    /// Guards against applying style changes that originate from loading (not user edits).
+    private var isLoadingStyle = false
 
     init(document: STPDFDocument) {
         self.document = document
+
+        // Observe activeStyle changes to apply them to selected FreeText annotation.
+        // Uses Combine sink (fires synchronously in willSet) rather than SwiftUI .onChange
+        // which may not fire reliably during popovers.
+        styleCancellable = $activeStyle
+            .dropFirst()
+            .sink { [weak self] newStyle in
+                guard let self,
+                      !self.isLoadingStyle,
+                      self.selectedAnnotation?.type == "FreeText" else { return }
+                self.applyFreeTextStyle(newStyle)
+            }
     }
 
     // MARK: - Tool Management
@@ -279,50 +295,94 @@ final class STAnnotationManager: ObservableObject {
     func populateStyleFromSelectedAnnotation() {
         guard let annotation = selectedAnnotation else { return }
 
+        // Prevent the Combine sink from applying this "read" back to the annotation.
+        isLoadingStyle = true
+        defer { isLoadingStyle = false }
+
+        // Build the new style in a local var, then assign once to avoid
+        // partial-update issues (e.g. changing color while fontSize is still the default).
+        var newStyle = activeStyle
+
         if let inkAnnotation = annotation as? STInkAnnotation {
-            activeStyle.color = inkAnnotation.inkColor
-            activeStyle.lineWidth = inkAnnotation.inkStrokeWidth
+            newStyle.color = inkAnnotation.inkColor
+            newStyle.lineWidth = inkAnnotation.inkStrokeWidth
             let alpha = inkAnnotation.inkColor.cgColor.alpha
-            activeStyle.opacity = alpha > 0 ? alpha : 1.0
+            newStyle.opacity = alpha > 0 ? alpha : 1.0
         } else if let lineAnnotation = annotation as? STLineAnnotation {
-            activeStyle.color = lineAnnotation.lineColor
-            activeStyle.lineWidth = lineAnnotation.lineStrokeWidth
+            newStyle.color = lineAnnotation.lineColor
+            newStyle.lineWidth = lineAnnotation.lineStrokeWidth
             let alpha = lineAnnotation.lineColor.cgColor.alpha
-            activeStyle.opacity = alpha > 0 ? alpha : 1.0
+            newStyle.opacity = alpha > 0 ? alpha : 1.0
         } else if annotation.type == "FreeText" {
-            activeStyle.color = annotation.fontColor ?? .black
-            activeStyle.fontSize = annotation.font?.pointSize ?? 16
-            activeStyle.fontName = annotation.font?.fontName ?? "Helvetica"
-            activeStyle.opacity = 1.0
+            newStyle.color = annotation.fontColor ?? .black
+            newStyle.fontSize = annotation.font?.pointSize ?? 16
+            newStyle.fontName = annotation.font?.fontName ?? "Helvetica"
+            newStyle.opacity = 1.0
         } else {
-            activeStyle.color = annotation.color
-            activeStyle.lineWidth = annotation.border?.lineWidth ?? 2.0
+            newStyle.color = annotation.color
+            newStyle.lineWidth = annotation.border?.lineWidth ?? 2.0
             let alpha = annotation.color.cgColor.alpha
-            activeStyle.opacity = alpha > 0 ? alpha : 1.0
+            newStyle.opacity = alpha > 0 ? alpha : 1.0
         }
+
+        activeStyle = newStyle
     }
 
     /// Apply the current activeStyle to the selected annotation.
     /// Called when the inspector's style controls change while an annotation is selected.
     func applyStyleToSelectedAnnotation() {
+        applyFreeTextStyle(activeStyle)
+    }
+
+    /// Apply the given style to the selected FreeText annotation.
+    /// Uses the passed style (not self.activeStyle) because the Combine sink fires
+    /// in willSet before the backing store is updated.
+    private func applyFreeTextStyle(_ style: STAnnotationStyle) {
         guard let annotation = selectedAnnotation else { return }
 
-        let color = activeStyle.color.withAlphaComponent(activeStyle.opacity)
+        let color = style.color.withAlphaComponent(style.opacity)
 
         if let inkAnnotation = annotation as? STInkAnnotation {
-            inkAnnotation.applyStyle(color: color, strokeWidth: activeStyle.lineWidth)
+            inkAnnotation.applyStyle(color: color, strokeWidth: style.lineWidth)
         } else if let lineAnnotation = annotation as? STLineAnnotation {
-            lineAnnotation.applyStyle(color: color, strokeWidth: activeStyle.lineWidth)
+            lineAnnotation.applyStyle(color: color, strokeWidth: style.lineWidth)
         } else if annotation.type == "FreeText" {
-            annotation.fontColor = activeStyle.color
-            annotation.font = PlatformFont(name: activeStyle.fontName, size: activeStyle.fontSize)
-                ?? .systemFont(ofSize: activeStyle.fontSize)
-            // freeText background stays clear
+            let newFont = PlatformFont(name: style.fontName, size: style.fontSize)
+                ?? .systemFont(ofSize: style.fontSize)
+
+            // Recalculate bounds for new font size
+            let text = annotation.contents ?? ""
+            var newBounds = annotation.bounds
+            if !text.isEmpty {
+                let textSize = (text as NSString).size(withAttributes: [.font: newFont])
+                let padding: CGFloat = 8
+                newBounds = CGRect(
+                    x: annotation.bounds.origin.x,
+                    y: annotation.bounds.origin.y,
+                    width: max(textSize.width + padding * 2, 40),
+                    height: textSize.height + padding * 2
+                )
+            }
+
+            // Replace with a fresh annotation to discard the cached appearance
+            // stream (AP entry). Annotations loaded from saved PDFs have a baked-in
+            // appearance that ignores font/fontColor property changes.
+            guard let page = annotation.page else { return }
+            let fresh = PDFAnnotation(bounds: newBounds, forType: .freeText, withProperties: nil)
+            fresh.contents = text
+            fresh.font = newFont
+            fresh.fontColor = style.color
+            fresh.color = .clear
+            fresh.alignment = annotation.alignment
+
+            page.removeAnnotation(annotation)
+            page.addAnnotation(fresh)
+            selectedAnnotation = fresh
         } else {
             annotation.color = color
             if annotation.border != nil {
                 let newBorder = PDFBorder()
-                newBorder.lineWidth = activeStyle.lineWidth
+                newBorder.lineWidth = style.lineWidth
                 annotation.border = newBorder
             }
         }
@@ -341,6 +401,28 @@ final class STAnnotationManager: ObservableObject {
             for sublayer in view.layer.sublayers ?? [] { sublayer.setNeedsDisplay() }
             for child in view.subviews { invalidate(child) }
         }
+        invalidate(pdfView)
+        // CATiledLayer renders asynchronously on background threads.
+        // Nudge the scale factor to force all visible tiles to be fully re-rendered.
+        // CATransaction disables animations so there's no visual flicker.
+        // IMPORTANT: preserve autoScales — setting scaleFactor disables it.
+        let wasAutoScales = pdfView.autoScales
+        let scale = pdfView.scaleFactor
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        pdfView.scaleFactor = scale + 0.001
+        CATransaction.commit()
+        DispatchQueue.main.async { [weak pdfView] in
+            guard let pdfView else { return }
+            CATransaction.begin()
+            CATransaction.setDisableActions(true)
+            if wasAutoScales {
+                pdfView.autoScales = true
+            } else {
+                pdfView.scaleFactor = scale
+            }
+            CATransaction.commit()
+        }
         #elseif os(macOS)
         func invalidate(_ view: NSView) {
             view.needsDisplay = true
@@ -348,8 +430,19 @@ final class STAnnotationManager: ObservableObject {
             for sublayer in view.layer?.sublayers ?? [] { sublayer.setNeedsDisplay() }
             for child in view.subviews { invalidate(child) }
         }
-        #endif
         invalidate(pdfView)
+        let wasAutoScales = pdfView.autoScales
+        let scale = pdfView.scaleFactor
+        pdfView.scaleFactor = scale + 0.001
+        DispatchQueue.main.async { [weak pdfView] in
+            guard let pdfView else { return }
+            if wasAutoScales {
+                pdfView.autoScales = true
+            } else {
+                pdfView.scaleFactor = scale
+            }
+        }
+        #endif
     }
 
     // MARK: - Zoom
@@ -578,6 +671,12 @@ final class STAnnotationManager: ObservableObject {
 
         page.addAnnotation(annotation)
         undoManager.record(.add(annotation: annotation, page: page))
+
+        activeTool = nil
+        selectAnnotation(annotation, on: page)
+        forcePDFViewRedraw()
+
+        STHaptics.impact(.light)
         return annotation
     }
 
@@ -634,9 +733,14 @@ final class STAnnotationManager: ObservableObject {
         let annotation = PDFAnnotation(bounds: bounds, forType: .text, withProperties: nil)
         annotation.contents = text
         annotation.color = activeStyle.color
+        annotation.iconType = .comment
 
         page.addAnnotation(annotation)
         undoManager.record(.add(annotation: annotation, page: page))
+
+        activeTool = nil
+        selectAnnotation(annotation, on: page)
+        forcePDFViewRedraw()
 
         STHaptics.impact(.light)
     }

@@ -568,10 +568,25 @@
     // ============================================================
 
     window.insertComment = function(id, text) {
-        var sel = window.getSelection();
-        if (!sel.rangeCount || sel.isCollapsed) return false;
+        var range = null;
 
-        var range = sel.getRangeAt(0);
+        // Try current browser selection first
+        var sel = window.getSelection();
+        if (sel && sel.rangeCount > 0 && !sel.isCollapsed) {
+            range = sel.getRangeAt(0);
+        }
+
+        // Fallback: use saved range (alert dialog clears WKWebView selection)
+        if (!range && _savedRange && !_savedRange.collapsed) {
+            range = _savedRange;
+            jsLog('insertComment: using _savedRange fallback');
+        }
+
+        if (!range) {
+            jsLog('insertComment: no valid range found');
+            return false;
+        }
+
         var mark = document.createElement('span');
         mark.className = 'st-comment-highlight';
         mark.setAttribute('data-comment-id', id);
@@ -592,6 +607,7 @@
             range.insertNode(marker);
         }
 
+        _savedRange = null; // Clear saved range after use
         notifyContentChanged();
         return true;
     };
@@ -640,6 +656,8 @@
     // ============================================================
 
     window.setContent = function(html) {
+        // Suppress dirty flag during initial load (DOM mutations from innerHTML + pagination are not user edits)
+        _suppressDirty = true;
         // Load content flat first (for DOM measurement)
         editor.innerHTML = html;
         isContentDirty = false;
@@ -653,6 +671,11 @@
         setTimeout(function() {
             initializeCharts();
             paginateContent();
+            // Allow dirty tracking again after everything settles
+            setTimeout(function() {
+                isContentDirty = false;
+                _suppressDirty = false;
+            }, 300);
         }, 200);
     };
 
@@ -1273,16 +1296,19 @@
     var _tableResizing = false;    // whole-table resize in progress
     var _tableResizeStartX = 0;
     var _tableResizeStartW = 0;
+    var _forcingCursor = false;    // guard: true while forceCursorIntoCell is running
 
-    /// Activate a table: in normal mode just adds CSS outline,
-    /// in select/hand mode also wraps with resize handles.
+    /// Activate a table: in normal mode just tracks the active table,
+    /// in select/hand mode also wraps with resize handles and shows outline.
     function activateTable(table) {
         if (_activeTable === table) return;
         deactivateTable();
         _activeTable = table;
 
-        // Blue outline (both modes)
-        table.classList.add('st-table-selected');
+        // Blue outline only in select mode (in edit mode, cell outline is enough)
+        if (_isSelectMode) {
+            table.classList.add('st-table-selected');
+        }
 
         if (_isSelectMode) {
             // SELECT MODE: create wrapper with resize/column handles
@@ -1372,6 +1398,8 @@
     /// Force text cursor into a table cell using nested-editable trick (iOS-reliable)
     /// touchX/touchY: original touch coordinates to place cursor at the tapped position
     function forceCursorIntoCell(cell, touchX, touchY) {
+        _forcingCursor = true; // prevent selectionchange from killing cell edit
+
         // Remove nested-editable from previous cell
         if (_activeCellEdit && _activeCellEdit !== cell) {
             _activeCellEdit.removeAttribute('contenteditable');
@@ -1380,6 +1408,9 @@
 
         // Make THIS cell a nested editable — iOS routes keyboard input here
         cell.setAttribute('contenteditable', 'true');
+
+        // Focus the cell to ensure keyboard appears
+        cell.focus();
 
         try {
             var sel = window.getSelection();
@@ -1390,6 +1421,8 @@
                 if (caretRange && cell.contains(caretRange.startContainer)) {
                     sel.removeAllRanges();
                     sel.addRange(caretRange);
+                    // Release guard after selection settles
+                    setTimeout(function() { _forcingCursor = false; }, 100);
                     return;
                 }
             }
@@ -1408,6 +1441,9 @@
         } catch(ex) {
             jsLog('forceCursorIntoCell error: ' + ex.message);
         }
+
+        // Release guard after selection settles
+        setTimeout(function() { _forcingCursor = false; }, 100);
     }
 
     /// Exit per-cell edit mode — restore normal editor editability
@@ -1432,9 +1468,10 @@
 
     window.saveSelection = function() {
         var sel = window.getSelection();
-        if (sel && sel.rangeCount > 0) {
+        if (sel && sel.rangeCount > 0 && !sel.isCollapsed) {
             try { _savedRange = sel.getRangeAt(0).cloneRange(); } catch(e) {}
         }
+        // If selection is collapsed/empty, keep the auto-tracked _savedRange intact
     };
 
     window.restoreSelection = function() {
@@ -1445,59 +1482,6 @@
             sel.removeAllRanges();
             sel.addRange(_savedRange);
         } catch(e) {}
-    };
-
-    // MARK: - Track Changes
-
-    var _trackChanges = false;
-
-    function _onTrackedInput(e) {
-        if (!_trackChanges) return;
-        if (e.inputType === 'insertText' && e.data) {
-            e.preventDefault();
-            // Use insertHTML instead of range.insertNode to avoid WKWebView
-            // layout flash that briefly positions the new node at (0,0).
-            var escaped = e.data
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;');
-            document.execCommand('insertHTML', false,
-                '<span class="st-insertion">' + escaped + '</span>');
-        }
-    }
-
-    window.setTrackChanges = function(enabled) {
-        _trackChanges = enabled;
-        if (enabled) {
-            editor.addEventListener('beforeinput', _onTrackedInput);
-            editor.style.caretColor = '#00B050';
-        } else {
-            editor.removeEventListener('beforeinput', _onTrackedInput);
-            editor.style.caretColor = '';
-        }
-        return enabled;
-    };
-
-    window.acceptAllChanges = function() {
-        document.querySelectorAll('.st-insertion').forEach(function(el) {
-            var frag = document.createDocumentFragment();
-            while (el.firstChild) frag.appendChild(el.firstChild);
-            el.parentNode.replaceChild(frag, el);
-        });
-        document.querySelectorAll('.st-deletion').forEach(function(el) {
-            el.parentNode.removeChild(el);
-        });
-    };
-
-    window.rejectAllChanges = function() {
-        document.querySelectorAll('.st-insertion').forEach(function(el) {
-            el.parentNode.removeChild(el);
-        });
-        document.querySelectorAll('.st-deletion').forEach(function(el) {
-            var frag = document.createDocumentFragment();
-            while (el.firstChild) frag.appendChild(el.firstChild);
-            el.parentNode.replaceChild(frag, el);
-        });
     };
 
     /// Called from Swift before any formatting command (bold, font, color…)
@@ -1540,6 +1524,9 @@
         if (!_activeTable) return;
         exitCellEdit();
         _activeTable.classList.remove('st-table-selected');
+        // Also clear any active cell highlight within this table
+        var activeCells = _activeTable.querySelectorAll('.st-active-cell');
+        for (var i = 0; i < activeCells.length; i++) activeCells[i].classList.remove('st-active-cell');
         if (_tableWrapper && _tableWrapper.parentNode) {
             var savedScrollY = window.scrollY || window.pageYOffset;
             _tableWrapper.parentNode.insertBefore(_activeTable, _tableWrapper);
@@ -2238,7 +2225,10 @@
         return '#' + r + g + b;
     }
 
+    var _suppressDirty = false;
+
     function notifyContentChanged() {
+        if (_suppressDirty) return;
         isContentDirty = true;
         try {
             webkit.messageHandlers.contentChanged.postMessage(true);
@@ -2485,6 +2475,21 @@
             }
             _tapCaretRange = null;
         }
+
+        // Auto-track last non-collapsed selection for comment insertion.
+        // When user taps a ribbon button, WKWebView loses focus and clears
+        // the selection BEFORE any JS bridge call can run. By continuously
+        // saving the last valid selection here, _savedRange is always ready.
+        var sel2 = window.getSelection();
+        if (sel2 && sel2.rangeCount > 0 && !sel2.isCollapsed) {
+            try {
+                var r = sel2.getRangeAt(0);
+                if (editor.contains(r.commonAncestorContainer)) {
+                    _savedRange = r.cloneRange();
+                }
+            } catch(e) {}
+        }
+
         updateFormattingState();
     });
 
@@ -2648,14 +2653,16 @@
     // Deactivate table when clicking outside any table (only in edit mode)
     document.addEventListener('selectionchange', function() {
         if (_isSelectMode) return; // In select mode, table is managed by touch/click handlers
+        if (_forcingCursor) return; // Don't interfere while cursor is being placed in a cell
         setTimeout(function() {
+            if (_forcingCursor) return; // Double-check after timeout
             if (_tableResizing || _colResizeIdx >= 0) return;
             var cell = getActiveTableCell();
             if (!cell) {
                 exitCellEdit();
                 deactivateTable();
             }
-        }, 50);
+        }, 100);
     });
 
     // ============================================================

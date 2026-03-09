@@ -32,9 +32,6 @@ public struct STTXTEditorView: View {
     @State private var showWordCount = false
     @State private var showShareSheet = false
     @State private var exportURL: URL?
-    @State private var showLicenseAlert = false
-    @State private var showPremiumPaywall = false
-    @State private var paywallPlacement = "main"
 
     /// Open an existing text file
     public init(
@@ -121,7 +118,7 @@ public struct STTXTEditorView: View {
                 }
 
                 Button {
-                    licensedAction { printDocument() }
+                    printDocument()
                 } label: {
                     Image(systemName: "printer")
                         .font(.system(size: 14))
@@ -187,7 +184,7 @@ public struct STTXTEditorView: View {
 
                     if configuration.showSaveButton {
                         Button {
-                            licensedAction { saveDocument() }
+                            saveDocument()
                         } label: {
                             if isSaving {
                                 ProgressView().scaleEffect(0.8)
@@ -205,31 +202,13 @@ public struct STTXTEditorView: View {
         .alert(STStrings.unsavedChanges, isPresented: $showDiscardAlert) {
             Button(STStrings.discard, role: .destructive) { onDismiss?() }
             Button(STStrings.saveAndClose) {
-                licensedAction({
-                    saveDocument()
-                    onDismiss?()
-                }, delay: 0.5)
+                saveDocument()
+                onDismiss?()
             }
             Button(STStrings.cancel, role: .cancel) {}
         } message: {
             Text(STStrings.unsavedChangesMessage)
         }
-        .alert(STStrings.unlicensed, isPresented: $showLicenseAlert) {
-            Button(STStrings.done, role: .cancel) {}
-        }
-        #if os(iOS)
-        .fullScreenCover(isPresented: $showPremiumPaywall) {
-            if let paywallView = STKitConfiguration.shared.premiumPaywallView {
-                paywallView(paywallPlacement)
-            }
-        }
-        #else
-        .sheet(isPresented: $showPremiumPaywall) {
-            if let paywallView = STKitConfiguration.shared.premiumPaywallView {
-                paywallView(paywallPlacement)
-            }
-        }
-        #endif
         .sheet(isPresented: $showWordCount) {
             STTXTWordCountView(text: text)
                 .stPresentationDetents([.height(300)])
@@ -263,25 +242,6 @@ public struct STTXTEditorView: View {
         printOperation.run()
     }
     #endif
-
-    // MARK: - Premium Gate
-
-    private func licensedAction(_ action: @escaping () -> Void, delay: Double = 0.35) {
-        if STKitConfiguration.shared.isPurchased {
-            action()
-        } else {
-            DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
-                if STKitConfiguration.shared.premiumPaywallView != nil {
-                    paywallPlacement = configuration.paywallPlacement
-                    showPremiumPaywall = true
-                } else if let handler = STKitConfiguration.shared.onPremiumFeatureTapped {
-                    handler()
-                } else {
-                    showLicenseAlert = true
-                }
-            }
-        }
-    }
 
     private func saveDocument() {
         isSaving = true

@@ -1,42 +1,47 @@
-/* Navigation & Controls */
+/* General */
 "stpdfkit.done" = "تم";
-"stpdfkit.pages" = "صفحات";
+"stpdfkit.pages" = "الصفحات";
 "stpdfkit.bookmark" = "إشارة مرجعية";
 "stpdfkit.search" = "بحث";
-"stpdfkit.settings" = "إعدادات";
-"stpdfkit.outline" = "مخطط تفصيلي";
+"stpdfkit.settings" = "الإعدادات";
+"stpdfkit.outline" = "الفهرس";
 "stpdfkit.editPages" = "تعديل الصفحات";
 "stpdfkit.share" = "مشاركة";
 "stpdfkit.print" = "طباعة";
 "stpdfkit.saveAsText" = "حفظ كنص";
-"stpdfkit.untitled" = "بلا عنوان";
+"stpdfkit.untitled" = "بدون عنوان";
+
 /* Search */
-"stpdfkit.searchInDocument" = "بحث في المستند...";
+"stpdfkit.searchInDocument" = "البحث في المستند...";
 "stpdfkit.searching" = "جارٍ البحث...";
-"stpdfkit.noResultsFound" = "لا توجد نتائج";
+"stpdfkit.noResultsFound" = "لم يتم العثور على نتائج";
+
+/* Pages */
 "stpdfkit.page" = "صفحة %d";
-/* Outline */
-"stpdfkit.noOutlineAvailable" = "لا يوجد مخطط تفصيلي";
-/* Settings */
-"stpdfkit.display" = "عرض";
+"stpdfkit.noOutlineAvailable" = "لا يوجد فهرس متاح";
+
+/* Display Settings */
+"stpdfkit.display" = "العرض";
 "stpdfkit.scrollDirection" = "اتجاه التمرير";
 "stpdfkit.pageMode" = "وضع الصفحة";
 "stpdfkit.view" = "عرض";
 "stpdfkit.pageShadows" = "ظلال الصفحة";
 "stpdfkit.backgroundColor" = "لون الخلفية";
-/* Property Inspector */
-"stpdfkit.color" = "لون";
-"stpdfkit.width" = "عرض";
+
+/* Annotation Properties */
+"stpdfkit.color" = "اللون";
+"stpdfkit.width" = "العرض";
 "stpdfkit.fontSize" = "حجم الخط";
-"stpdfkit.opacity" = "التعتيم";
-"stpdfkit.font" = "خط";
+"stpdfkit.opacity" = "الشفافية";
+"stpdfkit.font" = "الخط";
+
 /* Annotation Tools */
 "stpdfkit.tool.pen" = "قلم";
 "stpdfkit.tool.highlighter" = "قلم تمييز";
 "stpdfkit.tool.text" = "نص";
 "stpdfkit.tool.highlight" = "تمييز";
 "stpdfkit.tool.underline" = "تسطير";
-"stpdfkit.tool.strikethrough" = "شطب";
+"stpdfkit.tool.strikethrough" = "يتوسطه خط";
 "stpdfkit.tool.rectangle" = "مستطيل";
 "stpdfkit.tool.circle" = "دائرة";
 "stpdfkit.tool.line" = "خط";
@@ -45,65 +50,32 @@
 "stpdfkit.tool.stamp" = "ختم";
 "stpdfkit.tool.note" = "ملاحظة";
 "stpdfkit.tool.eraser" = "ممحاة";
-"stpdfkit.tool.photo" = "صورة";
 "stpdfkit.tool.textEdit" = "تعديل النص";
 "stpdfkit.tapOnTextToEdit" = "انقر على النص للتعديل";
 "stpdfkit.selection.word" = "كلمة";
 "stpdfkit.selection.line" = "سطر";
-/* Toolbar Labels */
-"stpdfkit.hand" = "يد";
-"stpdfkit.undo" = "تراجع";
-"stpdfkit.redo" = "إعادة";
-"stpdfkit.select" = "تحديد";
-"stpdfkit.style" = "نمط";
-"stpdfkit.close" = "إغلاق";
-"stpdfkit.zoomIn" = "تكبير";
-"stpdfkit.zoomOut" = "تصغير";
-"stpdfkit.addText" = "إضافة نص";
-"stpdfkit.removeText" = "إزالة نص";
-/* Annotation Groups */
+
+/* Tool Groups */
 "stpdfkit.group.draw" = "رسم";
-"stpdfkit.group.shapes" = "أشكال";
 "stpdfkit.group.text" = "نص";
-"stpdfkit.group.markup" = "تمييز";
-"stpdfkit.group.extras" = "إضافات";
+"stpdfkit.group.markup" = "توصيف";
+
 /* Text Input */
-"stpdfkit.enterText" = "أدخل نصاً...";
+"stpdfkit.enterText" = "أدخل النص...";
 "stpdfkit.cancel" = "إلغاء";
 "stpdfkit.add" = "إضافة";
+
 /* Markup */
 "stpdfkit.applyTool" = "تطبيق %@";
+
 /* Signature */
 "stpdfkit.signature.clear" = "مسح";
 "stpdfkit.signature.drawNew" = "رسم جديد";
 "stpdfkit.signature.saved" = "التوقيعات المحفوظة";
-/* Stamp Types */
-"stpdfkit.stamp.approved" = "معتمد";
-"stpdfkit.stamp.rejected" = "مرفوض";
-"stpdfkit.stamp.draft" = "مسودة";
-"stpdfkit.stamp.confidential" = "سري";
-"stpdfkit.stamp.forComment" = "للتعليق";
-"stpdfkit.stamp.asIs" = "كما هو";
-"stpdfkit.stamp.final" = "نهائي";
-/* Placement */
-"stpdfkit.tapToPlace" = "انقر للوضع";
+
 /* Selection Menu */
-"stpdfkit.selection.copy" = "نسخ";
 "stpdfkit.selection.paste" = "لصق";
-"stpdfkit.selection.delete" = "حذف";
-"stpdfkit.selection.inspector" = "فاحص";
-"stpdfkit.selection.note" = "ملاحظة";
-/* Tool Hints */
-"stpdfkit.hint.draw" = "المس وارسم";
-"stpdfkit.hint.shape" = "اسحب للرسم";
-"stpdfkit.hint.tapToAddText" = "انقر لإضافة نص";
-"stpdfkit.hint.erase" = "اسحب للمحو";
-/* Order (Layer) */
-"stpdfkit.order" = "ترتيب";
-"stpdfkit.order.front" = "إحضار للأمام";
-"stpdfkit.order.forward" = "تقديم للأمام";
-"stpdfkit.order.backward" = "إرسال للخلف";
-"stpdfkit.order.back" = "إرسال إلى الخلف";
+
 /* Page Editor */
 "stpdfkit.page.newPage" = "صفحة جديدة";
 "stpdfkit.page.remove" = "إزالة";
@@ -122,5 +94,6 @@
 "stpdfkit.page.color.white" = "أبيض";
 "stpdfkit.page.color.cream" = "كريمي";
 "stpdfkit.page.color.gray" = "رمادي";
+
 /* License */
-"stpdfkit.unlicensed" = "STPDFKit — غير مرخص";
+"stpdfkit.unlicensed" = "STPDFKit — Unlicensed";

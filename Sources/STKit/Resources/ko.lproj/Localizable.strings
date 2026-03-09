@@ -63,6 +63,7 @@
 "stkit.tool.signature" = "서명";
 "stkit.tool.stamp" = "도장";
 "stkit.tool.note" = "메모";
+"stkit.tool.notes" = "메모";
 "stkit.tool.eraser" = "지우개";
 "stkit.tool.photo" = "사진";
 "stkit.tool.textEdit" = "텍스트 편집";

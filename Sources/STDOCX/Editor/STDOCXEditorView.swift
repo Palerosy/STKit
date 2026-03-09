@@ -57,43 +57,11 @@ public struct STDOCXEditorView: View {
     @State private var showPhotoPicker = false
     @State private var selectedPhotoItem: PhotosPickerItem?
     @State private var showShareSheet = false
-    @State private var showCloseConfirmation = false
-    @State private var showLicenseAlert = false
-    @State private var showPremiumPaywall = false
-    @State private var paywallPlacement = "main"
+    @State private var showDismissAlert = false
 
     /// Print the current document content
     private func printDocument() {
         viewModel.webEditorViewModel.printContent()
-    }
-
-    // MARK: - Premium Gate
-
-    private func licensedAction(_ action: @escaping () -> Void, delay: Double = 0.35) {
-        if STKitConfiguration.shared.isPurchased {
-            action()
-        } else {
-            DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
-                if STKitConfiguration.shared.premiumPaywallView != nil {
-                    paywallPlacement = configuration.paywallPlacement
-                    showPremiumPaywall = true
-                } else if let handler = STKitConfiguration.shared.onPremiumFeatureTapped {
-                    handler()
-                } else {
-                    showLicenseAlert = true
-                }
-            }
-        }
-    }
-
-    private func saveAndClose() {
-        Task {
-            await viewModel.webEditorViewModel.saveContent()
-            if let docURL = viewModel.document.url {
-                viewModel.document.save(to: docURL)
-            }
-            onDismiss?()
-        }
     }
 
     /// Dismiss keyboard globally
@@ -144,7 +112,17 @@ public struct STDOCXEditorView: View {
             HStack {
                 Button {
                     dismissKeyboard()
-                    showCloseConfirmation = true
+                    if viewModel.hasUnsavedChanges {
+                        showDismissAlert = true
+                    } else {
+                        Task {
+                            await viewModel.webEditorViewModel.saveContent()
+                            if let docURL = viewModel.document.url {
+                                viewModel.document.save(to: docURL)
+                            }
+                            onDismiss?()
+                        }
+                    }
                 } label: {
                     Image(systemName: "xmark")
                         .font(.system(size: 14, weight: .semibold))
@@ -163,7 +141,14 @@ public struct STDOCXEditorView: View {
                 // Print
                 Button {
                     dismissKeyboard()
-                    licensedAction { printDocument() }
+                    guard STKitConfiguration.shared.isPurchased else {
+                        STKitConfiguration.shared.onPremiumFeatureTapped?()
+                        if STKitConfiguration.shared.onPremiumFeatureTapped == nil {
+                            viewModel.showPaywall = true
+                        }
+                        return
+                    }
+                    printDocument()
                 } label: {
                     Image(systemName: "printer")
                         .font(.system(size: 14))
@@ -245,7 +230,17 @@ public struct STDOCXEditorView: View {
             ToolbarItem(placement: .stLeading) {
                 Button {
                     dismissKeyboard()
-                    showCloseConfirmation = true
+                    if viewModel.hasUnsavedChanges {
+                        showDismissAlert = true
+                    } else {
+                        Task {
+                            await viewModel.webEditorViewModel.saveContent()
+                            if let docURL = viewModel.document.url {
+                                viewModel.document.save(to: docURL)
+                            }
+                            onDismiss?()
+                        }
+                    }
                 } label: {
                     Image(systemName: "xmark")
                         .font(.system(size: 16, weight: .semibold))
@@ -320,33 +315,6 @@ public struct STDOCXEditorView: View {
         } message: { comment in
             Text(comment.text)
         }
-        .alert(STStrings.unsavedChanges, isPresented: $showCloseConfirmation) {
-            Button(STStrings.discard, role: .destructive) {
-                onDismiss?()
-            }
-            Button(STStrings.save) {
-                licensedAction({ saveAndClose() }, delay: 0.5)
-            }
-            Button(STStrings.cancel, role: .cancel) {}
-        } message: {
-            Text(STStrings.unsavedChangesMessage)
-        }
-        .alert(STStrings.unlicensed, isPresented: $showLicenseAlert) {
-            Button(STStrings.done, role: .cancel) {}
-        }
-        #if os(iOS)
-        .fullScreenCover(isPresented: $showPremiumPaywall) {
-            if let paywallView = STKitConfiguration.shared.premiumPaywallView {
-                paywallView(paywallPlacement)
-            }
-        }
-        #else
-        .sheet(isPresented: $showPremiumPaywall) {
-            if let paywallView = STKitConfiguration.shared.premiumPaywallView {
-                paywallView(paywallPlacement)
-            }
-        }
-        #endif
         .sheet(isPresented: Binding(
             get: { viewModel.webEditorViewModel.isChartEditorVisible },
             set: { viewModel.webEditorViewModel.isChartEditorVisible = $0 }
@@ -381,6 +349,57 @@ public struct STDOCXEditorView: View {
                     }
                 }
                 selectedPhotoItem = nil
+            }
+        }
+        .alert(STStrings.unsavedChanges, isPresented: $showDismissAlert) {
+            Button(STStrings.discard, role: .destructive) {
+                viewModel.revertToOriginal()
+                onDismiss?()
+            }
+            Button(STStrings.saveAndClose) {
+                if STKitConfiguration.shared.isPurchased {
+                    Task {
+                        await viewModel.webEditorViewModel.saveContent()
+                        if let docURL = viewModel.document.url {
+                            viewModel.document.save(to: docURL)
+                        }
+                        onDismiss?()
+                    }
+                } else {
+                    if let _ = STKitConfiguration.shared.onPremiumFeatureTapped {
+                        STKitConfiguration.shared.onPremiumFeatureTapped?()
+                    } else {
+                        viewModel.showPaywall = true
+                    }
+                }
+            }
+            Button(STStrings.cancel, role: .cancel) {}
+        } message: {
+            Text(STStrings.unsavedChangesMessage)
+        }
+        #if os(iOS)
+        .fullScreenCover(isPresented: $viewModel.showPaywall) {
+            if let paywallView = STKitConfiguration.shared.premiumPaywallView {
+                paywallView(STKitConfiguration.shared.paywallPlacement)
+            }
+        }
+        #else
+        .sheet(isPresented: $viewModel.showPaywall) {
+            if let paywallView = STKitConfiguration.shared.premiumPaywallView {
+                paywallView(STKitConfiguration.shared.paywallPlacement)
+            }
+        }
+        #endif
+        .onReceive(NotificationCenter.default.publisher(for: .purchaseStatusChanged)) { _ in
+            if STKitConfiguration.shared.isPurchased && viewModel.hasUnsavedChanges {
+                Task {
+                    await viewModel.webEditorViewModel.saveContent()
+                    if let docURL = viewModel.document.url {
+                        viewModel.document.save(to: docURL)
+                    }
+                    viewModel.showPaywall = false
+                    viewModel.hasUnsavedChanges = false
+                }
             }
         }
     }

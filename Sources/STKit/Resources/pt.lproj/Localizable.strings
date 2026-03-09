@@ -1,4 +1,3 @@
-/* Common */
 "stkit.done" = "Concluído";
 "stkit.cancel" = "Cancelar";
 "stkit.save" = "Guardar";
@@ -7,73 +6,55 @@
 "stkit.delete" = "Eliminar";
 "stkit.close" = "Fechar";
 "stkit.untitled" = "Sem título";
-"stkit.search" = "Pesquisar";
+"stkit.search" = "Procurar";
 "stkit.undo" = "Desfazer";
 "stkit.redo" = "Refazer";
 "stkit.add" = "Adicionar";
-
-/* License */
 "stkit.unlicensed" = "STKit — Sem licença";
-
-/* Word Count */
 "stkit.wordCount" = "Contagem de palavras";
 "stkit.words" = "Palavras";
 "stkit.characters" = "Caracteres";
 "stkit.charactersWithSpaces" = "Caracteres (com espaços)";
 "stkit.paragraphs" = "Parágrafos";
 "stkit.lines" = "Linhas";
-
-/* Document */
 "stkit.newDocument" = "Novo documento";
 "stkit.unsavedChanges" = "Alterações não guardadas";
 "stkit.unsavedChangesMessage" = "Tem alterações não guardadas. O que pretende fazer?";
 "stkit.discard" = "Descartar";
 "stkit.saveAndClose" = "Guardar e fechar";
-
-/* Navigation & Controls */
 "stkit.pages" = "Páginas";
 "stkit.bookmark" = "Marcador";
 "stkit.settings" = "Definições";
-"stkit.outline" = "Índice";
+"stkit.outline" = "Estrutura de tópicos";
 "stkit.editPages" = "Editar páginas";
 "stkit.print" = "Imprimir";
 "stkit.saveAsText" = "Guardar como texto";
-
-/* Search & Replace */
-"stkit.searchInDocument" = "Pesquisar no documento...";
-"stkit.searching" = "A pesquisar...";
-"stkit.noResultsFound" = "Nenhum resultado encontrado";
+"stkit.searchInDocument" = "Procurar no documento...";
+"stkit.searching" = "A procurar...";
+"stkit.noResultsFound" = "Sem resultados";
 "stkit.page" = "Página %d";
 "stkit.replace" = "Substituir";
 "stkit.replaceWith" = "Substituir por...";
 "stkit.replaceAll" = "Todos";
 "stkit.showReplace" = "Substituir";
 "stkit.hideReplace" = "Ocultar substituição";
-
-/* Outline */
-"stkit.noOutlineAvailable" = "Nenhum índice disponível";
-
-/* Settings */
-"stkit.display" = "Visualização";
+"stkit.noOutlineAvailable" = "Nenhuma estrutura disponível";
+"stkit.display" = "Visualizar";
 "stkit.scrollDirection" = "Direção de deslocamento";
 "stkit.pageMode" = "Modo de página";
 "stkit.view" = "Vista";
 "stkit.pageShadows" = "Sombras de página";
 "stkit.backgroundColor" = "Cor de fundo";
-
-/* Property Inspector */
 "stkit.color" = "Cor";
 "stkit.width" = "Largura";
-"stkit.fontSize" = "Tamanho da letra";
+"stkit.fontSize" = "Tamanho de fonte";
 "stkit.opacity" = "Opacidade";
 "stkit.font" = "Tipo de letra";
-
-/* Annotation Tools */
 "stkit.tool.pen" = "Caneta";
 "stkit.tool.highlighter" = "Marcador";
 "stkit.tool.text" = "Texto";
 "stkit.tool.highlight" = "Realçar";
-"stkit.tool.underline" = "Sublinhado";
+"stkit.tool.underline" = "Sublinhar";
 "stkit.tool.strikethrough" = "Rasurado";
 "stkit.tool.rectangle" = "Retângulo";
 "stkit.tool.circle" = "Círculo";
@@ -82,14 +63,13 @@
 "stkit.tool.signature" = "Assinatura";
 "stkit.tool.stamp" = "Carimbo";
 "stkit.tool.note" = "Nota";
+"stkit.tool.notes" = "Notas";
 "stkit.tool.eraser" = "Borracha";
-"stkit.tool.photo" = "Fotografia";
+"stkit.tool.photo" = "Foto";
 "stkit.tool.textEdit" = "Editar texto";
 "stkit.tapOnTextToEdit" = "Toque no texto para editar";
 "stkit.selection.word" = "Palavra";
 "stkit.selection.line" = "Linha";
-
-/* Toolbar Labels */
 "stkit.hand" = "Mão";
 "stkit.select" = "Selecionar";
 "stkit.style" = "Estilo";
@@ -97,26 +77,16 @@
 "stkit.zoomOut" = "Reduzir";
 "stkit.addText" = "Adicionar texto";
 "stkit.removeText" = "Remover texto";
-
-/* Annotation Groups */
 "stkit.group.draw" = "Desenhar";
 "stkit.group.shapes" = "Formas";
 "stkit.group.text" = "Texto";
 "stkit.group.markup" = "Anotações";
 "stkit.group.extras" = "Extras";
-
-/* Text Input */
 "stkit.enterText" = "Introduzir texto...";
-
-/* Markup */
 "stkit.applyTool" = "Aplicar %@";
-
-/* Signature */
 "stkit.signature.clear" = "Limpar";
 "stkit.signature.drawNew" = "Desenhar nova";
 "stkit.signature.saved" = "Assinaturas guardadas";
-
-/* Stamp Types */
 "stkit.stamp.approved" = "Aprovado";
 "stkit.stamp.rejected" = "Rejeitado";
 "stkit.stamp.draft" = "Rascunho";
@@ -124,31 +94,21 @@
 "stkit.stamp.forComment" = "Para comentário";
 "stkit.stamp.asIs" = "Como está";
 "stkit.stamp.final" = "Final";
-
-/* Placement */
 "stkit.tapToPlace" = "Toque para colocar";
-
-/* Selection Menu */
 "stkit.selection.copy" = "Copiar";
 "stkit.selection.paste" = "Colar";
 "stkit.selection.delete" = "Eliminar";
 "stkit.selection.inspector" = "Inspetor";
 "stkit.selection.note" = "Nota";
-
-/* Tool Hints */
 "stkit.hint.draw" = "Toque e desenhe";
 "stkit.hint.shape" = "Arraste para desenhar";
 "stkit.hint.tapToAddText" = "Toque para adicionar texto";
 "stkit.hint.erase" = "Deslize para apagar";
-
-/* Order (Layer) */
 "stkit.order" = "Ordem";
 "stkit.order.front" = "Trazer para a frente";
 "stkit.order.forward" = "Avançar";
 "stkit.order.backward" = "Recuar";
 "stkit.order.back" = "Enviar para trás";
-
-/* Page Editor */
 "stkit.page.newPage" = "Nova página";
 "stkit.page.remove" = "Remover";
 "stkit.page.duplicate" = "Duplicar";
@@ -159,25 +119,21 @@
 "stkit.page.copy" = "Copiar";
 "stkit.page.paste" = "Colar";
 "stkit.page.numberOfPages" = "Número de páginas";
-"stkit.page.format" = "Formato da página";
-"stkit.page.color" = "Cor da página";
-"stkit.page.addAfter" = "Adicionar após a página";
+"stkit.page.format" = "Formato de página";
+"stkit.page.color" = "Cor de página";
+"stkit.page.addAfter" = "Adicionar após página";
 "stkit.page.beginning" = "Início";
 "stkit.page.color.white" = "Branco";
 "stkit.page.color.cream" = "Creme";
 "stkit.page.color.gray" = "Cinzento";
-
-/* Ribbon Tabs */
 "stkit.ribbon.home" = "Início";
 "stkit.ribbon.para" = "Formato";
 "stkit.ribbon.insert" = "Inserir";
 "stkit.ribbon.draw" = "Desenhar";
 "stkit.ribbon.design" = "Estrutura";
 "stkit.ribbon.layout" = "Esquema";
-"stkit.ribbon.review" = "Revisão";
+"stkit.ribbon.review" = "Rever";
 "stkit.ribbon.view" = "Vista";
-
-/* Ribbon Home */
 "stkit.ribbon.bold" = "Negrito";
 "stkit.ribbon.italic" = "Itálico";
 "stkit.ribbon.underline" = "Sublinhado";
@@ -187,12 +143,10 @@
 "stkit.ribbon.textColor" = "Cor";
 "stkit.ribbon.highlightColor" = "Realce";
 "stkit.ribbon.alignLeft" = "Esquerda";
-"stkit.ribbon.alignCenter" = "Centro";
+"stkit.ribbon.alignCenter" = "Centrar";
 "stkit.ribbon.alignRight" = "Direita";
 "stkit.ribbon.justify" = "Justificar";
-"stkit.ribbon.lineSpacing" = "Espaçamento";
-
-/* Ribbon Insert */
+"stkit.ribbon.lineSpacing" = "Espaçamento entre linhas";
 "stkit.ribbon.image" = "Imagem";
 "stkit.ribbon.table" = "Tabela";
 "stkit.ribbon.shape" = "Forma";
@@ -201,29 +155,23 @@
 "stkit.ribbon.line" = "Linha";
 "stkit.ribbon.pageNumber" = "N.º pág.";
 "stkit.ribbon.footnote" = "Nota de rodapé";
-"stkit.ribbon.endnote" = "Nota final";
+"stkit.ribbon.endnote" = "Nota de fim";
 "stkit.ribbon.tab" = "Tabulação";
 "stkit.ribbon.lineBreak" = "Quebra";
-
-/* Ribbon Layout */
 "stkit.ribbon.orientation" = "Orientação";
 "stkit.ribbon.pageSize" = "Tamanho";
 "stkit.ribbon.margins" = "Margens";
 "stkit.ribbon.columns" = "Colunas";
-
-/* Ribbon Home (additional) */
 "stkit.ribbon.paste" = "Colar";
 "stkit.ribbon.copyFormat" = "Formato";
 "stkit.ribbon.subscript" = "Subscrito";
 "stkit.ribbon.superscript" = "Sobrescrito";
 "stkit.ribbon.bulletList" = "Marcas";
 "stkit.ribbon.numberedList" = "Numeração";
-"stkit.ribbon.increaseIndent" = "Avanço+";
-"stkit.ribbon.decreaseIndent" = "Avanço-";
+"stkit.ribbon.increaseIndent" = "Aumento de avanço";
+"stkit.ribbon.decreaseIndent" = "Diminuição de avanço";
 "stkit.ribbon.selectAll" = "Selecionar tudo";
 "stkit.ribbon.edit" = "Editar";
-
-/* Ribbon Insert (additional) */
 "stkit.ribbon.pageBreak" = "Quebra de página";
 "stkit.ribbon.textBox" = "Caixa de texto";
 "stkit.ribbon.link" = "Ligação";
@@ -232,22 +180,14 @@
 "stkit.ribbon.comment" = "Comentário";
 "stkit.ribbon.header" = "Cabeçalho";
 "stkit.ribbon.footer" = "Rodapé";
-
-/* Ribbon Design (additional) */
 "stkit.ribbon.themes" = "Temas";
-"stkit.ribbon.watermark" = "Marca de água";
-
-/* Ribbon Layout (additional) */
+"stkit.ribbon.watermark" = "Marca d'água";
 "stkit.ribbon.textDirection" = "Direção";
 "stkit.ribbon.sectionBreak" = "Quebra de secção";
 "stkit.ribbon.pageBreaks" = "Quebra de página";
-
-/* Ribbon Review (additional) */
 "stkit.ribbon.trackChanges" = "Controlar alterações";
 "stkit.ribbon.acceptChange" = "Aceitar";
 "stkit.ribbon.rejectChange" = "Rejeitar";
-
-/* Ribbon Table Tab */
 "stkit.ribbon.addRow" = "Adicionar linha";
 "stkit.ribbon.deleteRow" = "Eliminar linha";
 "stkit.ribbon.addColumn" = "Adicionar coluna";
@@ -257,22 +197,16 @@
 "stkit.ribbon.tableStyle" = "Estilo";
 "stkit.ribbon.tableColor" = "Cor";
 "stkit.tableStyles" = "Estilos de tabela";
-
-/* Ribbon Review (comments) */
 "stkit.ribbon.comments" = "Comentários";
 "stkit.selectTextForComment" = "Selecione primeiro o texto no documento e depois adicione um comentário.";
-
-/* General */
 "stkit.comingSoon" = "Brevemente";
 "stkit.custom" = "Personalizado";
-
-/* Ribbon View */
 "stkit.ribbon.zoom" = "Zoom";
 "stkit.ribbon.thumbnails" = "Páginas";
-"stkit.ribbon.outline" = "Índice";
+"stkit.ribbon.outline" = "Estrutura de tópicos";
 "stkit.ribbon.readMode" = "Leitura";
 "stkit.ribbon.editMode" = "Edição";
 "stkit.ribbon.goToTop" = "Ir para o início";
 "stkit.ribbon.goToBottom" = "Ir para o fim";
-"stkit.ribbon.goToPage" = "Ir para a página";
+"stkit.ribbon.goToPage" = "Ir para página";
 "stkit.ribbon.bookmarks" = "Marcadores";

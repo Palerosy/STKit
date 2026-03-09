@@ -25,7 +25,11 @@ struct STMoreMenu: View {
             // File section
             if configuration.showShare {
                 Button {
-                    licensedAction { shareDocument() }
+                    guard STKitConfiguration.shared.isPurchased else {
+                        triggerPaywall()
+                        return
+                    }
+                    shareDocument()
                 } label: {
                     Label(STStrings.share, systemImage: "square.and.arrow.up")
                 }
@@ -33,7 +37,11 @@ struct STMoreMenu: View {
 
             if configuration.showPrint {
                 Button {
-                    licensedAction { printDocument() }
+                    guard STKitConfiguration.shared.isPurchased else {
+                        triggerPaywall()
+                        return
+                    }
+                    printDocument()
                 } label: {
                     Label(STStrings.print, systemImage: "printer")
                 }
@@ -41,7 +49,11 @@ struct STMoreMenu: View {
 
             if configuration.showSaveAsText {
                 Button {
-                    licensedAction { saveAsText() }
+                    guard STKitConfiguration.shared.isPurchased else {
+                        triggerPaywall()
+                        return
+                    }
+                    saveAsText()
                 } label: {
                     Label(STStrings.saveAsText, systemImage: "doc.text")
                 }
@@ -50,41 +62,13 @@ struct STMoreMenu: View {
             Image(systemName: "ellipsis.circle")
                 .font(.system(size: 20))
         }
-        #if os(iOS)
-        .fullScreenCover(isPresented: $showPremiumPaywall) {
-            if let paywallView = STKitConfiguration.shared.premiumPaywallView {
-                paywallView(paywallPlacement)
-            }
-        }
-        #else
-        .sheet(isPresented: $showPremiumPaywall) {
-            if let paywallView = STKitConfiguration.shared.premiumPaywallView {
-                paywallView(paywallPlacement)
-            }
-        }
-        #endif
     }
 
-    // MARK: - Premium Gate
-
-    @State private var showLicenseAlert = false
-    @State private var showPremiumPaywall = false
-    @State private var paywallPlacement = "main"
-
-    private func licensedAction(_ action: @escaping () -> Void, delay: Double = 0.35) {
-        if STKitConfiguration.shared.isPurchased {
-            action()
+    private func triggerPaywall() {
+        if let onTap = STKitConfiguration.shared.onPremiumFeatureTapped {
+            onTap()
         } else {
-            DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
-                if STKitConfiguration.shared.premiumPaywallView != nil {
-                    paywallPlacement = configuration.paywallPlacement
-                    showPremiumPaywall = true
-                } else if let handler = STKitConfiguration.shared.onPremiumFeatureTapped {
-                    handler()
-                } else {
-                    showLicenseAlert = true
-                }
-            }
+            viewModel.showPaywall = true
         }
     }
 

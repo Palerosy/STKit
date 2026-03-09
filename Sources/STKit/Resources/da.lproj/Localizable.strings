@@ -1,5 +1,4 @@
-/* Common */
-"stkit.done" = "Færdig";
+"stkit.done" = "Udført";
 "stkit.cancel" = "Annuller";
 "stkit.save" = "Gem";
 "stkit.share" = "Del";
@@ -11,22 +10,18 @@
 "stkit.undo" = "Fortryd";
 "stkit.redo" = "Gentag";
 "stkit.add" = "Tilføj";
-/* License */
 "stkit.unlicensed" = "STKit — Ulicenseret";
-/* Word Count */
-"stkit.wordCount" = "Ordoptælling";
+"stkit.wordCount" = "Ordantal";
 "stkit.words" = "Ord";
 "stkit.characters" = "Tegn";
 "stkit.charactersWithSpaces" = "Tegn (med mellemrum)";
 "stkit.paragraphs" = "Afsnit";
 "stkit.lines" = "Linjer";
-/* Document */
 "stkit.newDocument" = "Nyt dokument";
-"stkit.unsavedChanges" = "Ikke-gemte ændringer";
-"stkit.unsavedChangesMessage" = "Du har ikke-gemte ændringer. Hvad vil du gøre?";
+"stkit.unsavedChanges" = "Ugemte ændringer";
+"stkit.unsavedChangesMessage" = "Du har ugemte ændringer. Hvad vil du gøre?";
 "stkit.discard" = "Kassér";
 "stkit.saveAndClose" = "Gem og luk";
-/* Navigation & Controls */
 "stkit.pages" = "Sider";
 "stkit.bookmark" = "Bogmærke";
 "stkit.settings" = "Indstillinger";
@@ -34,52 +29,47 @@
 "stkit.editPages" = "Rediger sider";
 "stkit.print" = "Udskriv";
 "stkit.saveAsText" = "Gem som tekst";
-/* Search & Replace */
 "stkit.searchInDocument" = "Søg i dokument...";
 "stkit.searching" = "Søger...";
-"stkit.noResultsFound" = "Ingen resultater fundet";
+"stkit.noResultsFound" = "Ingen resultater";
 "stkit.page" = "Side %d";
 "stkit.replace" = "Erstat";
 "stkit.replaceWith" = "Erstat med...";
 "stkit.replaceAll" = "Alle";
 "stkit.showReplace" = "Erstat";
 "stkit.hideReplace" = "Skjul erstatning";
-/* Outline */
 "stkit.noOutlineAvailable" = "Ingen disposition tilgængelig";
-/* Settings */
 "stkit.display" = "Visning";
 "stkit.scrollDirection" = "Rulleretning";
 "stkit.pageMode" = "Sidetilstand";
-"stkit.view" = "Visning";
+"stkit.view" = "Vis";
 "stkit.pageShadows" = "Sideskygger";
 "stkit.backgroundColor" = "Baggrundsfarve";
-/* Property Inspector */
 "stkit.color" = "Farve";
 "stkit.width" = "Bredde";
 "stkit.fontSize" = "Skriftstørrelse";
-"stkit.opacity" = "Gennemsigtighed";
+"stkit.opacity" = "Uigennemsigtighed";
 "stkit.font" = "Skrifttype";
-/* Annotation Tools */
 "stkit.tool.pen" = "Pen";
-"stkit.tool.highlighter" = "Overstregningstift";
+"stkit.tool.highlighter" = "Overstreger";
 "stkit.tool.text" = "Tekst";
 "stkit.tool.highlight" = "Fremhæv";
-"stkit.tool.underline" = "Understregning";
+"stkit.tool.underline" = "Understreg";
 "stkit.tool.strikethrough" = "Gennemstregning";
 "stkit.tool.rectangle" = "Rektangel";
 "stkit.tool.circle" = "Cirkel";
 "stkit.tool.line" = "Linje";
 "stkit.tool.arrow" = "Pil";
-"stkit.tool.signature" = "Underskrift";
+"stkit.tool.signature" = "Signatur";
 "stkit.tool.stamp" = "Stempel";
 "stkit.tool.note" = "Note";
+"stkit.tool.notes" = "Noter";
 "stkit.tool.eraser" = "Viskelæder";
 "stkit.tool.photo" = "Foto";
 "stkit.tool.textEdit" = "Rediger tekst";
 "stkit.tapOnTextToEdit" = "Tryk på tekst for at redigere";
 "stkit.selection.word" = "Ord";
 "stkit.selection.line" = "Linje";
-/* Toolbar Labels */
 "stkit.hand" = "Hånd";
 "stkit.select" = "Vælg";
 "stkit.style" = "Stil";
@@ -87,48 +77,38 @@
 "stkit.zoomOut" = "Zoom ud";
 "stkit.addText" = "Tilføj tekst";
 "stkit.removeText" = "Fjern tekst";
-/* Annotation Groups */
 "stkit.group.draw" = "Tegn";
-"stkit.group.shapes" = "Figurer";
+"stkit.group.shapes" = "Former";
 "stkit.group.text" = "Tekst";
-"stkit.group.markup" = "Markering";
+"stkit.group.markup" = "Markup";
 "stkit.group.extras" = "Ekstra";
-/* Text Input */
 "stkit.enterText" = "Indtast tekst...";
-/* Markup */
 "stkit.applyTool" = "Anvend %@";
-/* Signature */
 "stkit.signature.clear" = "Ryd";
 "stkit.signature.drawNew" = "Tegn ny";
-"stkit.signature.saved" = "Gemte underskrifter";
-/* Stamp Types */
+"stkit.signature.saved" = "Gemte signaturer";
 "stkit.stamp.approved" = "Godkendt";
 "stkit.stamp.rejected" = "Afvist";
-"stkit.stamp.draft" = "Kladde";
+"stkit.stamp.draft" = "Udkast";
 "stkit.stamp.confidential" = "Fortroligt";
 "stkit.stamp.forComment" = "Til kommentar";
 "stkit.stamp.asIs" = "Som det er";
 "stkit.stamp.final" = "Endelig";
-/* Placement */
 "stkit.tapToPlace" = "Tryk for at placere";
-/* Selection Menu */
-"stkit.selection.copy" = "Kopier";
+"stkit.selection.copy" = "Kopiér";
 "stkit.selection.paste" = "Indsæt";
 "stkit.selection.delete" = "Slet";
-"stkit.selection.inspector" = "Inspektør";
+"stkit.selection.inspector" = "Inspektor";
 "stkit.selection.note" = "Note";
-/* Tool Hints */
-"stkit.hint.draw" = "Berør og tegn";
+"stkit.hint.draw" = "Rør og tegn";
 "stkit.hint.shape" = "Træk for at tegne";
 "stkit.hint.tapToAddText" = "Tryk for at tilføje tekst";
 "stkit.hint.erase" = "Stryg for at slette";
-/* Order (Layer) */
 "stkit.order" = "Rækkefølge";
-"stkit.order.front" = "Placer forrest";
+"stkit.order.front" = "Bring forrest";
 "stkit.order.forward" = "Flyt fremad";
 "stkit.order.backward" = "Flyt bagud";
-"stkit.order.back" = "Placer bagest";
-/* Page Editor */
+"stkit.order.back" = "Send bagud";
 "stkit.page.newPage" = "Ny side";
 "stkit.page.remove" = "Fjern";
 "stkit.page.duplicate" = "Dupliker";
@@ -136,7 +116,7 @@
 "stkit.page.selectAll" = "Vælg alle";
 "stkit.page.deselectAll" = "Fravælg alle";
 "stkit.page.cut" = "Klip";
-"stkit.page.copy" = "Kopier";
+"stkit.page.copy" = "Kopiér";
 "stkit.page.paste" = "Indsæt";
 "stkit.page.numberOfPages" = "Antal sider";
 "stkit.page.format" = "Sideformat";
@@ -146,7 +126,6 @@
 "stkit.page.color.white" = "Hvid";
 "stkit.page.color.cream" = "Creme";
 "stkit.page.color.gray" = "Grå";
-/* Ribbon Tabs */
 "stkit.ribbon.home" = "Hjem";
 "stkit.ribbon.para" = "Format";
 "stkit.ribbon.insert" = "Indsæt";
@@ -154,70 +133,61 @@
 "stkit.ribbon.design" = "Design";
 "stkit.ribbon.layout" = "Layout";
 "stkit.ribbon.review" = "Gennemse";
-"stkit.ribbon.view" = "Visning";
-/* Ribbon Home */
+"stkit.ribbon.view" = "Vis";
 "stkit.ribbon.bold" = "Fed";
 "stkit.ribbon.italic" = "Kursiv";
-"stkit.ribbon.underline" = "Understregning";
+"stkit.ribbon.underline" = "Understreg";
 "stkit.ribbon.strikethrough" = "Gennemstregning";
 "stkit.ribbon.font" = "Skrifttype";
 "stkit.ribbon.fontSize" = "Størrelse";
 "stkit.ribbon.textColor" = "Farve";
-"stkit.ribbon.highlightColor" = "Fremhævning";
+"stkit.ribbon.highlightColor" = "Fremhæv";
 "stkit.ribbon.alignLeft" = "Venstre";
-"stkit.ribbon.alignCenter" = "Centreret";
+"stkit.ribbon.alignCenter" = "Centrer";
 "stkit.ribbon.alignRight" = "Højre";
-"stkit.ribbon.justify" = "Lige margener";
+"stkit.ribbon.justify" = "Justér";
 "stkit.ribbon.lineSpacing" = "Linjeafstand";
-/* Ribbon Insert */
 "stkit.ribbon.image" = "Billede";
 "stkit.ribbon.table" = "Tabel";
-"stkit.ribbon.shape" = "Figur";
+"stkit.ribbon.shape" = "Form";
 "stkit.ribbon.rectangle" = "Rektangel";
 "stkit.ribbon.circle" = "Cirkel";
 "stkit.ribbon.line" = "Linje";
-"stkit.ribbon.pageNumber" = "Sidetal";
+"stkit.ribbon.pageNumber" = "Side nr.";
 "stkit.ribbon.footnote" = "Fodnote";
 "stkit.ribbon.endnote" = "Slutnote";
 "stkit.ribbon.tab" = "Tabulator";
-"stkit.ribbon.lineBreak" = "Linjeskift";
-/* Ribbon Layout */
+"stkit.ribbon.lineBreak" = "Skift";
 "stkit.ribbon.orientation" = "Retning";
 "stkit.ribbon.pageSize" = "Størrelse";
 "stkit.ribbon.margins" = "Margener";
 "stkit.ribbon.columns" = "Kolonner";
-/* Ribbon Home (additional) */
 "stkit.ribbon.paste" = "Indsæt";
 "stkit.ribbon.copyFormat" = "Format";
-"stkit.ribbon.subscript" = "Sænket skrift";
-"stkit.ribbon.superscript" = "Hævet skrift";
-"stkit.ribbon.bulletList" = "Punkttegn";
+"stkit.ribbon.subscript" = "Sænket";
+"stkit.ribbon.superscript" = "Hævet";
+"stkit.ribbon.bulletList" = "Punkter";
 "stkit.ribbon.numberedList" = "Nummerering";
-"stkit.ribbon.increaseIndent" = "Forøg indrykning";
-"stkit.ribbon.decreaseIndent" = "Formindsk indrykning";
+"stkit.ribbon.increaseIndent" = "Indryk+";
+"stkit.ribbon.decreaseIndent" = "Indryk-";
 "stkit.ribbon.selectAll" = "Vælg alle";
 "stkit.ribbon.edit" = "Rediger";
-/* Ribbon Insert (additional) */
 "stkit.ribbon.pageBreak" = "Sideskift";
-"stkit.ribbon.textBox" = "Tekstfelt";
+"stkit.ribbon.textBox" = "Tekstboks";
 "stkit.ribbon.link" = "Link";
 "stkit.ribbon.bookmark" = "Bogmærke";
 "stkit.ribbon.symbol" = "Symbol";
 "stkit.ribbon.comment" = "Kommentar";
 "stkit.ribbon.header" = "Sidehoved";
 "stkit.ribbon.footer" = "Sidefod";
-/* Ribbon Design */
 "stkit.ribbon.themes" = "Temaer";
 "stkit.ribbon.watermark" = "Vandmærke";
-/* Ribbon Layout (additional) */
 "stkit.ribbon.textDirection" = "Retning";
 "stkit.ribbon.sectionBreak" = "Sektionsskift";
 "stkit.ribbon.pageBreaks" = "Sideskift";
-/* Ribbon Review */
-"stkit.ribbon.trackChanges" = "Registrer ændringer";
-"stkit.ribbon.acceptChange" = "Accepter";
+"stkit.ribbon.trackChanges" = "Spor ændringer";
+"stkit.ribbon.acceptChange" = "Acceptér";
 "stkit.ribbon.rejectChange" = "Afvis";
-/* Ribbon Table Tab */
 "stkit.ribbon.addRow" = "Tilføj række";
 "stkit.ribbon.deleteRow" = "Slet række";
 "stkit.ribbon.addColumn" = "Tilføj kolonne";
@@ -227,19 +197,16 @@
 "stkit.ribbon.tableStyle" = "Stil";
 "stkit.ribbon.tableColor" = "Farve";
 "stkit.tableStyles" = "Tabelstile";
-/* Ribbon Review (comments) */
 "stkit.ribbon.comments" = "Kommentarer";
-"stkit.selectTextForComment" = "Vælg først tekst i dokumentet, og tilføj derefter en kommentar.";
-/* General */
+"stkit.selectTextForComment" = "Vælg tekst i dokumentet først, og tilføj derefter en kommentar.";
 "stkit.comingSoon" = "Kommer snart";
 "stkit.custom" = "Brugerdefineret";
-/* Ribbon View */
 "stkit.ribbon.zoom" = "Zoom";
 "stkit.ribbon.thumbnails" = "Sider";
 "stkit.ribbon.outline" = "Disposition";
 "stkit.ribbon.readMode" = "Læs";
 "stkit.ribbon.editMode" = "Rediger";
-"stkit.ribbon.goToTop" = "Gå til top";
-"stkit.ribbon.goToBottom" = "Gå til bund";
+"stkit.ribbon.goToTop" = "Gå til toppen";
+"stkit.ribbon.goToBottom" = "Gå til bunden";
 "stkit.ribbon.goToPage" = "Gå til side";
 "stkit.ribbon.bookmarks" = "Bogmærker";

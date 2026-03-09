@@ -63,6 +63,7 @@
 "stkit.tool.signature" = "Signatur";
 "stkit.tool.stamp" = "Stempel";
 "stkit.tool.note" = "Notat";
+"stkit.tool.notes" = "Notater";
 "stkit.tool.eraser" = "Viskelær";
 "stkit.tool.photo" = "Foto";
 "stkit.tool.textEdit" = "Rediger tekst";

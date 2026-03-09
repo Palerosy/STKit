@@ -33,7 +33,11 @@ struct STMoreMenu: View {
             // File section
             if configuration.showShare {
                 Button {
-                    licensedAction { shareDocument() }
+                    guard STKitConfiguration.shared.isPurchased else {
+                        triggerPaywall()
+                        return
+                    }
+                    shareDocument()
                 } label: {
                     Label(STStrings.share, systemImage: "square.and.arrow.up")
                 }
@@ -41,7 +45,11 @@ struct STMoreMenu: View {
 
             if configuration.showPrint {
                 Button {
-                    licensedAction { printDocument() }
+                    guard STKitConfiguration.shared.isPurchased else {
+                        triggerPaywall()
+                        return
+                    }
+                    printDocument()
                 } label: {
                     Label(STStrings.print, systemImage: "printer")
                 }
@@ -49,7 +57,7 @@ struct STMoreMenu: View {
 
             if configuration.showSaveAsText {
                 Button {
-                    licensedAction { saveAsText() }
+                    saveAsText()
                 } label: {
                     Label(STStrings.saveAsText, systemImage: "doc.text")
                 }
@@ -58,45 +66,17 @@ struct STMoreMenu: View {
             Image(systemName: "ellipsis.circle")
                 .font(.system(size: 20))
         }
-        #if os(iOS)
-        .fullScreenCover(isPresented: $showPremiumPaywall) {
-            if let paywallView = STKitConfiguration.shared.premiumPaywallView {
-                paywallView(paywallPlacement)
-            }
-        }
-        #else
-        .sheet(isPresented: $showPremiumPaywall) {
-            if let paywallView = STKitConfiguration.shared.premiumPaywallView {
-                paywallView(paywallPlacement)
-            }
-        }
-        #endif
-    }
-
-    // MARK: - Premium Gate
-
-    @State private var showLicenseAlert = false
-    @State private var showPremiumPaywall = false
-    @State private var paywallPlacement = "main"
-
-    private func licensedAction(_ action: @escaping () -> Void, delay: Double = 0.35) {
-        if STKitConfiguration.shared.isPurchased {
-            action()
-        } else {
-            DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
-                if STKitConfiguration.shared.premiumPaywallView != nil {
-                    paywallPlacement = configuration.paywallPlacement
-                    showPremiumPaywall = true
-                } else if let handler = STKitConfiguration.shared.onPremiumFeatureTapped {
-                    handler()
-                } else {
-                    showLicenseAlert = true
-                }
-            }
-        }
     }
 
     // MARK: - Actions
+
+    private func triggerPaywall() {
+        if let callback = STKitConfiguration.shared.onPremiumFeatureTapped {
+            callback()
+        } else {
+            viewModel.showPaywall = true
+        }
+    }
 
     private func shareDocument() {
         guard let url = viewModel.document.url else { return }
@@ -124,20 +104,19 @@ struct STMoreMenu: View {
     }
 
     private func printDocument() {
-        guard let url = viewModel.document.url else { return }
         viewModel.document.save()
+
         #if os(iOS)
+        guard let data = viewModel.document.pdfDocument.dataRepresentation() else { return }
         let printController = UIPrintInteractionController.shared
-        printController.printingItem = url
+        printController.printingItem = data
         printController.present(animated: true)
         #elseif os(macOS)
-        if let pdfDoc = PDFDocument(url: url) {
-            let printInfo = NSPrintInfo.shared
-            printInfo.isHorizontallyCentered = true
-            printInfo.isVerticallyCentered = true
-            let printOp = pdfDoc.printOperation(for: printInfo, scalingMode: .pageScaleToFit, autoRotate: true)
-            printOp?.run()
-        }
+        let printInfo = NSPrintInfo.shared
+        printInfo.isHorizontallyCentered = true
+        printInfo.isVerticallyCentered = true
+        let printOp = viewModel.document.pdfDocument.printOperation(for: printInfo, scalingMode: .pageScaleToFit, autoRotate: true)
+        printOp?.run()
         #endif
     }
 

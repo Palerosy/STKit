@@ -39,12 +39,14 @@ struct STPageEditorView: View {
             }
             ToolbarItem(placement: .stTrailing) {
                 Button(STStrings.done) {
-                    viewModel.document.save()
                     onDone()
                 }
                 .fontWeight(.semibold)
             }
         }
+        #if os(iOS)
+        .toolbar(.hidden, for: .tabBar)
+        #endif
         .sheet(isPresented: $viewModel.showAddPageSheet) {
             STAddPageView(viewModel: viewModel)
         }

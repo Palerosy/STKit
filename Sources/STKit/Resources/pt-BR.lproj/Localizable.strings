@@ -84,6 +84,7 @@
 "stkit.tool.signature" = "Assinatura";
 "stkit.tool.stamp" = "Carimbo";
 "stkit.tool.note" = "Nota";
+"stkit.tool.notes" = "Notas";
 "stkit.tool.eraser" = "Borracha";
 "stkit.tool.photo" = "Fotografia";
 "stkit.tool.textEdit" = "Editar texto";

@@ -1,5 +1,4 @@
 import SwiftUI
-import STKit
 
 /// Main configuration for STDOCXEditorView
 public struct STDOCXConfiguration {
@@ -53,12 +52,6 @@ public struct STDOCXConfiguration {
 
     /// Show "save as text" option in more menu
     public var showSaveAsText: Bool = true
-
-    // MARK: - Paywall
-
-    /// Paywall placement identifier. Defaults to `STKitConfiguration.shared.paywallPlacement`.
-    /// Override per-editor if needed.
-    public var paywallPlacement: String = STKitConfiguration.shared.paywallPlacement
 
     // MARK: - Behavior
 

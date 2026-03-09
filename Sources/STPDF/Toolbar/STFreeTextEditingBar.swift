@@ -90,11 +90,8 @@ struct STFreeTextEditingBar: View {
         .padding(.horizontal, 12)
         .padding(.vertical, 8)
         .background(.bar)
-        .onChange(of: annotationManager.activeStyle) { _ in
-            if annotationManager.selectedAnnotation?.type == "FreeText" {
-                annotationManager.applyStyleToSelectedAnnotation()
-            }
-        }
+        // Style changes are applied via Combine sink in STAnnotationManager.init
+        // (more reliable than .onChange which may not fire during popovers).
     }
 
     private var displayFontName: String {

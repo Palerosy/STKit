@@ -82,6 +82,7 @@
 "stkit.tool.signature" = "Signature";
 "stkit.tool.stamp" = "Stamp";
 "stkit.tool.note" = "Note";
+"stkit.tool.notes" = "Notes";
 "stkit.tool.eraser" = "Eraser";
 "stkit.tool.photo" = "Photo";
 "stkit.tool.textEdit" = "Edit Text";

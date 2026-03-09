@@ -84,6 +84,7 @@
 "stkit.tool.signature" = "簽名";
 "stkit.tool.stamp" = "印章";
 "stkit.tool.note" = "備忘錄";
+"stkit.tool.notes" = "備註";
 "stkit.tool.eraser" = "橡皮擦";
 "stkit.tool.photo" = "照片";
 "stkit.tool.textEdit" = "編輯文字";

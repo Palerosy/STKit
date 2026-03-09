@@ -18,7 +18,7 @@ final class STPDFEditorViewModel: ObservableObject {
     var viewerViewModel: STPDFViewerViewModel
     let annotationManager: STAnnotationManager
     let serializer: STAnnotationSerializer
-    lazy var pageEditorViewModel = STPageEditorViewModel(document: document)
+    let pageEditorViewModel: STPageEditorViewModel
 
     @Published var viewMode: STViewMode = .viewer
     @Published var isAnnotationToolbarVisible = false
@@ -28,6 +28,11 @@ final class STPDFEditorViewModel: ObservableObject {
     // Ribbon state
     @Published var ribbonSelectedTab: STPDFRibbonTab = .view
     @Published var isRibbonCollapsed = false
+    @Published var hasUnsavedChanges = false
+    @Published var showPaywall = false
+
+    /// Backup of original PDF data for discard/revert
+    private(set) var originalPDFData: Data?
 
     private var cancellables = Set<AnyCancellable>()
 
@@ -37,6 +42,8 @@ final class STPDFEditorViewModel: ObservableObject {
         self.viewerViewModel = STPDFViewerViewModel(document: document)
         self.annotationManager = STAnnotationManager(document: document)
         self.serializer = STAnnotationSerializer(document: document)
+        self.pageEditorViewModel = STPageEditorViewModel(document: document)
+        self.originalPDFData = document.pdfDocument.dataRepresentation()
 
         if openInPageEditor {
             viewMode = .documentEditor
@@ -45,6 +52,24 @@ final class STPDFEditorViewModel: ObservableObject {
         // Forward annotation manager changes to trigger SwiftUI view updates
         annotationManager.objectWillChange
             .sink { [weak self] _ in self?.objectWillChange.send() }
+            .store(in: &cancellables)
+
+        // Track annotation changes → set hasUnsavedChanges
+        annotationManager.undoManager.$canUndo
+            .removeDuplicates()
+            .filter { $0 }
+            .sink { [weak self] _ in
+                self?.hasUnsavedChanges = true
+            }
+            .store(in: &cancellables)
+
+        // Track page editor changes → set hasUnsavedChanges
+        pageEditorViewModel.$canUndo
+            .removeDuplicates()
+            .filter { $0 }
+            .sink { [weak self] _ in
+                self?.hasUnsavedChanges = true
+            }
             .store(in: &cancellables)
     }
 
@@ -69,6 +94,26 @@ final class STPDFEditorViewModel: ObservableObject {
             serializer.startAutoSave()
         }
         annotationManager.setTool(tool)
+    }
+
+    /// Revert document to its original state (before any edits)
+    func revertToOriginal() {
+        guard let data = originalPDFData,
+              let freshDoc = PDFDocument(data: data),
+              let url = document.url else { return }
+
+        // Remove all current pages
+        while document.pdfDocument.pageCount > 0 {
+            document.pdfDocument.removePage(at: 0)
+        }
+        // Re-insert from backup
+        for i in 0..<freshDoc.pageCount {
+            if let page = freshDoc.page(at: i) {
+                document.pdfDocument.insert(page, at: i)
+            }
+        }
+        // Write reverted document back to disk (overwrite any auto-saved changes)
+        document.pdfDocument.write(to: url)
     }
 
     /// Highlight a search selection on the PDFView, then clear after delay
