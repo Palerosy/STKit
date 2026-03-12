@@ -19,23 +19,22 @@ struct STOutlineView: View {
 
     @ViewBuilder
     private var outlineContent: some View {
-        if let outline = document.outlineRoot, outline.numberOfChildren > 0 {
+        if !outlineEntries.isEmpty {
             List {
-                ForEach(flattenedOutline(outline), id: \.id) { entry in
+                ForEach(outlineEntries) { entry in
                     Button {
-                        if let dest = entry.outline.destination, let page = dest.page {
-                            let pageIndex = document.index(for: page)
-                            onPageSelected(pageIndex)
+                        if entry.pageIndex >= 0 {
+                            onPageSelected(entry.pageIndex)
                             dismiss()
                         }
                     } label: {
                         HStack {
-                            Text(entry.outline.label ?? STStrings.untitled)
+                            Text(entry.title)
                                 .foregroundColor(.primary)
                                 .padding(.leading, CGFloat(entry.depth) * 16)
                             Spacer()
-                            if let dest = entry.outline.destination, let page = dest.page {
-                                Text(STStrings.page(document.index(for: page) + 1))
+                            if entry.pageIndex >= 0 {
+                                Text(STStrings.page(entry.pageIndex + 1))
                                     .font(.caption)
                                     .foregroundColor(.secondary)
                             }
@@ -93,25 +92,33 @@ struct STOutlineView: View {
         }
     }
 
-    private struct OutlineEntry: Identifiable {
-        let id = UUID()
-        let outline: PDFOutline
-        let depth: Int
-    }
-
-    private func flattenedOutline(_ root: PDFOutline) -> [OutlineEntry] {
+    /// Pre-computed outline entries (no PDFOutline references held during rendering)
+    private var outlineEntries: [OutlineEntry] {
+        guard let root = document.outlineRoot, root.numberOfChildren > 0 else { return [] }
         var result: [OutlineEntry] = []
         flatten(root, depth: 0, into: &result)
         return result
     }
 
+    private struct OutlineEntry: Identifiable {
+        let id = UUID()
+        let title: String
+        let pageIndex: Int  // -1 if no destination
+        let depth: Int
+    }
+
     private func flatten(_ parent: PDFOutline, depth: Int, into result: inout [OutlineEntry]) {
         for i in 0..<parent.numberOfChildren {
-            if let child = parent.child(at: i) {
-                result.append(OutlineEntry(outline: child, depth: depth))
-                if child.numberOfChildren > 0 {
-                    flatten(child, depth: depth + 1, into: &result)
-                }
+            guard let child = parent.child(at: i) else { continue }
+            let title = child.label ?? STStrings.untitled
+            var pageIndex = -1
+            if let dest = child.destination, let page = dest.page {
+                let idx = document.index(for: page)
+                if idx != NSNotFound { pageIndex = idx }
+            }
+            result.append(OutlineEntry(title: title, pageIndex: pageIndex, depth: depth))
+            if child.numberOfChildren > 0 {
+                flatten(child, depth: depth + 1, into: &result)
             }
         }
     }
