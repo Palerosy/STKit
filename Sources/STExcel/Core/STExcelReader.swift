@@ -40,6 +40,10 @@ enum STExcelReader {
                 sheet.rowHeights = ws.rowHeights
                 sheet.frozenRows = ws.frozenRows
                 sheet.frozenCols = ws.frozenCols
+                sheet.isProtected = ws.isProtected
+                sheet.hiddenRows = ws.hiddenRows
+                sheet.groupedRows = ws.groupedRows
+                sheet.dataValidations = ws.dataValidations
 
                 // 6. Read embedded images for this sheet
                 sheet.images = readImages(sheetIndex: sheetIndex + 1, from: archive,
@@ -51,6 +55,13 @@ enum STExcelReader {
 
                 // 8. Read comments
                 readComments(sheetIndex: sheetIndex + 1, from: archive, into: sheet)
+
+                // 9. Read charts
+                sheet.charts = readCharts(sheetIndex: sheetIndex + 1, from: archive,
+                                          columnWidths: ws.columnWidths, rowHeights: ws.rowHeights)
+
+                // 10. Read tables
+                sheet.tables = readTables(sheetIndex: sheetIndex + 1, from: archive)
 
                 sheets.append(sheet)
             }
@@ -228,6 +239,173 @@ enum STExcelReader {
         return shapes
     }
 
+    // MARK: - Chart Reading
+
+    /// Read charts from drawing XML for a given sheet
+    private static func readCharts(sheetIndex: Int, from archive: Archive,
+                                   columnWidths: [Int: CGFloat],
+                                   rowHeights: [Int: CGFloat]) -> [STExcelEmbeddedChart] {
+        // 1. Read sheet rels to find drawing reference
+        let sheetRelsPath = "xl/worksheets/_rels/sheet\(sheetIndex).xml.rels"
+        guard let relsData = extractData(path: sheetRelsPath, from: archive) else { return [] }
+
+        let relsParser = SheetRelsParser()
+        let relsXml = XMLParser(data: relsData)
+        relsXml.delegate = relsParser
+        relsXml.parse()
+
+        guard let drawingTarget = relsParser.drawingTarget else { return [] }
+        let drawingPath = drawingTarget.hasPrefix("xl/") ? drawingTarget :
+                          drawingTarget.hasPrefix("../") ? "xl/" + drawingTarget.dropFirst(3) :
+                          "xl/\(drawingTarget)"
+
+        // 2. Read drawing rels to map rId → chart file path
+        let drawingRelsPath = drawingPath.replacingOccurrences(of: "drawings/", with: "drawings/_rels/") + ".rels"
+        let chartRelMap: [String: String]
+        if let drawRelsData = extractData(path: drawingRelsPath, from: archive) {
+            let drawRelsParser = DrawingRelsParser()
+            let drawRelsXml = XMLParser(data: drawRelsData)
+            drawRelsXml.delegate = drawRelsParser
+            drawRelsXml.parse()
+            chartRelMap = drawRelsParser.chartTargets
+        } else {
+            chartRelMap = [:]
+        }
+        guard !chartRelMap.isEmpty else { return [] }
+
+        // 3. Read drawing XML to get chart positions
+        guard let drawingData = extractData(path: drawingPath, from: archive) else { return [] }
+        let drawingParser = DrawingParser()
+        let drawingXml = XMLParser(data: drawingData)
+        drawingXml.delegate = drawingParser
+        drawingXml.parse()
+
+        // 4. Build charts
+        let defaultColWidth: CGFloat = 64
+        let defaultRowHeight: CGFloat = 20
+        var charts: [STExcelEmbeddedChart] = []
+
+        for entry in drawingParser.chartEntries {
+            // Resolve chart file path
+            guard let relTarget = chartRelMap[entry.chartRId] else { continue }
+            let chartPath = relTarget.hasPrefix("xl/") ? relTarget :
+                            relTarget.hasPrefix("../") ? "xl/" + relTarget.dropFirst(3) :
+                            "xl/\(relTarget)"
+
+            guard let chartData = extractData(path: chartPath, from: archive) else { continue }
+
+            // Parse chart XML
+            let chartParser = ChartXMLParser()
+            let chartXml = XMLParser(data: chartData)
+            chartXml.delegate = chartParser
+            chartXml.parse()
+
+            // Convert anchor to pixel position
+            var x: CGFloat = 0
+            for c in 0..<entry.fromCol {
+                x += columnWidths[c] ?? defaultColWidth
+            }
+            x += CGFloat(entry.fromColOff) / 9525.0
+
+            var y: CGFloat = 0
+            for r in 0..<entry.fromRow {
+                y += rowHeights[r] ?? defaultRowHeight
+            }
+            y += CGFloat(entry.fromRowOff) / 9525.0
+
+            let width = CGFloat(entry.extCx) / 9525.0
+            let height = CGFloat(entry.extCy) / 9525.0
+
+            // Map parsed chart type to subtype
+            let subtype = mapChartSubtype(
+                element: chartParser.chartElement,
+                barDir: chartParser.barDir,
+                grouping: chartParser.grouping,
+                isSmooth: chartParser.hasSmooth,
+                scatterStyle: chartParser.scatterStyle
+            )
+
+            let chart = STExcelEmbeddedChart(
+                subtype: subtype,
+                title: chartParser.title,
+                showLegend: chartParser.hasLegend,
+                showGridlines: true,
+                showAxisLabels: !chartParser.axisDeleted,
+                x: x, y: y, width: width, height: height,
+                dataStartRow: chartParser.dataStartRow,
+                dataStartCol: chartParser.dataStartCol,
+                dataEndRow: chartParser.dataEndRow,
+                dataEndCol: chartParser.dataEndCol
+            )
+            charts.append(chart)
+        }
+
+        return charts
+    }
+
+    /// Map XLSX chart element name + attributes to STExcelChartSubtype
+    private static func mapChartSubtype(element: String, barDir: String, grouping: String,
+                                        isSmooth: Bool, scatterStyle: String) -> STExcelChartSubtype {
+        switch element {
+        case "barChart":
+            if barDir == "bar" {
+                if grouping == "stacked" { return .barStacked }
+                if grouping == "percentStacked" { return .barPercentStacked }
+                return .barClustered
+            } else {
+                if grouping == "stacked" { return .columnStacked }
+                if grouping == "percentStacked" { return .columnPercentStacked }
+                return .columnClustered
+            }
+        case "lineChart":
+            return isSmooth ? .lineSmooth : .line
+        case "areaChart":
+            if grouping == "stacked" { return .areaStacked }
+            if grouping == "percentStacked" { return .areaPercentStacked }
+            return .area
+        case "pieChart": return .pie
+        case "pie3DChart": return .pie3D
+        case "doughnutChart": return .doughnut
+        case "scatterChart":
+            if scatterStyle == "smoothMarker" || isSmooth { return .scatterSmooth }
+            return .scatterDots
+        default:
+            return .columnClustered
+        }
+    }
+
+    // MARK: - Table Reading
+
+    /// Read tables from sheet rels for a given sheet
+    private static func readTables(sheetIndex: Int, from archive: Archive) -> [STExcelTable] {
+        let sheetRelsPath = "xl/worksheets/_rels/sheet\(sheetIndex).xml.rels"
+        guard let relsData = extractData(path: sheetRelsPath, from: archive) else { return [] }
+
+        let relsParser = SheetRelsParser()
+        let relsXml = XMLParser(data: relsData)
+        relsXml.delegate = relsParser
+        relsXml.parse()
+
+        var tables: [STExcelTable] = []
+        for target in relsParser.tableTargets {
+            let tablePath = target.hasPrefix("xl/") ? target :
+                            target.hasPrefix("../") ? "xl/" + target.dropFirst(3) :
+                            "xl/\(target)"
+            guard let tableData = extractData(path: tablePath, from: archive) else { continue }
+
+            let tableParser = TableXMLParser()
+            let tableXml = XMLParser(data: tableData)
+            tableXml.delegate = tableParser
+            tableXml.parse()
+
+            if let table = tableParser.buildTable() {
+                tables.append(table)
+            }
+        }
+
+        return tables
+    }
+
     /// Map XLSX preset geometry name to our shape type
     private static func shapeTypeFromPreset(_ preset: String) -> STExcelShapeType {
         switch preset {
@@ -336,6 +514,10 @@ enum STExcelReader {
         let rowHeights: [Int: CGFloat]
         let frozenRows: Int
         let frozenCols: Int
+        let isProtected: Bool
+        let hiddenRows: Set<Int>
+        let groupedRows: Set<Int>
+        let dataValidations: [String: STExcelDataValidation]
     }
 
     private static func readWorksheet(path: String, from archive: Archive,
@@ -369,7 +551,11 @@ enum STExcelReader {
             columnWidths: parser.columnWidths,
             rowHeights: parser.rowHeights,
             frozenRows: parser.frozenRows,
-            frozenCols: parser.frozenCols
+            frozenCols: parser.frozenCols,
+            isProtected: parser.isProtected,
+            hiddenRows: parser.hiddenRows,
+            groupedRows: parser.groupedRows,
+            dataValidations: parser.dataValidations
         )
     }
 
@@ -571,6 +757,10 @@ private class WorksheetParser: NSObject, XMLParserDelegate {
     var rowHeights: [Int: CGFloat] = [:]
     var frozenRows: Int = 0
     var frozenCols: Int = 0
+    var isProtected: Bool = false
+    var hiddenRows: Set<Int> = []
+    var groupedRows: Set<Int> = []
+    var dataValidations: [String: STExcelDataValidation] = [:]
 
     private var currentRef: CellReference?
     private var currentType: String?
@@ -579,6 +769,13 @@ private class WorksheetParser: NSObject, XMLParserDelegate {
     private var currentFormula = ""
     private var insideV = false
     private var insideF = false
+    private var insideDataValidation = false
+    private var currentDVSqref = ""
+    private var currentDVType = ""
+    private var currentDVFormula1 = ""
+    private var currentDVFormula2 = ""
+    private var insideDVFormula1 = false
+    private var insideDVFormula2 = false
 
     init(sharedStrings: [String], styles: ParsedStyles) {
         self.sharedStrings = sharedStrings
@@ -619,17 +816,40 @@ private class WorksheetParser: NSObject, XMLParserDelegate {
                 }
             }
         } else if elementName == "row" {
-            // <row r="1" ht="20" customHeight="1"/>
-            if let rStr = attributes["r"], let rowNum = Int(rStr),
-               let htStr = attributes["ht"], let ht = Double(htStr) {
-                rowHeights[rowNum - 1] = CGFloat(ht)  // 0-indexed
+            // <row r="1" ht="20" customHeight="1" hidden="1" outlineLevel="1"/>
+            if let rStr = attributes["r"], let rowNum = Int(rStr) {
+                if let htStr = attributes["ht"], let ht = Double(htStr) {
+                    rowHeights[rowNum - 1] = CGFloat(ht)  // 0-indexed
+                }
+                if attributes["hidden"] == "1" {
+                    hiddenRows.insert(rowNum - 1)
+                }
+                if let ol = attributes["outlineLevel"], let level = Int(ol), level > 0 {
+                    groupedRows.insert(rowNum - 1)
+                }
             }
+        } else if elementName == "sheetProtection" {
+            isProtected = true
+        } else if elementName == "dataValidation" {
+            insideDataValidation = true
+            currentDVSqref = attributes["sqref"] ?? ""
+            currentDVType = attributes["type"] ?? "none"
+            currentDVFormula1 = ""
+            currentDVFormula2 = ""
+        } else if elementName == "formula1" && insideDataValidation {
+            insideDVFormula1 = true
+            currentDVFormula1 = ""
+        } else if elementName == "formula2" && insideDataValidation {
+            insideDVFormula2 = true
+            currentDVFormula2 = ""
         }
     }
 
     func parser(_ parser: XMLParser, foundCharacters string: String) {
         if insideV { currentValue += string }
         if insideF { currentFormula += string }
+        if insideDVFormula1 { currentDVFormula1 += string }
+        if insideDVFormula2 { currentDVFormula2 += string }
     }
 
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?,
@@ -638,6 +858,44 @@ private class WorksheetParser: NSObject, XMLParserDelegate {
             insideV = false
         } else if elementName == "f" {
             insideF = false
+        } else if elementName == "formula1" {
+            insideDVFormula1 = false
+        } else if elementName == "formula2" {
+            insideDVFormula2 = false
+        } else if elementName == "dataValidation" && insideDataValidation {
+            insideDataValidation = false
+            // Parse data validation and store per cell
+            let dvType: Int
+            switch currentDVType {
+            case "whole": dvType = 1
+            case "decimal": dvType = 2
+            case "list": dvType = 3
+            case "date": dvType = 4
+            case "textLength": dvType = 5
+            default: dvType = 0
+            }
+            var dv = STExcelDataValidation(type: dvType)
+            if dvType == 3 {
+                // List: formula1 is like "\"A,B,C\"" or "A,B,C"
+                let cleaned = currentDVFormula1.trimmingCharacters(in: CharacterSet(charactersIn: "\""))
+                dv.listValues = cleaned.components(separatedBy: ",").map { $0.trimmingCharacters(in: .whitespaces) }
+            } else {
+                dv.minValue = currentDVFormula1
+                dv.maxValue = currentDVFormula2
+            }
+            // sqref can be like "A1:A10" or "A1 B2:C3"
+            let ranges = currentDVSqref.components(separatedBy: " ")
+            for range in ranges {
+                let cellRefs = range.split(separator: ":").map { String($0) }
+                if let start = CellReference(string: cellRefs[0]) {
+                    let end = cellRefs.count > 1 ? CellReference(string: cellRefs[1]) : start
+                    for r in start.row...(end?.row ?? start.row) {
+                        for c in start.col...(end?.col ?? start.col) {
+                            dataValidations["\(r),\(c)"] = dv
+                        }
+                    }
+                }
+            }
         } else if elementName == "c", let ref = currentRef {
             let displayValue: String
             if currentType == "s", let index = Int(currentValue), index < sharedStrings.count {
@@ -897,30 +1155,41 @@ private class StylesParser: NSObject, XMLParserDelegate {
 
 private class SheetRelsParser: NSObject, XMLParserDelegate {
     var drawingTarget: String?
+    var tableTargets: [String] = []
 
     func parser(_ parser: XMLParser, didStartElement el: String, namespaceURI: String?,
                 qualifiedName: String?, attributes attrs: [String: String] = [:]) {
         if el == "Relationship",
-           let type = attrs["Type"], type.contains("drawing"),
+           let type = attrs["Type"],
            let target = attrs["Target"] {
-            drawingTarget = target
+            if type.contains("drawing") {
+                drawingTarget = target
+            } else if type.contains("table") {
+                tableTargets.append(target)
+            }
         }
     }
 }
 
-// MARK: - Drawing Rels Parser (maps rId → image path)
+// MARK: - Drawing Rels Parser (maps rId → image/chart path)
 
 private class DrawingRelsParser: NSObject, XMLParserDelegate {
     /// rId → target path (e.g. "rId1" → "../media/image1.png")
     var imageTargets: [String: String] = [:]
+    /// rId → target path (e.g. "rId2" → "../charts/chart1.xml")
+    var chartTargets: [String: String] = [:]
 
     func parser(_ parser: XMLParser, didStartElement el: String, namespaceURI: String?,
                 qualifiedName: String?, attributes attrs: [String: String] = [:]) {
         if el == "Relationship",
            let id = attrs["Id"],
-           let type = attrs["Type"], type.contains("image"),
+           let type = attrs["Type"],
            let target = attrs["Target"] {
-            imageTargets[id] = target
+            if type.contains("image") {
+                imageTargets[id] = target
+            } else if type.contains("chart") {
+                chartTargets[id] = target
+            }
         }
     }
 }
@@ -954,11 +1223,23 @@ private class DrawingParser: NSObject, XMLParserDelegate {
         var text: String = ""
     }
 
+    struct ChartEntry {
+        var fromCol: Int = 0
+        var fromColOff: Int = 0
+        var fromRow: Int = 0
+        var fromRowOff: Int = 0
+        var extCx: Int = 0
+        var extCy: Int = 0
+        var chartRId: String = ""
+    }
+
     var imageEntries: [ImageEntry] = []
     var shapeEntries: [ShapeEntry] = []
+    var chartEntries: [ChartEntry] = []
 
     private var currentImageEntry = ImageEntry()
     private var currentShapeEntry = ShapeEntry()
+    private var currentChartEntry = ChartEntry()
     private var insideAnchor = false
     private var insideFrom = false
     private var insidePic = false
@@ -966,7 +1247,9 @@ private class DrawingParser: NSObject, XMLParserDelegate {
     private var insideSpPr = false
     private var insideLn = false
     private var insideTxBody = false
+    private var insideGraphicFrame = false
     private var hadShape = false
+    private var hadGraphicFrame = false
     private var currentElement = ""
     private var currentText = ""
 
@@ -977,17 +1260,21 @@ private class DrawingParser: NSObject, XMLParserDelegate {
         if local == "oneCellAnchor" || local == "twoCellAnchor" {
             insideAnchor = true
             hadShape = false
+            hadGraphicFrame = false
             currentImageEntry = ImageEntry()
             currentShapeEntry = ShapeEntry()
+            currentChartEntry = ChartEntry()
         } else if local == "from" && insideAnchor {
             insideFrom = true
-        } else if local == "ext" && insideAnchor && !insidePic && !insideSp {
+        } else if local == "ext" && insideAnchor && !insidePic && !insideSp && !insideGraphicFrame {
             let cx = Int(attrs["cx"] ?? "0") ?? 0
             let cy = Int(attrs["cy"] ?? "0") ?? 0
             currentImageEntry.extCx = cx
             currentImageEntry.extCy = cy
             currentShapeEntry.extCx = cx
             currentShapeEntry.extCy = cy
+            currentChartEntry.extCx = cx
+            currentChartEntry.extCy = cy
         } else if local == "pic" && insideAnchor {
             insidePic = true
         } else if local == "blip" && insidePic {
@@ -1019,6 +1306,12 @@ private class DrawingParser: NSObject, XMLParserDelegate {
         } else if local == "t" && insideTxBody {
             currentElement = "t"
             currentText = ""
+        } else if local == "graphicFrame" && insideAnchor {
+            insideGraphicFrame = true
+            hadGraphicFrame = true
+        } else if local == "chart" && insideGraphicFrame {
+            // <c:chart r:id="rId2"/>
+            currentChartEntry.chartRId = attrs["r:id"] ?? attrs["id"] ?? ""
         }
 
         if insideFrom {
@@ -1042,18 +1335,22 @@ private class DrawingParser: NSObject, XMLParserDelegate {
                 let val = Int(currentText) ?? 0
                 currentImageEntry.fromCol = val
                 currentShapeEntry.fromCol = val
+                currentChartEntry.fromCol = val
             case "colOff":
                 let val = Int(currentText) ?? 0
                 currentImageEntry.fromColOff = val
                 currentShapeEntry.fromColOff = val
+                currentChartEntry.fromColOff = val
             case "row":
                 let val = Int(currentText) ?? 0
                 currentImageEntry.fromRow = val
                 currentShapeEntry.fromRow = val
+                currentChartEntry.fromRow = val
             case "rowOff":
                 let val = Int(currentText) ?? 0
                 currentImageEntry.fromRowOff = val
                 currentShapeEntry.fromRowOff = val
+                currentChartEntry.fromRowOff = val
             default: break
             }
         }
@@ -1068,6 +1365,7 @@ private class DrawingParser: NSObject, XMLParserDelegate {
         if local == "spPr" { insideSpPr = false }
         if local == "txBody" { insideTxBody = false }
         if local == "sp" { insideSp = false }
+        if local == "graphicFrame" { insideGraphicFrame = false }
         if local == "oneCellAnchor" || local == "twoCellAnchor" {
             if !currentImageEntry.embedId.isEmpty {
                 imageEntries.append(currentImageEntry)
@@ -1075,8 +1373,12 @@ private class DrawingParser: NSObject, XMLParserDelegate {
             if hadShape {
                 shapeEntries.append(currentShapeEntry)
             }
+            if hadGraphicFrame && !currentChartEntry.chartRId.isEmpty {
+                chartEntries.append(currentChartEntry)
+            }
             insideAnchor = false
             hadShape = false
+            hadGraphicFrame = false
         }
     }
 }
@@ -1120,6 +1422,210 @@ private class CommentsParser: NSObject, XMLParserDelegate {
                 comments.append(CommentEntry(ref: ref, text: currentText))
             }
             insideComment = false
+        }
+    }
+}
+
+// MARK: - Chart XML Parser
+
+private class ChartXMLParser: NSObject, XMLParserDelegate {
+    var chartElement = ""       // e.g. "barChart", "lineChart"
+    var barDir = ""             // "col" or "bar"
+    var grouping = ""           // "clustered", "stacked", etc.
+    var scatterStyle = ""       // "lineMarker", "smoothMarker"
+    var title = ""
+    var hasLegend = false
+    var axisDeleted = false
+    var hasSmooth = false
+
+    // Data range (derived from first/last series formulas)
+    var dataStartRow = 0
+    var dataStartCol = 0
+    var dataEndRow = 0
+    var dataEndCol = 0
+
+    private var insideTitle = false
+    private var insidePlotArea = false
+    private var insideChartType = false
+    private var insideSer = false
+    private var insideF = false
+    private var currentText = ""
+    private var seriesIndex = 0
+    private var firstHeaderFormula = ""
+    private var firstCatFormula = ""
+    private var lastValFormula = ""
+    private var foundAxisDelete = false
+
+    // Chart type element names we recognize
+    private static let chartElements: Set<String> = [
+        "barChart", "lineChart", "areaChart", "pieChart",
+        "pie3DChart", "doughnutChart", "scatterChart"
+    ]
+
+    func parser(_ parser: XMLParser, didStartElement el: String, namespaceURI: String?,
+                qualifiedName: String?, attributes attrs: [String: String] = [:]) {
+        let local = el.components(separatedBy: ":").last ?? el
+
+        if local == "title" && !insidePlotArea {
+            insideTitle = true
+        } else if local == "plotArea" {
+            insidePlotArea = true
+        } else if Self.chartElements.contains(local) && insidePlotArea {
+            chartElement = local
+            insideChartType = true
+        } else if local == "barDir" && insideChartType {
+            barDir = attrs["val"] ?? ""
+        } else if local == "grouping" && insideChartType {
+            grouping = attrs["val"] ?? ""
+        } else if local == "scatterStyle" && insideChartType {
+            scatterStyle = attrs["val"] ?? ""
+        } else if local == "ser" && insideChartType {
+            insideSer = true
+        } else if local == "smooth" && insideSer {
+            if attrs["val"] == "1" { hasSmooth = true }
+        } else if local == "f" && (insideSer || insideTitle) {
+            insideF = true
+            currentText = ""
+        } else if local == "t" && insideTitle {
+            insideF = true  // reuse for title text capture
+            currentText = ""
+        } else if local == "legend" {
+            hasLegend = true
+        } else if local == "delete" && (local == "delete") && insidePlotArea && !insideChartType {
+            // Axis delete
+            if attrs["val"] == "1" { axisDeleted = true }
+        } else if (local == "catAx" || local == "valAx") {
+            // Check axis delete inside
+        } else if local == "delete" && !insideChartType {
+            if attrs["val"] == "1" && !foundAxisDelete {
+                axisDeleted = true
+                foundAxisDelete = true
+            }
+        }
+    }
+
+    func parser(_ parser: XMLParser, foundCharacters string: String) {
+        if insideF { currentText += string }
+    }
+
+    func parser(_ parser: XMLParser, didEndElement el: String, namespaceURI: String?,
+                qualifiedName: String?) {
+        let local = el.components(separatedBy: ":").last ?? el
+
+        if local == "f" && insideSer {
+            insideF = false
+            let formula = currentText.trimmingCharacters(in: .whitespaces)
+            if !formula.isEmpty {
+                // Determine which formula this is based on parent context
+                // tx formula (header), cat/xVal formula, val/yVal formula
+                // We track by checking: if it's the first formula in a series it's tx,
+                // second is cat, third is val. Simplification: use all formulas to find range.
+                parseFormulaRange(formula)
+            }
+        } else if (local == "t" || local == "f") && insideTitle {
+            insideF = false
+            if title.isEmpty { title = currentText.trimmingCharacters(in: .whitespaces) }
+        } else if local == "title" {
+            insideTitle = false
+        } else if local == "ser" {
+            insideSer = false
+            seriesIndex += 1
+        } else if Self.chartElements.contains(local) {
+            insideChartType = false
+        } else if local == "plotArea" {
+            insidePlotArea = false
+        }
+    }
+
+    /// Extract data range from formula like "Sheet1!$A$2:$B$5" or "'Sheet 1'!$B$1"
+    private func parseFormulaRange(_ formula: String) {
+        // Remove sheet name prefix
+        guard let bangIndex = formula.lastIndex(of: "!") else { return }
+        let rangeStr = String(formula[formula.index(after: bangIndex)...])
+            .replacingOccurrences(of: "$", with: "")
+
+        let parts = rangeStr.split(separator: ":").map { String($0) }
+        guard let start = CellReference(string: parts[0]) else { return }
+        let end = parts.count > 1 ? CellReference(string: parts[1]) : nil
+
+        // Update data range bounds
+        let endRef = end ?? start
+        if dataStartRow == 0 && dataStartCol == 0 && dataEndRow == 0 && dataEndCol == 0 {
+            // First formula
+            dataStartRow = start.row
+            dataStartCol = start.col
+            dataEndRow = endRef.row
+            dataEndCol = endRef.col
+        } else {
+            dataStartRow = min(dataStartRow, start.row)
+            dataStartCol = min(dataStartCol, start.col)
+            dataEndRow = max(dataEndRow, endRef.row)
+            dataEndCol = max(dataEndCol, endRef.col)
+        }
+    }
+}
+
+// MARK: - Table XML Parser
+
+private class TableXMLParser: NSObject, XMLParserDelegate {
+    var name = ""
+    var ref = ""
+    var styleName = ""
+    var showRowStripes = true
+    var showColumnStripes = false
+    var hasHeaders = true
+
+    func parser(_ parser: XMLParser, didStartElement el: String, namespaceURI: String?,
+                qualifiedName: String?, attributes attrs: [String: String] = [:]) {
+        if el == "table" {
+            name = attrs["displayName"] ?? attrs["name"] ?? "Table1"
+            ref = attrs["ref"] ?? ""
+            if attrs["headerRowCount"] == "0" { hasHeaders = false }
+        } else if el == "tableStyleInfo" {
+            styleName = attrs["name"] ?? ""
+            showRowStripes = attrs["showRowStripes"] != "0"
+            showColumnStripes = attrs["showColumnStripes"] == "1"
+        }
+    }
+
+    func buildTable() -> STExcelTable? {
+        let parts = ref.split(separator: ":").map { String($0) }
+        guard parts.count == 2,
+              let start = CellReference(string: parts[0]),
+              let end = CellReference(string: parts[1]) else { return nil }
+
+        let style = mapTableStyle(styleName)
+
+        return STExcelTable(
+            startRow: start.row, startCol: start.col,
+            endRow: end.row, endCol: end.col,
+            style: style,
+            hasHeaders: hasHeaders,
+            showBandedRows: showRowStripes,
+            showBandedColumns: showColumnStripes,
+            name: name
+        )
+    }
+
+    private func mapTableStyle(_ name: String) -> STExcelTableStyle {
+        switch name {
+        case "TableStyleMedium2": return .blue
+        case "TableStyleMedium7": return .green
+        case "TableStyleMedium3": return .orange
+        case "TableStyleMedium8": return .purple
+        case "TableStyleMedium4": return .red
+        case "TableStyleMedium1": return .gray
+        case "TableStyleDark1": return .dark
+        default:
+            // Try matching by keyword
+            let lower = name.lowercased()
+            if lower.contains("green") { return .green }
+            if lower.contains("orange") { return .orange }
+            if lower.contains("purple") { return .purple }
+            if lower.contains("red") { return .red }
+            if lower.contains("dark") { return .dark }
+            if lower.contains("gray") || lower.contains("grey") { return .gray }
+            return .blue
         }
     }
 }
