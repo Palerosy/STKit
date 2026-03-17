@@ -1,7 +1,7 @@
 import SwiftUI
 
 /// Shape types available for insertion
-enum STExcelShapeType: String, CaseIterable, Identifiable {
+public enum STExcelShapeType: String, CaseIterable, Identifiable {
     // Basic shapes
     case rectangle, roundedRectangle, circle, oval
     // Triangles & arrows
@@ -12,7 +12,7 @@ enum STExcelShapeType: String, CaseIterable, Identifiable {
     // Lines
     case line, dashedLine
 
-    var id: String { rawValue }
+    public var id: String { rawValue }
 
     var displayName: String {
         switch self {
@@ -74,20 +74,20 @@ enum STExcelShapeType: String, CaseIterable, Identifiable {
 }
 
 /// An embedded shape on the spreadsheet grid
-struct STExcelEmbeddedShape: Identifiable {
-    let id = UUID()
-    var shapeType: STExcelShapeType
-    var x: CGFloat
-    var y: CGFloat
-    var width: CGFloat
-    var height: CGFloat
-    var fillColor: Color
-    var strokeColor: Color
-    var strokeWidth: CGFloat
-    var text: String
-    var rotation: Double
+public struct STExcelEmbeddedShape: Identifiable {
+    public let id = UUID()
+    public var shapeType: STExcelShapeType
+    public var x: CGFloat
+    public var y: CGFloat
+    public var width: CGFloat
+    public var height: CGFloat
+    public var fillColor: Color
+    public var strokeColor: Color
+    public var strokeWidth: CGFloat
+    public var text: String
+    public var rotation: Double
 
-    init(
+    public init(
         shapeType: STExcelShapeType = .rectangle,
         x: CGFloat = 60, y: CGFloat = 60,
         width: CGFloat = 120, height: CGFloat = 80,
@@ -108,6 +108,48 @@ struct STExcelEmbeddedShape: Identifiable {
         self.text = text
         self.rotation = rotation
     }
+
+    /// XLSX preset geometry name
+    public var xlsxPresetGeometry: String {
+        switch shapeType {
+        case .rectangle: return "rect"
+        case .roundedRectangle: return "roundRect"
+        case .circle, .oval: return "ellipse"
+        case .triangle: return "triangle"
+        case .rightTriangle: return "rtTriangle"
+        case .diamond: return "diamond"
+        case .arrowRight: return "rightArrow"
+        case .arrowLeft: return "leftArrow"
+        case .arrowUp: return "upArrow"
+        case .arrowDown: return "downArrow"
+        case .star: return "star5"
+        case .hexagon: return "hexagon"
+        case .pentagon: return "pentagon"
+        case .line, .dashedLine: return "line"
+        }
+    }
+
+    /// Convert SwiftUI Color to hex string for XLSX
+    public var fillColorHex: String {
+        Self.colorToHex(fillColor)
+    }
+
+    public var strokeColorHex: String {
+        Self.colorToHex(strokeColor)
+    }
+
+    #if canImport(UIKit)
+    private static func colorToHex(_ color: Color) -> String {
+        let uiColor = UIColor(color)
+        var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
+        uiColor.getRed(&r, green: &g, blue: &b, alpha: &a)
+        return String(format: "%02X%02X%02X", Int(r * 255), Int(g * 255), Int(b * 255))
+    }
+    #else
+    private static func colorToHex(_ color: Color) -> String {
+        return "4472C4"
+    }
+    #endif
 
     var sizeTooltip: String {
         let wCm = width / 96.0 * 2.54

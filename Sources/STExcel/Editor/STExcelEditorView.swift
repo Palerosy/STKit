@@ -421,10 +421,33 @@ public struct STExcelEditorView: View {
         }
     }
 
-    /// Sync active sheet's row heights & column widths to the editor view model
+    /// Sync active sheet's row heights, column widths, images, shapes & frozen panes to the editor view model
     private func syncSheetDimensions() {
-        editorViewModel.rowHeights = document?.activeSheet.rowHeights ?? [:]
-        editorViewModel.columnWidths = document?.activeSheet.columnWidths ?? [:]
+        guard let sheet = document?.activeSheet else { return }
+        editorViewModel.rowHeights = sheet.rowHeights
+        editorViewModel.columnWidths = sheet.columnWidths
+        editorViewModel.images = sheet.images
+        editorViewModel.shapes = sheet.shapes
+        editorViewModel.frozenRows = sheet.frozenRows
+        editorViewModel.frozenCols = sheet.frozenCols
+        editorViewModel.charts = sheet.charts
+        editorViewModel.tables = sheet.tables
+        editorViewModel.conditionalRules = sheet.conditionalRules
+        editorViewModel.isSheetProtected = sheet.isProtected
+        editorViewModel.hiddenRows = sheet.hiddenRows
+        editorViewModel.groupedRows = sheet.groupedRows
+        editorViewModel.collapsedGroups = sheet.collapsedGroups
+        // Sync data validations: sheet format → ViewModel format
+        var vmRules: [String: STExcelEditorViewModel.ValidationRule] = [:]
+        for (key, val) in sheet.dataValidations {
+            vmRules[key] = STExcelEditorViewModel.ValidationRule(
+                type: val.type, min: val.minValue, max: val.maxValue, list: val.listValues)
+        }
+        editorViewModel.validationRules = vmRules
+        // Defined names (workbook level)
+        if let doc = document {
+            editorViewModel.definedNames = doc.definedNames
+        }
     }
 
     // MARK: - Premium Gate
@@ -448,13 +471,41 @@ public struct STExcelEditorView: View {
 
     // MARK: - Save
 
+    /// Sync editor view model state back to the document before saving
+    private func syncViewModelToDocument() {
+        guard let document else { return }
+        let sheet = document.activeSheet
+        sheet.columnWidths = editorViewModel.columnWidths
+        sheet.rowHeights = editorViewModel.rowHeights
+        sheet.images = editorViewModel.images
+        sheet.shapes = editorViewModel.shapes
+        sheet.frozenRows = editorViewModel.frozenRows
+        sheet.frozenCols = editorViewModel.frozenCols
+        sheet.charts = editorViewModel.charts
+        sheet.tables = editorViewModel.tables
+        sheet.conditionalRules = editorViewModel.conditionalRules
+        sheet.isProtected = editorViewModel.isSheetProtected
+        sheet.hiddenRows = editorViewModel.hiddenRows
+        sheet.groupedRows = editorViewModel.groupedRows
+        sheet.collapsedGroups = editorViewModel.collapsedGroups
+        // Sync data validations: ViewModel format → sheet format
+        var sheetValidations: [String: STExcelDataValidation] = [:]
+        for (key, rule) in editorViewModel.validationRules {
+            sheetValidations[key] = STExcelDataValidation(
+                type: rule.type, minValue: rule.min, maxValue: rule.max, listValues: rule.list)
+        }
+        sheet.dataValidations = sheetValidations
+        // Defined names (workbook level)
+        document.definedNames = editorViewModel.definedNames
+    }
+
     private func saveDocument() {
         guard let document else { return }
         if editorViewModel.isEditing { editorViewModel.commitEdit() }
+        syncViewModelToDocument()
         isSaving = true
 
         DispatchQueue.global(qos: .userInitiated).async {
-            // Always save as XLSX to preserve formatting, images, etc.
             let saveURL: URL
             if let originalURL = url {
                 saveURL = originalURL
@@ -481,9 +532,9 @@ public struct STExcelEditorView: View {
     private func saveAndClose() {
         guard let document else { return }
         if editorViewModel.isEditing { editorViewModel.commitEdit() }
+        syncViewModelToDocument()
         isSaving = true
         DispatchQueue.global(qos: .userInitiated).async {
-            // Always save as XLSX to preserve formatting, images, etc.
             let saveURL: URL
             if let originalURL = url {
                 saveURL = originalURL
@@ -511,6 +562,7 @@ public struct STExcelEditorView: View {
     private func saveAsDocument() {
         guard let document else { return }
         if editorViewModel.isEditing { editorViewModel.commitEdit() }
+        syncViewModelToDocument()
         isExporting = true
         DispatchQueue.global(qos: .userInitiated).async {
             let saveName = documentTitle.isEmpty ? "Spreadsheet" : documentTitle
@@ -532,6 +584,7 @@ public struct STExcelEditorView: View {
     private func exportAsXLSX() {
         guard let document else { return }
         if editorViewModel.isEditing { editorViewModel.commitEdit() }
+        syncViewModelToDocument()
         isExporting = true
         DispatchQueue.global(qos: .userInitiated).async {
             let saveName = documentTitle.isEmpty ? "Spreadsheet" : documentTitle

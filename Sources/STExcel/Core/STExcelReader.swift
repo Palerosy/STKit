@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 import ZIPFoundation
 
 /// Reads .xlsx files using ZIPFoundation + XML parsing
@@ -22,28 +23,241 @@ enum STExcelReader {
 
         // 5. Read each worksheet using correct file paths
         var sheets: [STExcelSheet] = []
-        for entry in sheetEntries {
+        for (sheetIndex, entry) in sheetEntries.enumerated() {
             let sheetPath: String
             if let target = rels[entry.rId] {
-                // Rels targets are relative to xl/ folder
                 sheetPath = target.hasPrefix("xl/") ? target : "xl/\(target)"
             } else {
-                // Fallback: guess by index
                 sheetPath = "xl/worksheets/sheet\(sheets.count + 1).xml"
             }
-            if let (cells, mergedRegions, colWidths, rowHeights) = readWorksheet(
+            if let ws = readWorksheet(
                 path: sheetPath, from: archive,
                 sharedStrings: sharedStrings, styles: styles
             ) {
-                let sheet = STExcelSheet(name: entry.name, cells: cells)
-                sheet.mergedRegions = mergedRegions
-                sheet.columnWidths = colWidths
-                sheet.rowHeights = rowHeights
+                let sheet = STExcelSheet(name: entry.name, cells: ws.cells)
+                sheet.mergedRegions = ws.mergedRegions
+                sheet.columnWidths = ws.columnWidths
+                sheet.rowHeights = ws.rowHeights
+                sheet.frozenRows = ws.frozenRows
+                sheet.frozenCols = ws.frozenCols
+
+                // 6. Read embedded images for this sheet
+                sheet.images = readImages(sheetIndex: sheetIndex + 1, from: archive,
+                                          columnWidths: ws.columnWidths, rowHeights: ws.rowHeights)
+
+                // 7. Read shapes
+                sheet.shapes = readShapes(sheetIndex: sheetIndex + 1, from: archive,
+                                          columnWidths: ws.columnWidths, rowHeights: ws.rowHeights)
+
+                // 8. Read comments
+                readComments(sheetIndex: sheetIndex + 1, from: archive, into: sheet)
+
                 sheets.append(sheet)
             }
         }
 
         return sheets.isEmpty ? nil : sheets
+    }
+
+    // MARK: - Image Reading
+
+    /// Read embedded images for a given sheet
+    private static func readImages(sheetIndex: Int, from archive: Archive,
+                                   columnWidths: [Int: CGFloat],
+                                   rowHeights: [Int: CGFloat]) -> [STExcelEmbeddedImage] {
+        // 1. Read sheet rels to find drawing reference
+        let sheetRelsPath = "xl/worksheets/_rels/sheet\(sheetIndex).xml.rels"
+        guard let relsData = extractData(path: sheetRelsPath, from: archive) else { return [] }
+
+        let relsParser = SheetRelsParser()
+        let relsXml = XMLParser(data: relsData)
+        relsXml.delegate = relsParser
+        relsXml.parse()
+
+        guard let drawingTarget = relsParser.drawingTarget else { return [] }
+        let drawingPath = drawingTarget.hasPrefix("xl/") ? drawingTarget :
+                          drawingTarget.hasPrefix("../") ? "xl/" + drawingTarget.dropFirst(3) :
+                          "xl/\(drawingTarget)"
+
+        // 2. Read drawing rels to map rId → image file path
+        let drawingRelsPath = drawingPath.replacingOccurrences(of: "drawings/", with: "drawings/_rels/") + ".rels"
+        let imageRelMap: [String: String]
+        if let drawRelsData = extractData(path: drawingRelsPath, from: archive) {
+            let drawRelsParser = DrawingRelsParser()
+            let drawRelsXml = XMLParser(data: drawRelsData)
+            drawRelsXml.delegate = drawRelsParser
+            drawRelsXml.parse()
+            imageRelMap = drawRelsParser.imageTargets
+        } else {
+            imageRelMap = [:]
+        }
+
+        // 3. Read drawing XML to get image positions
+        guard let drawingData = extractData(path: drawingPath, from: archive) else { return [] }
+        let drawingParser = DrawingParser()
+        let drawingXml = XMLParser(data: drawingData)
+        drawingXml.delegate = drawingParser
+        drawingXml.parse()
+
+        // 4. Build images
+        let defaultColWidth: CGFloat = 64
+        let defaultRowHeight: CGFloat = 20
+        var images: [STExcelEmbeddedImage] = []
+
+        for entry in drawingParser.imageEntries {
+            // Resolve image file path
+            guard let relTarget = imageRelMap[entry.embedId] else { continue }
+            let mediaPath = relTarget.hasPrefix("xl/") ? relTarget :
+                            relTarget.hasPrefix("../") ? "xl/" + relTarget.dropFirst(3) :
+                            "xl/\(relTarget)"
+
+            guard let imageData = extractData(path: mediaPath, from: archive),
+                  !imageData.isEmpty else { continue }
+
+            // Convert cell anchor to absolute pixel position
+            var x: CGFloat = 0
+            for c in 0..<entry.fromCol {
+                x += columnWidths[c] ?? defaultColWidth
+            }
+            x += CGFloat(entry.fromColOff) / 9525.0
+
+            var y: CGFloat = 0
+            for r in 0..<entry.fromRow {
+                y += rowHeights[r] ?? defaultRowHeight
+            }
+            y += CGFloat(entry.fromRowOff) / 9525.0
+
+            let width = CGFloat(entry.extCx) / 9525.0
+            let height = CGFloat(entry.extCy) / 9525.0
+            let aspect = height > 0 ? width / height : 1.0
+
+            images.append(STExcelEmbeddedImage(
+                imageData: imageData, x: x, y: y,
+                width: width, height: height, aspectRatio: aspect
+            ))
+        }
+
+        return images
+    }
+
+    // MARK: - Comment Reading
+
+    /// Read comments from xl/commentsN.xml and apply to sheet cells
+    private static func readComments(sheetIndex: Int, from archive: Archive, into sheet: STExcelSheet) {
+        let path = "xl/comments\(sheetIndex).xml"
+        guard let data = extractData(path: path, from: archive) else { return }
+
+        let parser = CommentsParser()
+        let xmlParser = XMLParser(data: data)
+        xmlParser.delegate = parser
+        xmlParser.parse()
+
+        for entry in parser.comments {
+            guard let ref = CellReference(string: entry.ref) else { continue }
+            guard ref.row < sheet.rowCount, ref.col < sheet.columnCount else { continue }
+            sheet.cells[ref.row][ref.col].comment = entry.text
+        }
+    }
+
+    // MARK: - Shape Reading (from drawing XML)
+
+    /// Read shapes from drawing XML for a given sheet
+    private static func readShapes(sheetIndex: Int, from archive: Archive,
+                                   columnWidths: [Int: CGFloat],
+                                   rowHeights: [Int: CGFloat]) -> [STExcelEmbeddedShape] {
+        // 1. Read sheet rels to find drawing reference
+        let sheetRelsPath = "xl/worksheets/_rels/sheet\(sheetIndex).xml.rels"
+        guard let relsData = extractData(path: sheetRelsPath, from: archive) else { return [] }
+
+        let relsParser = SheetRelsParser()
+        let relsXml = XMLParser(data: relsData)
+        relsXml.delegate = relsParser
+        relsXml.parse()
+
+        guard let drawingTarget = relsParser.drawingTarget else { return [] }
+        let drawingPath = drawingTarget.hasPrefix("xl/") ? drawingTarget :
+                          drawingTarget.hasPrefix("../") ? "xl/" + drawingTarget.dropFirst(3) :
+                          "xl/\(drawingTarget)"
+
+        // 2. Read drawing XML
+        guard let drawingData = extractData(path: drawingPath, from: archive) else { return [] }
+        let drawingParser = DrawingParser()
+        let drawingXml = XMLParser(data: drawingData)
+        drawingXml.delegate = drawingParser
+        drawingXml.parse()
+
+        // 3. Build shapes from parsed entries
+        let defaultColWidth: CGFloat = 64
+        let defaultRowHeight: CGFloat = 20
+        var shapes: [STExcelEmbeddedShape] = []
+
+        for entry in drawingParser.shapeEntries {
+            // Convert anchor to pixel position
+            var x: CGFloat = 0
+            for c in 0..<entry.fromCol {
+                x += columnWidths[c] ?? defaultColWidth
+            }
+            x += CGFloat(entry.fromColOff) / 9525.0
+
+            var y: CGFloat = 0
+            for r in 0..<entry.fromRow {
+                y += rowHeights[r] ?? defaultRowHeight
+            }
+            y += CGFloat(entry.fromRowOff) / 9525.0
+
+            let width = CGFloat(entry.extCx) / 9525.0
+            let height = CGFloat(entry.extCy) / 9525.0
+
+            let shapeType = shapeTypeFromPreset(entry.presetGeometry)
+            let fillColor = colorFromHex(entry.fillColorHex)
+            let strokeColor = colorFromHex(entry.strokeColorHex)
+            let strokeWidth = CGFloat(entry.lineWidth) / 12700.0
+            let rotation = Double(entry.rotation) / 60000.0
+
+            shapes.append(STExcelEmbeddedShape(
+                shapeType: shapeType,
+                x: x, y: y, width: width, height: height,
+                fillColor: fillColor,
+                strokeColor: strokeColor,
+                strokeWidth: max(strokeWidth, 1),
+                text: entry.text,
+                rotation: rotation
+            ))
+        }
+
+        return shapes
+    }
+
+    /// Map XLSX preset geometry name to our shape type
+    private static func shapeTypeFromPreset(_ preset: String) -> STExcelShapeType {
+        switch preset {
+        case "rect": return .rectangle
+        case "roundRect": return .roundedRectangle
+        case "ellipse": return .circle
+        case "triangle": return .triangle
+        case "rtTriangle": return .rightTriangle
+        case "diamond": return .diamond
+        case "rightArrow": return .arrowRight
+        case "leftArrow": return .arrowLeft
+        case "upArrow": return .arrowUp
+        case "downArrow": return .arrowDown
+        case "star5": return .star
+        case "hexagon": return .hexagon
+        case "pentagon": return .pentagon
+        case "line": return .line
+        default: return .rectangle
+        }
+    }
+
+    /// Convert hex string to SwiftUI Color
+    private static func colorFromHex(_ hex: String) -> Color {
+        guard !hex.isEmpty else { return .blue }
+        let clean = hex.hasPrefix("#") ? String(hex.dropFirst()) : hex
+        guard clean.count == 6, let val = UInt64(clean, radix: 16) else { return .blue }
+        let r = Double((val >> 16) & 0xFF) / 255.0
+        let g = Double((val >> 8) & 0xFF) / 255.0
+        let b = Double(val & 0xFF) / 255.0
+        return Color(red: r, green: g, blue: b)
     }
 
     // MARK: - Sheet Entries (name + rId)
@@ -115,16 +329,24 @@ enum STExcelReader {
 
     // MARK: - Worksheet
 
+    fileprivate struct WorksheetResult {
+        let cells: [[STExcelCell]]
+        let mergedRegions: [STMergedRegion]
+        let columnWidths: [Int: CGFloat]
+        let rowHeights: [Int: CGFloat]
+        let frozenRows: Int
+        let frozenCols: Int
+    }
+
     private static func readWorksheet(path: String, from archive: Archive,
                                       sharedStrings: [String],
-                                      styles: ParsedStyles) -> ([[STExcelCell]], [STMergedRegion], [Int: CGFloat], [Int: CGFloat])? {
+                                      styles: ParsedStyles) -> WorksheetResult? {
         guard let data = extractData(path: path, from: archive) else { return nil }
         let parser = WorksheetParser(sharedStrings: sharedStrings, styles: styles)
         let xmlParser = XMLParser(data: data)
         xmlParser.delegate = parser
         xmlParser.parse()
 
-        // Convert sparse cells to 2D array (empty sheet is valid)
         let maxRow = parser.cells.keys.map(\.row).max() ?? 0
         let maxCol = parser.cells.keys.map(\.col).max() ?? 0
 
@@ -141,7 +363,14 @@ enum STExcelReader {
             }
         }
 
-        return (result, parser.mergedRegions, parser.columnWidths, parser.rowHeights)
+        return WorksheetResult(
+            cells: result,
+            mergedRegions: parser.mergedRegions,
+            columnWidths: parser.columnWidths,
+            rowHeights: parser.rowHeights,
+            frozenRows: parser.frozenRows,
+            frozenCols: parser.frozenCols
+        )
     }
 
     // MARK: - ZIP Helper
@@ -340,6 +569,8 @@ private class WorksheetParser: NSObject, XMLParserDelegate {
     var mergedRegions: [STMergedRegion] = []
     var columnWidths: [Int: CGFloat] = [:]
     var rowHeights: [Int: CGFloat] = [:]
+    var frozenRows: Int = 0
+    var frozenCols: Int = 0
 
     private var currentRef: CellReference?
     private var currentType: String?
@@ -356,7 +587,11 @@ private class WorksheetParser: NSObject, XMLParserDelegate {
 
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?,
                 qualifiedName: String?, attributes: [String: String] = [:]) {
-        if elementName == "c" {
+        if elementName == "pane" {
+            // <pane xSplit="2" ySplit="1" topLeftCell="C2" state="frozen"/>
+            if let ySplit = attributes["ySplit"], let val = Int(ySplit) { frozenRows = val }
+            if let xSplit = attributes["xSplit"], let val = Int(xSplit) { frozenCols = val }
+        } else if elementName == "c" {
             currentRef = attributes["r"].flatMap { CellReference(string: $0) }
             currentType = attributes["t"]
             currentStyleIndex = Int(attributes["s"] ?? "0") ?? 0
@@ -654,6 +889,237 @@ private class StylesParser: NSObject, XMLParserDelegate {
         case "dotted": return .dotted
         case "double": return .double_
         default: return .none
+        }
+    }
+}
+
+// MARK: - Sheet Rels Parser (finds drawing reference)
+
+private class SheetRelsParser: NSObject, XMLParserDelegate {
+    var drawingTarget: String?
+
+    func parser(_ parser: XMLParser, didStartElement el: String, namespaceURI: String?,
+                qualifiedName: String?, attributes attrs: [String: String] = [:]) {
+        if el == "Relationship",
+           let type = attrs["Type"], type.contains("drawing"),
+           let target = attrs["Target"] {
+            drawingTarget = target
+        }
+    }
+}
+
+// MARK: - Drawing Rels Parser (maps rId → image path)
+
+private class DrawingRelsParser: NSObject, XMLParserDelegate {
+    /// rId → target path (e.g. "rId1" → "../media/image1.png")
+    var imageTargets: [String: String] = [:]
+
+    func parser(_ parser: XMLParser, didStartElement el: String, namespaceURI: String?,
+                qualifiedName: String?, attributes attrs: [String: String] = [:]) {
+        if el == "Relationship",
+           let id = attrs["Id"],
+           let type = attrs["Type"], type.contains("image"),
+           let target = attrs["Target"] {
+            imageTargets[id] = target
+        }
+    }
+}
+
+// MARK: - Drawing Parser (reads image positions and shapes from drawing XML)
+
+private class DrawingParser: NSObject, XMLParserDelegate {
+
+    struct ImageEntry {
+        var fromCol: Int = 0
+        var fromColOff: Int = 0
+        var fromRow: Int = 0
+        var fromRowOff: Int = 0
+        var extCx: Int = 0
+        var extCy: Int = 0
+        var embedId: String = ""
+    }
+
+    struct ShapeEntry {
+        var fromCol: Int = 0
+        var fromColOff: Int = 0
+        var fromRow: Int = 0
+        var fromRowOff: Int = 0
+        var extCx: Int = 0
+        var extCy: Int = 0
+        var presetGeometry: String = "rect"
+        var fillColorHex: String = ""
+        var strokeColorHex: String = ""
+        var lineWidth: Int = 0
+        var rotation: Int = 0
+        var text: String = ""
+    }
+
+    var imageEntries: [ImageEntry] = []
+    var shapeEntries: [ShapeEntry] = []
+
+    private var currentImageEntry = ImageEntry()
+    private var currentShapeEntry = ShapeEntry()
+    private var insideAnchor = false
+    private var insideFrom = false
+    private var insidePic = false
+    private var insideSp = false
+    private var insideSpPr = false
+    private var insideLn = false
+    private var insideTxBody = false
+    private var hadShape = false
+    private var currentElement = ""
+    private var currentText = ""
+
+    func parser(_ parser: XMLParser, didStartElement el: String, namespaceURI: String?,
+                qualifiedName: String?, attributes attrs: [String: String] = [:]) {
+        let local = el.components(separatedBy: ":").last ?? el
+
+        if local == "oneCellAnchor" || local == "twoCellAnchor" {
+            insideAnchor = true
+            hadShape = false
+            currentImageEntry = ImageEntry()
+            currentShapeEntry = ShapeEntry()
+        } else if local == "from" && insideAnchor {
+            insideFrom = true
+        } else if local == "ext" && insideAnchor && !insidePic && !insideSp {
+            let cx = Int(attrs["cx"] ?? "0") ?? 0
+            let cy = Int(attrs["cy"] ?? "0") ?? 0
+            currentImageEntry.extCx = cx
+            currentImageEntry.extCy = cy
+            currentShapeEntry.extCx = cx
+            currentShapeEntry.extCy = cy
+        } else if local == "pic" && insideAnchor {
+            insidePic = true
+        } else if local == "blip" && insidePic {
+            currentImageEntry.embedId = attrs["r:embed"] ?? attrs["embed"] ?? ""
+        } else if local == "sp" && insideAnchor {
+            insideSp = true
+            hadShape = true
+        } else if local == "spPr" && insideSp {
+            insideSpPr = true
+        } else if local == "xfrm" && insideSpPr {
+            if let rot = attrs["rot"], let r = Int(rot) { currentShapeEntry.rotation = r }
+        } else if local == "prstGeom" && insideSpPr {
+            currentShapeEntry.presetGeometry = attrs["prst"] ?? "rect"
+        } else if local == "solidFill" && insideSpPr {
+            // Will capture srgbClr next
+        } else if local == "srgbClr" && insideSpPr {
+            if let val = attrs["val"] {
+                if insideLn {
+                    currentShapeEntry.strokeColorHex = val
+                } else {
+                    currentShapeEntry.fillColorHex = val
+                }
+            }
+        } else if local == "ln" && insideSpPr {
+            insideLn = true
+            if let w = attrs["w"], let wv = Int(w) { currentShapeEntry.lineWidth = wv }
+        } else if local == "txBody" && insideSp {
+            insideTxBody = true
+        } else if local == "t" && insideTxBody {
+            currentElement = "t"
+            currentText = ""
+        }
+
+        if insideFrom {
+            currentElement = local
+            currentText = ""
+        }
+    }
+
+    func parser(_ parser: XMLParser, foundCharacters string: String) {
+        if insideFrom { currentText += string }
+        if insideTxBody && currentElement == "t" { currentText += string }
+    }
+
+    func parser(_ parser: XMLParser, didEndElement el: String, namespaceURI: String?,
+                qualifiedName: String?) {
+        let local = el.components(separatedBy: ":").last ?? el
+
+        if insideFrom {
+            switch local {
+            case "col":
+                let val = Int(currentText) ?? 0
+                currentImageEntry.fromCol = val
+                currentShapeEntry.fromCol = val
+            case "colOff":
+                let val = Int(currentText) ?? 0
+                currentImageEntry.fromColOff = val
+                currentShapeEntry.fromColOff = val
+            case "row":
+                let val = Int(currentText) ?? 0
+                currentImageEntry.fromRow = val
+                currentShapeEntry.fromRow = val
+            case "rowOff":
+                let val = Int(currentText) ?? 0
+                currentImageEntry.fromRowOff = val
+                currentShapeEntry.fromRowOff = val
+            default: break
+            }
+        }
+
+        if local == "t" && insideTxBody {
+            currentShapeEntry.text += currentText
+            currentElement = ""
+        }
+        if local == "from" { insideFrom = false }
+        if local == "pic" { insidePic = false }
+        if local == "ln" { insideLn = false }
+        if local == "spPr" { insideSpPr = false }
+        if local == "txBody" { insideTxBody = false }
+        if local == "sp" { insideSp = false }
+        if local == "oneCellAnchor" || local == "twoCellAnchor" {
+            if !currentImageEntry.embedId.isEmpty {
+                imageEntries.append(currentImageEntry)
+            }
+            if hadShape {
+                shapeEntries.append(currentShapeEntry)
+            }
+            insideAnchor = false
+            hadShape = false
+        }
+    }
+}
+
+// MARK: - Comments Parser
+
+private class CommentsParser: NSObject, XMLParserDelegate {
+    struct CommentEntry {
+        var ref: String
+        var text: String
+    }
+
+    var comments: [CommentEntry] = []
+
+    private var currentRef: String?
+    private var currentText = ""
+    private var insideComment = false
+    private var insideT = false
+
+    func parser(_ parser: XMLParser, didStartElement el: String, namespaceURI: String?,
+                qualifiedName: String?, attributes attrs: [String: String] = [:]) {
+        if el == "comment" {
+            insideComment = true
+            currentRef = attrs["ref"]
+            currentText = ""
+        } else if el == "t" && insideComment {
+            insideT = true
+        }
+    }
+
+    func parser(_ parser: XMLParser, foundCharacters string: String) {
+        if insideT { currentText += string }
+    }
+
+    func parser(_ parser: XMLParser, didEndElement el: String, namespaceURI: String?,
+                qualifiedName: String?) {
+        if el == "t" {
+            insideT = false
+        } else if el == "comment" {
+            if let ref = currentRef, !currentText.isEmpty {
+                comments.append(CommentEntry(ref: ref, text: currentText))
+            }
+            insideComment = false
         }
     }
 }

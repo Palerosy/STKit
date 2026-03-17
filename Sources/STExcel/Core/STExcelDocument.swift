@@ -18,6 +18,9 @@ public final class STExcelDocument: STDocument {
     public let sourceURL: URL?
     public let title: String
 
+    /// Defined names (workbook level)
+    var definedNames: [String: String] = [:]
+
     public var plainText: String {
         activeSheet.toCSV()
     }
@@ -144,6 +147,18 @@ public final class STExcelDocument: STDocument {
         copy.mergedRegions = source.mergedRegions
         copy.columnWidths = source.columnWidths
         copy.rowHeights = source.rowHeights
+        copy.images = source.images
+        copy.shapes = source.shapes
+        copy.frozenRows = source.frozenRows
+        copy.frozenCols = source.frozenCols
+        copy.charts = source.charts
+        copy.tables = source.tables
+        copy.conditionalRules = source.conditionalRules
+        copy.dataValidations = source.dataValidations
+        copy.isProtected = source.isProtected
+        copy.hiddenRows = source.hiddenRows
+        copy.groupedRows = source.groupedRows
+        copy.collapsedGroups = source.collapsedGroups
         sheets.insert(copy, at: index + 1)
     }
 
@@ -161,7 +176,7 @@ public final class STExcelDocument: STDocument {
     /// Save as xlsx
     @discardableResult
     public func save(to url: URL) -> Bool {
-        STExcelWriter.write(sheets: sheets, to: url)
+        STExcelWriter.write(sheets: sheets, to: url, definedNames: definedNames)
     }
 
     /// Export as CSV
@@ -192,6 +207,39 @@ public class STExcelSheet: Identifiable, ObservableObject {
 
     /// Row heights (index → height in points); nil means default
     public var rowHeights: [Int: CGFloat] = [:]
+
+    /// Embedded images on this sheet
+    public var images: [STExcelEmbeddedImage] = []
+
+    /// Embedded shapes on this sheet
+    public var shapes: [STExcelEmbeddedShape] = []
+
+    /// Frozen rows (pane split)
+    public var frozenRows: Int = 0
+    /// Frozen columns (pane split)
+    public var frozenCols: Int = 0
+
+    /// Embedded charts on this sheet
+    var charts: [STExcelEmbeddedChart] = []
+
+    /// Formatted tables
+    var tables: [STExcelTable] = []
+
+    /// Conditional formatting rules
+    var conditionalRules: [STExcelConditionalRule] = []
+
+    /// Data validation rules keyed by "row,col"
+    var dataValidations: [String: STExcelDataValidation] = [:]
+
+    /// Sheet protection
+    var isProtected: Bool = false
+
+    /// Auto-filter hidden rows
+    var hiddenRows: Set<Int> = []
+
+    /// Row grouping
+    var groupedRows: Set<Int> = []
+    var collapsedGroups: Set<Int> = []
 
     /// Number of rows
     public var rowCount: Int { cells.count }
@@ -361,6 +409,25 @@ public class STExcelSheet: Identifiable, ObservableObject {
             col = col * 26 + Int(ascii) - 64
         }
         return col - 1
+    }
+}
+
+/// Data validation rule for cells
+struct STExcelDataValidation {
+    var type: Int  // 0=Any, 1=WholeNumber, 2=Decimal, 3=List, 4=Date, 5=TextLength
+    var minValue: String = ""
+    var maxValue: String = ""
+    var listValues: [String] = []
+
+    var xlsxType: String {
+        switch type {
+        case 1: return "whole"
+        case 2: return "decimal"
+        case 3: return "list"
+        case 4: return "date"
+        case 5: return "textLength"
+        default: return "none"
+        }
     }
 }
 
