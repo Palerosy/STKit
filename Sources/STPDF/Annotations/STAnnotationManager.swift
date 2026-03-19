@@ -397,22 +397,21 @@ final class STAnnotationManager: ObservableObject {
                 }
             }
         } else if annotation.type == "Ink" {
-            // Saved ink/signature — convert to STInkAnnotation with ALL paths' points.
+            // Saved ink/signature — create fresh PDFAnnotation(.ink) and copy each path separately.
+            // STInkAnnotation only supports a single stroke; signatures have multiple strokes.
+            // A standard PDFAnnotation with copied paths preserves the original shape.
             guard let page = annotation.page,
                   let paths = annotation.paths, !paths.isEmpty else { return }
-            var allPoints: [CGPoint] = []
-            for path in paths {
-                allPoints.append(contentsOf: Self.extractPoints(from: path))
-            }
-            guard !allPoints.isEmpty else { return }
             let savedBounds = annotation.bounds
             let strokeWidth = annotation.border?.lineWidth ?? style.lineWidth
-            let fresh = STInkAnnotation(
-                bounds: savedBounds,
-                points: allPoints,
-                strokeWidth: strokeWidth,
-                color: color
-            )
+            let fresh = PDFAnnotation(bounds: savedBounds, forType: .ink, withProperties: nil)
+            fresh.color = color
+            let border = PDFBorder()
+            border.lineWidth = strokeWidth
+            fresh.border = border
+            for path in paths {
+                fresh.add(path)
+            }
             fresh.bounds = savedBounds
             page.removeAnnotation(annotation)
             page.addAnnotation(fresh)
