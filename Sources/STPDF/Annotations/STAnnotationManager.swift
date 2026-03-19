@@ -396,26 +396,6 @@ final class STAnnotationManager: ObservableObject {
                     page.addAnnotation(annotation)
                 }
             }
-        } else if annotation.type == "Ink" {
-            // Saved ink — convert to STInkAnnotation for proper rendering via custom draw().
-            // Standard PDFKit ink rendering (after AP removal) looks different (thinner strokes).
-            guard let page = annotation.page,
-                  let lastPath = annotation.paths?.last else { return }
-            let points = Self.extractPoints(from: lastPath)
-            guard !points.isEmpty else { return }
-            let savedBounds = annotation.bounds
-            let strokeWidth = annotation.border?.lineWidth ?? style.lineWidth
-            let fresh = STInkAnnotation(
-                bounds: savedBounds,
-                points: points,
-                strokeWidth: strokeWidth,
-                color: color
-            )
-            // Restore bounds — rebuildPaths()/add(path) in init may adjust them.
-            fresh.bounds = savedBounds
-            page.removeAnnotation(annotation)
-            page.addAnnotation(fresh)
-            selectedAnnotation = fresh
         } else {
             // Other saved annotation types (Line, shapes, highlights, etc.)
             // Modify in-place: change color, clear baked AP stream, preserve bounds.
