@@ -592,7 +592,8 @@ struct CellReference: Hashable {
 
         var col = 0
         for char in colStr.uppercased() {
-            col = col * 26 + Int(char.asciiValue! - 64)
+            guard let ascii = char.asciiValue, ascii >= 65, ascii <= 90 else { return nil }
+            col = col * 26 + Int(ascii - 64)
         }
         self.col = col - 1
         self.row = rowNum - 1
@@ -887,12 +888,15 @@ private class WorksheetParser: NSObject, XMLParserDelegate {
             let ranges = currentDVSqref.components(separatedBy: " ")
             for range in ranges {
                 let cellRefs = range.split(separator: ":").map { String($0) }
-                if let start = CellReference(string: cellRefs[0]) {
-                    let end = cellRefs.count > 1 ? CellReference(string: cellRefs[1]) : start
-                    for r in start.row...(end?.row ?? start.row) {
-                        for c in start.col...(end?.col ?? start.col) {
-                            dataValidations["\(r),\(c)"] = dv
-                        }
+                guard let first = cellRefs.first, let start = CellReference(string: first) else { continue }
+                let end = cellRefs.count > 1 ? CellReference(string: cellRefs[1]) : start
+                let endRow = end?.row ?? start.row
+                let endCol = end?.col ?? start.col
+                // Limit to prevent memory explosion on huge ranges
+                guard (endRow - start.row + 1) * (endCol - start.col + 1) < 100_000 else { continue }
+                for r in start.row...endRow {
+                    for c in start.col...endCol {
+                        dataValidations["\(r),\(c)"] = dv
                     }
                 }
             }

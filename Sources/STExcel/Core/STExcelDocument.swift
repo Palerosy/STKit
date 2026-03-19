@@ -261,27 +261,28 @@ public class STExcelSheet: Identifiable, ObservableObject {
 
     /// Get cell value
     public func cell(row: Int, column: Int) -> STExcelCell {
-        guard row < rowCount, column < columnCount else { return STExcelCell() }
+        guard row >= 0, column >= 0, row < cells.count, column < cells[row].count else { return STExcelCell() }
         return cells[row][column]
     }
 
     /// Set cell value
     public func setCell(row: Int, column: Int, value: String) {
-        guard row < rowCount, column < columnCount else { return }
+        guard row >= 0, column >= 0, row < cells.count, column < cells[row].count else { return }
         cells[row][column].value = value
     }
 
     /// Set cell style
     public func setCellStyle(row: Int, column: Int, style: STExcelCellStyle) {
-        guard row < rowCount, column < columnCount else { return }
+        guard row >= 0, column >= 0, row < cells.count, column < cells[row].count else { return }
         cells[row][column].style = style
     }
 
     /// Apply style to a range of cells
     public func applyStyleToRange(startRow: Int, startCol: Int, endRow: Int, endCol: Int,
                                   transform: (inout STExcelCellStyle) -> Void) {
-        for r in startRow...min(endRow, rowCount - 1) {
-            for c in startCol...min(endCol, columnCount - 1) {
+        for r in max(0, startRow)...min(endRow, rowCount - 1) {
+            guard r < cells.count else { continue }
+            for c in max(0, startCol)...min(endCol, cells[r].count - 1) {
                 transform(&cells[r][c].style)
             }
         }
