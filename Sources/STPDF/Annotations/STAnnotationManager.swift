@@ -396,6 +396,27 @@ final class STAnnotationManager: ObservableObject {
                     page.addAnnotation(annotation)
                 }
             }
+        } else if annotation.type == "Ink" {
+            // Saved ink/signature — convert to STInkAnnotation with ALL paths' points.
+            guard let page = annotation.page,
+                  let paths = annotation.paths, !paths.isEmpty else { return }
+            var allPoints: [CGPoint] = []
+            for path in paths {
+                allPoints.append(contentsOf: Self.extractPoints(from: path))
+            }
+            guard !allPoints.isEmpty else { return }
+            let savedBounds = annotation.bounds
+            let strokeWidth = annotation.border?.lineWidth ?? style.lineWidth
+            let fresh = STInkAnnotation(
+                bounds: savedBounds,
+                points: allPoints,
+                strokeWidth: strokeWidth,
+                color: color
+            )
+            fresh.bounds = savedBounds
+            page.removeAnnotation(annotation)
+            page.addAnnotation(fresh)
+            selectedAnnotation = fresh
         } else {
             // Other saved annotation types (Line, shapes, highlights, etc.)
             // Modify in-place: change color, clear baked AP stream, preserve bounds.
