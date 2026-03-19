@@ -396,26 +396,23 @@ final class STAnnotationManager: ObservableObject {
                     page.addAnnotation(annotation)
                 }
             }
+        } else if annotation.type == "Stamp" {
+            // Stamp annotations (signatures, photos) are rasterized images.
+            // Color change is not applicable — skip to avoid destroying the AP stream.
+            return
         } else if annotation.type == "Ink" {
-            // Saved ink/signature — create fresh PDFAnnotation(.ink) and copy each path separately.
-            // STInkAnnotation only supports a single stroke; signatures have multiple strokes.
-            // A standard PDFAnnotation with copied paths preserves the original shape.
-            guard let page = annotation.page,
-                  let paths = annotation.paths, !paths.isEmpty else { return }
+            // Saved ink — modify in-place, clear AP stream so PDFKit re-renders with new color.
             let savedBounds = annotation.bounds
-            let strokeWidth = annotation.border?.lineWidth ?? style.lineWidth
-            let fresh = PDFAnnotation(bounds: savedBounds, forType: .ink, withProperties: nil)
-            fresh.color = color
-            let border = PDFBorder()
-            border.lineWidth = strokeWidth
-            fresh.border = border
-            for path in paths {
-                fresh.add(path)
+            annotation.color = color
+            let newBorder = PDFBorder()
+            newBorder.lineWidth = annotation.border?.lineWidth ?? style.lineWidth
+            annotation.border = newBorder
+            annotation.removeValue(forAnnotationKey: .appearanceDictionary)
+            annotation.bounds = savedBounds
+            if let page = annotation.page {
+                page.removeAnnotation(annotation)
+                page.addAnnotation(annotation)
             }
-            fresh.bounds = savedBounds
-            page.removeAnnotation(annotation)
-            page.addAnnotation(fresh)
-            selectedAnnotation = fresh
         } else {
             // Other saved annotation types (Line, shapes, highlights, etc.)
             // Modify in-place: change color, clear baked AP stream, preserve bounds.
