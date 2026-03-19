@@ -118,5 +118,10 @@ struct STPropertyInspector: View {
         .background(.ultraThinMaterial)
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .padding(.horizontal, 16)
+        .onChange(of: annotationManager.activeStyle) { _ in
+            if annotationManager.selectedAnnotation != nil, !annotationManager.isLoadingStyle {
+                annotationManager.applyStyleToSelectedAnnotation()
+            }
+        }
     }
 }
