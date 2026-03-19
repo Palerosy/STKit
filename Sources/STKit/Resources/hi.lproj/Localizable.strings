@@ -1,6 +1,7 @@
 "stkit.done" = "हो गया";
 "stkit.cancel" = "रद्द करें";
 "stkit.save" = "सहेजें";
+"stkit.saving" = "सहेजा जा रहा है…";
 "stkit.share" = "साझा करें";
 "stkit.export" = "निर्यात करें";
 "stkit.delete" = "हटाएं";

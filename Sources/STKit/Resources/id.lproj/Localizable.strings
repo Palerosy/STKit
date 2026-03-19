@@ -1,6 +1,7 @@
 "stkit.done" = "Selesai";
 "stkit.cancel" = "Batal";
 "stkit.save" = "Simpan";
+"stkit.saving" = "Menyimpan…";
 "stkit.share" = "Bagikan";
 "stkit.export" = "Ekspor";
 "stkit.delete" = "Hapus";

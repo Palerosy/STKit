@@ -64,12 +64,15 @@ final class STInkAnnotation: PDFAnnotation {
 
     /// Update ink color and stroke width (for inspector changes on selected annotation).
     func applyStyle(color: PlatformColor, strokeWidth: CGFloat) {
+        let savedBounds = bounds
         inkColor = color
         inkStrokeWidth = strokeWidth
         self.color = color
         let border = PDFBorder()
         border.lineWidth = strokeWidth
         self.border = border
+        // Restore bounds — PDFKit may internally adjust them when border changes
+        bounds = savedBounds
     }
 
     // MARK: - Transform (move + scale)

@@ -6,6 +6,7 @@ public enum STStrings {
     public static var done: String { loc("stkit.done") }
     public static var cancel: String { loc("stkit.cancel") }
     public static var save: String { loc("stkit.save") }
+    public static var saving: String { loc("stkit.saving") }
     public static var share: String { loc("stkit.share") }
     public static var export: String { loc("stkit.export") }
     public static var delete: String { loc("stkit.delete") }

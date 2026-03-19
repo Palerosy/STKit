@@ -2,6 +2,7 @@
 "stkit.done" = "Tamam";
 "stkit.cancel" = "İptal";
 "stkit.save" = "Kaydet";
+"stkit.saving" = "Kaydediliyor…";
 "stkit.share" = "Paylaş";
 "stkit.export" = "Dışa Aktar";
 "stkit.delete" = "Sil";

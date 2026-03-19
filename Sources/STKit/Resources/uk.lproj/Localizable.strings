@@ -1,6 +1,7 @@
 "stkit.done" = "Готово";
 "stkit.cancel" = "Скасувати";
 "stkit.save" = "Зберегти";
+"stkit.saving" = "Збереження…";
 "stkit.share" = "Поділитися";
 "stkit.export" = "Експорт";
 "stkit.delete" = "Видалити";

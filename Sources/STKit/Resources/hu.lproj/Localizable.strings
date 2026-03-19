@@ -1,6 +1,7 @@
 "stkit.done" = "Kész";
 "stkit.cancel" = "Mégse";
 "stkit.save" = "Mentés";
+"stkit.saving" = "Mentés…";
 "stkit.share" = "Megosztás";
 "stkit.export" = "Exportálás";
 "stkit.delete" = "Törlés";

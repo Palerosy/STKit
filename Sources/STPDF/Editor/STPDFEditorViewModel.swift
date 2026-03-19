@@ -30,6 +30,7 @@ final class STPDFEditorViewModel: ObservableObject {
     @Published var isRibbonCollapsed = false
     @Published var hasUnsavedChanges = false
     @Published var showPaywall = false
+    @Published var isSaving = false
 
     /// Backup of original PDF data for discard/revert
     private(set) var originalPDFData: Data?
@@ -114,6 +115,29 @@ final class STPDFEditorViewModel: ObservableObject {
         }
         // Write reverted document back to disk (overwrite any auto-saved changes)
         document.pdfDocument.write(to: url)
+    }
+
+    /// Save document with a progress overlay. Shows spinner, gives SwiftUI
+    /// one run loop cycle to render it, then performs the (blocking) save.
+    func saveAsync(completion: @escaping () -> Void) {
+        isSaving = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) { [self] in
+            document.save()
+            serializer.save()
+            isSaving = false
+            completion()
+        }
+    }
+
+    /// Revert document with a progress overlay.
+    func revertAsync(completion: @escaping () -> Void) {
+        isSaving = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) { [self] in
+            serializer.stopAutoSave()
+            revertToOriginal()
+            isSaving = false
+            completion()
+        }
     }
 
     /// Highlight a search selection on the PDFView, then clear after delay

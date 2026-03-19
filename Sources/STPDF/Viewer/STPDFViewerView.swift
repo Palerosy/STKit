@@ -8,13 +8,16 @@ import UniformTypeIdentifiers
 // MARK: - Coordinate Conversion Helper
 
 private extension PDFView {
-    /// Convert a SwiftUI gesture location to PDFView coordinates.
-    /// On macOS, SwiftUI uses flipped coordinates (y from top) but PDFView uses standard NSView coords (y from bottom).
-    func pointFromSwiftUI(_ point: CGPoint) -> CGPoint {
+    /// Convert a global (window) point from SwiftUI to PDFView's local coordinate system.
+    func pointFromGlobal(_ globalPoint: CGPoint) -> CGPoint {
         #if os(macOS)
-        return CGPoint(x: point.x, y: bounds.height - point.y)
+        guard let window = self.window else {
+            return CGPoint(x: globalPoint.x, y: bounds.height - globalPoint.y)
+        }
+        let windowPoint = window.convertPoint(fromScreen: NSPoint(x: globalPoint.x, y: NSScreen.main!.frame.height - globalPoint.y))
+        return self.convert(windowPoint, from: nil)
         #else
-        return point
+        return self.convert(globalPoint, from: nil)
         #endif
     }
 }
@@ -45,9 +48,9 @@ struct STPDFViewerView: View {
             // Text input overlay (when freeText tool is active)
             if annotationManager.activeTool == .freeText {
                 STTextInputOverlay(
-                    onSubmit: { text, screenPoint in
+                    onSubmit: { text, globalPoint in
                         if let pdfView = annotationManager.pdfView {
-                            let viewPoint = pdfView.pointFromSwiftUI(screenPoint)
+                            let viewPoint = pdfView.pointFromGlobal(globalPoint)
                             guard let page = pdfView.page(for: viewPoint, nearest: true) else { return }
                             let pdfPoint = pdfView.convert(viewPoint, to: page)
                             annotationManager.addTextAnnotation(text: text, at: pdfPoint, on: page)
@@ -60,9 +63,9 @@ struct STPDFViewerView: View {
             // Text remove overlay (when textRemove tool is active)
             if annotationManager.activeTool == .textRemove {
                 STTextRemoveOverlay(
-                    hitTestText: { screenPoint, mode in
+                    hitTestText: { globalPoint, mode in
                         guard let pdfView = annotationManager.pdfView else { return nil }
-                        let viewPoint = pdfView.pointFromSwiftUI(screenPoint)
+                        let viewPoint = pdfView.pointFromGlobal(globalPoint)
                         guard let page = pdfView.page(for: viewPoint, nearest: true) else { return nil }
                         let pdfPoint = pdfView.convert(viewPoint, to: page)
                         let selection: PDFSelection?
@@ -104,9 +107,9 @@ struct STPDFViewerView: View {
             // Note input overlay (when note tool is active)
             if annotationManager.activeTool == .note {
                 STNoteInputOverlay(
-                    onSubmit: { text, screenPoint in
+                    onSubmit: { text, globalPoint in
                         if let pdfView = annotationManager.pdfView {
-                            let viewPoint = pdfView.pointFromSwiftUI(screenPoint)
+                            let viewPoint = pdfView.pointFromGlobal(globalPoint)
                             guard let page = pdfView.page(for: viewPoint, nearest: true) else { return }
                             let pdfPoint = pdfView.convert(viewPoint, to: page)
                             annotationManager.addNoteAnnotation(text: text, at: pdfPoint, on: page)
@@ -115,9 +118,9 @@ struct STPDFViewerView: View {
                     onEditExisting: { annotation, text in
                         annotation.contents = text
                     },
-                    hitTestNote: { screenPoint in
+                    hitTestNote: { globalPoint in
                         guard let pdfView = annotationManager.pdfView else { return nil }
-                        let viewPoint = pdfView.pointFromSwiftUI(screenPoint)
+                        let viewPoint = pdfView.pointFromGlobal(globalPoint)
                         guard let page = pdfView.page(for: viewPoint, nearest: true) else { return nil }
                         let pdfPoint = pdfView.convert(viewPoint, to: page)
                         let hitRadius: CGFloat = 15
@@ -135,9 +138,9 @@ struct STPDFViewerView: View {
             if annotationManager.activeTool == .photo,
                annotationManager.selectedPhotoImage != nil {
                 STPhotoPlacementOverlay(
-                    onPlace: { screenPoint in
+                    onPlace: { globalPoint in
                         if let pdfView = annotationManager.pdfView {
-                            let viewPoint = pdfView.pointFromSwiftUI(screenPoint)
+                            let viewPoint = pdfView.pointFromGlobal(globalPoint)
                             guard let page = pdfView.page(for: viewPoint, nearest: true),
                                   let image = annotationManager.selectedPhotoImage else { return }
                             let pdfPoint = pdfView.convert(viewPoint, to: page)
@@ -155,9 +158,9 @@ struct STPDFViewerView: View {
                let stampType = annotationManager.selectedStampType {
                 STStampPlacementOverlay(
                     stampType: stampType,
-                    onPlace: { screenPoint in
+                    onPlace: { globalPoint in
                         if let pdfView = annotationManager.pdfView {
-                            let viewPoint = pdfView.pointFromSwiftUI(screenPoint)
+                            let viewPoint = pdfView.pointFromGlobal(globalPoint)
                             guard let page = pdfView.page(for: viewPoint, nearest: true) else { return }
                             let pdfPoint = pdfView.convert(viewPoint, to: page)
                             annotationManager.addStampAnnotation(type: stampType, at: pdfPoint, on: page)
@@ -335,7 +338,9 @@ struct STPDFViewerView: View {
             }
 
             // Tool hint banner (small text at top when a tool is active)
+            // freeText overlay manages its own hints (alert + "tap to place")
             if let tool = annotationManager.activeTool,
+               tool != .freeText,
                let hint = tool.hintText,
                annotationManager.selectedAnnotation == nil,
                !annotationManager.hasMultiSelection {

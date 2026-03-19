@@ -13,6 +13,7 @@ struct STNoteInputOverlay: View {
     let onCancel: () -> Void
 
     @State private var tapPoint: CGPoint?
+    @State private var globalTapPoint: CGPoint?
     @State private var noteText = ""
     @State private var editingAnnotation: PDFAnnotation?
     @FocusState private var isEditing: Bool
@@ -23,14 +24,18 @@ struct STNoteInputOverlay: View {
             Color.clear
                 .contentShape(Rectangle())
                 .onTapGesture { location in
-                    if let existing = hitTestNote(location) {
+                    let frame = geo.frame(in: .global)
+                    let globalPoint = CGPoint(x: frame.origin.x + location.x,
+                                              y: frame.origin.y + location.y)
+                    if let existing = hitTestNote(globalPoint) {
                         editingAnnotation = existing
                         noteText = existing.contents ?? ""
                     } else {
                         editingAnnotation = nil
                         noteText = ""
                     }
-                    tapPoint = location
+                    tapPoint = location  // Keep local for popup positioning
+                    globalTapPoint = globalPoint
                     isEditing = true
                 }
 
@@ -89,8 +94,8 @@ struct STNoteInputOverlay: View {
                     let trimmed = noteText.trimmingCharacters(in: .whitespacesAndNewlines)
                     if let existing = editingAnnotation {
                         onEditExisting(existing, trimmed)
-                    } else if !trimmed.isEmpty {
-                        onSubmit(trimmed, point)
+                    } else if !trimmed.isEmpty, let gp = globalTapPoint {
+                        onSubmit(trimmed, gp)
                     }
                     tapPoint = nil
                     noteText = ""

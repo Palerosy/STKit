@@ -126,7 +126,7 @@ struct STPDFRibbonDrawTab: View {
                 STPropertyInspector(annotationManager: annotationManager)
                     .padding(.top, 4)
                     .onChange(of: annotationManager.activeStyle) { _ in
-                        if annotationManager.selectedAnnotation != nil {
+                        if annotationManager.selectedAnnotation != nil, !annotationManager.isLoadingStyle {
                             annotationManager.applyStyleToSelectedAnnotation()
                         }
                     }
@@ -144,7 +144,7 @@ struct STPDFRibbonDrawTab: View {
                 STPropertyInspector(annotationManager: annotationManager)
                     .padding(.top, 8)
                     .onChange(of: annotationManager.activeStyle) { _ in
-                        if annotationManager.selectedAnnotation != nil {
+                        if annotationManager.selectedAnnotation != nil, !annotationManager.isLoadingStyle {
                             annotationManager.applyStyleToSelectedAnnotation()
                         }
                     }

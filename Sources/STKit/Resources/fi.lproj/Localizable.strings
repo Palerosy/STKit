@@ -1,6 +1,7 @@
 "stkit.done" = "Valmis";
 "stkit.cancel" = "Peruuta";
 "stkit.save" = "Tallenna";
+"stkit.saving" = "Tallennetaan…";
 "stkit.share" = "Jaa";
 "stkit.export" = "Vie";
 "stkit.delete" = "Poista";

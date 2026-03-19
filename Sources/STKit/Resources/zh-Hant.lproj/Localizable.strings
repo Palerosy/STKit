@@ -4,6 +4,7 @@
 "stkit.done" = "完成";
 "stkit.cancel" = "取消";
 "stkit.save" = "儲存";
+"stkit.saving" = "儲存中…";
 "stkit.share" = "分享";
 "stkit.export" = "匯出";
 "stkit.delete" = "刪除";

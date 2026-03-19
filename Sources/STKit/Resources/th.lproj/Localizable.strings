@@ -1,6 +1,7 @@
 "stkit.done" = "เสร็จสิ้น";
 "stkit.cancel" = "ยกเลิก";
 "stkit.save" = "บันทึก";
+"stkit.saving" = "กำลังบันทึก…";
 "stkit.share" = "แชร์";
 "stkit.export" = "ส่งออก";
 "stkit.delete" = "ลบ";

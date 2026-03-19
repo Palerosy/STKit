@@ -3,33 +3,56 @@ import SwiftUI
 import PDFKit
 
 /// View for placing a free text annotation on the PDF.
-/// Tap anywhere to place a text input popup at that location.
+/// Flow: alert appears immediately → user types text → taps Add → "tap to place" overlay → tap places annotation.
 struct STTextInputOverlay: View {
 
     let onSubmit: (_ text: String, _ screenPoint: CGPoint) -> Void
     let onCancel: () -> Void
 
     @State private var text = ""
-    @State private var tapLocation: CGPoint? = nil
-    @State private var isEditing = false
+    @State private var isEditing = true
+    @State private var isPlacing = false
+    @State private var pendingText = ""
     @FocusState private var isFocused: Bool
 
     var body: some View {
         ZStack {
-            // Tap capture layer
-            if !isEditing {
-                Color.black.opacity(0.001)
-                    .contentShape(Rectangle())
-                    .onTapGesture { location in
-                        tapLocation = location
-                        isEditing = true
-                        isFocused = true
+            // Phase 2: Tap-to-place overlay (after text is entered)
+            if isPlacing {
+                GeometryReader { proxy in
+                    Color.clear
+                        .contentShape(Rectangle())
+                        .onTapGesture { location in
+                            let frame = proxy.frame(in: .global)
+                            let globalPoint = CGPoint(x: frame.origin.x + location.x,
+                                                      y: frame.origin.y + location.y)
+                            onSubmit(pendingText, globalPoint)
+                            pendingText = ""
+                            isPlacing = false
+                            // Show alert again for next text
+                            isEditing = true
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                isFocused = true
+                            }
+                        }
+                }
+                .overlay(alignment: .top) {
+                    HStack {
+                        Image(systemName: "hand.tap")
+                        Text(STStrings.tapToPlace)
                     }
+                    .font(.callout.weight(.medium))
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 8)
+                    .background(Color.accentColor.opacity(0.85))
+                    .clipShape(Capsule())
+                    .padding(.top, 12)
+                }
             }
 
-            // Alert-style text input dialog
-            if isEditing, let location = tapLocation {
-                // Dim background
+            // Phase 1: Text input alert (shown immediately)
+            if isEditing {
                 Color.black.opacity(0.3)
                     .ignoresSafeArea()
                     .onTapGesture { dismiss() }
@@ -70,9 +93,12 @@ struct STTextInputOverlay: View {
 
                         Button {
                             if !text.isEmpty {
-                                onSubmit(text, location)
+                                pendingText = text
+                                text = ""
+                                isEditing = false
+                                isFocused = false
+                                isPlacing = true
                             }
-                            dismiss()
                         } label: {
                             Text(STStrings.add)
                                 .fontWeight(.semibold)
@@ -92,12 +118,17 @@ struct STTextInputOverlay: View {
             }
         }
         .animation(.spring(response: 0.25, dampingFraction: 0.85), value: isEditing)
+        .animation(.spring(response: 0.25, dampingFraction: 0.85), value: isPlacing)
+        .onAppear {
+            isFocused = true
+        }
     }
 
     private func dismiss() {
         text = ""
+        pendingText = ""
         isEditing = false
-        tapLocation = nil
+        isPlacing = false
         isFocused = false
         onCancel()
     }
@@ -137,18 +168,23 @@ struct STTextEditOverlay: View {
         ZStack {
             // Tap capture layer
             if !isEditing {
-                Color.black.opacity(0.001)
-                    .contentShape(Rectangle())
-                    .onTapGesture { location in
-                        if let result = hitTestText(location, selectionMode) {
-                            hitResult = result
-                            editText = result.text
-                            isEditing = true
-                            isFocused = true
-                        } else {
-                            STHaptics.impact(.light)
+                GeometryReader { proxy in
+                    Color.black.opacity(0.001)
+                        .contentShape(Rectangle())
+                        .onTapGesture { location in
+                            let frame = proxy.frame(in: .global)
+                            let globalPoint = CGPoint(x: frame.origin.x + location.x,
+                                                      y: frame.origin.y + location.y)
+                            if let result = hitTestText(globalPoint, selectionMode) {
+                                hitResult = result
+                                editText = result.text
+                                isEditing = true
+                                isFocused = true
+                            } else {
+                                STHaptics.impact(.light)
+                            }
                         }
-                    }
+                }
 
                 // Hint + mode picker at top
                 hintBanner
@@ -295,28 +331,33 @@ struct STTextRemoveOverlay: View {
     var body: some View {
         ZStack {
             // Tap capture layer — always present to intercept ALL taps
-            Color.black.opacity(0.01)
-                .contentShape(Rectangle())
-                .allowsHitTesting(true)
-                .onTapGesture { location in
-                    if let result = hitTestText(location, selectionMode) {
-                        // Text tapped — highlight it, await confirmation
-                        selectedText = result.text
-                        selectedBounds = result.bounds
-                        selectedPage = result.page
-                        hasSelection = true
-                        if let sel = result.selection {
-                            sel.color = PlatformColor.systemYellow
-                            onHighlight(sel)
+            GeometryReader { proxy in
+                Color.black.opacity(0.01)
+                    .contentShape(Rectangle())
+                    .allowsHitTesting(true)
+                    .onTapGesture { location in
+                        let frame = proxy.frame(in: .global)
+                        let globalPoint = CGPoint(x: frame.origin.x + location.x,
+                                                  y: frame.origin.y + location.y)
+                        if let result = hitTestText(globalPoint, selectionMode) {
+                            // Text tapped — highlight it, await confirmation
+                            selectedText = result.text
+                            selectedBounds = result.bounds
+                            selectedPage = result.page
+                            hasSelection = true
+                            if let sel = result.selection {
+                                sel.color = PlatformColor.systemYellow
+                                onHighlight(sel)
+                            }
+                            STHaptics.impact(.light)
+                            } else if hasSelection {
+                            // Tapped empty space — clear selection
+                            clearPending()
+                        } else {
+                            STHaptics.impact(.light)
                         }
-                        STHaptics.impact(.light)
-                    } else if hasSelection {
-                        // Tapped empty space — clear selection
-                        clearPending()
-                    } else {
-                        STHaptics.impact(.light)
                     }
-                }
+            }
 
             // Hint + mode picker (when nothing selected)
             if !hasSelection {

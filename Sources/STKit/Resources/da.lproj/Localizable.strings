@@ -1,6 +1,7 @@
 "stkit.done" = "Udført";
 "stkit.cancel" = "Annuller";
 "stkit.save" = "Gem";
+"stkit.saving" = "Gemmer…";
 "stkit.share" = "Del";
 "stkit.export" = "Eksporter";
 "stkit.delete" = "Slet";

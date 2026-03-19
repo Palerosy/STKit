@@ -80,44 +80,44 @@ struct STMoreMenu: View {
 
     private func shareDocument() {
         guard let url = viewModel.document.url else { return }
-        viewModel.document.save()
+        viewModel.saveAsync {
+            #if os(iOS)
+            let activityVC = UIActivityViewController(activityItems: [url], applicationActivities: nil)
 
-        #if os(iOS)
-        let activityVC = UIActivityViewController(activityItems: [url], applicationActivities: nil)
-
-        if let windowScene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene,
-           let rootVC = windowScene.windows.first(where: { $0.isKeyWindow })?.rootViewController {
-            var topVC = rootVC
-            while let presented = topVC.presentedViewController {
-                topVC = presented
+            if let windowScene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene,
+               let rootVC = windowScene.windows.first(where: { $0.isKeyWindow })?.rootViewController {
+                var topVC = rootVC
+                while let presented = topVC.presentedViewController {
+                    topVC = presented
+                }
+                activityVC.popoverPresentationController?.sourceView = topVC.view
+                topVC.present(activityVC, animated: true)
             }
-            activityVC.popoverPresentationController?.sourceView = topVC.view
-            topVC.present(activityVC, animated: true)
+            #elseif os(macOS)
+            let sharingPicker = NSSharingServicePicker(items: [url])
+            if let window = NSApplication.shared.keyWindow,
+               let contentView = window.contentView {
+                sharingPicker.show(relativeTo: .zero, of: contentView, preferredEdge: .minY)
+            }
+            #endif
         }
-        #elseif os(macOS)
-        let sharingPicker = NSSharingServicePicker(items: [url])
-        if let window = NSApplication.shared.keyWindow,
-           let contentView = window.contentView {
-            sharingPicker.show(relativeTo: .zero, of: contentView, preferredEdge: .minY)
-        }
-        #endif
     }
 
     private func printDocument() {
-        viewModel.document.save()
-
-        #if os(iOS)
-        guard let data = viewModel.document.pdfDocument.dataRepresentation() else { return }
-        let printController = UIPrintInteractionController.shared
-        printController.printingItem = data
-        printController.present(animated: true)
-        #elseif os(macOS)
-        let printInfo = NSPrintInfo.shared
-        printInfo.isHorizontallyCentered = true
-        printInfo.isVerticallyCentered = true
-        let printOp = viewModel.document.pdfDocument.printOperation(for: printInfo, scalingMode: .pageScaleToFit, autoRotate: true)
-        printOp?.run()
-        #endif
+        viewModel.saveAsync {
+            #if os(iOS)
+            guard let data = viewModel.document.pdfDocument.dataRepresentation() else { return }
+            let printController = UIPrintInteractionController.shared
+            printController.printingItem = data
+            printController.present(animated: true)
+            #elseif os(macOS)
+            let printInfo = NSPrintInfo.shared
+            printInfo.isHorizontallyCentered = true
+            printInfo.isVerticallyCentered = true
+            let printOp = viewModel.document.pdfDocument.printOperation(for: printInfo, scalingMode: .pageScaleToFit, autoRotate: true)
+            printOp?.run()
+            #endif
+        }
     }
 
     private func saveAsText() {

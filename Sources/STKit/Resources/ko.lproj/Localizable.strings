@@ -1,6 +1,7 @@
 "stkit.done" = "완료";
 "stkit.cancel" = "취소";
 "stkit.save" = "저장";
+"stkit.saving" = "저장 중…";
 "stkit.share" = "공유";
 "stkit.export" = "내보내기";
 "stkit.delete" = "삭제";

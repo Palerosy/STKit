@@ -1,6 +1,7 @@
 "stkit.done" = "Ferdig";
 "stkit.cancel" = "Avbryt";
 "stkit.save" = "Lagre";
+"stkit.saving" = "Lagrer…";
 "stkit.share" = "Del";
 "stkit.export" = "Eksporter";
 "stkit.delete" = "Slett";

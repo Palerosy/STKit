@@ -1,6 +1,7 @@
 "stkit.done" = "Terminat";
 "stkit.cancel" = "Anulare";
 "stkit.save" = "Salvare";
+"stkit.saving" = "Se salvează…";
 "stkit.share" = "Distribuire";
 "stkit.export" = "Exportare";
 "stkit.delete" = "Ștergere";

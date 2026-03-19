@@ -1,6 +1,7 @@
 "stkit.done" = "סיום";
 "stkit.cancel" = "ביטול";
 "stkit.save" = "שמירה";
+"stkit.saving" = "שומר…";
 "stkit.share" = "שיתוף";
 "stkit.export" = "ייצוא";
 "stkit.delete" = "מחיקה";

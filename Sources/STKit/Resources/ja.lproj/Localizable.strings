@@ -1,6 +1,7 @@
 "stkit.done" = "完了";
 "stkit.cancel" = "キャンセル";
 "stkit.save" = "保存";
+"stkit.saving" = "保存中…";
 "stkit.share" = "共有";
 "stkit.export" = "書き出し";
 "stkit.delete" = "削除";

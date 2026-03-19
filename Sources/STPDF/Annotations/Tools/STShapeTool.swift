@@ -59,12 +59,15 @@ final class STLineAnnotation: PDFAnnotation {
     // MARK: - Style
 
     func applyStyle(color: PlatformColor, strokeWidth: CGFloat) {
+        let savedBounds = bounds
         lineColor = color
         lineStrokeWidth = strokeWidth
         self.color = color
         let border = PDFBorder()
         border.lineWidth = strokeWidth
         self.border = border
+        // Restore bounds — PDFKit may internally adjust them when border changes
+        bounds = savedBounds
     }
 
     // MARK: - Transform (move + scale)

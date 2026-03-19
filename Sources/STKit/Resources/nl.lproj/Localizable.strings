@@ -1,6 +1,7 @@
 "stkit.done" = "Klaar";
 "stkit.cancel" = "Annuleer";
 "stkit.save" = "Opslaan";
+"stkit.saving" = "Bewaren…";
 "stkit.share" = "Delen";
 "stkit.export" = "Exporteren";
 "stkit.delete" = "Verwijderen";

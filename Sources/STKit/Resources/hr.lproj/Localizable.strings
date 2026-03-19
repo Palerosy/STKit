@@ -1,6 +1,7 @@
 "stkit.done" = "Gotovo";
 "stkit.cancel" = "Odustani";
 "stkit.save" = "Spremi";
+"stkit.saving" = "Spremanje…";
 "stkit.share" = "Dijeli";
 "stkit.export" = "Izvozi";
 "stkit.delete" = "Obriši";

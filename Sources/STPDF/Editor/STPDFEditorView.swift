@@ -68,6 +68,11 @@ public struct STPDFEditorView: View {
             }
         }
         .animation(.easeInOut(duration: 0.25), value: viewModel.viewMode)
+        .overlay {
+            if viewModel.isSaving {
+                savingOverlay
+            }
+        }
         #else
         STNavigationView {
             Group {
@@ -89,6 +94,11 @@ public struct STPDFEditorView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color(.systemBackground))
             .animation(.easeInOut(duration: 0.25), value: viewModel.viewMode)
+            .overlay {
+                if viewModel.isSaving {
+                    savingOverlay
+                }
+            }
         }
         .stStackNavigationViewStyle()
         .toolbar(.hidden, for: .tabBar)
@@ -105,8 +115,7 @@ public struct STPDFEditorView: View {
                     if viewModel.hasUnsavedChanges {
                         showDismissAlert = true
                     } else {
-                        viewModel.serializer.save()
-                        onDismiss?()
+                        viewModel.saveAsync { onDismiss?() }
                     }
                 } label: {
                     Image(systemName: "xmark")
@@ -114,6 +123,7 @@ public struct STPDFEditorView: View {
                         .foregroundColor(.secondary)
                 }
                 .buttonStyle(.plain)
+                .disabled(viewModel.isSaving)
 
                 Spacer()
 
@@ -132,16 +142,17 @@ public struct STPDFEditorView: View {
                         return
                     }
                     // Use the in-memory document for printing so custom annotation draw methods are preserved
-                    viewModel.serializer.save()
-                    let printDoc = viewModel.document.pdfDocument
-                    let printInfo = NSPrintInfo.shared.copy() as! NSPrintInfo
-                    printInfo.isHorizontallyCentered = true
-                    printInfo.isVerticallyCentered = true
-                    printInfo.scalingFactor = 1.0
-                    if let printOp = printDoc.printOperation(for: printInfo, scalingMode: .pageScaleToFit, autoRotate: true) {
-                        printOp.showsPrintPanel = true
-                        printOp.showsProgressPanel = true
-                        printOp.run()
+                    viewModel.saveAsync {
+                        let printDoc = viewModel.document.pdfDocument
+                        let printInfo = NSPrintInfo.shared.copy() as! NSPrintInfo
+                        printInfo.isHorizontallyCentered = true
+                        printInfo.isVerticallyCentered = true
+                        printInfo.scalingFactor = 1.0
+                        if let printOp = printDoc.printOperation(for: printInfo, scalingMode: .pageScaleToFit, autoRotate: true) {
+                            printOp.showsPrintPanel = true
+                            printOp.showsProgressPanel = true
+                            printOp.run()
+                        }
                     }
                 } label: {
                     Image(systemName: "printer")
@@ -149,6 +160,7 @@ public struct STPDFEditorView: View {
                         .foregroundColor(.primary)
                 }
                 .buttonStyle(.plain)
+                .disabled(viewModel.isSaving)
 
                 STMoreMenu(
                     viewModel: viewModel,
@@ -188,14 +200,14 @@ public struct STPDFEditorView: View {
                     if viewModel.hasUnsavedChanges {
                         showDismissAlert = true
                     } else {
-                        viewModel.serializer.save()
-                        onDismiss?()
+                        viewModel.saveAsync { onDismiss?() }
                     }
                 } label: {
                     Image(systemName: "xmark")
                         .font(.system(size: 16, weight: .semibold))
                         .foregroundColor(.secondary)
                 }
+                .disabled(viewModel.isSaving)
             }
 
             ToolbarItem(placement: .principal) {
@@ -254,15 +266,11 @@ public struct STPDFEditorView: View {
         }
         .alert(STStrings.unsavedChanges, isPresented: $showDismissAlert) {
             Button(STStrings.discard, role: .destructive) {
-                viewModel.serializer.stopAutoSave()
-                viewModel.revertToOriginal()
-                onDismiss?()
+                viewModel.revertAsync { onDismiss?() }
             }
             Button(STStrings.saveAndClose) {
                 if STKitConfiguration.shared.isPurchased {
-                    viewModel.document.save()
-                    viewModel.serializer.save()
-                    onDismiss?()
+                    viewModel.saveAsync { onDismiss?() }
                 } else {
                     if let _ = STKitConfiguration.shared.onPremiumFeatureTapped {
                         STKitConfiguration.shared.onPremiumFeatureTapped?()
@@ -290,11 +298,28 @@ public struct STPDFEditorView: View {
         #endif
         .onReceive(NotificationCenter.default.publisher(for: .purchaseStatusChanged)) { _ in
             if STKitConfiguration.shared.isPurchased && viewModel.hasUnsavedChanges {
-                viewModel.document.save()
-                viewModel.serializer.save()
-                viewModel.showPaywall = false
-                viewModel.hasUnsavedChanges = false
+                viewModel.saveAsync {
+                    viewModel.showPaywall = false
+                    viewModel.hasUnsavedChanges = false
+                }
             }
         }
+    }
+
+    private var savingOverlay: some View {
+        ZStack {
+            Color.black.opacity(0.3)
+                .ignoresSafeArea()
+            VStack(spacing: 12) {
+                ProgressView()
+                    .controlSize(.large)
+                Text(STStrings.saving)
+                    .font(.subheadline.weight(.medium))
+                    .foregroundColor(.white)
+            }
+            .padding(24)
+            .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16))
+        }
+        .allowsHitTesting(true)
     }
 }

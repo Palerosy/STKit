@@ -89,11 +89,14 @@ struct STPhotoPlacementOverlay: View {
     let onCancel: () -> Void
 
     var body: some View {
-        GeometryReader { _ in
+        GeometryReader { proxy in
             Color.clear
                 .contentShape(Rectangle())
                 .onTapGesture { location in
-                    onPlace(location)
+                    let frame = proxy.frame(in: .global)
+                    let globalPoint = CGPoint(x: frame.origin.x + location.x,
+                                              y: frame.origin.y + location.y)
+                    onPlace(globalPoint)
                 }
         }
         .overlay(alignment: .top) {

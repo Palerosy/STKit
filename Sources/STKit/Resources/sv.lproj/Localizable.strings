@@ -1,6 +1,7 @@
 "stkit.done" = "Klar";
 "stkit.cancel" = "Avbryt";
 "stkit.save" = "Spara";
+"stkit.saving" = "Sparar…";
 "stkit.share" = "Dela";
 "stkit.export" = "Exportera";
 "stkit.delete" = "Ta bort";

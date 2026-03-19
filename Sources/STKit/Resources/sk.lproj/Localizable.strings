@@ -1,6 +1,7 @@
 "stkit.done" = "Hotovo";
 "stkit.cancel" = "Zrušiť";
 "stkit.save" = "Uložiť";
+"stkit.saving" = "Ukladanie…";
 "stkit.share" = "Zdieľať";
 "stkit.export" = "Exportovať";
 "stkit.delete" = "Odstrániť";

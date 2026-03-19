@@ -1,6 +1,7 @@
 "stkit.done" = "Xong";
 "stkit.cancel" = "Hủy";
 "stkit.save" = "Lưu";
+"stkit.saving" = "Đang lưu…";
 "stkit.share" = "Chia sẻ";
 "stkit.export" = "Xuất";
 "stkit.delete" = "Xóa";

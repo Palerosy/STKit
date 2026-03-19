@@ -1,6 +1,7 @@
 "stkit.done" = "Fertig";
 "stkit.cancel" = "Abbrechen";
 "stkit.save" = "Speichern";
+"stkit.saving" = "Speichern…";
 "stkit.share" = "Teilen";
 "stkit.export" = "Exportieren";
 "stkit.delete" = "Löschen";

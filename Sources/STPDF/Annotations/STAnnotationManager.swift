@@ -83,7 +83,7 @@ final class STAnnotationManager: ObservableObject {
     private var selectionObserver: NSObjectProtocol?
     private var styleCancellable: AnyCancellable?
     /// Guards against applying style changes that originate from loading (not user edits).
-    private var isLoadingStyle = false
+    var isLoadingStyle = false
 
     init(document: STPDFDocument) {
         self.document = document
@@ -141,15 +141,12 @@ final class STAnnotationManager: ObservableObject {
     func deleteSelectedAnnotation() {
         guard let annotation = selectedAnnotation,
               let page = selectedAnnotationPage else { return }
-        let needsNuclear = annotation is STImageAnnotation || annotation is STStampAnnotation
         clearAnnotationSelection()
         page.removeAnnotation(annotation)
         undoManager.record(.remove(annotation: annotation, page: page))
-        if needsNuclear {
-            nuclearPDFViewRedraw()
-        } else {
-            forcePDFViewRedraw()
-        }
+        // Always use nuclear redraw for deletions — saved annotations lose their
+        // custom subclass and forcePDFViewRedraw can't clear baked appearance streams.
+        nuclearPDFViewRedraw()
         STHaptics.impact(.medium)
     }
 
@@ -168,18 +165,13 @@ final class STAnnotationManager: ObservableObject {
     func deleteMultiSelectedAnnotations() {
         guard let page = multiSelectionPage else { return }
         let annotations = multiSelectedAnnotations
-        let needsNuclear = annotations.contains { $0 is STImageAnnotation || $0 is STStampAnnotation }
         multiSelectedAnnotations.removeAll()
         multiSelectionPage = nil
         for annotation in annotations {
             page.removeAnnotation(annotation)
             undoManager.record(.remove(annotation: annotation, page: page))
         }
-        if needsNuclear {
-            nuclearPDFViewRedraw()
-        } else {
-            forcePDFViewRedraw()
-        }
+        nuclearPDFViewRedraw()
         STHaptics.impact(.medium)
     }
 
@@ -295,9 +287,9 @@ final class STAnnotationManager: ObservableObject {
     func populateStyleFromSelectedAnnotation() {
         guard let annotation = selectedAnnotation else { return }
 
-        // Prevent the Combine sink from applying this "read" back to the annotation.
+        // Prevent both the Combine sink (fires synchronously) and SwiftUI .onChange
+        // (fires asynchronously on next run loop) from applying this "read" back.
         isLoadingStyle = true
-        defer { isLoadingStyle = false }
 
         // Build the new style in a local var, then assign once to avoid
         // partial-update issues (e.g. changing color while fontSize is still the default).
@@ -326,11 +318,19 @@ final class STAnnotationManager: ObservableObject {
         }
 
         activeStyle = newStyle
+
+        // Reset asynchronously so SwiftUI .onChange (which fires on next run loop) still sees the flag.
+        DispatchQueue.main.async { [weak self] in
+            self?.isLoadingStyle = false
+        }
     }
 
     /// Apply the current activeStyle to the selected annotation.
-    /// Called when the inspector's style controls change while an annotation is selected.
+    /// Called from SwiftUI .onChange handlers when the inspector's style controls change.
+    /// FreeText is skipped here — it's handled by the Combine $activeStyle sink
+    /// which fires synchronously and avoids double-replacement.
     func applyStyleToSelectedAnnotation() {
+        if selectedAnnotation?.type == "FreeText" { return }
         applyFreeTextStyle(activeStyle)
     }
 
@@ -344,50 +344,128 @@ final class STAnnotationManager: ObservableObject {
 
         if let inkAnnotation = annotation as? STInkAnnotation {
             inkAnnotation.applyStyle(color: color, strokeWidth: style.lineWidth)
+            // Remove + re-add to mark page dirty so CATiledLayer re-renders tiles.
+            // Same object stays selected — no selection view breakage.
+            if let page = annotation.page {
+                page.removeAnnotation(annotation)
+                page.addAnnotation(annotation)
+            }
         } else if let lineAnnotation = annotation as? STLineAnnotation {
             lineAnnotation.applyStyle(color: color, strokeWidth: style.lineWidth)
+            if let page = annotation.page {
+                page.removeAnnotation(annotation)
+                page.addAnnotation(annotation)
+            }
         } else if annotation.type == "FreeText" {
             let newFont = PlatformFont(name: style.fontName, size: style.fontSize)
                 ?? .systemFont(ofSize: style.fontSize)
+            let currentFont = annotation.font
+            let fontSizeChanged = abs((currentFont?.pointSize ?? 0) - newFont.pointSize) > 0.5
+            let fontNameChanged = currentFont?.fontName != newFont.fontName
 
-            // Recalculate bounds for new font size
-            let text = annotation.contents ?? ""
-            var newBounds = annotation.bounds
-            if !text.isEmpty {
-                let textSize = (text as NSString).size(withAttributes: [.font: newFont])
-                let padding: CGFloat = 8
-                newBounds = CGRect(
-                    x: annotation.bounds.origin.x,
-                    y: annotation.bounds.origin.y,
-                    width: max(textSize.width + padding * 2, 40),
-                    height: textSize.height + padding * 2
-                )
+            if fontSizeChanged || fontNameChanged {
+                // Font changed — replace annotation with recalculated bounds.
+                let text = annotation.contents ?? ""
+                var newBounds = annotation.bounds
+                if fontSizeChanged, !text.isEmpty {
+                    let textSize = (text as NSString).size(withAttributes: [.font: newFont])
+                    let padding: CGFloat = 8
+                    newBounds = CGRect(
+                        x: annotation.bounds.origin.x,
+                        y: annotation.bounds.origin.y,
+                        width: max(textSize.width + padding * 2, 40),
+                        height: textSize.height + padding * 2
+                    )
+                }
+                guard let page = annotation.page else { return }
+                let fresh = PDFAnnotation(bounds: newBounds, forType: .freeText, withProperties: nil)
+                fresh.contents = text
+                fresh.font = newFont
+                fresh.fontColor = style.color
+                fresh.color = .clear
+                fresh.alignment = annotation.alignment
+                page.removeAnnotation(annotation)
+                page.addAnnotation(fresh)
+                selectedAnnotation = fresh
+            } else {
+                // Color-only — modify in-place, clear AP stream, preserve bounds.
+                annotation.fontColor = style.color
+                annotation.removeValue(forAnnotationKey: .appearanceDictionary)
+                if let page = annotation.page {
+                    page.removeAnnotation(annotation)
+                    page.addAnnotation(annotation)
+                }
             }
-
-            // Replace with a fresh annotation to discard the cached appearance
-            // stream (AP entry). Annotations loaded from saved PDFs have a baked-in
-            // appearance that ignores font/fontColor property changes.
-            guard let page = annotation.page else { return }
-            let fresh = PDFAnnotation(bounds: newBounds, forType: .freeText, withProperties: nil)
-            fresh.contents = text
-            fresh.font = newFont
-            fresh.fontColor = style.color
-            fresh.color = .clear
-            fresh.alignment = annotation.alignment
-
+        } else if annotation.type == "Ink" {
+            // Saved ink — convert to STInkAnnotation for proper rendering via custom draw().
+            // Standard PDFKit ink rendering (after AP removal) looks different (thinner strokes).
+            guard let page = annotation.page,
+                  let lastPath = annotation.paths?.last else { return }
+            let points = Self.extractPoints(from: lastPath)
+            guard !points.isEmpty else { return }
+            let savedBounds = annotation.bounds
+            let strokeWidth = annotation.border?.lineWidth ?? style.lineWidth
+            let fresh = STInkAnnotation(
+                bounds: savedBounds,
+                points: points,
+                strokeWidth: strokeWidth,
+                color: color
+            )
+            // Restore bounds — rebuildPaths()/add(path) in init may adjust them.
+            fresh.bounds = savedBounds
             page.removeAnnotation(annotation)
             page.addAnnotation(fresh)
             selectedAnnotation = fresh
         } else {
+            // Other saved annotation types (Line, shapes, highlights, etc.)
+            // Modify in-place: change color, clear baked AP stream, preserve bounds.
+            let savedBounds = annotation.bounds
             annotation.color = color
-            if annotation.border != nil {
-                let newBorder = PDFBorder()
-                newBorder.lineWidth = style.lineWidth
-                annotation.border = newBorder
+            let newBorder = PDFBorder()
+            newBorder.lineWidth = annotation.border?.lineWidth ?? style.lineWidth
+            annotation.border = newBorder
+            annotation.removeValue(forAnnotationKey: .appearanceDictionary)
+            annotation.bounds = savedBounds
+            if let page = annotation.page {
+                page.removeAnnotation(annotation)
+                page.addAnnotation(annotation)
             }
         }
 
         forcePDFViewRedraw()
+    }
+
+    /// Extract CGPoints from a BezierPath (moveTo + lineTo elements).
+    private static func extractPoints(from path: PlatformBezierPath) -> [CGPoint] {
+        var points: [CGPoint] = []
+        #if os(iOS)
+        path.cgPath.applyWithBlock { element in
+            switch element.pointee.type {
+            case .moveToPoint, .addLineToPoint:
+                points.append(element.pointee.points[0])
+            case .addQuadCurveToPoint:
+                points.append(element.pointee.points[1])
+            case .addCurveToPoint:
+                points.append(element.pointee.points[2])
+            case .closeSubpath:
+                break
+            @unknown default:
+                break
+            }
+        }
+        #elseif os(macOS)
+        var associatedPoints = [CGPoint](repeating: .zero, count: 3)
+        for i in 0..<path.elementCount {
+            let element = path.element(at: i, associatedPoints: &associatedPoints)
+            switch element {
+            case .moveTo, .lineTo:
+                points.append(associatedPoints[0])
+            default:
+                break
+            }
+        }
+        #endif
+        return points
     }
 
     /// Force PDFView to re-render all tiles (needed after style/ink/image changes).
@@ -486,15 +564,48 @@ final class STAnnotationManager: ObservableObject {
 
     /// Nuclear redraw: re-set the document on the PDFView to force CATiledLayer
     /// to completely discard all cached tiles and re-render from scratch.
-    /// Use for operations where standard invalidation fails (removing custom-drawn annotations).
+    /// Use for operations where standard invalidation fails (removing custom-drawn annotations
+    /// or saved annotations with baked appearance streams).
     func nuclearPDFViewRedraw() {
         guard let pdfView = pdfView else { return }
         let doc = pdfView.document
         let currentPage = pdfView.currentPage
+        let scale = pdfView.scaleFactor
+        let wasAutoScales = pdfView.autoScales
+        // Detach and reattach document to bust all tile caches
         pdfView.document = nil
         pdfView.document = doc
+        // Restore position
         if let page = currentPage {
             pdfView.go(to: page)
+        }
+        // Also invalidate all layers to ensure visual refresh
+        #if os(iOS)
+        func invalidate(_ view: UIView) {
+            view.setNeedsDisplay()
+            view.layer.setNeedsDisplay()
+            for sublayer in view.layer.sublayers ?? [] { sublayer.setNeedsDisplay() }
+            for child in view.subviews { invalidate(child) }
+        }
+        invalidate(pdfView)
+        #elseif os(macOS)
+        func invalidate(_ view: NSView) {
+            view.needsDisplay = true
+            view.layer?.setNeedsDisplay()
+            for sublayer in view.layer?.sublayers ?? [] { sublayer.setNeedsDisplay() }
+            for child in view.subviews { invalidate(child) }
+        }
+        invalidate(pdfView)
+        #endif
+        // Scale nudge to force CATiledLayer re-render
+        pdfView.scaleFactor = scale + 0.001
+        DispatchQueue.main.async { [weak pdfView] in
+            guard let pdfView else { return }
+            if wasAutoScales {
+                pdfView.autoScales = true
+            } else {
+                pdfView.scaleFactor = scale
+            }
         }
     }
 

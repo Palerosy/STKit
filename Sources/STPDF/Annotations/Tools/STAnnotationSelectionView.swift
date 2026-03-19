@@ -360,16 +360,6 @@ final class STAnnotationSelectionView: UIView {
                 lineAnnotation.applyBoundsOffset()
             }
 
-            // Scale font size proportionally for FreeText annotations
-            if isResizing, annotation.type == "FreeText",
-               originalBoundsInPage.height > 0 {
-                let scale = annotation.bounds.height / originalBoundsInPage.height
-                if let currentFont = annotation.font {
-                    let newSize = max(8, min(currentFont.pointSize * scale, 200))
-                    annotation.font = currentFont.withSize(newSize)
-                }
-            }
-
             onAnnotationModified?(annotation, page, originalBoundsInPage)
             STHaptics.impact(.light)
         }
@@ -1140,13 +1130,6 @@ final class STAnnotationSelectionView: NSView {
         if annotation.bounds != originalBoundsInPage {
             if let ink = annotation as? STInkAnnotation { ink.applyBoundsOffset() }
             else if let line = annotation as? STLineAnnotation { line.applyBoundsOffset() }
-
-            if isResizing, annotation.type == "FreeText", originalBoundsInPage.height > 0 {
-                let scale = annotation.bounds.height / originalBoundsInPage.height
-                if let currentFont = annotation.font {
-                    annotation.font = currentFont.withSize(max(8, min(currentFont.pointSize * scale, 200)))
-                }
-            }
 
             onAnnotationModified?(annotation, page, originalBoundsInPage)
         }

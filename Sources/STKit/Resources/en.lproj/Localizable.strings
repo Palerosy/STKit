@@ -2,6 +2,7 @@
 "stkit.done" = "Done";
 "stkit.cancel" = "Cancel";
 "stkit.save" = "Save";
+"stkit.saving" = "Saving…";
 "stkit.share" = "Share";
 "stkit.export" = "Export";
 "stkit.delete" = "Delete";
