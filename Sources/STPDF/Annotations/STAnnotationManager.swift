@@ -205,7 +205,7 @@ final class STAnnotationManager: ObservableObject {
         selectAnnotation(clone, on: page)
 
         // Force redraw for custom-drawn annotations
-        if clone is STInkAnnotation || clone is STLineAnnotation || clone is STImageAnnotation || clone is STStampAnnotation {
+        if clone is STInkAnnotation || clone is STLineAnnotation || clone is STImageAnnotation || clone is STStampAnnotation || clone is STSignatureAnnotation {
             forcePDFViewRedraw()
         }
 
@@ -220,6 +220,21 @@ final class STAnnotationManager: ObservableObject {
         // Clone STStampAnnotation with offset bounds
         if let stampSource = source as? STStampAnnotation {
             let clone = STStampAnnotation(bounds: newBounds, text: stampSource.stampText, color: stampSource.stampColor)
+            clone.contents = source.contents
+            return clone
+        }
+
+        // Clone STSignatureAnnotation (recolorable vector signature)
+        if let sigSource = source as? STSignatureAnnotation {
+            let img = STSignatureAnnotation.renderImage(
+                strokes: sigSource.normalizedStrokes, color: sigSource.inkColor,
+                strokeWidth: sigSource.inkStrokeWidth,
+                size: CGSize(width: newBounds.width * 3, height: newBounds.height * 3)
+            )
+            let clone = STSignatureAnnotation(
+                bounds: newBounds, normalizedStrokes: sigSource.normalizedStrokes,
+                color: sigSource.inkColor, strokeWidth: sigSource.inkStrokeWidth, image: img
+            )
             clone.contents = source.contents
             return clone
         }
@@ -295,7 +310,12 @@ final class STAnnotationManager: ObservableObject {
         // partial-update issues (e.g. changing color while fontSize is still the default).
         var newStyle = activeStyle
 
-        if let inkAnnotation = annotation as? STInkAnnotation {
+        if let sigAnnotation = annotation as? STSignatureAnnotation {
+            newStyle.color = sigAnnotation.inkColor
+            newStyle.lineWidth = sigAnnotation.inkStrokeWidth
+            let alpha = sigAnnotation.inkColor.cgColor.alpha
+            newStyle.opacity = alpha > 0 ? alpha : 1.0
+        } else if let inkAnnotation = annotation as? STInkAnnotation {
             newStyle.color = inkAnnotation.inkColor
             newStyle.lineWidth = inkAnnotation.inkStrokeWidth
             let alpha = inkAnnotation.inkColor.cgColor.alpha
@@ -342,10 +362,14 @@ final class STAnnotationManager: ObservableObject {
 
         let color = style.color.withAlphaComponent(style.opacity)
 
-        if let inkAnnotation = annotation as? STInkAnnotation {
+        if let sigAnnotation = annotation as? STSignatureAnnotation {
+            sigAnnotation.applyStyle(color: color, strokeWidth: style.lineWidth)
+            if let page = annotation.page {
+                page.removeAnnotation(annotation)
+                page.addAnnotation(annotation)
+            }
+        } else if let inkAnnotation = annotation as? STInkAnnotation {
             inkAnnotation.applyStyle(color: color, strokeWidth: style.lineWidth)
-            // Remove + re-add to mark page dirty so CATiledLayer re-renders tiles.
-            // Same object stays selected — no selection view breakage.
             if let page = annotation.page {
                 page.removeAnnotation(annotation)
                 page.addAnnotation(annotation)
@@ -401,18 +425,27 @@ final class STAnnotationManager: ObservableObject {
             // Color change is not applicable — skip to avoid destroying the AP stream.
             return
         } else if annotation.type == "Ink" {
-            // Saved ink — modify in-place, clear AP stream so PDFKit re-renders with new color.
-            let savedBounds = annotation.bounds
-            annotation.color = color
-            let newBorder = PDFBorder()
-            newBorder.lineWidth = annotation.border?.lineWidth ?? style.lineWidth
-            annotation.border = newBorder
-            annotation.removeValue(forAnnotationKey: .appearanceDictionary)
-            annotation.bounds = savedBounds
-            if let page = annotation.page {
-                page.removeAnnotation(annotation)
-                page.addAnnotation(annotation)
+            // Saved ink — convert to STInkAnnotation for proper rendering with new color.
+            // AP-clear makes PDFKit lose the rendering. STInkAnnotation has custom draw().
+            guard let page = annotation.page,
+                  let paths = annotation.paths else { return }
+            var allPoints: [CGPoint] = []
+            for path in paths {
+                allPoints.append(contentsOf: Self.extractPoints(from: path))
             }
+            guard !allPoints.isEmpty else { return }
+            let savedBounds = annotation.bounds
+            let strokeWidth = annotation.border?.lineWidth ?? style.lineWidth
+            let fresh = STInkAnnotation(
+                bounds: savedBounds,
+                points: allPoints,
+                strokeWidth: strokeWidth,
+                color: color
+            )
+            fresh.bounds = savedBounds
+            page.removeAnnotation(annotation)
+            page.addAnnotation(fresh)
+            selectedAnnotation = fresh
         } else {
             // Other saved annotation types (Line, shapes, highlights, etc.)
             // Modify in-place: change color, clear baked AP stream, preserve bounds.
@@ -872,9 +905,17 @@ final class STAnnotationManager: ObservableObject {
 
     // MARK: - Signature Annotation
 
-    /// Add a signature image as an annotation
-    func addSignatureAnnotation(image: PlatformImage, at pdfPoint: CGPoint, on page: PDFPage) {
-        let annotation = STSignaturePlacer.placeSignature(image: image, at: pdfPoint, on: page)
+    /// Add a signature as an annotation (vector if paths available, image fallback)
+    func addSignatureAnnotation(image: PlatformImage, paths: [[CGPoint]]?, at pdfPoint: CGPoint, on page: PDFPage) {
+        let annotation: PDFAnnotation
+        if let paths = paths, !paths.isEmpty {
+            annotation = STSignaturePlacer.placeVectorSignature(
+                paths: paths, at: pdfPoint,
+                strokeColor: activeStyle.color, strokeWidth: activeStyle.lineWidth
+            )
+        } else {
+            annotation = STSignaturePlacer.placeSignature(image: image, at: pdfPoint, on: page)
+        }
         page.addAnnotation(annotation)
         undoManager.record(.add(annotation: annotation, page: page))
 

@@ -7,7 +7,7 @@ struct STSignaturePickerView: View {
 
     let strokeColor: PlatformColor
     let strokeWidth: CGFloat
-    let onSignatureSelected: (_ image: PlatformImage) -> Void
+    let onSignatureSelected: (_ image: PlatformImage, _ paths: [[CGPoint]]?) -> Void
     let onCancel: () -> Void
 
     @State private var savedSignatures: [(id: String, image: PlatformImage)] = []
@@ -37,9 +37,9 @@ struct STSignaturePickerView: View {
         STSignatureCaptureView(
             strokeColor: strokeColor,
             strokeWidth: strokeWidth,
-            onSave: { image in
+            onSave: { image, paths in
                 STSignatureStorage.shared.save(image)
-                onSignatureSelected(image)
+                onSignatureSelected(image, paths)
             },
             onCancel: {
                 if savedSignatures.isEmpty {
@@ -178,7 +178,7 @@ struct STSignaturePickerView: View {
         let xSize: CGFloat = 22
         #endif
         Button {
-            onSignatureSelected(sig.image)
+            onSignatureSelected(sig.image, nil)
         } label: {
             ZStack(alignment: .topTrailing) {
                 Image(platformImage: sig.image)

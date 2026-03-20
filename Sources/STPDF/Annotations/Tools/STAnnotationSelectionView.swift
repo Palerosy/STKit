@@ -428,7 +428,7 @@ final class STAnnotationSelectionView: UIView {
                     annotation.bounds = multiOriginalBounds[i]
                 }
             }
-            if multiSelectedAnnotations.contains(where: { $0 is STInkAnnotation || $0 is STLineAnnotation || $0 is STImageAnnotation || $0 is STStampAnnotation }) {
+            if multiSelectedAnnotations.contains(where: { $0 is STInkAnnotation || $0 is STLineAnnotation || $0 is STImageAnnotation || $0 is STStampAnnotation || $0 is STSignatureAnnotation }) {
                 forcePDFViewRedraw()
             }
         }
@@ -579,7 +579,7 @@ final class STAnnotationSelectionView: UIView {
         annotation.bounds = newBounds
 
         // Force PDFView tile redraw for custom-drawn annotations
-        if annotation is STInkAnnotation || annotation is STLineAnnotation || annotation is STImageAnnotation || annotation is STStampAnnotation {
+        if annotation is STInkAnnotation || annotation is STLineAnnotation || annotation is STImageAnnotation || annotation is STStampAnnotation || annotation is STSignatureAnnotation {
             forcePDFViewRedraw()
         }
 
@@ -615,7 +615,7 @@ final class STAnnotationSelectionView: UIView {
 
             annotation.bounds = newBounds
 
-            if annotation is STInkAnnotation || annotation is STLineAnnotation || annotation is STImageAnnotation || annotation is STStampAnnotation {
+            if annotation is STInkAnnotation || annotation is STLineAnnotation || annotation is STImageAnnotation || annotation is STStampAnnotation || annotation is STSignatureAnnotation {
                 needsRedraw = true
             }
         }
@@ -699,7 +699,7 @@ final class STAnnotationSelectionView: UIView {
         annotation.bounds = newBounds
 
         // Force PDFView tile redraw for custom-drawn annotations
-        if annotation is STInkAnnotation || annotation is STLineAnnotation || annotation is STImageAnnotation || annotation is STStampAnnotation {
+        if annotation is STInkAnnotation || annotation is STLineAnnotation || annotation is STImageAnnotation || annotation is STStampAnnotation || annotation is STSignatureAnnotation {
             forcePDFViewRedraw()
         }
 
@@ -1131,6 +1131,13 @@ final class STAnnotationSelectionView: NSView {
             if let ink = annotation as? STInkAnnotation { ink.applyBoundsOffset() }
             else if let line = annotation as? STLineAnnotation { line.applyBoundsOffset() }
 
+            if isResizing, annotation.type == "FreeText", originalBoundsInPage.height > 0 {
+                let scale = annotation.bounds.height / originalBoundsInPage.height
+                if let currentFont = annotation.font {
+                    annotation.font = currentFont.withSize(max(8, min(currentFont.pointSize * scale, 200)))
+                }
+            }
+
             onAnnotationModified?(annotation, page, originalBoundsInPage)
         }
 
@@ -1160,7 +1167,7 @@ final class STAnnotationSelectionView: NSView {
 
         annotation.bounds = newBounds
 
-        if annotation is STInkAnnotation || annotation is STLineAnnotation || annotation is STImageAnnotation || annotation is STStampAnnotation {
+        if annotation is STInkAnnotation || annotation is STLineAnnotation || annotation is STImageAnnotation || annotation is STStampAnnotation || annotation is STSignatureAnnotation {
             forcePDFViewRedraw(pdfView)
         }
         updateSelectionVisuals()
@@ -1231,7 +1238,7 @@ final class STAnnotationSelectionView: NSView {
 
         annotation.bounds = newBounds
 
-        if annotation is STInkAnnotation || annotation is STLineAnnotation || annotation is STImageAnnotation || annotation is STStampAnnotation {
+        if annotation is STInkAnnotation || annotation is STLineAnnotation || annotation is STImageAnnotation || annotation is STStampAnnotation || annotation is STSignatureAnnotation {
             forcePDFViewRedraw(pdfView)
         }
         updateSelectionVisuals()

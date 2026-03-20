@@ -198,47 +198,42 @@ final class STStampAnnotation: PDFAnnotation {
     override func draw(with box: PDFDisplayBox, in context: CGContext) {
         context.saveGState()
 
-        // Flip to UIKit coordinates for text drawing
-        context.translateBy(x: 0, y: bounds.maxY + bounds.minY)
-        context.scaleBy(x: 1, y: -1)
-
-        UIGraphicsPushContext(context)
-
         let rect = bounds.insetBy(dx: 2, dy: 2)
 
-        // Background fill
-        stampColor.withAlphaComponent(0.1).setFill()
-        PlatformBezierPath(rect: rect).fill()
+        // Background fill — pure CoreGraphics
+        context.setFillColor(stampColor.withAlphaComponent(0.1).cgColor)
+        context.fill(rect)
 
-        // Border
-        stampColor.setStroke()
-        let borderPath = PlatformBezierPath(rect: rect)
-        borderPath.lineWidth = 2
-        borderPath.stroke()
+        // Border — pure CoreGraphics
+        context.setStrokeColor(stampColor.cgColor)
+        context.setLineWidth(2)
+        context.stroke(rect)
 
-        // Text — scale font to fit bounds
+        // Text — CoreText for direct CGContext rendering (no UIGraphics bridging)
         let fontSize = bounds.height * 0.42
-        let font = PlatformFont.systemFont(ofSize: fontSize, weight: .bold)
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.alignment = .center
-
+        let font = CTFontCreateWithName("HelveticaNeue-Bold" as CFString, fontSize, nil)
+        let paragraphStyle = CTParagraphStyleCreate(
+            [CTParagraphStyleSetting(
+                spec: .alignment,
+                valueSize: MemoryLayout<CTTextAlignment>.size,
+                value: withUnsafePointer(to: CTTextAlignment.center) { $0 }
+            )], 1
+        )
         let attributes: [NSAttributedString.Key: Any] = [
             .font: font,
-            .foregroundColor: stampColor,
+            .foregroundColor: stampColor.cgColor,
             .paragraphStyle: paragraphStyle
         ]
+        let attrString = NSAttributedString(string: stampText, attributes: attributes)
+        let line = CTLineCreateWithAttributedString(attrString)
+        let textBounds = CTLineGetBoundsWithOptions(line, .useOpticalBounds)
 
-        let textSize = (stampText as NSString).size(withAttributes: attributes)
-        let textRect = CGRect(
-            x: rect.origin.x,
-            y: rect.origin.y + (rect.height - textSize.height) / 2,
-            width: rect.width,
-            height: textSize.height
-        )
+        // Center text in rect, flip Y for PDF coordinate system (origin bottom-left)
+        let textX = rect.midX - textBounds.width / 2
+        let textY = rect.midY - textBounds.height / 2 - textBounds.origin.y
+        context.textPosition = CGPoint(x: textX, y: textY)
+        CTLineDraw(line, context)
 
-        (stampText as NSString).draw(in: textRect, withAttributes: attributes)
-
-        UIGraphicsPopContext()
         context.restoreGState()
     }
 }

@@ -161,13 +161,19 @@ struct STPDFRibbonMarkupTab: View {
         if let tool = annotationManager.activeTool {
             return tool.displayName
         }
-        if let type = annotationManager.selectedAnnotation?.type {
-            switch type {
-            case "FreeText": return STStrings.toolText
-            case "Highlight": return STStrings.toolHighlight
-            case "Underline": return STStrings.toolUnderline
-            case "StrikeOut": return STStrings.toolStrikethrough
-            default: return type
+        if let annotation = annotationManager.selectedAnnotation {
+            if annotation is STSignatureAnnotation {
+                return STStrings.toolSignature
+            }
+            if let type = annotation.type {
+                switch type {
+                case "FreeText": return STStrings.toolText
+                case "Highlight": return STStrings.toolHighlight
+                case "Underline": return STStrings.toolUnderline
+                case "StrikeOut": return STStrings.toolStrikethrough
+                case "Stamp": return STStrings.toolStamp
+                default: return type
+                }
             }
         }
         return STStrings.style

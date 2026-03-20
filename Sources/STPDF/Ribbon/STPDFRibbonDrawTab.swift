@@ -167,19 +167,24 @@ struct STPDFRibbonDrawTab: View {
         if let tool = annotationManager.activeTool {
             return tool.displayName
         }
-        if let type = annotationManager.selectedAnnotation?.type {
-            switch type {
-            case "Ink": return STStrings.toolPen
-            case "Square": return STStrings.toolRectangle
-            case "Circle": return STStrings.toolCircle
-            case "Line": return STStrings.toolLine
-            case "FreeText": return STStrings.toolText
-            case "Highlight": return STStrings.toolHighlight
-            case "Underline": return STStrings.toolUnderline
-            case "StrikeOut": return STStrings.toolStrikethrough
-            case "Stamp": return STStrings.toolStamp
-            case "Text": return STStrings.toolNote
-            default: return type
+        if let annotation = annotationManager.selectedAnnotation {
+            if annotation is STSignatureAnnotation {
+                return STStrings.toolSignature
+            }
+            if let type = annotation.type {
+                switch type {
+                case "Ink": return STStrings.toolPen
+                case "Square": return STStrings.toolRectangle
+                case "Circle": return STStrings.toolCircle
+                case "Line": return STStrings.toolLine
+                case "FreeText": return STStrings.toolText
+                case "Highlight": return STStrings.toolHighlight
+                case "Underline": return STStrings.toolUnderline
+                case "StrikeOut": return STStrings.toolStrikethrough
+                case "Stamp": return STStrings.toolStamp
+                case "Text": return STStrings.toolNote
+                default: return type
+                }
             }
         }
         return STStrings.style

@@ -8,7 +8,7 @@ struct STSignatureCaptureView: View {
 
     let strokeColor: PlatformColor
     let strokeWidth: CGFloat
-    let onSave: (_ signatureImage: PlatformImage) -> Void
+    let onSave: (_ signatureImage: PlatformImage, _ paths: [[CGPoint]]) -> Void
     let onCancel: () -> Void
 
     @State private var paths: [[CGPoint]] = []
@@ -149,7 +149,7 @@ struct STSignatureCaptureView: View {
 
             Button {
                 if let image = renderSignature() {
-                    onSave(image)
+                    onSave(image, paths)
                 }
             } label: {
                 Text(STStrings.done)
@@ -208,10 +208,139 @@ struct STSignatureCaptureView: View {
     }
 }
 
-/// Helper to place a signature image as a stamp annotation on a PDF page.
+// MARK: - Signature Annotation (image-based with recolorable paths)
+
+/// Signature annotation that renders as an image (like STImageAnnotation) but stores
+/// the original stroke paths so the signature can be re-rendered with a different color.
+final class STSignatureAnnotation: PDFAnnotation {
+
+    /// Original stroke paths in normalized coordinates (0…1 range, Y-down).
+    let normalizedStrokes: [[CGPoint]]
+    private(set) var inkColor: PlatformColor
+    private(set) var inkStrokeWidth: CGFloat
+    private(set) var signatureImage: PlatformImage
+
+    init(bounds: CGRect, normalizedStrokes: [[CGPoint]], color: PlatformColor, strokeWidth: CGFloat, image: PlatformImage) {
+        self.normalizedStrokes = normalizedStrokes
+        self.inkColor = color
+        self.inkStrokeWidth = strokeWidth
+        self.signatureImage = image
+        super.init(bounds: bounds, forType: .stamp, withProperties: nil)
+    }
+
+    required init?(coder: NSCoder) { fatalError("init(coder:) not supported") }
+
+    // MARK: - Style
+
+    func applyStyle(color: PlatformColor, strokeWidth: CGFloat) {
+        inkColor = color
+        inkStrokeWidth = strokeWidth
+        // Re-render signature image with new color
+        signatureImage = Self.renderImage(
+            strokes: normalizedStrokes, color: color, strokeWidth: strokeWidth,
+            size: CGSize(width: bounds.width * 3, height: bounds.height * 3)
+        )
+    }
+
+    // MARK: - Rendering
+
+    override func draw(with box: PDFDisplayBox, in context: CGContext) {
+        context.saveGState()
+        context.translateBy(x: 0, y: bounds.maxY + bounds.minY)
+        context.scaleBy(x: 1, y: -1)
+        UIGraphicsPushContext(context)
+        signatureImage.draw(in: bounds)
+        UIGraphicsPopContext()
+        context.restoreGState()
+    }
+
+    // MARK: - Image Rendering
+
+    /// Render signature strokes into an image at the given size.
+    static func renderImage(strokes: [[CGPoint]], color: PlatformColor, strokeWidth: CGFloat, size: CGSize) -> PlatformImage {
+        let renderer = UIGraphicsImageRenderer(size: size)
+        return renderer.image { ctx in
+            let cgContext = ctx.cgContext
+            cgContext.setStrokeColor(color.cgColor)
+            cgContext.setLineWidth(strokeWidth * 3) // size is 3x annotation bounds
+            cgContext.setLineCap(.round)
+            cgContext.setLineJoin(.round)
+
+            for stroke in strokes {
+                guard stroke.count >= 2 else { continue }
+                cgContext.beginPath()
+                // Normalized coords (0…1), scale to image size
+                cgContext.move(to: CGPoint(x: stroke[0].x * size.width, y: stroke[0].y * size.height))
+                for i in 1..<stroke.count {
+                    cgContext.addLine(to: CGPoint(x: stroke[i].x * size.width, y: stroke[i].y * size.height))
+                }
+                cgContext.strokePath()
+            }
+        }
+    }
+}
+
+// MARK: - Signature Placer
+
+/// Helper to place a signature on a PDF page.
 enum STSignaturePlacer {
 
-    /// Create a stamp annotation from a signature image, centered at a given PDF point.
+    /// Create a signature annotation from raw capture-view paths, with recolorable strokes.
+    static func placeVectorSignature(
+        paths: [[CGPoint]],
+        at pdfPoint: CGPoint,
+        strokeColor: PlatformColor,
+        strokeWidth: CGFloat,
+        maxWidth: CGFloat = 200,
+        maxHeight: CGFloat = 100
+    ) -> STSignatureAnnotation {
+        let allPoints = paths.flatMap { $0 }
+        let minX = allPoints.map(\.x).min() ?? 0
+        let minY = allPoints.map(\.y).min() ?? 0
+        let maxX = allPoints.map(\.x).max() ?? 1
+        let maxY = allPoints.map(\.y).max() ?? 1
+
+        let rawW = max(maxX - minX, 1)
+        let rawH = max(maxY - minY, 1)
+        let scale = min(maxWidth / rawW, maxHeight / rawH, 1.0)
+        let scaledW = rawW * scale
+        let scaledH = rawH * scale
+        let pad = strokeWidth * 2
+        let totalW = scaledW + pad * 2
+        let totalH = scaledH + pad * 2
+
+        let bounds = CGRect(
+            x: pdfPoint.x - totalW / 2,
+            y: pdfPoint.y - totalH / 2,
+            width: totalW,
+            height: totalH
+        )
+
+        // Normalize strokes to 0…1 range (relative to content area, excluding padding)
+        let normalized = paths.map { stroke in
+            stroke.map { pt -> CGPoint in
+                let nx = ((pt.x - minX) * scale + pad) / totalW
+                let ny = ((pt.y - minY) * scale + pad) / totalH
+                return CGPoint(x: nx, y: ny)
+            }
+        }
+
+        // Render initial image
+        let imageSize = CGSize(width: totalW * 3, height: totalH * 3)
+        let image = STSignatureAnnotation.renderImage(
+            strokes: normalized, color: strokeColor, strokeWidth: strokeWidth, size: imageSize
+        )
+
+        return STSignatureAnnotation(
+            bounds: bounds,
+            normalizedStrokes: normalized,
+            color: strokeColor,
+            strokeWidth: strokeWidth,
+            image: image
+        )
+    }
+
+    /// Create a stamp annotation from a signature image (legacy/photo).
     static func placeSignature(
         image: PlatformImage,
         at pdfPoint: CGPoint,
@@ -219,26 +348,19 @@ enum STSignaturePlacer {
         maxWidth: CGFloat = 200,
         maxHeight: CGFloat = 100
     ) -> PDFAnnotation {
-        // Scale image to fit within max bounds
         let scale = min(maxWidth / image.size.width, maxHeight / image.size.height, 1.0)
         let width = image.size.width * scale
         let height = image.size.height * scale
-
-        // Downsample to 3x annotation size (good for print, saves memory)
         let downsampledImage = downsample(image, to: CGSize(width: width * 3, height: height * 3))
-
         let bounds = CGRect(
             x: pdfPoint.x - width / 2,
             y: pdfPoint.y - height / 2,
             width: width,
             height: height
         )
-
-        let annotation = STImageAnnotation(bounds: bounds, image: downsampledImage)
-        return annotation
+        return STImageAnnotation(bounds: bounds, image: downsampledImage)
     }
 
-    /// Downsample an image to a target size. Returns original if already smaller.
     private static func downsample(_ image: PlatformImage, to targetSize: CGSize) -> PlatformImage {
         let currentSize = image.size
         guard currentSize.width > targetSize.width || currentSize.height > targetSize.height else {
@@ -267,8 +389,6 @@ final class STImageAnnotation: PDFAnnotation {
 
     override func draw(with box: PDFDisplayBox, in context: CGContext) {
         context.saveGState()
-        // Flip CG context to UIKit coordinates, then use PlatformImage.draw
-        // which handles image orientation metadata correctly.
         context.translateBy(x: 0, y: bounds.maxY + bounds.minY)
         context.scaleBy(x: 1, y: -1)
         UIGraphicsPushContext(context)

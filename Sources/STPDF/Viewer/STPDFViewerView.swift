@@ -201,10 +201,10 @@ struct STPDFViewerView: View {
                         onDelete: {
                             annotationManager.deleteSelectedAnnotation()
                         },
-                        onInspector: {
+                        onInspector: selected.type != "Stamp" ? {
                             annotationManager.populateStyleFromSelectedAnnotation()
                             annotationManager.isPropertyInspectorVisible = true
-                        },
+                        } : nil,
                         onNote: {
                             annotationManager.isAnnotationNoteEditorVisible = true
                         },
@@ -390,13 +390,13 @@ struct STPDFViewerView: View {
             STSignaturePickerView(
                 strokeColor: annotationManager.activeStyle.color,
                 strokeWidth: annotationManager.activeStyle.lineWidth,
-                onSignatureSelected: { signatureImage in
+                onSignatureSelected: { signatureImage, paths in
                     annotationManager.isSignatureCaptureVisible = false
                     if let pdfView = annotationManager.pdfView,
                        let page = pdfView.currentPage {
                         let pageBounds = page.bounds(for: .mediaBox)
                         let center = CGPoint(x: pageBounds.midX, y: pageBounds.midY)
-                        annotationManager.addSignatureAnnotation(image: signatureImage, at: center, on: page)
+                        annotationManager.addSignatureAnnotation(image: signatureImage, paths: paths, at: center, on: page)
                     }
                 },
                 onCancel: {

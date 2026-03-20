@@ -51,7 +51,52 @@ struct STPDFRibbonInsertTab: View {
             }
             .padding(.horizontal, 8)
         }
+        #if os(iOS)
+        .sheet(isPresented: $annotationManager.isPropertyInspectorVisible) {
+            propertySheet
+        }
+        #endif
     }
+
+    // MARK: - Property Inspector Sheet
+
+    #if os(iOS)
+    private var propertySheet: some View {
+        STNavigationView {
+            ScrollView {
+                STPropertyInspector(annotationManager: annotationManager)
+                    .padding(.top, 8)
+            }
+            .navigationTitle(propertyTitle)
+            .stNavigationBarTitleDisplayMode()
+            .toolbar {
+                ToolbarItem(placement: .stTrailing) {
+                    Button(STStrings.done) {
+                        annotationManager.isPropertyInspectorVisible = false
+                    }
+                }
+            }
+        }
+        .stPresentationDetents([.medium])
+        .stPresentationDragIndicator(.visible)
+    }
+
+    private var propertyTitle: String {
+        if let annotation = annotationManager.selectedAnnotation {
+            if annotation is STSignatureAnnotation {
+                return STStrings.toolSignature
+            }
+            if let type = annotation.type {
+                switch type {
+                case "Stamp": return STStrings.toolStamp
+                case "Ink": return STStrings.toolPen
+                default: return type
+                }
+            }
+        }
+        return STStrings.style
+    }
+    #endif
 
     // MARK: - Tool Button
 
