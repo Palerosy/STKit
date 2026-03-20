@@ -171,14 +171,24 @@ public class DocumentWriter {
         )
 
         let rootRelsXML = xmlBuilder.buildRootRelsXML()
-        let stylesXML = xmlBuilder.buildStylesXML()
         let settingsXML = xmlBuilder.buildSettingsXML()
+
+        // Use original styles.xml if available (preserves template styles like Title, BodyContactInfo, etc.)
+        let stylesData: Data
+        if let original = document.originalStylesData {
+            stylesData = original
+        } else {
+            let stylesXML = xmlBuilder.buildStylesXML()
+            guard let data = stylesXML.data(using: .utf8) else {
+                throw DocumentWriterError.writeFailed("Failed to encode styles XML")
+            }
+            stylesData = data
+        }
 
         guard let documentData = documentXML.data(using: .utf8),
               let contentTypesData = contentTypesXML.data(using: .utf8),
               let rootRelsData = rootRelsXML.data(using: .utf8),
               let documentRelsData = documentRelsXML.data(using: .utf8),
-              let stylesData = stylesXML.data(using: .utf8),
               let settingsData = settingsXML.data(using: .utf8) else {
             throw DocumentWriterError.writeFailed("Failed to encode XML content")
         }
@@ -189,6 +199,12 @@ public class DocumentWriter {
         contents["word/_rels/document.xml.rels"] = documentRelsData
         contents["word/styles.xml"] = stylesData
         contents["word/settings.xml"] = settingsData
+
+        // Preserve original theme.xml if available
+        if let themeData = document.originalThemeData,
+           let themePath = document.themeEntryPath {
+            contents[themePath] = themeData
+        }
 
         // Add numbering.xml if we have lists
         if hasLists {
@@ -210,6 +226,51 @@ public class DocumentWriter {
         } catch {
             throw DocumentWriterError.writeFailed(error.localizedDescription)
         }
+    }
+
+    /// Writes a document by preserving the original DOCX ZIP structure.
+    /// Only replaces `word/document.xml` — all other entries (images, styles, themes, rels) are kept from the original.
+    public func writePreservingOriginal(document: Document, to url: URL, originalURL: URL) throws {
+        // Build new document.xml from current elements
+        let documentXML = buildDocumentXMLWithHeaderFooter(
+            elements: document.elements,
+            headerRelId: nil,
+            footerRelId: nil
+        )
+        guard let documentData = documentXML.data(using: .utf8) else {
+            throw DocumentWriterError.writeFailed("Failed to encode document XML")
+        }
+
+        guard FileManager.default.fileExists(atPath: originalURL.path) else {
+            try write(document: document, to: url)
+            return
+        }
+
+        // Copy original to temp file first (handles same-file read+write)
+        let tempURL = FileManager.default.temporaryDirectory.appendingPathComponent("st_original_\(UUID().uuidString).docx")
+        defer { try? FileManager.default.removeItem(at: tempURL) }
+        do {
+            try FileManager.default.copyItem(at: originalURL, to: tempURL)
+        } catch {
+            try write(document: document, to: url)
+            return
+        }
+
+        // Read all entries from the temp copy using ZIPReader
+        let zipReader = ZIPReader()
+        let contents: [String: Data]
+        do {
+            var entries = try zipReader.readAllEntries(at: tempURL)
+            // Replace ONLY document.xml with the updated version
+            entries["word/document.xml"] = documentData
+            contents = entries
+        } catch {
+            try write(document: document, to: url)
+            return
+        }
+
+        // Write the new DOCX
+        try zipWriter.createDocX(at: url, contents: contents)
     }
 
     /// Writes document elements to a .docx file (legacy, no header/footer support)
@@ -294,8 +355,11 @@ public class DocumentWriter {
             paragraph.spacing != .none ||
             paragraph.indentation != .none ||
             paragraph.headingLevel != nil ||
+            paragraph.pStyleId != nil ||
             paragraph.listType != nil ||
-            paragraph.pageBreakBefore
+            paragraph.pageBreakBefore ||
+            paragraph.backgroundColor != nil ||
+            paragraph.borders != nil
 
         if hasParagraphProps {
             xml += "<w:pPr>"
@@ -304,7 +368,10 @@ public class DocumentWriter {
                 xml += "<w:pageBreakBefore/>"
             }
 
-            if let heading = paragraph.headingLevel {
+            // Style reference: prefer pStyleId (preserves original), fallback to heading
+            if let pStyleId = paragraph.pStyleId {
+                xml += "<w:pStyle w:val=\"\(escapeXMLAttribute(pStyleId))\"/>"
+            } else if let heading = paragraph.headingLevel {
                 xml += "<w:pStyle w:val=\"\(heading.styleId)\"/>"
             }
 
@@ -354,6 +421,21 @@ public class DocumentWriter {
                 if !indentAttrs.isEmpty {
                     xml += "<w:ind\(indentAttrs)/>"
                 }
+            }
+
+            // Paragraph borders
+            if let borders = paragraph.borders {
+                xml += "<w:pBdr>"
+                if let b = borders.top { xml += buildBorderXML("top", b) }
+                if let b = borders.bottom { xml += buildBorderXML("bottom", b) }
+                if let b = borders.left { xml += buildBorderXML("left", b) }
+                if let b = borders.right { xml += buildBorderXML("right", b) }
+                xml += "</w:pBdr>"
+            }
+
+            // Paragraph shading (background color)
+            if let bg = paragraph.backgroundColor {
+                xml += "<w:shd w:val=\"clear\" w:color=\"auto\" w:fill=\"\(bg.hexString)\"/>"
             }
 
             xml += "</w:pPr>"
@@ -546,6 +628,18 @@ public class DocumentWriter {
 
         xml += "</Relationships>"
         return xml
+    }
+
+    private func buildBorderXML(_ name: String, _ border: Border) -> String {
+        var attrs = "w:val=\"\(border.style.rawValue)\""
+        attrs += " w:sz=\"\(Int(border.width * 8))\""
+        attrs += " w:space=\"0\""
+        if let color = border.color {
+            attrs += " w:color=\"\(color.hexString)\""
+        } else {
+            attrs += " w:color=\"auto\""
+        }
+        return "<w:\(name) \(attrs)/>"
     }
 
     private func escapeXML(_ string: String) -> String {

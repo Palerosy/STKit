@@ -119,6 +119,12 @@ private class DocXMLParserDelegate: NSObject, XMLParserDelegate {
     private var inParagraphBorders = false
     private var currentParagraphBorders = ParagraphBorders()
 
+    // SDT (Structured Document Tags) state
+    private var sdtDepth = 0
+    private var inSdtPr = false
+    private var inSdtRPr = false
+    private var currentSdtFormatting: TextFormatting?
+
     // Drawing/Chart/Image state
     private var inDrawing = false
     private var drawingWidthEmu: Int?
@@ -291,6 +297,7 @@ private class DocXMLParserDelegate: NSObject, XMLParserDelegate {
 
         case "pStyle" where inParagraphProperties:
             if let val = attrValue(attributeDict, localName: "val") {
+                currentParagraph?.pStyleId = val
                 parseHeadingStyle(val)
             }
 
@@ -409,6 +416,10 @@ private class DocXMLParserDelegate: NSObject, XMLParserDelegate {
         case "color" where inRunProperties:
             if let val = attrValue(attributeDict, localName: "val"), val != "auto" {
                 currentFormatting.color = DocXColor(hex: val)
+            } else if let themeColor = attrValue(attributeDict, localName: "themeColor"), let tc = themeColors {
+                let tint = attrValue(attributeDict, localName: "themeTint")
+                let shade = attrValue(attributeDict, localName: "themeShade")
+                currentFormatting.color = tc.resolve(themeName: themeColor, themeTint: tint, themeShade: shade)
             }
 
         case "highlight" where inRunProperties:
@@ -497,6 +508,57 @@ private class DocXMLParserDelegate: NSObject, XMLParserDelegate {
                 if stripNamespace(key) == "embed" {
                     imageRelId = value
                 }
+            }
+
+        // MARK: SDT (Structured Document Tags) — content controls
+        case "sdt" where inBody:
+            sdtDepth += 1
+
+        case "sdtPr" where sdtDepth > 0:
+            inSdtPr = true
+            currentSdtFormatting = TextFormatting()
+
+        case "rPr" where inSdtPr:
+            inSdtRPr = true
+
+        case "b" where inSdtRPr:
+            if let val = attrValue(attributeDict, localName: "val"), val == "0" || val == "false" {
+                currentSdtFormatting?.bold = false
+            } else {
+                currentSdtFormatting?.bold = true
+            }
+
+        case "i" where inSdtRPr:
+            if let val = attrValue(attributeDict, localName: "val"), val == "0" || val == "false" {
+                currentSdtFormatting?.italic = false
+            } else {
+                currentSdtFormatting?.italic = true
+            }
+
+        case "color" where inSdtRPr:
+            if let val = attrValue(attributeDict, localName: "val"), val != "auto" {
+                currentSdtFormatting?.color = DocXColor(hex: val)
+            } else if let themeColor = attrValue(attributeDict, localName: "themeColor"), let tc = themeColors {
+                let tint = attrValue(attributeDict, localName: "themeTint")
+                let shade = attrValue(attributeDict, localName: "themeShade")
+                currentSdtFormatting?.color = tc.resolve(themeName: themeColor, themeTint: tint, themeShade: shade)
+            }
+
+        case "rFonts" where inSdtRPr:
+            if let ascii = attrValue(attributeDict, localName: "ascii") {
+                currentSdtFormatting?.font = Font(name: ascii)
+            }
+
+        case "sz" where inSdtRPr:
+            if let val = attrValue(attributeDict, localName: "val"), let halfPts = Int(val) {
+                currentSdtFormatting?.fontSize = Double(halfPts) / 2.0
+            }
+
+        case "caps" where inSdtRPr:
+            if let val = attrValue(attributeDict, localName: "val"), val == "0" || val == "false" {
+                currentSdtFormatting?.allCaps = false
+            } else {
+                currentSdtFormatting?.allCaps = true
             }
 
         default:
@@ -605,10 +667,22 @@ private class DocXMLParserDelegate: NSObject, XMLParserDelegate {
 
         case "r" where inRun:
             if let para = currentParagraph {
+                // Apply SDT default formatting to runs that lack explicit formatting
+                if sdtDepth > 0, let sdtFmt = currentSdtFormatting {
+                    if !currentFormatting.bold && sdtFmt.bold { currentFormatting.bold = true }
+                    if !currentFormatting.italic && sdtFmt.italic { currentFormatting.italic = true }
+                    if currentFormatting.color == nil { currentFormatting.color = sdtFmt.color }
+                    if currentFormatting.font == nil { currentFormatting.font = sdtFmt.font }
+                    if currentFormatting.fontSize == nil { currentFormatting.fontSize = sdtFmt.fontSize }
+                    if !currentFormatting.allCaps && sdtFmt.allCaps { currentFormatting.allCaps = true }
+                }
                 let run = Run(text: currentRunText, formatting: currentFormatting)
                 para.runs.append(run)
             }
             inRun = false
+
+        case "rPr" where inSdtRPr:
+            inSdtRPr = false
 
         case "rPr":
             inRunProperties = false
@@ -617,6 +691,17 @@ private class DocXMLParserDelegate: NSObject, XMLParserDelegate {
             currentRunText += textBuffer
             inText = false
             textBuffer = ""
+
+        // MARK: SDT end elements
+        case "sdt" where sdtDepth > 0:
+            sdtDepth -= 1
+            if sdtDepth == 0 {
+                currentSdtFormatting = nil
+            }
+
+        case "sdtPr" where inSdtPr:
+            inSdtPr = false
+            inSdtRPr = false
 
         // MARK: Drawing / Chart end elements
         case "graphicData" where inGraphicData:

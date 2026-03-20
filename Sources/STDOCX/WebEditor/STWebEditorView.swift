@@ -176,6 +176,8 @@ extension STWebEditorView {
         let viewModel: STWebEditorViewModel
         weak var webView: WKWebView?
         var cachedPageOffsets: [CGFloat] = []
+        var isPinching = false
+        var lastUserZoomScale: CGFloat = 1.0
 
         init(viewModel: STWebEditorViewModel) {
             self.viewModel = viewModel
@@ -258,6 +260,25 @@ extension STWebEditorView {
 
 #if os(iOS)
 extension STWebEditorView.Coordinator: UIScrollViewDelegate {
+
+    func scrollViewWillBeginZooming(_ scrollView: UIScrollView, with view: UIView?) {
+        isPinching = true
+    }
+
+    func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
+        if isPinching {
+            lastUserZoomScale = scale
+        }
+        isPinching = false
+    }
+
+    func scrollViewDidZoom(_ scrollView: UIScrollView) {
+        // If not pinching, iOS auto-zoomed (keyboard/focus) — revert to user's last zoom
+        if !isPinching && !scrollView.isZooming {
+            scrollView.setZoomScale(lastUserZoomScale, animated: false)
+        }
+    }
+
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         updateCurrentPageFromScroll(scrollView)
     }

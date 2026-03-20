@@ -113,6 +113,17 @@ body {
     height: auto;
     cursor: pointer;
 }
+/* docx-preview images: stay within cell, override inline styles */
+.docx-wrapper img {
+    max-width: 100% !important;
+    height: auto !important;
+    display: block;
+    object-fit: contain;
+}
+/* docx-preview table cells: clip overflow */
+.docx-wrapper td, .docx-wrapper th {
+    overflow: hidden;
+}
 
 /* Link styles */
 #editor a { color: #0563C1; text-decoration: underline; }
@@ -362,6 +373,9 @@ body {
 </head>
 <body>
 <div id="editor" contenteditable="true" data-placeholder="Start typing..."></div>
+<div id="docx-container" style="display:none;"></div>
+<script src="jszip.min.js"></script>
+<script src="docx-preview.min.js"></script>
 <script src="chart.min.js"></script>
 <script src="editor.js"></script>
 </body>

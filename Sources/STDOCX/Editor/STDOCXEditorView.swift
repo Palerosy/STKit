@@ -115,13 +115,7 @@ public struct STDOCXEditorView: View {
                     if viewModel.hasUnsavedChanges {
                         showDismissAlert = true
                     } else {
-                        Task {
-                            await viewModel.webEditorViewModel.saveContent()
-                            if let docURL = viewModel.document.url {
-                                viewModel.document.save(to: docURL)
-                            }
-                            onDismiss?()
-                        }
+                        onDismiss?()
                     }
                 } label: {
                     Image(systemName: "xmark")
@@ -233,13 +227,7 @@ public struct STDOCXEditorView: View {
                     if viewModel.hasUnsavedChanges {
                         showDismissAlert = true
                     } else {
-                        Task {
-                            await viewModel.webEditorViewModel.saveContent()
-                            if let docURL = viewModel.document.url {
-                                viewModel.document.save(to: docURL)
-                            }
-                            onDismiss?()
-                        }
+                        onDismiss?()
                     }
                 } label: {
                     Image(systemName: "xmark")
@@ -359,8 +347,8 @@ public struct STDOCXEditorView: View {
             Button(STStrings.saveAndClose) {
                 if STKitConfiguration.shared.isPurchased {
                     Task {
-                        await viewModel.webEditorViewModel.saveContent()
-                        if let docURL = viewModel.document.url {
+                        let needsWrite = await viewModel.webEditorViewModel.saveContent()
+                        if needsWrite, let docURL = viewModel.document.url {
                             viewModel.document.save(to: docURL)
                         }
                         onDismiss?()
@@ -393,8 +381,8 @@ public struct STDOCXEditorView: View {
         .onReceive(NotificationCenter.default.publisher(for: .purchaseStatusChanged)) { _ in
             if STKitConfiguration.shared.isPurchased && viewModel.hasUnsavedChanges {
                 Task {
-                    await viewModel.webEditorViewModel.saveContent()
-                    if let docURL = viewModel.document.url {
+                    let needsWrite = await viewModel.webEditorViewModel.saveContent()
+                    if needsWrite, let docURL = viewModel.document.url {
                         viewModel.document.save(to: docURL)
                     }
                     viewModel.showPaywall = false

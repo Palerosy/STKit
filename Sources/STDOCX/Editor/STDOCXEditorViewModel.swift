@@ -112,8 +112,23 @@ final class STDOCXEditorViewModel: ObservableObject {
 
     /// Revert the document to its original state (discard all changes)
     func revertToOriginal() {
-        guard let data = originalFileData, let url = document.url else { return }
-        try? data.write(to: url)
+        guard let url = document.url else { return }
+
+        // Remove the _st_edited.html cache from the DOCX ZIP so
+        // next open renders from the original document.xml
+        do {
+            let zipReader = ZIPReader()
+            var entries = try zipReader.readAllEntries(at: url)
+            if entries.removeValue(forKey: "_st_edited.html") != nil {
+                let zipWriter = ZIPWriter()
+                try zipWriter.createDocX(at: url, contents: entries)
+            }
+        } catch {
+            // Fallback: overwrite with original data
+            if let data = originalFileData {
+                try? data.write(to: url)
+            }
+        }
     }
 
     /// Highlight a search selection on the PDFView, then clear after delay

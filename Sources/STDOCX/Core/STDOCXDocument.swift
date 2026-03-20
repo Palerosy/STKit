@@ -234,7 +234,7 @@ public class STDOCXDocument: ObservableObject {
 
         self.pdfDocument = pdf
         self.url = url
-        self.title = title ?? url.deletingPathExtension().lastPathComponent
+        self.title = title ?? doc?.extractContentTitle() ?? url.deletingPathExtension().lastPathComponent
         self.attributedString = finalAttrString
         self.editableAttributedString = NSMutableAttributedString(attributedString: finalAttrString)
         self.swiftDocXDocument = doc
@@ -388,6 +388,154 @@ public class STDOCXDocument: ObservableObject {
         }
 
         objectWillChange.send()
+    }
+
+    /// Merge parsed Document with the original, preserving formatting for unchanged elements.
+    /// This prevents the destructive round-trip that strips tables, borders, backgrounds, etc.
+    func mergeWithParsedDocument(_ parsedDoc: Document) {
+        guard let original = swiftDocXDocument else {
+            // No original document — use parsed directly
+            updateFromParsedDocument(parsedDoc)
+            return
+        }
+
+        let mergedDoc = Document()
+
+        // Always preserve header/footer/styles from original (not captured by JS extraction)
+        mergedDoc.header = original.header
+        mergedDoc.footer = original.footer
+        mergedDoc.properties = original.properties
+        mergedDoc.originalStylesData = original.originalStylesData
+        mergedDoc.originalThemeData = original.originalThemeData
+        mergedDoc.themeEntryPath = original.themeEntryPath
+        mergedDoc.originalDocxURL = original.originalDocxURL
+
+        let origElements = original.elements
+        let parsedElements = parsedDoc.elements
+
+        // Merge elements by position — for each element pair:
+        // - Same type + same text → keep original (preserves ALL formatting)
+        // - Same type + different text → merge (keep original structure, update text)
+        // - Different type → use parsed (user restructured)
+        for i in 0..<parsedElements.count {
+            if i < origElements.count {
+                let merged = Self.mergeElement(original: origElements[i], parsed: parsedElements[i])
+                Self.appendElement(merged, to: mergedDoc)
+            } else {
+                // New elements beyond original count
+                Self.appendElement(parsedElements[i], to: mergedDoc)
+            }
+        }
+
+        let keptCount = min(origElements.count, parsedElements.count)
+        let newCount = max(0, parsedElements.count - origElements.count)
+        print("[STDOCXDocument] Merge: \(origElements.count) original, \(parsedElements.count) parsed → \(mergedDoc.elements.count) merged (kept=\(keptCount), new=\(newCount))")
+
+        self.swiftDocXDocument = mergedDoc
+
+        // Re-render
+        let attrStr = STDOCXConverter.toAttributedString(mergedDoc)
+        self.attributedString = attrStr
+        self.editableAttributedString = NSMutableAttributedString(attributedString: attrStr)
+        if let data = Self.renderToPDF(attrStr),
+           let newPDF = PDFDocument(data: data) {
+            self.pdfDocument = newPDF
+        }
+
+        objectWillChange.send()
+    }
+
+    // MARK: - Element Merge Helpers
+
+    /// Merge a single element pair: keep original formatting when text hasn't changed
+    private static func mergeElement(original: DocumentElement, parsed: DocumentElement) -> DocumentElement {
+        switch (original, parsed) {
+        case (.paragraph(let origP), .paragraph(let parsedP)):
+            return .paragraph(mergeParagraph(original: origP, parsed: parsedP))
+
+        case (.table(let origT), .table(let parsedT)):
+            return .table(mergeTable(original: origT, parsed: parsedT))
+
+        case (.chart, .chart):
+            // Charts: always keep original (edited through special UI, not DOM)
+            return original
+
+        case (.shape, .shape):
+            // Shapes: always keep original
+            return original
+
+        default:
+            // Types changed (e.g., paragraph became table) → use parsed
+            return parsed
+        }
+    }
+
+    /// Merge paragraphs: if text is identical, keep original (preserves fonts, spacing, borders, etc.)
+    private static func mergeParagraph(original: Paragraph, parsed: Paragraph) -> Paragraph {
+        let origText = original.text.trimmingCharacters(in: .whitespacesAndNewlines)
+        let parsedText = parsed.text.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        if origText == parsedText {
+            // Text identical → keep original with ALL its rich formatting
+            return original
+        }
+
+        // Text changed → user edited this paragraph → use parsed version
+        // (We lose some formatting here, but the text change is intentional)
+        // Preserve paragraph-level properties from original where parsed has defaults
+        if parsed.alignment == nil { parsed.alignment = original.alignment }
+        if parsed.spacing == .none { parsed.spacing = original.spacing }
+        if parsed.indentation == .none { parsed.indentation = original.indentation }
+        if parsed.headingLevel == nil { parsed.headingLevel = original.headingLevel }
+        if parsed.backgroundColor == nil { parsed.backgroundColor = original.backgroundColor }
+        if parsed.borders == nil { parsed.borders = original.borders }
+        return parsed
+    }
+
+    /// Merge tables: keep original table-level formatting, merge cells individually
+    private static func mergeTable(original: Table, parsed: Table) -> Table {
+        // If row count changed, the user restructured → keep original for safety
+        guard original.rows.count == parsed.rows.count else {
+            return original
+        }
+
+        // Merge cell-by-cell: keep original cell formatting, update text only where changed
+        for rowIdx in 0..<original.rows.count {
+            let origRow = original.rows[rowIdx]
+            let parsedRow = parsed.rows[rowIdx]
+
+            // Different cell count → keep original row
+            guard origRow.cells.count == parsedRow.cells.count else { continue }
+
+            for cellIdx in 0..<origRow.cells.count {
+                let origCell = origRow.cells[cellIdx]
+                let parsedCell = parsedRow.cells[cellIdx]
+
+                let origText = origCell.text.trimmingCharacters(in: .whitespacesAndNewlines)
+                let parsedText = parsedCell.text.trimmingCharacters(in: .whitespacesAndNewlines)
+
+                if origText != parsedText {
+                    // Text changed in this cell — update paragraphs but keep cell-level formatting
+                    origCell.paragraphs = parsedCell.paragraphs
+                }
+                // Otherwise: keep original cell entirely (preserves bg, borders, width, etc.)
+            }
+        }
+
+        // Return the original table (with updated cells where text changed)
+        // This preserves: table borders, column widths, alignment, styleName, tblLook
+        return original
+    }
+
+    /// Append a DocumentElement to a Document, updating both the elements array and typed arrays
+    private static func appendElement(_ element: DocumentElement, to doc: Document) {
+        doc.elements.append(element)
+        switch element {
+        case .paragraph(let p): doc.paragraphs.append(p)
+        case .table(let t): doc.tables.append(t)
+        case .chart(let c): doc.charts.append(c)
+        case .shape(let s): doc.shapes.append(s)
+        }
     }
 
     // MARK: - Text Editing Support

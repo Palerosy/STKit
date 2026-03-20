@@ -28,6 +28,12 @@ public class DocumentReader {
 
     /// Reads document elements (paragraphs, tables, and charts) from a .docx file
     public func read(from url: URL) throws -> [DocumentElement] {
+        let doc = try readDocument(from: url)
+        return doc.elements
+    }
+
+    /// Reads a full Document from a .docx file, preserving original styles/theme data for round-trip fidelity
+    public func readDocument(from url: URL) throws -> Document {
         guard FileManager.default.fileExists(atPath: url.path) else {
             throw DocumentReaderError.fileNotFound(url.path)
         }
@@ -42,7 +48,9 @@ public class DocumentReader {
         // Parse theme.xml for theme color resolution
         var themeColors: ThemeColorScheme?
         let themePath = relationships.values.first { $0.type.contains("theme") }?.target ?? "theme/theme1.xml"
-        if let themeData = try? zipReader.readEntry(at: url, entryPath: "word/\(themePath)") {
+        let themeFullPath = "word/\(themePath)"
+        let themeData = try? zipReader.readEntry(at: url, entryPath: themeFullPath)
+        if let themeData {
             themeColors = ThemeParser().parse(themeData)
         }
 
@@ -89,25 +97,55 @@ public class DocumentReader {
             resolved.append(element)
         }
 
-        // Resolve table styles from styles.xml
-        let hasStyledTables = resolved.contains { element in
-            if case .table(let table) = element { return table.styleName != nil }
-            return false
-        }
-        if hasStyledTables,
-           let stylesData = try? zipReader.readEntry(at: url, entryPath: "word/styles.xml") {
-            let styleParser = TableStyleParser()
-            styleParser.themeColors = themeColors
-            let tableStyles = styleParser.parse(stylesData)
-            if !tableStyles.isEmpty {
-                TableStyleResolver.resolve(elements: &resolved, styles: tableStyles)
+        // Resolve styles from styles.xml
+        // Try word/styles.xml first, then word/styles2.xml (some templates use this)
+        let stylesData: Data? = (try? zipReader.readEntry(at: url, entryPath: "word/styles.xml"))
+            ?? (try? zipReader.readEntry(at: url, entryPath: "word/styles2.xml"))
+
+        if let stylesData {
+            // Resolve table styles
+            let hasStyledTables = resolved.contains { element in
+                if case .table(let table) = element { return table.styleName != nil }
+                return false
+            }
+            if hasStyledTables {
+                let tableStyleParser = TableStyleParser()
+                tableStyleParser.themeColors = themeColors
+                let tableStyles = tableStyleParser.parse(stylesData)
+                if !tableStyles.isEmpty {
+                    TableStyleResolver.resolve(elements: &resolved, styles: tableStyles)
+                }
+            }
+
+            // Resolve paragraph styles
+            let paragraphStyleParser = ParagraphStyleParser()
+            paragraphStyleParser.themeColors = themeColors
+            let paragraphStyles = paragraphStyleParser.parse(stylesData)
+            if !paragraphStyles.isEmpty {
+                ParagraphStyleResolver.resolve(elements: &resolved, styles: paragraphStyles)
             }
         }
 
         // Resolve inline image data from word/media/
         resolveImages(in: &resolved, relationships: relationships, docURL: url)
 
-        return resolved
+        // Build Document with preserved original data
+        let document = Document()
+        document.elements = resolved
+        for element in resolved {
+            switch element {
+            case .paragraph(let p): document.paragraphs.append(p)
+            case .table(let t): document.tables.append(t)
+            case .chart(let c): document.charts.append(c)
+            case .shape(let s): document.shapes.append(s)
+            }
+        }
+        // Preserve original styles and theme for round-trip fidelity
+        document.originalStylesData = stylesData
+        document.originalThemeData = themeData
+        document.themeEntryPath = themeFullPath
+
+        return document
     }
 
     /// Fills in image data for runs that have image placeholders (relationshipId set, data empty)

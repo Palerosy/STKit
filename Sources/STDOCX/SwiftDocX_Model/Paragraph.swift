@@ -122,6 +122,9 @@ public class Paragraph {
     /// Paragraph borders
     public var borders: ParagraphBorders?
 
+    /// The paragraph style ID from styles.xml (e.g. "Title", "Heading1", "BodyContactInfo")
+    public var pStyleId: String?
+
     /// Creates an empty paragraph
     public init() {
         self.runs = []

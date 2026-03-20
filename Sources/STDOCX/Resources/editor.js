@@ -679,6 +679,223 @@
         }, 200);
     };
 
+    // ============================================================
+    // DOCX-PREVIEW RENDERING — renders raw DOCX with full fidelity
+    // ============================================================
+
+    var _isDocxPreviewMode = false;
+    var _docxPreviewStylesHTML = ''; // Raw HTML of <style> tags, for saving
+
+    /// Remove any previously injected docx-preview styles from <head>
+    function _clearDocxStyles() {
+        var old = document.querySelectorAll('style[data-st-docx]');
+        for (var i = 0; i < old.length; i++) old[i].remove();
+    }
+
+    /// Move <style> elements from a container to <head> (where they always work)
+    function _moveStylesToHead(container) {
+        var styleEls = container.querySelectorAll('style');
+        var captured = '';
+        for (var si = 0; si < styleEls.length; si++) {
+            captured += styleEls[si].outerHTML;
+            var clone = styleEls[si].cloneNode(true);
+            clone.setAttribute('data-st-docx', '1');
+            document.head.appendChild(clone);
+            styleEls[si].remove(); // remove from container
+        }
+        _docxPreviewStylesHTML = captured;
+        jsLog('[docx-preview] Moved ' + styleEls.length + ' style blocks to <head>');
+    }
+
+    /// Inject styles from raw HTML string into <head>
+    function _injectStylesFromHTML(stylesHTML) {
+        if (!stylesHTML) return;
+        var temp = document.createElement('div');
+        temp.innerHTML = stylesHTML;
+        var els = temp.querySelectorAll('style');
+        for (var i = 0; i < els.length; i++) {
+            els[i].setAttribute('data-st-docx', '1');
+            document.head.appendChild(els[i]);
+        }
+    }
+
+    /// Measure max page width from section elements
+    function _measurePageWidth(root) {
+        var sections = root.querySelectorAll('section.docx');
+        var maxW = 0;
+        for (var i = 0; i < sections.length; i++) {
+            var wStr = sections[i].style.width;
+            if (wStr) {
+                var w = parseFloat(wStr);
+                if (wStr.indexOf('pt') >= 0) w = w * 4 / 3;
+                else if (wStr.indexOf('cm') >= 0) w = w * 96 / 2.54;
+                else if (wStr.indexOf('in') >= 0) w = w * 96;
+                if (w > maxW) maxW = w;
+            }
+        }
+        return maxW;
+    }
+
+    /// Set viewport to document page width
+    function _setViewportWidth(widthPx) {
+        if (widthPx > 0) {
+            var vp = document.querySelector('meta[name="viewport"]');
+            vp.content = 'width=' + Math.ceil(widthPx) + ', user-scalable=yes';
+        }
+    }
+
+    /// Get the editor HTML with docx-preview styles included for saving.
+    window.getDocxPreviewHTML = function() {
+        var html = editor.innerHTML;
+        if (!_docxPreviewStylesHTML) return html;
+        // Always inject styles into the saved HTML (they live in <head>, not editor)
+        var wrapperMatch = html.match(/<div[^>]*class="docx-wrapper"[^>]*>/);
+        if (wrapperMatch) {
+            var insertPos = html.indexOf(wrapperMatch[0]) + wrapperMatch[0].length;
+            html = html.substring(0, insertPos) + _docxPreviewStylesHTML + html.substring(insertPos);
+        }
+        return html;
+    };
+
+    window.loadDocxContent = function(base64Data) {
+        _suppressDirty = true;
+        _isDocxPreviewMode = true;
+        isContentDirty = false;
+        currentPageIndex = 0;
+
+        // Decode base64 to binary
+        var binaryString = atob(base64Data);
+        var bytes = new Uint8Array(binaryString.length);
+        for (var i = 0; i < binaryString.length; i++) {
+            bytes[i] = binaryString.charCodeAt(i);
+        }
+
+        // Clear the old editor content
+        editor.style.display = 'none';
+        _clearDocxStyles();
+        var container = document.getElementById('docx-container');
+        container.style.display = 'block';
+        container.innerHTML = '';
+
+        // Render DOCX using docx-preview
+        var options = {
+            inWrapper: true,
+            ignoreWidth: false,
+            ignoreHeight: false,
+            ignoreFonts: false,
+            breakPages: false,
+            ignoreLastRenderedPageBreak: true,
+            experimental: true,
+            trimXmlDeclaration: true,
+            useBase64URL: true,
+            renderHeaders: false,
+            renderFooters: false,
+            renderFootnotes: true,
+            renderEndnotes: true
+        };
+
+        return docx.renderAsync(bytes.buffer, container, null, options).then(function() {
+            jsLog('[docx-preview] Render complete');
+
+            var wrapper = container.querySelector('.docx-wrapper');
+            if (!wrapper) {
+                editor.innerHTML = container.innerHTML;
+                editor.style.display = '';
+                container.style.display = 'none';
+                container.innerHTML = '';
+                _suppressDirty = false;
+                updateFormattingState();
+                return;
+            }
+
+            // Move ALL <style> elements to <head> BEFORE moving to editor.
+            // docx-preview may place styles inside the wrapper OR as siblings in the container.
+            // WebKit strips <style> from contenteditable elements, so styles
+            // must live in <head> where they always work.
+            _moveStylesToHead(container);
+
+            var maxWidthPx = _measurePageWidth(wrapper);
+
+            // Move wrapper (now without <style> tags) into editor
+            editor.innerHTML = '';
+            editor.appendChild(wrapper);
+            editor.style.display = '';
+            editor.style.padding = '0';
+            container.style.display = 'none';
+
+            // Remove contenteditable="false" from elements so user can edit
+            var ceElements = editor.querySelectorAll('[contenteditable="false"]');
+            for (var e = 0; e < ceElements.length; e++) {
+                ceElements[e].removeAttribute('contenteditable');
+            }
+
+            _setViewportWidth(maxWidthPx);
+            initializeCharts();
+            updateFormattingState();
+            jsLog('[docx-preview] Editor ready');
+
+            // Delay unsuppressing dirty — MutationObserver callbacks are async
+            setTimeout(function() {
+                isContentDirty = false;
+                _suppressDirty = false;
+            }, 500);
+
+        }).catch(function(err) {
+            jsLog('[docx-preview] Error: ' + err.message);
+            editor.style.display = '';
+            container.style.display = 'none';
+            _suppressDirty = false;
+            _isDocxPreviewMode = false;
+            throw err;
+        });
+    };
+
+    /// Load cached HTML from a previous docx-preview session (preserves edits + formatting)
+    window.loadCachedHTML = function(html) {
+        _suppressDirty = true;
+        _isDocxPreviewMode = true;
+        isContentDirty = false;
+        currentPageIndex = 0;
+
+        _clearDocxStyles();
+
+        // Parse HTML in a temp container to extract <style> elements
+        var temp = document.createElement('div');
+        temp.innerHTML = html;
+
+        // Extract <style> tags and move to <head>
+        var styleEls = temp.querySelectorAll('style');
+        var captured = '';
+        for (var si = 0; si < styleEls.length; si++) {
+            captured += styleEls[si].outerHTML;
+            styleEls[si].setAttribute('data-st-docx', '1');
+            document.head.appendChild(styleEls[si]); // move to head
+        }
+        _docxPreviewStylesHTML = captured;
+        jsLog('[docx-preview] Cached: moved ' + styleEls.length + ' style blocks to <head>');
+
+        // Put remaining content (without styles) into editor
+        editor.innerHTML = '';
+        editor.style.padding = '0';
+        while (temp.firstChild) {
+            editor.appendChild(temp.firstChild);
+        }
+
+        // Remove contenteditable="false" from elements so user can edit
+        var ceElements = editor.querySelectorAll('[contenteditable="false"]');
+        for (var e = 0; e < ceElements.length; e++) {
+            ceElements[e].removeAttribute('contenteditable');
+        }
+
+        _setViewportWidth(_measurePageWidth(editor));
+        updateFormattingState();
+        jsLog('[docx-preview] Cached HTML loaded');
+        setTimeout(function() {
+            isContentDirty = false;
+            _suppressDirty = false;
+        }, 500);
+    };
+
     /// Set target page count from PDF — makes WKWebView pagination match PDF pages
     window.setTargetPageCount = function(count) {
         targetPageCount = count;
@@ -749,9 +966,53 @@
         notifyContentChanged();
     }
 
+    /// Find the most visible page in the viewport using intersection area
+    function getMostVisiblePage() {
+        var pages;
+        if (_isDocxPreviewMode) {
+            pages = editor.querySelectorAll('section.docx');
+        } else {
+            pages = editor.querySelectorAll('.st-page');
+        }
+        if (pages.length === 0) return editor;
+        if (pages.length === 1) return pages[0];
+
+        var viewportTop = 0;
+        var viewportBottom = window.innerHeight;
+        var bestPage = pages[0];
+        var bestArea = 0;
+
+        for (var i = 0; i < pages.length; i++) {
+            var rect = pages[i].getBoundingClientRect();
+            var visibleTop = Math.max(rect.top, viewportTop);
+            var visibleBottom = Math.min(rect.bottom, viewportBottom);
+            var visibleHeight = Math.max(0, visibleBottom - visibleTop);
+            if (visibleHeight > bestArea) {
+                bestArea = visibleHeight;
+                bestPage = pages[i];
+            }
+        }
+        return bestPage;
+    }
+
     function getActivePage() {
-        var pages = editor.querySelectorAll('.st-page');
-        return pages.length > 0 ? pages[0] : editor;
+        // If there's an active selection, find which page contains it
+        var sel = window.getSelection();
+        if (sel.rangeCount && sel.anchorNode) {
+            var node = sel.anchorNode;
+            // Walk up to find the page container
+            while (node && node !== editor) {
+                if (_isDocxPreviewMode && node.nodeName === 'SECTION' && node.classList && node.classList.contains('docx')) {
+                    return node;
+                }
+                if (!_isDocxPreviewMode && node.classList && node.classList.contains('st-page')) {
+                    return node;
+                }
+                node = node.parentNode;
+            }
+        }
+        // No selection or selection not inside a page — use most visible page
+        return getMostVisiblePage();
     }
 
     function deselectAllShapes() {
@@ -1759,9 +2020,31 @@
     window.getDocumentStructure = function() {
         var elements = [];
 
-        // Collect content nodes — may be inside .st-page wrappers
-        var pages = editor.querySelectorAll('.st-page');
-        var containers = pages.length > 0 ? Array.from(pages) : [editor];
+        // Work on a clone to avoid interference from UI elements (table wrappers, menus, etc.)
+        var clone = editor.cloneNode(true);
+
+        // Unwrap st-table-wrapper divs (created by select mode) — expose the table inside
+        var wrappers = clone.querySelectorAll('.st-table-wrapper');
+        for (var w = 0; w < wrappers.length; w++) {
+            var wrapper = wrappers[w];
+            while (wrapper.firstChild) {
+                wrapper.parentNode.insertBefore(wrapper.firstChild, wrapper);
+            }
+            wrapper.remove();
+        }
+
+        // Remove UI-only elements that shouldn't be serialized
+        var uiElements = clone.querySelectorAll('.st-shape-menu, .st-drag-placeholder, .st-resize-handle');
+        for (var u = 0; u < uiElements.length; u++) {
+            uiElements[u].remove();
+        }
+
+        // Collect content nodes — may be inside .st-page wrappers or docx-preview sections
+        var pages = clone.querySelectorAll('.st-page');
+        if (pages.length === 0) {
+            pages = clone.querySelectorAll('section.docx');
+        }
+        var containers = pages.length > 0 ? Array.from(pages) : [clone];
 
         for (var c = 0; c < containers.length; c++) {
             var children = containers[c].childNodes;
@@ -1844,6 +2127,39 @@
                     para.type = 'heading';
                     para.level = level;
                     elements.push(para);
+                } else if (tag === 'div' || tag === 'section' || tag === 'article') {
+                    // Check if this wrapper contains block-level elements (tables, etc.)
+                    // If so, extract children as separate elements instead of treating as paragraph
+                    var hasBlockChildren = node.querySelector('table, ul, ol, h1, h2, h3, h4, h5, h6');
+                    if (hasBlockChildren) {
+                        var divChildren = node.childNodes;
+                        for (var dc = 0; dc < divChildren.length; dc++) {
+                            var dChild = divChildren[dc];
+                            if (dChild.nodeType === Node.TEXT_NODE) {
+                                var dText = dChild.textContent;
+                                if (dText.trim()) {
+                                    elements.push({ type: 'paragraph', runs: [{ text: dText }] });
+                                }
+                            } else if (dChild.nodeType === Node.ELEMENT_NODE) {
+                                var dTag = dChild.tagName.toLowerCase();
+                                if (dTag === 'table') {
+                                    elements.push(parseTable(dChild));
+                                } else if (dTag === 'ul' || dTag === 'ol') {
+                                    elements = elements.concat(parseList(dChild, dTag === 'ol' ? 'numbered' : 'bullet'));
+                                } else if (/^h[1-6]$/.test(dTag)) {
+                                    var dLevel = parseInt(dTag.charAt(1));
+                                    var dPara = parseParagraph(dChild);
+                                    dPara.type = 'heading';
+                                    dPara.level = dLevel;
+                                    elements.push(dPara);
+                                } else {
+                                    elements.push(parseParagraph(dChild));
+                                }
+                            }
+                        }
+                    } else {
+                        elements.push(parseParagraph(node));
+                    }
                 } else {
                     elements.push(parseParagraph(node));
                 }
@@ -1998,27 +2314,36 @@
         }
 
         // Spacing
-        if (style.marginTop) para.marginTop = parseFloat(style.marginTop);
-        if (style.marginBottom) para.marginBottom = parseFloat(style.marginBottom);
-        if (style.lineHeight && style.lineHeight !== 'normal') {
-            para.lineHeight = parseFloat(style.lineHeight);
-        }
+        var mt = style.marginTop || (computed ? computed.marginTop : null);
+        var mb = style.marginBottom || (computed ? computed.marginBottom : null);
+        var lh = style.lineHeight || (computed ? computed.lineHeight : null);
+        if (mt && mt !== '0px') para.marginTop = parseFloat(mt);
+        if (mb && mb !== '0px') para.marginBottom = parseFloat(mb);
+        if (lh && lh !== 'normal') para.lineHeight = parseFloat(lh);
 
         // Indentation
-        if (style.marginLeft) para.marginLeft = parseFloat(style.marginLeft);
-        if (style.marginRight) para.marginRight = parseFloat(style.marginRight);
-        if (style.textIndent) para.textIndent = parseFloat(style.textIndent);
+        var ml = style.marginLeft || (computed ? computed.marginLeft : null);
+        var mr = style.marginRight || (computed ? computed.marginRight : null);
+        var ti = style.textIndent || (computed ? computed.textIndent : null);
+        if (ml && ml !== '0px') para.marginLeft = parseFloat(ml);
+        if (mr && mr !== '0px') para.marginRight = parseFloat(mr);
+        if (ti && ti !== '0px') para.textIndent = parseFloat(ti);
 
         // Background color
-        if (style.backgroundColor && style.backgroundColor !== 'transparent' && style.backgroundColor !== 'rgba(0, 0, 0, 0)') {
-            para.backgroundColor = rgbToHex(style.backgroundColor);
+        var bg = style.backgroundColor || (computed ? computed.backgroundColor : null);
+        if (bg && bg !== 'transparent' && bg !== 'rgba(0, 0, 0, 0)') {
+            para.backgroundColor = rgbToHex(bg);
         }
 
         // Paragraph borders
-        if (style.borderTop && style.borderTop !== 'none') para.borderTop = style.borderTop;
-        if (style.borderBottom && style.borderBottom !== 'none') para.borderBottom = style.borderBottom;
-        if (style.borderLeft && style.borderLeft !== 'none') para.borderLeft = style.borderLeft;
-        if (style.borderRight && style.borderRight !== 'none') para.borderRight = style.borderRight;
+        var bt = style.borderTop || (computed ? computed.borderTop : null);
+        var bb = style.borderBottom || (computed ? computed.borderBottom : null);
+        var bl = style.borderLeft || (computed ? computed.borderLeft : null);
+        var br_val = style.borderRight || (computed ? computed.borderRight : null);
+        if (bt && bt !== 'none' && bt.indexOf('0px') === -1) para.borderTop = bt;
+        if (bb && bb !== 'none' && bb.indexOf('0px') === -1) para.borderBottom = bb;
+        if (bl && bl !== 'none' && bl.indexOf('0px') === -1) para.borderLeft = bl;
+        if (br_val && br_val !== 'none' && br_val.indexOf('0px') === -1) para.borderRight = br_val;
 
         return para;
     }
@@ -2104,7 +2429,7 @@
         if (tag === 'sup') fmt.superscript = true;
         if (tag === 'sub') fmt.subscript = true;
 
-        // Check computed/inline styles
+        // Check inline styles only (computed styles add too much noise for runs)
         if (style.fontWeight === 'bold' || parseInt(style.fontWeight) >= 700) fmt.bold = true;
         if (style.fontStyle === 'italic') fmt.italic = true;
         if (style.textDecoration && style.textDecoration.indexOf('underline') >= 0) fmt.underline = true;
@@ -2160,22 +2485,32 @@
             rowspan: cellNode.rowSpan || 1
         };
 
+        var cs = cellNode.style || {};
+        var cc = window.getComputedStyle(cellNode);
+
         // Background color
-        if (cellNode.style.backgroundColor && cellNode.style.backgroundColor !== 'transparent') {
-            cell.backgroundColor = rgbToHex(cellNode.style.backgroundColor);
+        var cbg = cs.backgroundColor || (cc ? cc.backgroundColor : null);
+        if (cbg && cbg !== 'transparent' && cbg !== 'rgba(0, 0, 0, 0)') {
+            cell.backgroundColor = rgbToHex(cbg);
         }
 
         // Borders
-        if (cellNode.style.borderTop) cell.borderTop = cellNode.style.borderTop;
-        if (cellNode.style.borderBottom) cell.borderBottom = cellNode.style.borderBottom;
-        if (cellNode.style.borderLeft) cell.borderLeft = cellNode.style.borderLeft;
-        if (cellNode.style.borderRight) cell.borderRight = cellNode.style.borderRight;
+        var cbt = cs.borderTop || (cc ? cc.borderTop : null);
+        var cbb = cs.borderBottom || (cc ? cc.borderBottom : null);
+        var cbl = cs.borderLeft || (cc ? cc.borderLeft : null);
+        var cbr = cs.borderRight || (cc ? cc.borderRight : null);
+        if (cbt && cbt !== 'none' && cbt.indexOf('0px') === -1) cell.borderTop = cbt;
+        if (cbb && cbb !== 'none' && cbb.indexOf('0px') === -1) cell.borderBottom = cbb;
+        if (cbl && cbl !== 'none' && cbl.indexOf('0px') === -1) cell.borderLeft = cbl;
+        if (cbr && cbr !== 'none' && cbr.indexOf('0px') === -1) cell.borderRight = cbr;
 
         // Width
-        if (cellNode.style.width) cell.width = parseFloat(cellNode.style.width);
+        var cw = cs.width || (cc ? cc.width : null);
+        if (cw && cw !== 'auto' && cw !== '0px') cell.width = parseFloat(cw);
 
         // Vertical alignment
-        if (cellNode.style.verticalAlign) cell.verticalAlign = cellNode.style.verticalAlign;
+        var cva = cs.verticalAlign || (cc ? cc.verticalAlign : null);
+        if (cva && cva !== 'baseline') cell.verticalAlign = cva;
 
         // Parse cell content as paragraphs
         var children = cellNode.childNodes;
@@ -2275,6 +2610,11 @@
 
     /// Wrap content in a single .st-page div (continuous scroll — no page splitting)
     function paginateContent() {
+        // Skip pagination in docx-preview mode — sections have their own layout
+        if (_isDocxPreviewMode) {
+            return;
+        }
+
         isPaginating = true;
 
         // Fast-path: if editor already has exactly one .st-page and nothing else,
@@ -2495,7 +2835,7 @@
 
     // Track content changes for dirty flag and re-pagination
     var observer = new MutationObserver(function() {
-        if (isPaginating || isNavigating) return;
+        if (isPaginating || isNavigating || _suppressDirty) return;
         notifyContentChanged();
         schedulePagination();
     });

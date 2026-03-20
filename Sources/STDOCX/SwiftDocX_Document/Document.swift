@@ -86,6 +86,17 @@ public class Document {
     /// Document footer (appears at bottom of pages)
     public var footer: Footer?
 
+    /// Original styles.xml data preserved from the source DOCX (for round-trip fidelity)
+    public var originalStylesData: Data?
+
+    /// Original theme XML data preserved from the source DOCX
+    public var originalThemeData: Data?
+    /// Theme entry path (e.g. "word/theme/theme1.xml")
+    public var themeEntryPath: String?
+
+    /// Original DOCX file URL — used for ZIP-preserving save (keep images, styles, etc.)
+    public var originalDocxURL: URL?
+
     /// Creates an empty document
     public init() {
         self.paragraphs = []
@@ -104,20 +115,16 @@ public class Document {
         self.init()
         let reader = DocumentReader()
         do {
-            let parsedElements = try reader.read(from: url)
-            self.elements = parsedElements
-            for element in parsedElements {
-                switch element {
-                case .paragraph(let p):
-                    self.paragraphs.append(p)
-                case .table(let t):
-                    self.tables.append(t)
-                case .chart(let c):
-                    self.charts.append(c)
-                case .shape(let s):
-                    self.shapes.append(s)
-                }
-            }
+            let parsed = try reader.readDocument(from: url)
+            self.elements = parsed.elements
+            self.paragraphs = parsed.paragraphs
+            self.tables = parsed.tables
+            self.charts = parsed.charts
+            self.shapes = parsed.shapes
+            self.originalStylesData = parsed.originalStylesData
+            self.originalThemeData = parsed.originalThemeData
+            self.themeEntryPath = parsed.themeEntryPath
+            self.originalDocxURL = url
         } catch {
             throw DocumentError.readFailed(error.localizedDescription)
         }
@@ -128,10 +135,103 @@ public class Document {
     public func write(to url: URL) throws {
         let writer = DocumentWriter()
         do {
-            try writer.write(document: self, to: url)
+            // If we have the original DOCX, preserve its ZIP structure (images, styles, themes, rels)
+            // and only replace word/document.xml with our updated content
+            if let originalURL = originalDocxURL,
+               FileManager.default.fileExists(atPath: originalURL.path) {
+                try writer.writePreservingOriginal(document: self, to: url, originalURL: originalURL)
+            } else {
+                try writer.write(document: self, to: url)
+            }
         } catch {
             throw DocumentError.writeFailed(error.localizedDescription)
         }
+    }
+
+    // MARK: - Title Extraction
+
+    /// Extracts a meaningful title from the document content by finding the most prominent text.
+    /// Looks at the first ~10 elements for: heading paragraphs, largest font size, or style IDs like "Title".
+    public func extractContentTitle() -> String? {
+        var bestCandidate: String?
+        var bestScore: Double = 0
+
+        let scanLimit = min(elements.count, 15)
+        for i in 0..<scanLimit {
+            guard case .paragraph(let para) = elements[i] else { continue }
+            let text = para.text.trimmingCharacters(in: .whitespacesAndNewlines)
+            if text.isEmpty { continue }
+
+            var score: Double = 0
+
+            // Style ID "Title" is the strongest signal
+            if let sid = para.pStyleId?.lowercased(), sid.contains("title") || sid.contains("name") {
+                score += 100
+            }
+
+            // Heading level is a strong signal (h1 = 50, h2 = 40, ...)
+            if let level = para.headingLevel {
+                switch level {
+                case .heading1: score += 50
+                case .heading2: score += 40
+                case .heading3: score += 30
+                default: score += 20
+                }
+            }
+
+            // Largest font size among runs
+            var maxFontSize: Double = 0
+            for run in para.runs {
+                let fs = run.formatting.fontSize ?? 11
+                if fs > maxFontSize { maxFontSize = fs }
+            }
+            // Bonus for large fonts (> 14pt gets progressively more score)
+            if maxFontSize > 14 {
+                score += maxFontSize
+            }
+
+            // Bold text gets a small bonus
+            if para.runs.contains(where: { $0.formatting.bold }) {
+                score += 5
+            }
+
+            // Earlier paragraphs get a position bonus
+            score += Double(scanLimit - i)
+
+            // Skip very long text (likely a body paragraph, not a title)
+            if text.count > 80 { score *= 0.3 }
+
+            if score > bestScore {
+                bestScore = score
+                bestCandidate = text
+            }
+        }
+
+        // Also check first cell of first table (some resumes put name in table)
+        for element in elements.prefix(5) {
+            if case .table(let table) = element, let firstRow = table.rows.first, let firstCell = firstRow.cells.first {
+                for cellPara in firstCell.paragraphs {
+                    let text = cellPara.text.trimmingCharacters(in: .whitespacesAndNewlines)
+                    if text.isEmpty { continue }
+                    var maxFS: Double = 0
+                    for run in cellPara.runs {
+                        let fs = run.formatting.fontSize ?? 11
+                        if fs > maxFS { maxFS = fs }
+                    }
+                    if maxFS > 18 && maxFS > bestScore {
+                        bestScore = maxFS + 10
+                        bestCandidate = text
+                    }
+                }
+            }
+        }
+
+        // Truncate if too long
+        if let candidate = bestCandidate, candidate.count > 50 {
+            return String(candidate.prefix(50))
+        }
+
+        return bestCandidate
     }
 
     // MARK: - Paragraph Methods

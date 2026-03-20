@@ -20,6 +20,10 @@ final class STWebEditorViewModel: ObservableObject {
     /// Whether content has been modified since last save
     @Published var isContentDirty: Bool = false
 
+    /// Whether content was loaded via docx-preview (full-fidelity mode).
+    /// When true, save skips DOM→Document model extraction to avoid degrading the original DOCX.
+    var isDocxPreviewMode: Bool = false
+
     // MARK: - Formatting State (updated from JS via message handler)
 
     @Published var isBold: Bool = false
@@ -64,6 +68,68 @@ final class STWebEditorViewModel: ObservableObject {
     /// Generate HTML from document model and load into WKWebView
     func loadContent() {
         guard let webView else { return }
+
+        // For DOCX files: check for cached edited HTML first, then try docx-preview
+        if !document.isLegacyDoc, let url = document.url {
+            // Check for cached edited HTML inside the DOCX ZIP
+            let zipReader = ZIPReader()
+            if let cachedData = try? zipReader.readEntry(at: url, entryPath: "_st_edited.html"),
+               let cachedHTML = String(data: cachedData, encoding: .utf8),
+               !cachedHTML.isEmpty {
+                print("[STWebEditor] Loading cached edited HTML from DOCX (\(cachedData.count) bytes)")
+                isDocxPreviewMode = true
+                webView.callAsyncJavaScript(
+                    "loadCachedHTML(html)",
+                    arguments: ["html": cachedHTML],
+                    in: nil,
+                    in: .page
+                ) { result in
+                    if case .failure(let error) = result {
+                        print("[STWebEditor] loadCachedHTML error: \(error.localizedDescription), trying docx-preview")
+                        self.loadDocxPreview(url: url)
+                    }
+                }
+                return
+            }
+
+            // No cached HTML — render via docx-preview
+            loadDocxPreview(url: url)
+            return
+        }
+
+        // Fallback: use HTML conversion
+        loadContentFallback()
+    }
+
+    /// Render raw DOCX via docx-preview.js
+    private func loadDocxPreview(url: URL) {
+        guard let webView else { return }
+        guard let docxData = try? Data(contentsOf: url), !docxData.isEmpty else {
+            loadContentFallback()
+            return
+        }
+        let base64 = docxData.base64EncodedString()
+        print("[STWebEditor] Loading DOCX via docx-preview (\(docxData.count) bytes)")
+        webView.callAsyncJavaScript(
+            "return await loadDocxContent(data)",
+            arguments: ["data": base64],
+            in: nil,
+            in: .page
+        ) { result in
+            switch result {
+            case .success:
+                self.isDocxPreviewMode = true
+                print("[STWebEditor] docx-preview loaded successfully")
+            case .failure(let error):
+                print("[STWebEditor] docx-preview error: \(error.localizedDescription), falling back to HTML")
+                self.loadContentFallback()
+            }
+        }
+    }
+
+    /// Fallback content loading via HTML conversion (for legacy DOC or when docx-preview fails)
+    private func loadContentFallback() {
+        guard let webView else { return }
         let html: String
         if document.isLegacyDoc {
             // Legacy DOC: use extracted HTML (preserves tables and structure)
@@ -95,27 +161,76 @@ final class STWebEditorViewModel: ObservableObject {
         }
     }
 
-    /// Extract document structure from WKWebView and save to DOCX
-    func saveContent() async {
-        guard let webView else { return }
+    /// Extract document structure from WKWebView and save to DOCX.
+    /// Returns `true` if the Document model was updated and the file needs writing to disk.
+    @discardableResult
+    func saveContent() async -> Bool {
+        guard let webView else { return false }
+
+        // Safety: skip save if content hasn't actually been modified
+        guard isContentDirty else {
+            print("[STWebEditor] Skipping save: content not dirty")
+            return false
+        }
+
+        // docx-preview mode: save the edited HTML into the DOCX ZIP as a cached entry.
+        // This preserves the original document.xml (all OOXML formatting) while persisting user edits.
+        // On next open, the cached HTML is loaded instead of re-rendering via docx-preview.
+        if isDocxPreviewMode {
+            do {
+                let html = try await webView.evaluateJavaScript("getDocxPreviewHTML()") as? String
+                if let html, let url = document.url, !html.isEmpty {
+                    let zipReader = ZIPReader()
+                    var entries = try zipReader.readAllEntries(at: url)
+                    entries["_st_edited.html"] = html.data(using: .utf8)
+                    let zipWriter = ZIPWriter()
+                    try zipWriter.createDocX(at: url, contents: entries)
+                    print("[STWebEditor] docx-preview mode: saved edited HTML into DOCX (\(html.count) chars)")
+                }
+            } catch {
+                print("[STWebEditor] docx-preview save error: \(error.localizedDescription)")
+            }
+
+            // Update PDF thumbnail from current WKWebView content
+            await updatePDFFromWebView()
+
+            isContentDirty = false
+            return false
+        }
 
         do {
             let result = try await webView.evaluateJavaScript("getDocumentStructure()")
             guard let jsonString = result as? String else {
                 print("[STWebEditor] getDocumentStructure returned non-string")
-                return
+                return false
             }
 
             // Convert JSON → Document model
             if let newDoc = STHTMLToDocumentConverter.toDocument(from: jsonString) {
-                // Update the document's internal model
-                document.updateFromParsedDocument(newDoc)
+                let newElementCount = newDoc.elements.count
+                let oldElementCount = document.swiftDocXDocument?.elements.count ?? 0
+
+                // Safety: don't replace document with empty result (content loss prevention)
+                if newElementCount == 0 && oldElementCount > 0 {
+                    print("[STWebEditor] Skipping save: parsed document is empty but original has \(oldElementCount) elements")
+                    return false
+                }
+
+                // Safety: warn if parsed document has dramatically fewer elements (>60% loss)
+                if oldElementCount > 3 && newElementCount < oldElementCount / 3 {
+                    print("[STWebEditor] WARNING: parsed document has \(newElementCount) elements vs \(oldElementCount) original — possible content loss, using merge")
+                }
+
+                // Merge parsed changes with original document (preserves formatting for unchanged elements)
+                document.mergeWithParsedDocument(newDoc)
                 isContentDirty = false
-                print("[STWebEditor] Content saved: \(newDoc.paragraphs.count) paragraphs, \(newDoc.tables.count) tables")
+                print("[STWebEditor] Content saved via merge: \(newDoc.paragraphs.count) paragraphs, \(newDoc.tables.count) tables")
+                return true
             }
         } catch {
             print("[STWebEditor] Save error: \(error.localizedDescription)")
         }
+        return false
     }
 
     // MARK: - Formatting Actions (call JS via evaluateJavaScript)
@@ -219,8 +334,8 @@ final class STWebEditorViewModel: ObservableObject {
             guard let self, let webView = self.webView else { return }
 
             // Save changes first
-            await self.saveContent()
-            if let docURL = self.document.url {
+            let needsWrite = await self.saveContent()
+            if needsWrite, let docURL = self.document.url {
                 self.document.save(to: docURL)
             }
 
@@ -793,6 +908,34 @@ final class STWebEditorViewModel: ObservableObject {
         if enabled {
             // Dismiss keyboard
             webView?.resignFirstResponder()
+        }
+    }
+
+    // MARK: - PDF Thumbnail Update
+
+    /// Capture a PDF snapshot from the WKWebView and update the document's pdfDocument.
+    /// This keeps thumbnails in the files view in sync with edited content.
+    private func updatePDFFromWebView() async {
+        guard let webView else { return }
+        do {
+            // Get content height for full-page capture
+            let heightResult = try? await webView.evaluateJavaScript("document.documentElement.scrollHeight")
+            let contentHeight: CGFloat
+            if let h = heightResult as? Double { contentHeight = max(CGFloat(h), 792) }
+            else { contentHeight = 792 }
+
+            let viewWidth = webView.bounds.width > 0 ? webView.bounds.width : 612
+
+            let config = WKPDFConfiguration()
+            config.rect = CGRect(x: 0, y: 0, width: viewWidth, height: contentHeight)
+
+            let pdfData = try await webView.pdf(configuration: config)
+            if let newPDF = PDFDocument(data: pdfData), newPDF.pageCount > 0 {
+                document.updatePDFDocument(newPDF)
+                print("[STWebEditor] PDF thumbnail updated from WKWebView")
+            }
+        } catch {
+            print("[STWebEditor] PDF thumbnail update error: \(error.localizedDescription)")
         }
     }
 

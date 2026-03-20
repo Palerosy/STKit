@@ -72,6 +72,31 @@ public class ZIPReader {
         return archive.map { $0.path }
     }
 
+    /// Reads all file entries from the ZIP archive and returns them as a dictionary
+    public func readAllEntries(at url: URL) throws -> [String: Data] {
+        guard FileManager.default.fileExists(atPath: url.path) else {
+            throw ZIPReaderError.fileNotFound(url.path)
+        }
+
+        let archive: Archive
+        do {
+            archive = try Archive(url: url, accessMode: .read)
+        } catch {
+            throw ZIPReaderError.invalidArchive("Could not open archive at \(url.path): \(error.localizedDescription)")
+        }
+
+        var contents: [String: Data] = [:]
+        for entry in archive {
+            guard entry.type == .file else { continue }
+            var entryData = Data()
+            _ = try? archive.extract(entry) { chunk in
+                entryData.append(chunk)
+            }
+            contents[entry.path] = entryData
+        }
+        return contents
+    }
+
     /// Checks if an entry exists in the archive
     public func entryExists(at url: URL, entryPath: String) throws -> Bool {
         guard FileManager.default.fileExists(atPath: url.path) else {

@@ -77,8 +77,10 @@ struct STMoreMenu: View {
     private func shareDocument() {
         guard let url = viewModel.document.url else { return }
         Task {
-            await viewModel.webEditorViewModel.saveContent()
-            viewModel.document.save(to: url)
+            let needsWrite = await viewModel.webEditorViewModel.saveContent()
+            if needsWrite {
+                viewModel.document.save(to: url)
+            }
         }
 
         #if os(iOS)
