@@ -385,11 +385,14 @@ public struct STExcelGridView: View {
             h += defaultRowH * CGFloat(rows)
         } else {
             // Count rows that have custom heights (excluding hidden ones)
+            // Use clamped heights (matching zRowH / rowHeight(for:default:))
             var customHeightSum: CGFloat = 0
             var customVisibleCount = 0
+            let defaultH = configuration.rowHeight
             for (r, rh) in editorViewModel.rowHeights {
                 guard r < rows, !editorViewModel.hiddenRows.contains(r) else { continue }
-                customHeightSum += rh * zoom
+                let clamped = rh < defaultH ? defaultH : rh
+                customHeightSum += clamped * zoom
                 customVisibleCount += 1
             }
             // Remaining visible rows use default height
