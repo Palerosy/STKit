@@ -759,13 +759,16 @@ struct CellReference: Hashable {
                 rowStr.append(char)
             }
         }
-        guard !colStr.isEmpty, let rowNum = Int(rowStr), rowNum > 0 else { return nil }
+        // Max 3 letters (XFD = 16384 columns in Excel)
+        guard !colStr.isEmpty, colStr.count <= 3,
+              let rowNum = Int(rowStr), rowNum > 0 else { return nil }
 
         var col = 0
         for char in colStr.uppercased() {
             guard let ascii = char.asciiValue, ascii >= 65, ascii <= 90 else { return nil }
-            col = col * 26 + Int(ascii - 64)
+            col = col &* 26 &+ Int(ascii - 64)  // overflow-safe arithmetic
         }
+        guard col > 0, col <= 16384 else { return nil }
         self.col = col - 1
         self.row = rowNum - 1
     }
