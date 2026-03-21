@@ -33,6 +33,11 @@
 /* Insert Tab */
 "stexcel.chart" = "Diagram";
 "stexcel.picture" = "Bild";
+"stexcel.appendRow" = "Rad";
+"stexcel.appendColumn" = "Kolumn";
+"stexcel.deleteRow" = "Ta bort rad";
+"stexcel.deleteColumn" = "Ta bort kolumn";
+"stexcel.typeHere" = "Skriv har...";
 /* Formulas Tab */
 "stexcel.autoSum" = "Auto\nSumma";
 "stexcel.recalculate" = "Omberäkna";

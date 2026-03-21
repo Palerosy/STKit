@@ -43,6 +43,11 @@ public enum STExcelStrings {
     // Insert tab
     public static var chart: String { loc("stexcel.chart") }
     public static var picture: String { loc("stexcel.picture") }
+    public static var appendRow: String { loc("stexcel.appendRow") }
+    public static var appendColumn: String { loc("stexcel.appendColumn") }
+    public static var deleteRow: String { loc("stexcel.deleteRow") }
+    public static var deleteColumn: String { loc("stexcel.deleteColumn") }
+    public static var typeHere: String { loc("stexcel.typeHere") }
 
     // Formulas tab
     public static var autoSum: String { loc("stexcel.autoSum") }

@@ -38,6 +38,11 @@
 /* Insert Tab */
 "stexcel.chart" = "แผนภูมิ";
 "stexcel.picture" = "รูปภาพ";
+"stexcel.appendRow" = "แถว";
+"stexcel.appendColumn" = "คอลัมน์";
+"stexcel.deleteRow" = "ลบแถว";
+"stexcel.deleteColumn" = "ลบคอลัมน์";
+"stexcel.typeHere" = "พิมพ์ที่นี่...";
 
 /* Formulas Tab */
 "stexcel.autoSum" = "ผลรวม\nอัตโนมัติ";

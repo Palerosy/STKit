@@ -481,6 +481,10 @@ enum STExcelWriter {
             xml += "</cols>"
         }
 
+        // Dimension — tells readers the full extent of the sheet including empty rows/columns
+        let dimRef = "A1:\(STExcelSheet.columnLetter(sheet.columnCount - 1))\(sheet.rowCount)"
+        xml += "<dimension ref=\"\(dimRef)\"/>"
+
         // Sheet data
         xml += "<sheetData>"
 
@@ -877,8 +881,10 @@ enum STExcelWriter {
         <xdr:wsDr xmlns:xdr="http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:c="http://schemas.openxmlformats.org/drawingml/2006/chart">
         """
 
-        let defaultColWidth: CGFloat = 64
-        let defaultRowHeight: CGFloat = 20
+        // Must match grid rendering defaults (STExcelConfiguration)
+        // so computeAnchor converts grid coordinates back to cell anchors correctly
+        let defaultColWidth: CGFloat = 100
+        let defaultRowHeight: CGFloat = 40
         var nextId = 2
 
         // Images
@@ -995,7 +1001,9 @@ enum STExcelWriter {
         remaining = y
         var row = 0
         while remaining > 0 && row < 1048576 {
-            let rh = rowHeights[row] ?? defaultRowHeight
+            // Clamp row height like grid does — small Excel heights are rendered as defaultRowHeight
+            let rawRh = rowHeights[row] ?? defaultRowHeight
+            let rh = rawRh < defaultRowHeight ? defaultRowHeight : rawRh
             if remaining < rh { break }
             remaining -= rh
             row += 1

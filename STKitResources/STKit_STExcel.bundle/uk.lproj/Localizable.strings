@@ -38,6 +38,11 @@
 /* Insert Tab */
 "stexcel.chart" = "Діаграма";
 "stexcel.picture" = "Зображення";
+"stexcel.appendRow" = "Рядок";
+"stexcel.appendColumn" = "Стовпець";
+"stexcel.deleteRow" = "Видал. рядок";
+"stexcel.deleteColumn" = "Видал. стовпець";
+"stexcel.typeHere" = "Введiть тут...";
 
 /* Formulas Tab */
 "stexcel.autoSum" = "Авто\nсума";

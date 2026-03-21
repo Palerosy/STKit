@@ -38,6 +38,11 @@
 /* Insert Tab */
 "stexcel.chart" = "Graf";
 "stexcel.picture" = "Obrázek";
+"stexcel.appendRow" = "Radek";
+"stexcel.appendColumn" = "Sloupec";
+"stexcel.deleteRow" = "Smazat radek";
+"stexcel.deleteColumn" = "Smazat sloupec";
+"stexcel.typeHere" = "Piste sem...";
 
 /* Formulas Tab */
 "stexcel.autoSum" = "Automatický\nsoučet";

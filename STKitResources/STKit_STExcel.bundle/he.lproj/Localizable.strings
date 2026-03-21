@@ -38,6 +38,11 @@
 /* Insert Tab */
 "stexcel.chart" = "תרשים";
 "stexcel.picture" = "תמונה";
+"stexcel.appendRow" = "שורה";
+"stexcel.appendColumn" = "עמודה";
+"stexcel.deleteRow" = "מחק שורה";
+"stexcel.deleteColumn" = "מחק עמודה";
+"stexcel.typeHere" = "הקלד כאן...";
 
 /* Formulas Tab */
 "stexcel.autoSum" = "סכום\nאוטומטי";

@@ -280,9 +280,16 @@ public class STExcelSheet: Identifiable, ObservableObject {
     /// Apply style to a range of cells
     public func applyStyleToRange(startRow: Int, startCol: Int, endRow: Int, endCol: Int,
                                   transform: (inout STExcelCellStyle) -> Void) {
-        for r in max(0, startRow)...min(endRow, rowCount - 1) {
-            guard r < cells.count else { continue }
-            for c in max(0, startCol)...min(endCol, cells[r].count - 1) {
+        guard rowCount > 0 else { return }
+        let rLo = max(0, startRow)
+        let rHi = min(endRow, rowCount - 1)
+        guard rLo <= rHi else { return }
+        for r in rLo...rHi {
+            guard r < cells.count, cells[r].count > 0 else { continue }
+            let cLo = max(0, startCol)
+            let cHi = min(endCol, cells[r].count - 1)
+            guard cLo <= cHi else { continue }
+            for c in cLo...cHi {
                 transform(&cells[r][c].style)
             }
         }
@@ -393,13 +400,17 @@ public class STExcelSheet: Identifiable, ObservableObject {
 
     /// Column header letter (A, B, C, ... Z, AA, AB, ...)
     public static func columnLetter(_ index: Int) -> String {
+        guard index >= 0 else { return "A" }
         var result = ""
         var n = index
         repeat {
-            result = String(UnicodeScalar(65 + (n % 26))!) + result
+            let code = 65 + (n % 26)
+            if let scalar = UnicodeScalar(code) {
+                result = String(scalar) + result
+            }
             n = n / 26 - 1
         } while n >= 0
-        return result
+        return result.isEmpty ? "A" : result
     }
 
     /// Parse column letter to index (A=0, B=1, ..., AA=26)
@@ -438,6 +449,7 @@ public struct STExcelCell {
     public var style: STExcelCellStyle
     public var formula: String?    // e.g. "=SUM(A1:A5)", nil = no formula
     public var comment: String?    // cell comment/note
+    public var hyperlink: String?  // URL or internal location, nil = no hyperlink
 
     /// Backward-compatible computed properties
     public var isBold: Bool {
@@ -455,12 +467,14 @@ public struct STExcelCell {
         self.style.isBold = isBold
         self.formula = nil
         self.comment = nil
+        self.hyperlink = nil
     }
 
-    public init(value: String, style: STExcelCellStyle, formula: String? = nil, comment: String? = nil) {
+    public init(value: String, style: STExcelCellStyle, formula: String? = nil, comment: String? = nil, hyperlink: String? = nil) {
         self.value = value
         self.style = style
         self.formula = formula
         self.comment = comment
+        self.hyperlink = hyperlink
     }
 }

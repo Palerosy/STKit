@@ -38,6 +38,11 @@
 /* Insert Tab */
 "stexcel.chart" = "Γράφημα";
 "stexcel.picture" = "Εικόνα";
+"stexcel.appendRow" = "Grammi";
+"stexcel.appendColumn" = "Stili";
+"stexcel.deleteRow" = "Diagrafi grammis";
+"stexcel.deleteColumn" = "Diagrafi stilis";
+"stexcel.typeHere" = "Pliktrologiste edo...";
 
 /* Formulas Tab */
 "stexcel.autoSum" = "Αυτόματο\nάθροισμα";

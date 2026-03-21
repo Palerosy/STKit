@@ -38,6 +38,11 @@
 /* Insert Tab */
 "stexcel.chart" = "Kaavio";
 "stexcel.picture" = "Kuva";
+"stexcel.appendRow" = "Rivi";
+"stexcel.appendColumn" = "Sarake";
+"stexcel.deleteRow" = "Poista rivi";
+"stexcel.deleteColumn" = "Poista sarake";
+"stexcel.typeHere" = "Kirjoita tahan...";
 
 /* Formulas Tab */
 "stexcel.autoSum" = "Automaattinen\nsumma";

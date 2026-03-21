@@ -38,6 +38,11 @@
 /* Insert Tab */
 "stexcel.chart" = "चार्ट";
 "stexcel.picture" = "चित्र";
+"stexcel.appendRow" = "पंक्ति";
+"stexcel.appendColumn" = "स्तंभ";
+"stexcel.deleteRow" = "पंक्ति हटाएं";
+"stexcel.deleteColumn" = "स्तंभ हटाएं";
+"stexcel.typeHere" = "यहाँ टाइप करें...";
 
 /* Formulas Tab */
 "stexcel.autoSum" = "ऑटो\nयोग";

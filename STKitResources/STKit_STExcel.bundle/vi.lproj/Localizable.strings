@@ -38,6 +38,11 @@
 /* Insert Tab */
 "stexcel.chart" = "Biểu đồ";
 "stexcel.picture" = "Hình ảnh";
+"stexcel.appendRow" = "Hang";
+"stexcel.appendColumn" = "Cot";
+"stexcel.deleteRow" = "Xoa hang";
+"stexcel.deleteColumn" = "Xoa cot";
+"stexcel.typeHere" = "Nhap o day...";
 
 /* Formulas Tab */
 "stexcel.autoSum" = "Tự động\ntính tổng";

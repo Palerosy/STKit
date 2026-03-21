@@ -43,8 +43,9 @@ struct STExcelRibbonHomeTab: View {
                               active: viewModel.currentStyle.horizontalAlignment == .left) {
                     viewModel.setHorizontalAlignment(.left)
                 }
-                compactButton(icon: "line.3.horizontal.decrease") {
-                    viewModel.sortAscending()
+                compactButton(icon: "text.alignright",
+                              active: viewModel.currentStyle.horizontalAlignment == .right) {
+                    viewModel.setHorizontalAlignment(.right)
                 }
                 compactButton(icon: "dollarsign") {
                     viewModel.setNumberFormat(.currency)
@@ -248,15 +249,6 @@ struct STExcelRibbonHomeTab: View {
             }
 
             STExcelRibbonSeparator()
-
-            // Align right
-            STExcelRibbonToolButton(
-                iconName: "text.alignright",
-                label: STStrings.ribbonAlignRight,
-                isActive: viewModel.currentStyle.horizontalAlignment == .right
-            ) {
-                viewModel.setHorizontalAlignment(.right)
-            }
 
             // Wrap Text
             STExcelRibbonToolButton(

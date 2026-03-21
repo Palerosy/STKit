@@ -4,6 +4,13 @@ import Foundation
 /// Supports: SUM, AVERAGE, COUNT, MIN, MAX, IF, CONCATENATE, arithmetic (+,-,*,/), cell references
 enum STExcelFormulaEngine {
 
+    /// Max recursion depth to prevent stack overflow from circular references or deep nesting
+    private static let maxDepth = 20
+    /// Current recursion depth (main-thread only, safe for SwiftUI rendering)
+    private static var currentDepth = 0
+    /// Cells currently being evaluated — detects circular references
+    private static var evaluatingCells: Set<String> = []
+
     /// Evaluate a formula string and return the computed value
     /// - Parameters:
     ///   - formula: Formula string starting with "=" (e.g. "=SUM(A1:A5)")
@@ -11,6 +18,12 @@ enum STExcelFormulaEngine {
     /// - Returns: Computed string value, or the formula itself if unsupported
     static func evaluate(_ formula: String, in sheet: STExcelSheet) -> String {
         guard formula.hasPrefix("=") else { return formula }
+
+        // Guard against infinite recursion
+        currentDepth += 1
+        defer { currentDepth -= 1 }
+        guard currentDepth <= maxDepth else { return "#REF!" }
+
         let expr = String(formula.dropFirst()).trimmingCharacters(in: .whitespaces)
         guard !expr.isEmpty else { return "" }
 
@@ -32,6 +45,11 @@ enum STExcelFormulaEngine {
     // MARK: - Expression Evaluator
 
     private static func evaluateExpression(_ expr: String, in sheet: STExcelSheet) throws -> Any {
+        // Guard against stack overflow from circular or deeply nested formulas
+        currentDepth += 1
+        defer { currentDepth -= 1 }
+        guard currentDepth <= maxDepth else { return "#REF!" as Any }
+
         let trimmed = expr.trimmingCharacters(in: .whitespaces)
 
         // Check for function calls: FUNCNAME(args)
@@ -52,7 +70,12 @@ enum STExcelFormulaEngine {
                 return Double(cell.value) ?? cell.value as Any
             }
             if let formula = cell.formula {
+                // Circular reference detection
+                let cellKey = "\(ref.row),\(ref.col)"
+                guard !evaluatingCells.contains(cellKey) else { return "#REF!" as Any }
+                evaluatingCells.insert(cellKey)
                 let val = evaluate(formula, in: sheet)
+                evaluatingCells.remove(cellKey)
                 return Double(val) ?? val
             }
             return cell.value as Any
@@ -738,7 +761,11 @@ enum STExcelFormulaEngine {
                         if let num = Double(cell.value) {
                             values.append(num)
                         } else if let formula = cell.formula {
+                            let cellKey = "\(r),\(c)"
+                            guard !evaluatingCells.contains(cellKey) else { continue }
+                            evaluatingCells.insert(cellKey)
                             let val = evaluate(formula, in: sheet)
+                            evaluatingCells.remove(cellKey)
                             if let num = Double(val) { values.append(num) }
                         }
                     }
@@ -749,7 +776,11 @@ enum STExcelFormulaEngine {
                 if let num = Double(cell.value) {
                     values.append(num)
                 } else if let formula = cell.formula {
+                    let cellKey = "\(ref.row),\(ref.col)"
+                    guard !evaluatingCells.contains(cellKey) else { continue }
+                    evaluatingCells.insert(cellKey)
                     let val = evaluate(formula, in: sheet)
+                    evaluatingCells.remove(cellKey)
                     if let num = Double(val) { values.append(num) }
                 }
             } else if let num = Double(trimmed) {
@@ -831,7 +862,11 @@ enum STExcelFormulaEngine {
                     if let num = Double(cell.value) {
                         values.append(num)
                     } else if let formula = cell.formula {
+                        let cellKey = "\(ref.row),\(ref.col)"
+                        guard !evaluatingCells.contains(cellKey) else { return nil }
+                        evaluatingCells.insert(cellKey)
                         let computed = evaluate(formula, in: sheet)
+                        evaluatingCells.remove(cellKey)
                         if let num = Double(computed) { values.append(num) } else { return nil }
                     } else { return nil }
                 } else {

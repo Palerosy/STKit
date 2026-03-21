@@ -38,6 +38,11 @@
 /* Insert Tab */
 "stexcel.chart" = "图表";
 "stexcel.picture" = "图片";
+"stexcel.appendRow" = "行";
+"stexcel.appendColumn" = "列";
+"stexcel.deleteRow" = "删除行";
+"stexcel.deleteColumn" = "删除列";
+"stexcel.typeHere" = "在此输入...";
 
 /* Formulas Tab */
 "stexcel.autoSum" = "自动\n求和";

@@ -131,7 +131,8 @@ struct STExcelInsertTableView: View {
 
         var col = 0
         for ch in colStr {
-            col = col * 26 + Int(ch.asciiValue! - Character("A").asciiValue!) + 1
+            guard let ascii = ch.asciiValue, let aVal = Character("A").asciiValue else { continue }
+            col = col * 26 + Int(ascii - aVal) + 1
         }
         return (row - 1, col - 1) // 0-indexed
     }

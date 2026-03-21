@@ -38,6 +38,11 @@
 /* Insert Tab */
 "stexcel.chart" = "Graphique";
 "stexcel.picture" = "Image";
+"stexcel.appendRow" = "Ligne";
+"stexcel.appendColumn" = "Colonne";
+"stexcel.deleteRow" = "Suppr. ligne";
+"stexcel.deleteColumn" = "Suppr. col.";
+"stexcel.typeHere" = "Saisir ici...";
 
 /* Formulas Tab */
 "stexcel.autoSum" = "Somme\nautomatique";

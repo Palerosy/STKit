@@ -92,6 +92,7 @@ public struct STExcelEditorView: View {
                             editorViewModel: editorViewModel,
                             ribbonViewModel: ribbonViewModel
                         )
+                        .id(doc.activeSheet.id)
 
                         // Sheet tabs
                         if configuration.showSheetTabs {
@@ -165,13 +166,6 @@ public struct STExcelEditorView: View {
                                         licensedAction { exportAsXLSX() }
                                     } label: {
                                         Label("XLSX", systemImage: "tablecells")
-                                    }
-
-                                    // Export as CSV
-                                    Button {
-                                        licensedAction { exportAsCSV() }
-                                    } label: {
-                                        Label("CSV", systemImage: "doc.text")
                                     }
                                 }
 
@@ -424,35 +418,48 @@ public struct STExcelEditorView: View {
     /// Sync active sheet's row heights, column widths, images, shapes & frozen panes to the editor view model
     private func syncSheetDimensions() {
         guard let sheet = document?.activeSheet else { return }
-        editorViewModel.rowHeights = sheet.rowHeights
-        editorViewModel.columnWidths = sheet.columnWidths
-        editorViewModel.images = sheet.images
-        editorViewModel.shapes = sheet.shapes
-        editorViewModel.frozenRows = sheet.frozenRows
-        editorViewModel.frozenCols = sheet.frozenCols
-        editorViewModel.charts = sheet.charts
-        editorViewModel.tables = sheet.tables
-        editorViewModel.conditionalRules = sheet.conditionalRules
-        editorViewModel.isSheetProtected = sheet.isProtected
-        editorViewModel.hiddenRows = sheet.hiddenRows
-        editorViewModel.groupedRows = sheet.groupedRows
-        editorViewModel.collapsedGroups = sheet.collapsedGroups
+        let startTime = CFAbsoluteTimeGetCurrent()
+        print("📊 [STExcel] syncSheetDimensions START — sheet: '\(sheet.name)'")
+        print("📊 [STExcel]   rows: \(sheet.rowCount), cols: \(sheet.columnCount)")
+        print("📊 [STExcel]   images: \(sheet.images.count), charts: \(sheet.charts.count), shapes: \(sheet.shapes.count)")
+        print("📊 [STExcel]   mergedRegions: \(sheet.mergedRegions.count), conditionalRules: \(sheet.conditionalRules.count)")
+        print("📊 [STExcel]   tables: \(sheet.tables.count), customRowHeights: \(sheet.rowHeights.count), customColWidths: \(sheet.columnWidths.count)")
+
         // Sync data validations: sheet format → ViewModel format
         var vmRules: [String: STExcelEditorViewModel.ValidationRule] = [:]
         for (key, val) in sheet.dataValidations {
             vmRules[key] = STExcelEditorViewModel.ValidationRule(
                 type: val.type, min: val.minValue, max: val.maxValue, list: val.listValues)
         }
-        editorViewModel.validationRules = vmRules
-        // Defined names (workbook level)
-        if let doc = document {
-            editorViewModel.definedNames = doc.definedNames
-        }
+
+        // Batch all @Published updates into a single view update cycle
+        // to avoid 15+ cascading re-renders
+        editorViewModel.batchSyncSheet(
+            rowHeights: sheet.rowHeights,
+            columnWidths: sheet.columnWidths,
+            images: sheet.images,
+            shapes: sheet.shapes,
+            frozenRows: sheet.frozenRows,
+            frozenCols: sheet.frozenCols,
+            charts: sheet.charts,
+            tables: sheet.tables,
+            conditionalRules: sheet.conditionalRules,
+            isSheetProtected: sheet.isProtected,
+            hiddenRows: sheet.hiddenRows,
+            groupedRows: sheet.groupedRows,
+            collapsedGroups: sheet.collapsedGroups,
+            validationRules: vmRules,
+            definedNames: document?.definedNames ?? [:]
+        )
+
+        let elapsed = (CFAbsoluteTimeGetCurrent() - startTime) * 1000
+        print("📊 [STExcel] syncSheetDimensions DONE — \(String(format: "%.1f", elapsed))ms")
     }
 
     // MARK: - Premium Gate
 
     private func licensedAction(_ action: @escaping () -> Void, delay: Double = 0.35) {
+        print("💾 [STExcel] licensedAction — isPurchased: \(STKitConfiguration.shared.isPurchased)")
         if STKitConfiguration.shared.isPurchased {
             action()
         } else {
@@ -530,10 +537,11 @@ public struct STExcelEditorView: View {
     // MARK: - Save & Close
 
     private func saveAndClose() {
-        guard let document else { return }
+        guard let document else { print("💾 [STExcel] saveAndClose — no document"); return }
         if editorViewModel.isEditing { editorViewModel.commitEdit() }
         syncViewModelToDocument()
         isSaving = true
+        print("💾 [STExcel] saveAndClose — sheets: \(document.sheets.count), activeSheet rows: \(document.activeSheet.rowCount), cols: \(document.activeSheet.columnCount)")
         DispatchQueue.global(qos: .userInitiated).async {
             let saveURL: URL
             if let originalURL = url {
@@ -544,7 +552,9 @@ public struct STExcelEditorView: View {
                     .appendingPathComponent("\(saveName).xlsx")
             }
 
+            print("💾 [STExcel] saving to: \(saveURL.path)")
             let success = document.save(to: saveURL)
+            print("💾 [STExcel] save result: \(success)")
 
             DispatchQueue.main.async {
                 isSaving = false

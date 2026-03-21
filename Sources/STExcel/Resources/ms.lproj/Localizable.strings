@@ -33,6 +33,11 @@
 /* Insert Tab */
 "stexcel.chart" = "Carta";
 "stexcel.picture" = "Gambar";
+"stexcel.appendRow" = "Baris";
+"stexcel.appendColumn" = "Lajur";
+"stexcel.deleteRow" = "Padam baris";
+"stexcel.deleteColumn" = "Padam lajur";
+"stexcel.typeHere" = "Taip di sini...";
 /* Formulas Tab */
 "stexcel.autoSum" = "Jumlah\nAuto";
 "stexcel.recalculate" = "Kira Semula";

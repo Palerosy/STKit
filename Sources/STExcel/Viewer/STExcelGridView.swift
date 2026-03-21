@@ -17,6 +17,11 @@ public struct STExcelGridView: View {
     @GestureState private var shapeDragOffset: CGSize = .zero
     @GestureState private var shapeResizeDelta: CGSize = .zero
     @State private var scrollOffset: CGPoint = .zero
+    @State private var viewportSize: CGSize = .zero
+
+    // Cached grid dimensions to avoid O(n) per render
+    @State private var cachedGridHeight: CGFloat = 2000
+    @State private var cachedGridWidth: CGFloat = 2000
 
     init(sheet: STExcelSheet, configuration: STExcelConfiguration = .default,
          isEditable: Bool = true, editorViewModel: STExcelEditorViewModel,
@@ -29,7 +34,7 @@ public struct STExcelGridView: View {
     }
 
     private var zoom: CGFloat {
-        max(0.25, min(editorViewModel.zoomScale, 4.0))
+        max(0.5, min(editorViewModel.zoomScale, 4.0))
     }
 
     // Zoomed dimension helpers
@@ -39,8 +44,12 @@ public struct STExcelGridView: View {
     private func zRowH(_ row: Int) -> CGFloat {
         editorViewModel.rowHeight(for: row, default: configuration.rowHeight) * zoom
     }
-    private var zHeaderW: CGFloat { (editorViewModel.showHeadings ? configuration.rowHeaderWidth : 0) * zoom }
-    private var zHeaderH: CGFloat { (editorViewModel.showHeadings ? configuration.columnHeaderHeight : 0) * zoom }
+    // Frozen header sizes — NOT zoomed so they're always readable
+    private var frozenHeaderH: CGFloat { editorViewModel.showHeadings ? configuration.columnHeaderHeight : 0 }
+    private var frozenHeaderW: CGFloat { editorViewModel.showHeadings ? configuration.rowHeaderWidth : 0 }
+    // Zoomed header sizes (used only in legacy contexts)
+    private var zHeaderW: CGFloat { frozenHeaderW * zoom }
+    private var zHeaderH: CGFloat { frozenHeaderH * zoom }
 
     public var body: some View {
         VStack(spacing: 0) {
@@ -53,83 +62,200 @@ public struct STExcelGridView: View {
 
             // Grid + zoom controls
             ZStack(alignment: .bottomTrailing) {
-                ScrollViewReader { scrollProxy in
-                    ScrollView([.horizontal, .vertical], showsIndicators: true) {
-                        ZStack(alignment: .topLeading) {
-                            LazyVStack(alignment: .leading, spacing: 0, pinnedViews: []) {
-                                // Column headers
-                                if editorViewModel.showHeadings {
-                                    columnHeaders
-                                }
-
-                                // Data rows — use gridRefreshId to force re-render after sort/filter
-                                ForEach(Array(0..<sheet.rowCount), id: \.self) { row in
-                                    if !editorViewModel.hiddenRows.contains(row) {
-                                        dataRow(row)
+                GeometryReader { outerGeo in
+                    ZStack(alignment: .topLeading) {
+                        // ── Main scrollable cell grid ──
+                        ScrollViewReader { scrollProxy in
+                            ScrollView([.horizontal, .vertical], showsIndicators: true) {
+                                ZStack(alignment: .topLeading) {
+                                    LazyVStack(alignment: .leading, spacing: 0) {
+                                        ForEach(0..<sheet.rowCount, id: \.self) { row in
+                                            if !editorViewModel.hiddenRows.contains(row) {
+                                                cellsOnlyRow(row)
+                                            }
+                                        }
+                                        .id(editorViewModel.gridRefreshId)
                                     }
+                                    .padding(.top, frozenHeaderH)
+                                    .padding(.leading, frozenHeaderW)
+
+                                    // Embedded overlays — INSIDE ScrollView so they don't block scroll gestures
+                                    chartOverlay
+                                        .transaction { $0.animation = nil }
+                                    imageOverlay
+                                        .transaction { $0.animation = nil }
+                                    shapeOverlay
+                                        .transaction { $0.animation = nil }
+
+                                    // Selection overlay with drag handles
+                                    if isEditable, editorViewModel.selectedRow != nil, editorViewModel.selectedChartId == nil {
+                                        selectionOverlay
+                                    }
+
+                                    // Invisible anchor at top-left for zoom scroll reset
+                                    Color.clear
+                                        .frame(width: 1, height: 1)
+                                        .id("grid-top-left")
+
+                                    // Track scroll offset
+                                    GeometryReader { geo in
+                                        Color.clear.preference(
+                                            key: ScrollOffsetKey.self,
+                                            value: CGPoint(
+                                                x: geo.frame(in: .named("gridScroll")).minX,
+                                                y: geo.frame(in: .named("gridScroll")).minY
+                                            )
+                                        )
+                                    }
+                                    .frame(width: 1, height: 1)
                                 }
-                                .id(editorViewModel.gridRefreshId)
-                            }
-
-                            // Selection overlay with drag handles
-                            if isEditable, editorViewModel.selectedRow != nil, editorViewModel.selectedChartId == nil {
-                                selectionOverlay
-                            }
-
-                            // Invisible anchor at top-left for zoom scroll reset
-                            Color.clear
-                                .frame(width: 1, height: 1)
-                                .id("grid-top-left")
-
-                            // Track scroll offset for chart overlay positioning
-                            GeometryReader { geo in
-                                Color.clear.preference(
-                                    key: ScrollOffsetKey.self,
-                                    value: CGPoint(
-                                        x: geo.frame(in: .named("gridScroll")).minX,
-                                        y: geo.frame(in: .named("gridScroll")).minY
-                                    )
+                                .frame(
+                                    width: max(cachedGridWidth, outerGeo.size.width),
+                                    height: max(cachedGridHeight, outerGeo.size.height),
+                                    alignment: .topLeading
                                 )
                             }
-                            .frame(width: 1, height: 1)
+                            .coordinateSpace(name: "gridScroll")
+                            .onPreferenceChange(ScrollOffsetKey.self) { newOffset in
+                                withTransaction(Transaction(animation: nil)) {
+                                    scrollOffset = newOffset
+                                }
+                            }
+                            .onAppear {
+                                viewportSize = outerGeo.size
+                                recomputeGridDimensions()
+                                print("📐 [STExcel] Grid onAppear — sheet: '\(sheet.name)', rows: \(sheet.rowCount), cols: \(sheet.columnCount)")
+                                print("📐 [STExcel]   viewport: \(outerGeo.size), gridW: \(cachedGridWidth), gridH: \(cachedGridHeight)")
+                                print("📐 [STExcel]   images: \(editorViewModel.images.count), charts: \(editorViewModel.charts.count), shapes: \(editorViewModel.shapes.count)")
+                                print("📐 [STExcel]   conditionalRules: \(editorViewModel.conditionalRules.count), tables: \(editorViewModel.tables.count)")
+                                // Log image sizes
+                                for (i, img) in editorViewModel.images.enumerated() {
+                                    print("📐 [STExcel]   image[\(i)]: pos=(\(img.x),\(img.y)) size=\(img.width)x\(img.height) data=\(img.imageData.count/1024)KB")
+                                }
+                            }
+                            .onChange(of: outerGeo.size) { newSize in
+                                viewportSize = newSize
+                            }
+                            .onChange(of: editorViewModel.zoomScale) { _ in
+                                recomputeGridDimensions()
+                                withAnimation(.easeOut(duration: 0.2)) {
+                                    scrollProxy.scrollTo("grid-top-left", anchor: .topLeading)
+                                }
+                            }
+                            .onChange(of: editorViewModel.gridRefreshId) { _ in
+                                recomputeGridDimensions()
+                            }
                         }
-                        .frame(
-                            width: totalGridWidth,
-                            height: totalGridHeight,
-                            alignment: .topLeading
-                        )
-                    }
-                    .coordinateSpace(name: "gridScroll")
-                    .onPreferenceChange(ScrollOffsetKey.self) { newOffset in
-                        withTransaction(Transaction(animation: nil)) {
-                            scrollOffset = newOffset
+
+                        // ── Frozen column headers (always visible at top) ──
+                        if editorViewModel.showHeadings {
+                            HStack(spacing: 0) {
+                                Color.clear.frame(width: frozenHeaderW, height: frozenHeaderH)
+                                ForEach(0..<min(sheet.columnCount, 50), id: \.self) { col in
+                                    Text(STExcelSheet.columnLetter(col))
+                                        .font(.system(size: 12, weight: .semibold))
+                                        .foregroundColor(.secondary)
+                                        .frame(width: zColW(col), height: frozenHeaderH)
+                                        .background(
+                                            isColumnSelected(col)
+                                                ? configuration.selectionColor.opacity(0.15)
+                                                : configuration.headerBackgroundColor
+                                        )
+                                        .overlay(Rectangle().stroke(configuration.gridLineColor, lineWidth: 0.5))
+                                }
+                            }
+                            .offset(x: scrollOffset.x)
+                            .frame(width: outerGeo.size.width, height: frozenHeaderH, alignment: .topLeading)
+                            .clipped()
+                            .allowsHitTesting(false)
                         }
-                    }
-                    .onChange(of: editorViewModel.zoomScale) { _ in
-                        withAnimation(.easeOut(duration: 0.2)) {
-                            scrollProxy.scrollTo("grid-top-left", anchor: .topLeading)
+
+                        // ── Frozen row numbers (exact cumulative height calculation) ──
+                        if editorViewModel.showHeadings {
+                            let vpH = outerGeo.size.height - frozenHeaderH
+                            let scrollY = max(0, -scrollOffset.y)
+
+                            // Walk rows using ACTUAL heights to find visible range
+                            let rowRange: (start: Int, end: Int, startY: CGFloat) = {
+                                var cumY: CGFloat = 0
+                                var rStart = 0
+                                var rEnd = sheet.rowCount
+                                var rStartY: CGFloat = 0
+                                var foundStart = false
+
+                                for r in 0..<sheet.rowCount {
+                                    if editorViewModel.hiddenRows.contains(r) { continue }
+                                    let rh = zRowH(r)
+
+                                    if !foundStart && cumY + rh > scrollY {
+                                        // Go back 2 visible rows for buffer
+                                        rStart = r
+                                        rStartY = cumY
+                                        var back = 0
+                                        var br = r - 1
+                                        while br >= 0 && back < 2 {
+                                            if !editorViewModel.hiddenRows.contains(br) {
+                                                rStartY -= zRowH(br)
+                                                rStart = br
+                                                back += 1
+                                            }
+                                            br -= 1
+                                        }
+                                        foundStart = true
+                                    }
+
+                                    cumY += rh
+
+                                    if foundStart && cumY > scrollY + vpH + 100 {
+                                        rEnd = min(sheet.rowCount, r + 3)
+                                        break
+                                    }
+                                }
+                                return (rStart, rEnd, rStartY)
+                            }()
+
+                            Color.clear
+                                .frame(width: frozenHeaderW, height: vpH)
+                                .overlay(alignment: .topLeading) {
+                                    VStack(spacing: 0) {
+                                        ForEach(rowRange.start..<rowRange.end, id: \.self) { row in
+                                            if !editorViewModel.hiddenRows.contains(row) {
+                                                Text("\(row + 1)")
+                                                    .font(.system(size: 12, weight: .medium))
+                                                    .foregroundColor(.secondary)
+                                                    .frame(width: frozenHeaderW, height: zRowH(row))
+                                                    .background(
+                                                        isRowSelected(row)
+                                                            ? configuration.selectionColor.opacity(0.15)
+                                                            : configuration.headerBackgroundColor
+                                                    )
+                                                    .overlay(Rectangle().stroke(configuration.gridLineColor, lineWidth: 0.5))
+                                            }
+                                        }
+                                    }
+                                    .offset(y: scrollOffset.y + rowRange.startY)
+                                }
+                                .clipped()
+                                .offset(y: frozenHeaderH)
+                                .allowsHitTesting(false)
+                        }
+
+                        // ── Fixed corner cell (always at 0,0) ──
+                        if editorViewModel.showHeadings {
+                            Rectangle()
+                                .fill(configuration.headerBackgroundColor)
+                                .frame(width: frozenHeaderW, height: frozenHeaderH)
+                                .overlay(Rectangle().stroke(configuration.gridLineColor, lineWidth: 0.5))
+                                .zIndex(10)
                         }
                     }
                 }
 
-                // Charts overlay — OUTSIDE ScrollView, no gesture conflict with scroll
-                chartOverlay
-                    .clipped()
-                    .transaction { $0.animation = nil }
-
-                // Images overlay — same pattern as charts
-                imageOverlay
-                    .clipped()
-                    .transaction { $0.animation = nil }
-
-                // Shapes overlay
-                shapeOverlay
-                    .clipped()
-                    .transaction { $0.animation = nil }
-
-                // Zoom controls — floating bottom-right
+                // Zoom controls — floating bottom-right, always on top
                 zoomControls
-                    .padding(12)
+                    .padding(.trailing, 8)
+                    .padding(.bottom, 8)
+                    .zIndex(100)
 
                 // Resize tooltip overlay
                 if let tooltip = editorViewModel.resizeTooltip {
@@ -159,14 +285,17 @@ public struct STExcelGridView: View {
             }
         }
         .onChange(of: editorViewModel.isEditing) { editing in
-            if editing {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    isFormulaBarFocused = true
-                }
-            } else {
+            // Don't auto-focus keyboard on cell tap — user can tap the
+            // formula bar text or keyboard icon to bring up the keyboard
+            if !editing {
                 isFormulaBarFocused = false
             }
         }
+        #if os(iOS)
+        // Prevent keyboard from pushing grid content up — the formula bar
+        // is already at the top and stays visible
+        .ignoresSafeArea(.keyboard, edges: .bottom)
+        #endif
     }
 
     // MARK: - Zoom Controls (floating)
@@ -174,7 +303,7 @@ public struct STExcelGridView: View {
     private var zoomControls: some View {
         HStack(spacing: 0) {
             Button {
-                editorViewModel.zoomScale = max(0.25, editorViewModel.zoomScale - 0.25)
+                editorViewModel.zoomScale = max(0.5, editorViewModel.zoomScale - 0.25)
             } label: {
                 Image(systemName: "minus")
                     .font(.system(size: 14, weight: .bold))
@@ -201,49 +330,85 @@ public struct STExcelGridView: View {
         )
     }
 
-    // MARK: - Grid Dimensions
+    // MARK: - Overlay Visibility Check
 
-    private var totalGridWidth: CGFloat {
-        let cols = min(sheet.columnCount, 50)
-        var w: CGFloat = zHeaderW
-        for c in 0..<cols { w += zColW(c) }
-        // Ensure charts/images fit within scrollable area
-        for chart in editorViewModel.charts {
-            let chartRight = (chart.x + chart.width) * zoom + 20
-            w = max(w, chartRight)
-        }
-        for img in editorViewModel.images {
-            let imgRight = (img.x + img.width) * zoom + 20
-            w = max(w, imgRight)
-        }
-        for shape in editorViewModel.shapes {
-            let shapeRight = (shape.x + shape.width) * zoom + 20
-            w = max(w, shapeRight)
-        }
-        return w
+    /// Check if an overlay item (chart/image/shape) is within or near the visible viewport
+    /// Items are positioned inside the ScrollView at absolute grid coordinates.
+    private func isOverlayItemVisible(x: CGFloat, y: CGFloat, w: CGFloat, h: CGFloat) -> Bool {
+        let ox = x * zoom + frozenHeaderW
+        let oy = y * zoom + frozenHeaderH
+        let ow = w * zoom
+        let oh = h * zoom
+        let vpW = viewportSize.width > 0 ? viewportSize.width : 1000
+        let vpH = viewportSize.height > 0 ? viewportSize.height : 2000
+        let buffer: CGFloat = 200
+        // scrollOffset is negative when scrolled; visible range is (-scrollOffset) ± viewport
+        let visibleMinX = -scrollOffset.x - buffer
+        let visibleMaxX = -scrollOffset.x + vpW + buffer
+        let visibleMinY = -scrollOffset.y - buffer
+        let visibleMaxY = -scrollOffset.y + vpH + buffer
+        return ox + ow > visibleMinX && ox < visibleMaxX &&
+               oy + oh > visibleMinY && oy < visibleMaxY
     }
 
-    private var totalGridHeight: CGFloat {
-        let rows = sheet.rowCount
-        var h: CGFloat = zHeaderH
-        for r in 0..<rows {
-            if editorViewModel.hiddenRows.contains(r) { continue }
-            h += zRowH(r)
+    // MARK: - Grid Dimensions (cached to avoid O(n) per render)
+
+    /// Recompute cached grid dimensions — call on appear and on relevant changes
+    private func recomputeGridDimensions() {
+        let dimStart = CFAbsoluteTimeGetCurrent()
+        // Width
+        let cols = min(sheet.columnCount, 50)
+        let defaultColW = configuration.columnWidth * zoom
+        var w: CGFloat = frozenHeaderW
+        // Fast path: if no custom widths, multiply default
+        if editorViewModel.columnWidths.isEmpty {
+            w += defaultColW * CGFloat(cols)
+        } else {
+            for c in 0..<cols { w += zColW(c) }
         }
-        // Ensure charts/images/shapes fit within scrollable area
         for chart in editorViewModel.charts {
-            let chartBottom = (chart.y + chart.height) * zoom + 20
-            h = max(h, chartBottom)
+            w = max(w, (chart.x + chart.width) * zoom + 20)
         }
         for img in editorViewModel.images {
-            let imgBottom = (img.y + img.height) * zoom + 20
-            h = max(h, imgBottom)
+            w = max(w, (img.x + img.width) * zoom + 20)
         }
         for shape in editorViewModel.shapes {
-            let shapeBottom = (shape.y + shape.height) * zoom + 20
-            h = max(h, shapeBottom)
+            w = max(w, (shape.x + shape.width) * zoom + 20)
         }
-        return h
+        cachedGridWidth = w
+
+        // Height — fast path when no custom row heights and no hidden rows
+        let rows = sheet.rowCount
+        let defaultRowH = configuration.rowHeight * zoom
+        var h: CGFloat = frozenHeaderH
+        if editorViewModel.rowHeights.isEmpty && editorViewModel.hiddenRows.isEmpty {
+            h += defaultRowH * CGFloat(rows)
+        } else {
+            // Count rows that have custom heights (excluding hidden ones)
+            var customHeightSum: CGFloat = 0
+            var customVisibleCount = 0
+            for (r, rh) in editorViewModel.rowHeights {
+                guard r < rows, !editorViewModel.hiddenRows.contains(r) else { continue }
+                customHeightSum += rh * zoom
+                customVisibleCount += 1
+            }
+            // Remaining visible rows use default height
+            let hiddenCount = editorViewModel.hiddenRows.filter { $0 < rows }.count
+            let defaultRows = rows - hiddenCount - customVisibleCount
+            h += defaultRowH * CGFloat(max(0, defaultRows)) + customHeightSum
+        }
+        for chart in editorViewModel.charts {
+            h = max(h, (chart.y + chart.height) * zoom + 20)
+        }
+        for img in editorViewModel.images {
+            h = max(h, (img.y + img.height) * zoom + 20)
+        }
+        for shape in editorViewModel.shapes {
+            h = max(h, (shape.y + shape.height) * zoom + 20)
+        }
+        cachedGridHeight = h
+        let dimElapsed = (CFAbsoluteTimeGetCurrent() - dimStart) * 1000
+        print("📐 [STExcel] recomputeGridDimensions — w: \(Int(w)), h: \(Int(h)), rows: \(rows), cols: \(cols), \(String(format: "%.1f", dimElapsed))ms")
     }
 
     // MARK: - Resize Tooltip
@@ -283,14 +448,14 @@ public struct STExcelGridView: View {
                 .frame(width: 1, height: 20)
 
             if editorViewModel.isEditing {
-                TextField("", text: $editorViewModel.editingValue, onCommit: {
+                TextField(STExcelStrings.typeHere, text: $editorViewModel.editingValue, onCommit: {
                     editorViewModel.commitEdit()
                 })
                 .font(.system(size: 14))
                 .textFieldStyle(.plain)
                 .focused($isFormulaBarFocused)
 
-                // Confirm / Cancel buttons
+                // Confirm
                 Button {
                     editorViewModel.commitEdit()
                 } label: {
@@ -303,6 +468,7 @@ public struct STExcelGridView: View {
                 }
                 .buttonStyle(.plain)
 
+                // Cancel
                 Button {
                     editorViewModel.cancelEdit()
                 } label: {
@@ -314,6 +480,21 @@ public struct STExcelGridView: View {
                         .cornerRadius(6)
                 }
                 .buttonStyle(.plain)
+
+                // Keyboard toggle
+                if !isFormulaBarFocused {
+                    Button {
+                        isFormulaBarFocused = true
+                    } label: {
+                        Image(systemName: "keyboard")
+                            .font(.system(size: 14, weight: .medium))
+                            .foregroundColor(.white)
+                            .frame(width: 32, height: 32)
+                            .background(Color.secondary)
+                            .cornerRadius(6)
+                    }
+                    .buttonStyle(.plain)
+                }
             } else {
                 let cell = sheet.cell(row: row, column: col)
                 Text(cell.formula ?? cell.value)
@@ -381,7 +562,7 @@ public struct STExcelGridView: View {
     private func dataRow(_ row: Int) -> some View {
         let rowH = zRowH(row)
         return HStack(spacing: 0) {
-            // Row number with resize handle + group indicator
+            // Row number with resize handle + group indicator — frozen to left edge
             if editorViewModel.showHeadings {
                 ZStack(alignment: .bottom) {
                     HStack(spacing: 0) {
@@ -427,6 +608,8 @@ public struct STExcelGridView: View {
                             )
                     }
                 }
+                .offset(x: max(0, -scrollOffset.x))
+                .zIndex(5)
             }
 
             // Cells
@@ -436,34 +619,76 @@ public struct STExcelGridView: View {
         }
     }
 
+    // MARK: - Grid Row (cells only — row numbers are a frozen overlay)
+
+    private func cellsOnlyRow(_ row: Int) -> some View {
+        let rowH = zRowH(row)
+        return HStack(spacing: 0) {
+            ForEach(0..<min(sheet.columnCount, 50), id: \.self) { col in
+                cellView(row: row, col: col, rowH: rowH)
+            }
+        }
+    }
+
     // MARK: - Cell
 
+    @ViewBuilder
     private func cellView(row: Int, col: Int, rowH: CGFloat) -> some View {
         let cell = sheet.cell(row: row, column: col)
+        let mergedRegion = editorViewModel.cachedMergedRegion(row: row, col: col)
+        let isMergedNonOrigin = mergedRegion != nil &&
+            (mergedRegion!.startRow != row || mergedRegion!.startCol != col)
+
+        if isMergedNonOrigin {
+            Color.clear.frame(width: 0, height: 0)
+        } else if cell.value.isEmpty && cell.formula == nil && !cell.style.isCustom
+                    && cell.comment == nil && mergedRegion == nil
+                    && editorViewModel.table(at: row, col: col) == nil
+                    && editorViewModel.conditionalRules.isEmpty {
+            // Fast path for empty cells with no table/CF — skip all formatting/overlay logic
+            emptyCellView(row: row, col: col, rowH: rowH)
+        } else {
+            cellContent(row: row, col: col, rowH: rowH, cell: cell, mergedRegion: mergedRegion)
+        }
+    }
+
+    /// Ultra-lightweight empty cell — just a colored rect with grid line
+    private func emptyCellView(row: Int, col: Int, rowH: CGFloat) -> some View {
+        let isSelected = isCellSelected(row: row, col: col)
+        return Rectangle()
+            .fill(isSelected ? configuration.selectionColor.opacity(0.1) : configuration.cellBackgroundColor)
+            .frame(width: zColW(col), height: rowH)
+            .overlay(
+                isSelected
+                    ? Rectangle().stroke(configuration.selectionColor, lineWidth: 2)
+                    : (editorViewModel.showGridlines ? Rectangle().stroke(configuration.gridLineColor, lineWidth: 0.5) : nil)
+            )
+            .contentShape(Rectangle())
+            .onTapGesture {
+                if editorViewModel.isEditing { editorViewModel.commitEdit() }
+                editorViewModel.selectedImageId = nil
+                editorViewModel.selectedShapeId = nil
+                editorViewModel.selectedChartId = nil
+                editorViewModel.selectedTableId = nil
+                editorViewModel.selectCell(row: row, col: col)
+                editorViewModel.editingValue = ""
+                if isEditable && !(editorViewModel.isSheetProtected) {
+                    editorViewModel.isEditing = true
+                }
+            }
+    }
+
+    @ViewBuilder
+    private func cellContent(row: Int, col: Int, rowH: CGFloat, cell: STExcelCell, mergedRegion: STMergedRegion?) -> some View {
         let style = cell.style
         let isSelected = isCellSelected(row: row, col: col)
         let isInRange = isCellInRange(row: row, col: col)
         let colW = zColW(col)
 
-        // Compute display value (prefer cached value from xlsx, evaluate only if empty)
-        let rawValue: String
-        if !cell.value.isEmpty {
-            rawValue = cell.value
-        } else if let formula = cell.formula {
-            rawValue = STExcelFormulaEngine.evaluate(formula, in: sheet)
-        } else {
-            rawValue = cell.value
-        }
+        // Use cached value — formulas are pre-evaluated at load time.
+        // Only evaluate live if value is empty AND formula exists (rare edge case).
+        let rawValue: String = cell.value
         let displayValue = Self.applyNumberFormat(rawValue, style: style)
-
-        // Check if cell is part of a merged region but not the origin
-        let mergedRegion = sheet.mergedRegion(for: row, col: col)
-        let isMergedNonOrigin = mergedRegion != nil &&
-            (mergedRegion!.startRow != row || mergedRegion!.startCol != col)
-
-        if isMergedNonOrigin {
-            return AnyView(Color.clear.frame(width: 0, height: 0))
-        }
 
         // Cell width/height (expanded for merged cells, zoomed)
         let cellWidth = mergedRegion.map { region in
@@ -482,157 +707,151 @@ public struct STExcelGridView: View {
         let spansMultipleRows = mergedRegion.map { $0.endRow > row } ?? false
 
         // Alignment
-        let hAlign: Alignment
-        switch style.horizontalAlignment {
-        case .left: hAlign = .leading
-        case .center: hAlign = .center
-        case .right: hAlign = .trailing
-        case .justify: hAlign = .leading
-        case .general: hAlign = cell.isNumeric ? .trailing : .leading
-        }
+        let hAlign: Alignment = {
+            switch style.horizontalAlignment {
+            case .left: return .leading
+            case .center: return .center
+            case .right: return .trailing
+            case .justify: return .leading
+            case .general: return cell.isNumeric ? .trailing : .leading
+            }
+        }()
 
         // Conditional formatting result
         let cfResult = editorViewModel.conditionalFormat(row: row, col: col)
 
+        // Table lookup (cached — avoid calling 3 times per cell)
+        let cellTable = editorViewModel.table(at: row, col: col)
+
         // Background color — CF > table > cell style
-        let bgColor: Color
-        if let cfBg = cfResult?.bg {
-            bgColor = cfBg
-        } else if let cfScale = cfResult?.scaleBg {
-            bgColor = cfScale
-        } else if let hex = style.fillColor, let c = Color(hex: hex) {
-            bgColor = c
-        } else if let tbl = editorViewModel.table(at: row, col: col) {
-            if tbl.isHeaderRow(row) {
-                bgColor = tbl.style.headerColor
-            } else if tbl.isBandedRow(row) {
-                bgColor = tbl.style.bandColor
-            } else {
-                bgColor = configuration.cellBackgroundColor
+        let bgColor: Color = {
+            if let cfBg = cfResult?.bg { return cfBg }
+            if let cfScale = cfResult?.scaleBg { return cfScale }
+            if let hex = style.fillColor, let c = Color(hex: hex) { return c }
+            if let tbl = cellTable {
+                if tbl.isHeaderRow(row) { return tbl.style.headerColor }
+                if tbl.isBandedRow(row) { return tbl.style.bandColor }
             }
-        } else {
-            bgColor = configuration.cellBackgroundColor
-        }
+            return configuration.cellBackgroundColor
+        }()
 
         // Text color — CF > table > cell style
-        let textColor: Color
-        if let cfText = cfResult?.text {
-            textColor = cfText
-        } else if let hex = style.textColor, let c = Color(hex: hex) {
-            textColor = c
-        } else if let tbl = editorViewModel.table(at: row, col: col), tbl.isHeaderRow(row) {
-            textColor = .white
-        } else {
-            textColor = .primary
-        }
+        let textColor: Color = {
+            if let cfText = cfResult?.text { return cfText }
+            if let hex = style.textColor, let c = Color(hex: hex) { return c }
+            if let tbl = cellTable, tbl.isHeaderRow(row) { return .white }
+            return .primary
+        }()
 
         // Font (zoomed) — table headers are bold
-        let isTableHeader = editorViewModel.table(at: row, col: col)?.isHeaderRow(row) == true
+        let isTableHeader = cellTable?.isHeaderRow(row) == true
         let fontSize = max(6, CGFloat(style.fontSize) * zoom)
         let isBold = style.isBold || isTableHeader
-        var font: Font = .system(size: fontSize)
-        if isBold && style.isItalic {
-            font = .system(size: fontSize, weight: .bold).italic()
-        } else if isBold {
-            font = .system(size: fontSize, weight: .bold)
-        } else if style.isItalic {
-            font = .system(size: fontSize).italic()
-        }
+        let font: Font = {
+            if isBold && style.isItalic {
+                return .system(size: fontSize, weight: .bold).italic()
+            } else if isBold {
+                return .system(size: fontSize, weight: .bold)
+            } else if style.isItalic {
+                return .system(size: fontSize).italic()
+            }
+            return .system(size: fontSize)
+        }()
 
-        return AnyView(
-            Text(displayValue)
-                .font(font)
-                .underline(style.isUnderline)
-                .strikethrough(style.isStrikethrough)
-                .foregroundColor(textColor)
-                .lineLimit(style.wrapText ? nil : 1)
-                .padding(.horizontal, max(2, 4 * zoom))
-                .frame(width: cellWidth, height: cellHeight, alignment: hAlign)
-                .clipped()
-                .background(bgColor)
-                .background(
-                    isSelected ? configuration.selectionColor.opacity(0.1) :
-                    isInRange ? configuration.selectionColor.opacity(0.05) :
-                    Color.clear
-                )
-                .overlay(cellBorderOverlay(style: style, isSelected: isSelected))
-                // Data bar overlay
-                .overlay(alignment: .leading) {
-                    if let (pct, barColor) = cfResult?.bar {
-                        RoundedRectangle(cornerRadius: 2)
-                            .fill(barColor.opacity(0.3))
-                            .frame(width: max(0, cellWidth * CGFloat(pct)), height: cellHeight - 4)
-                            .overlay(alignment: .leading) {
-                                RoundedRectangle(cornerRadius: 2)
-                                    .fill(barColor.opacity(0.7))
-                                    .frame(width: max(0, cellWidth * CGFloat(pct)), height: cellHeight - 4)
-                            }
-                            .padding(.leading, 2)
-                            .allowsHitTesting(false)
-                    }
-                }
-                // CF border
-                .overlay {
-                    if let cfBorder = cfResult?.border {
-                        Rectangle().stroke(cfBorder, lineWidth: 1.5)
-                    }
-                }
-                .contentShape(Rectangle())
-                .onTapGesture(count: 2) {
-                    // Double tap = direct keyboard focus on formula bar
-                    if isEditable && !(editorViewModel.isSheetProtected && cell.style.isLocked) {
-                        editorViewModel.selectCell(row: row, col: col)
-                        editorViewModel.editingValue = cell.formula ?? cell.value
-                        editorViewModel.isEditing = true
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                            isFormulaBarFocused = true
+        Text(displayValue)
+            .font(font)
+            .underline(style.isUnderline)
+            .strikethrough(style.isStrikethrough)
+            .foregroundColor(textColor)
+            .lineLimit(style.wrapText ? nil : 1)
+            .padding(.horizontal, max(2, 4 * zoom))
+            .frame(width: cellWidth, height: cellHeight, alignment: hAlign)
+            .clipped()
+            .background(bgColor)
+            .background(
+                isSelected ? configuration.selectionColor.opacity(0.1) :
+                isInRange ? configuration.selectionColor.opacity(0.05) :
+                Color.clear
+            )
+            .overlay(cellBorderOverlay(style: style, isSelected: isSelected))
+            // Data bar overlay
+            .overlay(alignment: .leading) {
+                if let (pct, barColor) = cfResult?.bar {
+                    RoundedRectangle(cornerRadius: 2)
+                        .fill(barColor.opacity(0.3))
+                        .frame(width: max(0, cellWidth * CGFloat(pct)), height: cellHeight - 4)
+                        .overlay(alignment: .leading) {
+                            RoundedRectangle(cornerRadius: 2)
+                                .fill(barColor.opacity(0.7))
+                                .frame(width: max(0, cellWidth * CGFloat(pct)), height: cellHeight - 4)
                         }
-                    }
+                        .padding(.leading, 2)
+                        .allowsHitTesting(false)
                 }
-                .onTapGesture(count: 1) {
-                    // Single tap = select + start editing
-                    if editorViewModel.isEditing {
-                        editorViewModel.commitEdit()
-                    }
-                    if editorViewModel.selectedChartId != nil {
-                        editorViewModel.selectedChartId = nil
-                    }
-                    editorViewModel.selectedImageId = nil
-                    editorViewModel.selectedShapeId = nil
-                    // Select table if cell is in one
-                    if let tbl = editorViewModel.table(at: row, col: col) {
-                        editorViewModel.selectedTableId = tbl.id
-                    } else {
-                        editorViewModel.selectedTableId = nil
-                    }
+            }
+            // CF border
+            .overlay {
+                if let cfBorder = cfResult?.border {
+                    Rectangle().stroke(cfBorder, lineWidth: 1.5)
+                }
+            }
+            .contentShape(Rectangle())
+            .onTapGesture(count: 2) {
+                // Double tap = select + open keyboard directly
+                if isEditable && !(editorViewModel.isSheetProtected && cell.style.isLocked) {
                     editorViewModel.selectCell(row: row, col: col)
                     editorViewModel.editingValue = cell.formula ?? cell.value
-                    if isEditable && !(editorViewModel.isSheetProtected && cell.style.isLocked) {
-                        editorViewModel.isEditing = true
+                    editorViewModel.isEditing = true
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+                        isFormulaBarFocused = true
                     }
                 }
-                // Comment indicator
-                .overlay(alignment: .topTrailing) {
-                    if cell.comment != nil {
-                        Triangle()
-                            .fill(Color.red)
-                            .frame(width: max(4, 8 * zoom), height: max(4, 8 * zoom))
-                    }
+            }
+            .onTapGesture(count: 1) {
+                // Single tap = select cell (no keyboard)
+                if editorViewModel.isEditing {
+                    editorViewModel.commitEdit()
                 }
-                // Invalid data circle (Data Validation)
-                .overlay {
-                    if editorViewModel.invalidCells.contains("\(row),\(col)") {
-                        Ellipse()
-                            .stroke(Color.red, lineWidth: max(1, 2 * zoom))
-                            .padding(max(1, 2 * zoom))
-                    }
+                if editorViewModel.selectedChartId != nil {
+                    editorViewModel.selectedChartId = nil
                 }
-                // For merged cells spanning multiple rows, constrain layout height
-                // to current row only — prevents HStack row inflation while allowing
-                // visual content to overflow into subsequent rows
-                .frame(height: spansMultipleRows ? rowH : nil, alignment: .topLeading)
-                .zIndex(spansMultipleRows ? 1 : 0)
-        )
+                editorViewModel.selectedImageId = nil
+                editorViewModel.selectedShapeId = nil
+                // Select table if cell is in one
+                if let tbl = cellTable {
+                    editorViewModel.selectedTableId = tbl.id
+                } else {
+                    editorViewModel.selectedTableId = nil
+                }
+                editorViewModel.selectCell(row: row, col: col)
+                editorViewModel.editingValue = cell.formula ?? cell.value
+                if isEditable && !(editorViewModel.isSheetProtected && cell.style.isLocked) {
+                    editorViewModel.isEditing = true
+                    // Keyboard is NOT shown on cell tap — user taps formula bar
+                    // text or keyboard icon to open it
+                }
+            }
+            // Comment indicator
+            .overlay(alignment: .topTrailing) {
+                if cell.comment != nil {
+                    Triangle()
+                        .fill(Color.red)
+                        .frame(width: max(4, 8 * zoom), height: max(4, 8 * zoom))
+                }
+            }
+            // Invalid data circle (Data Validation)
+            .overlay {
+                if editorViewModel.invalidCells.contains("\(row),\(col)") {
+                    Ellipse()
+                        .stroke(Color.red, lineWidth: max(1, 2 * zoom))
+                        .padding(max(1, 2 * zoom))
+                }
+            }
+            // For merged cells spanning multiple rows, constrain layout height
+            // to current row only — prevents HStack row inflation while allowing
+            // visual content to overflow into subsequent rows
+            .frame(height: spansMultipleRows ? rowH : nil, alignment: .topLeading)
+            .zIndex(spansMultipleRows ? 1 : 0)
     }
 
     // MARK: - Border Overlay
@@ -700,8 +919,8 @@ public struct STExcelGridView: View {
         let er = max(editorViewModel.selectionStartRow, editorViewModel.selectionActualEndRow)
         let ec = max(editorViewModel.selectionStartCol, editorViewModel.selectionActualEndCol)
 
-        let x = zHeaderW + editorViewModel.columnOffset(for: sc, default: configuration.columnWidth) * zoom
-        let y = zHeaderH + editorViewModel.rowOffset(for: sr, default: configuration.rowHeight) * zoom
+        let x = frozenHeaderW + editorViewModel.columnOffset(for: sc, default: configuration.columnWidth) * zoom
+        let y = frozenHeaderH + editorViewModel.rowOffset(for: sr, default: configuration.rowHeight) * zoom
 
         let selW: CGFloat = {
             var total: CGFloat = 0
@@ -782,7 +1001,9 @@ public struct STExcelGridView: View {
             Color.clear.contentShape(Rectangle()).allowsHitTesting(false)
 
             ForEach(editorViewModel.charts) { chart in
-                chartOverlayItem(chart)
+                if isOverlayItemVisible(x: chart.x, y: chart.y, w: chart.width, h: chart.height) {
+                    chartOverlayItem(chart)
+                }
             }
         }
     }
@@ -791,8 +1012,8 @@ public struct STExcelGridView: View {
         let isSelected = chart.id == editorViewModel.selectedChartId
         let cw = chart.width * zoom
         let ch = chart.height * zoom
-        let ox = chart.x * zoom + scrollOffset.x
-        let oy = chart.y * zoom + scrollOffset.y
+        let ox = chart.x * zoom + frozenHeaderW
+        let oy = chart.y * zoom + frozenHeaderH
         let dragX = isSelected ? chartDragOffset.width : 0
         let dragY = isSelected ? chartDragOffset.height : 0
 
@@ -856,17 +1077,20 @@ public struct STExcelGridView: View {
         // Gesture BEFORE offset — so gesture coordinate space is NOT affected by .offset()
         .if(isSelected) { view in
             view.gesture(
-                DragGesture(minimumDistance: 20, coordinateSpace: .global)
-                    .updating($chartDragOffset) { value, state, _ in
-                        state = value.translation
-                    }
-                    .onEnded { value in
-                        if var c = editorViewModel.charts.first(where: { $0.id == chart.id }) {
-                            c.x = max(0, chart.x + value.translation.width / zoom)
-                            c.y = max(0, chart.y + value.translation.height / zoom)
-                            editorViewModel.updateChart(c)
-                        }
-                    }
+                LongPressGesture(minimumDuration: 0.3)
+                    .sequenced(before:
+                        DragGesture(coordinateSpace: .global)
+                            .updating($chartDragOffset) { value, state, _ in
+                                state = value.translation
+                            }
+                            .onEnded { value in
+                                if var c = editorViewModel.charts.first(where: { $0.id == chart.id }) {
+                                    c.x = max(0, chart.x + value.translation.width / zoom)
+                                    c.y = max(0, chart.y + value.translation.height / zoom)
+                                    editorViewModel.updateChart(c)
+                                }
+                            }
+                    )
             )
         }
         // Offset AFTER gesture — view moves visually but gesture coord space stays stable
@@ -879,7 +1103,9 @@ public struct STExcelGridView: View {
         ZStack(alignment: .topLeading) {
             Color.clear.contentShape(Rectangle()).allowsHitTesting(false)
             ForEach(editorViewModel.shapes) { shape in
-                shapeOverlayItem(shape)
+                if isOverlayItemVisible(x: shape.x, y: shape.y, w: shape.width, h: shape.height) {
+                    shapeOverlayItem(shape)
+                }
             }
         }
     }
@@ -890,8 +1116,8 @@ public struct STExcelGridView: View {
         let rh = isSelected ? shapeResizeDelta.height * zoom : 0
         let sw = max(20 * zoom, shape.width * zoom + rw)
         let sh = max(20 * zoom, shape.height * zoom + rh)
-        let ox = shape.x * zoom + scrollOffset.x
-        let oy = shape.y * zoom + scrollOffset.y
+        let ox = shape.x * zoom + frozenHeaderW
+        let oy = shape.y * zoom + frozenHeaderH
         let dragX = isSelected ? shapeDragOffset.width : 0
         let dragY = isSelected ? shapeDragOffset.height : 0
 
@@ -961,17 +1187,20 @@ public struct STExcelGridView: View {
             }
             .if(isSelected) { view in
                 view.gesture(
-                    DragGesture(minimumDistance: 20, coordinateSpace: .global)
-                        .updating($shapeDragOffset) { value, state, _ in
-                            state = value.translation
-                        }
-                        .onEnded { value in
-                            if var s = editorViewModel.shapes.first(where: { $0.id == shape.id }) {
-                                s.x = max(0, shape.x + value.translation.width / zoom)
-                                s.y = max(0, shape.y + value.translation.height / zoom)
-                                editorViewModel.updateShape(s)
-                            }
-                        }
+                    LongPressGesture(minimumDuration: 0.3)
+                        .sequenced(before:
+                            DragGesture(coordinateSpace: .global)
+                                .updating($shapeDragOffset) { value, state, _ in
+                                    state = value.translation
+                                }
+                                .onEnded { value in
+                                    if var s = editorViewModel.shapes.first(where: { $0.id == shape.id }) {
+                                        s.x = max(0, shape.x + value.translation.width / zoom)
+                                        s.y = max(0, shape.y + value.translation.height / zoom)
+                                        editorViewModel.updateShape(s)
+                                    }
+                                }
+                        )
                 )
             }
             .offset(x: ox + dragX, y: oy + dragY)
@@ -1053,20 +1282,39 @@ public struct STExcelGridView: View {
             Color.clear.contentShape(Rectangle()).allowsHitTesting(false)
 
             ForEach(editorViewModel.images) { img in
-                imageOverlayItem(img)
+                let pos = imageAnchorPosition(img)
+                if isOverlayItemVisible(x: pos.x, y: pos.y, w: pos.w, h: pos.h) {
+                    imageOverlayItem(img)
+                }
             }
         }
     }
 
+    /// Calculate image position/size using cell anchors (matching grid coordinates)
+    private func imageAnchorPosition(_ img: STExcelEmbeddedImage) -> (x: CGFloat, y: CGFloat, w: CGFloat, h: CGFloat) {
+        if let anchorRow = img.anchorRow, let anchorCol = img.anchorCol {
+            let gridY = editorViewModel.rowOffset(for: anchorRow, default: configuration.rowHeight) + img.anchorRowOffset
+            let gridX = editorViewModel.columnOffset(for: anchorCol, default: configuration.columnWidth) + img.anchorColOffset
+            if let toRow = img.toAnchorRow, let toCol = img.toAnchorCol {
+                let toY = editorViewModel.rowOffset(for: toRow, default: configuration.rowHeight) + img.toAnchorRowOffset
+                let toX = editorViewModel.columnOffset(for: toCol, default: configuration.columnWidth) + img.toAnchorColOffset
+                return (gridX, gridY, max(10, toX - gridX), max(10, toY - gridY))
+            }
+            return (gridX, gridY, img.width, img.height)
+        }
+        return (img.x, img.y, img.width, img.height)
+    }
+
     private func imageOverlayItem(_ img: STExcelEmbeddedImage) -> some View {
         let isSelected = img.id == editorViewModel.selectedImageId
-        // Live resize delta (only visual, model updated on gesture end)
         let rw = isSelected ? imageResizeDelta.width * zoom : 0
         let rh = isSelected ? imageResizeDelta.height * zoom : 0
-        let iw = max(40 * zoom, img.width * zoom + rw)
-        let ih = max(40 * zoom, img.height * zoom + rh)
-        let ox = img.x * zoom + scrollOffset.x
-        let oy = img.y * zoom + scrollOffset.y
+
+        let pos = imageAnchorPosition(img)
+        let ox = pos.x * zoom + frozenHeaderW
+        let oy = pos.y * zoom + frozenHeaderH
+        let iw = max(40 * zoom, pos.w * zoom + rw)
+        let ih = max(40 * zoom, pos.h * zoom + rh)
         let dragX = isSelected ? imageDragOffset.width : 0
         let dragY = isSelected ? imageDragOffset.height : 0
 
@@ -1103,9 +1351,13 @@ public struct STExcelGridView: View {
                                 }
                                 .onEnded { value in
                                     if var i = editorViewModel.images.first(where: { $0.id == img.id }) {
-                                        let newW = max(40, img.width + value.translation.width / zoom)
+                                        let pos = imageAnchorPosition(i)
+                                        let newW = max(40, pos.w + value.translation.width / zoom)
                                         i.width = newW
-                                        i.height = newW / max(img.aspectRatio, 0.1)
+                                        i.height = newW / max(i.aspectRatio, 0.1)
+                                        // Clear toAnchor so manual size sticks
+                                        i.toAnchorRow = nil
+                                        i.toAnchorCol = nil
                                         editorViewModel.updateImage(i)
                                     }
                                 }
@@ -1131,7 +1383,10 @@ public struct STExcelGridView: View {
                                 }
                                 .onEnded { value in
                                     if var i = editorViewModel.images.first(where: { $0.id == img.id }) {
-                                        i.width = max(40, img.width + value.translation.width / zoom)
+                                        let pos = imageAnchorPosition(i)
+                                        i.width = max(40, pos.w + value.translation.width / zoom)
+                                        i.toAnchorRow = nil
+                                        i.toAnchorCol = nil
                                         editorViewModel.updateImage(i)
                                     }
                                 }
@@ -1157,7 +1412,10 @@ public struct STExcelGridView: View {
                                 }
                                 .onEnded { value in
                                     if var i = editorViewModel.images.first(where: { $0.id == img.id }) {
-                                        i.height = max(40, img.height + value.translation.height / zoom)
+                                        let pos = imageAnchorPosition(i)
+                                        i.height = max(40, pos.h + value.translation.height / zoom)
+                                        i.toAnchorRow = nil
+                                        i.toAnchorCol = nil
                                         editorViewModel.updateImage(i)
                                     }
                                 }
@@ -1205,17 +1463,25 @@ public struct STExcelGridView: View {
             }
             .if(isSelected) { view in
                 view.gesture(
-                    DragGesture(minimumDistance: 20, coordinateSpace: .global)
-                        .updating($imageDragOffset) { value, state, _ in
-                            state = value.translation
-                        }
-                        .onEnded { value in
-                            if var i = editorViewModel.images.first(where: { $0.id == img.id }) {
-                                i.x = max(0, img.x + value.translation.width / zoom)
-                                i.y = max(0, img.y + value.translation.height / zoom)
-                                editorViewModel.updateImage(i)
-                            }
-                        }
+                    LongPressGesture(minimumDuration: 0.3)
+                        .sequenced(before:
+                            DragGesture(coordinateSpace: .global)
+                                .updating($imageDragOffset) { value, state, _ in
+                                    state = value.translation
+                                }
+                                .onEnded { value in
+                                    if var i = editorViewModel.images.first(where: { $0.id == img.id }) {
+                                        let pos = imageAnchorPosition(i)
+                                        i.x = max(0, pos.x + value.translation.width / zoom)
+                                        i.y = max(0, pos.y + value.translation.height / zoom)
+                                        i.anchorRow = nil
+                                        i.anchorCol = nil
+                                        i.toAnchorRow = nil
+                                        i.toAnchorCol = nil
+                                        editorViewModel.updateImage(i)
+                                    }
+                                }
+                        )
                 )
             }
             .offset(x: ox + dragX, y: oy + dragY)
@@ -2024,7 +2290,14 @@ private struct STExcelCachedImageView: View {
         }
         .onAppear {
             if uiImage == nil {
-                uiImage = UIImage(data: data)
+                // Decode on background thread to avoid blocking UI during sheet switch
+                let imgData = data
+                DispatchQueue.global(qos: .userInitiated).async {
+                    let decoded = UIImage(data: imgData)
+                    DispatchQueue.main.async {
+                        uiImage = decoded
+                    }
+                }
             }
         }
         #else

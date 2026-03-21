@@ -33,6 +33,11 @@
 /* Insert Tab */
 "stexcel.chart" = "Grafic";
 "stexcel.picture" = "Imagine";
+"stexcel.appendRow" = "Rand";
+"stexcel.appendColumn" = "Coloana";
+"stexcel.deleteRow" = "Sterge rand";
+"stexcel.deleteColumn" = "Sterge coloana";
+"stexcel.typeHere" = "Tastati aici...";
 /* Formulas Tab */
 "stexcel.autoSum" = "Însumare\nAutomată";
 "stexcel.recalculate" = "Recalculare";

@@ -38,6 +38,11 @@
 /* Insert Tab */
 "stexcel.chart" = "Grafik";
 "stexcel.picture" = "Resim";
+"stexcel.appendRow" = "Satir";
+"stexcel.appendColumn" = "Sutun";
+"stexcel.deleteRow" = "Satir Sil";
+"stexcel.deleteColumn" = "Sutun Sil";
+"stexcel.typeHere" = "Buraya yazin...";
 
 /* Formulas Tab */
 "stexcel.autoSum" = "Otomatik\nToplam";

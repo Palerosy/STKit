@@ -38,6 +38,11 @@
 /* Insert Tab */
 "stexcel.chart" = "Grafikon";
 "stexcel.picture" = "Slika";
+"stexcel.appendRow" = "Redak";
+"stexcel.appendColumn" = "Stupac";
+"stexcel.deleteRow" = "Brisi redak";
+"stexcel.deleteColumn" = "Brisi stupac";
+"stexcel.typeHere" = "Upisite ovdje...";
 
 /* Formulas Tab */
 "stexcel.autoSum" = "Auto\nzbroj";

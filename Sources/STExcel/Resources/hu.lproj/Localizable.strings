@@ -38,6 +38,11 @@
 /* Insert Tab */
 "stexcel.chart" = "Diagram";
 "stexcel.picture" = "Kép";
+"stexcel.appendRow" = "Sor";
+"stexcel.appendColumn" = "Oszlop";
+"stexcel.deleteRow" = "Sor torlese";
+"stexcel.deleteColumn" = "Oszlop torlese";
+"stexcel.typeHere" = "Irjon ide...";
 
 /* Formulas Tab */
 "stexcel.autoSum" = "Auto\nösszeg";

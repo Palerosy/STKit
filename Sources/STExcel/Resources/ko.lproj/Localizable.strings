@@ -33,6 +33,11 @@
 /* Insert Tab */
 "stexcel.chart" = "차트";
 "stexcel.picture" = "그림";
+"stexcel.appendRow" = "행";
+"stexcel.appendColumn" = "열";
+"stexcel.deleteRow" = "행 삭제";
+"stexcel.deleteColumn" = "열 삭제";
+"stexcel.typeHere" = "여기에 입력...";
 /* Formulas Tab */
 "stexcel.autoSum" = "자동\n합계";
 "stexcel.recalculate" = "다시 계산";

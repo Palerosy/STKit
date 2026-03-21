@@ -33,6 +33,11 @@
 /* Insert Tab */
 "stexcel.chart" = "Grafiek";
 "stexcel.picture" = "Afbeelding";
+"stexcel.appendRow" = "Rij";
+"stexcel.appendColumn" = "Kolom";
+"stexcel.deleteRow" = "Rij verw.";
+"stexcel.deleteColumn" = "Kolom verw.";
+"stexcel.typeHere" = "Typ hier...";
 /* Formulas Tab */
 "stexcel.autoSum" = "Auto-\nsom";
 "stexcel.recalculate" = "Herberekenen";

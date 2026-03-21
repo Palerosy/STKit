@@ -79,7 +79,44 @@ final class STExcelEditorViewModel: ObservableObject {
     }
 
     func rowHeight(for row: Int, default defaultHeight: CGFloat) -> CGFloat {
-        rowHeights[row] ?? defaultHeight
+        guard let h = rowHeights[row] else { return defaultHeight }
+        // Clamp Excel's tiny default rows (~15pt) to app minimum so they're readable
+        return h < defaultHeight ? defaultHeight : h
+    }
+
+    // MARK: - Performance Caches
+
+    /// Cached conditional format numeric values per rule ID — avoids O(n²) per cell
+    private var cfNumericCache: [UUID: [Double]] = [:]
+    private var cfValueCountCache: [UUID: [String: Int]] = [:]
+    /// Cached merged region lookup — avoids O(n) linear search per cell
+    private(set) var mergedRegionMap: [Int: [Int: STMergedRegion]] = [:]
+
+    /// Invalidate all per-sheet caches (call on sheet switch or data change)
+    func invalidatePerformanceCaches() {
+        cfNumericCache.removeAll()
+        cfValueCountCache.removeAll()
+        buildMergedRegionMap()
+        print("📊 [STExcel] invalidatePerformanceCaches — mergedRegions: \(mergedRegionMap.count) rows indexed")
+    }
+
+    /// Build spatial index for merged regions
+    func buildMergedRegionMap() {
+        mergedRegionMap.removeAll()
+        guard let sheet = sheet else { return }
+        for region in sheet.mergedRegions {
+            for r in region.startRow...region.endRow {
+                if mergedRegionMap[r] == nil { mergedRegionMap[r] = [:] }
+                for c in region.startCol...region.endCol {
+                    mergedRegionMap[r]?[c] = region
+                }
+            }
+        }
+    }
+
+    /// O(1) merged region lookup
+    func cachedMergedRegion(row: Int, col: Int) -> STMergedRegion? {
+        mergedRegionMap[row]?[col]
     }
 
     /// X offset for a given column (sum of all previous column widths)
@@ -96,7 +133,7 @@ final class STExcelEditorViewModel: ObservableObject {
         var y: CGFloat = 0
         for r in 0..<row {
             if hiddenRows.contains(r) { continue }
-            y += rowHeights[r] ?? defaultHeight
+            y += rowHeight(for: r, default: defaultHeight)
         }
         return y
     }
@@ -220,6 +257,7 @@ final class STExcelEditorViewModel: ObservableObject {
         selectedImageId = nil
         selectedShapeId = nil
         hasUnsavedChanges = true
+        gridRefreshId += 1
         objectWillChange.send()
     }
 
@@ -227,6 +265,7 @@ final class STExcelEditorViewModel: ObservableObject {
         if let idx = tables.firstIndex(where: { $0.id == table.id }) {
             tables[idx] = table
             hasUnsavedChanges = true
+            gridRefreshId += 1
             objectWillChange.send()
         }
     }
@@ -236,6 +275,7 @@ final class STExcelEditorViewModel: ObservableObject {
         tables.removeAll { $0.id == id }
         selectedTableId = nil
         hasUnsavedChanges = true
+        gridRefreshId += 1
         objectWillChange.send()
     }
 
@@ -271,8 +311,20 @@ final class STExcelEditorViewModel: ObservableObject {
     }
 
     /// Evaluate conditional formatting for a cell — returns (bgColor, textColor, borderColor, barPercent)?
+    /// Track CF call count for performance logging
+    private var cfCallCount = 0
+    private var cfLastLogTime: CFAbsoluteTime = 0
+
     func conditionalFormat(row: Int, col: Int) -> (bg: Color?, text: Color?, border: Color?, bar: (Double, Color)?, scaleBg: Color?)? {
         guard let sheet = sheet else { return nil }
+        if conditionalRules.isEmpty { return nil }
+        cfCallCount += 1
+        let now = CFAbsoluteTimeGetCurrent()
+        if now - cfLastLogTime > 2.0 {
+            print("⚡ [STExcel] conditionalFormat called \(cfCallCount) times in last 2s, rules: \(conditionalRules.count)")
+            cfCallCount = 0
+            cfLastLogTime = now
+        }
         let cellValue = sheet.cell(row: row, column: col).value
 
         for rule in conditionalRules {
@@ -349,7 +401,8 @@ final class STExcelEditorViewModel: ObservableObject {
             // Convert column letters to number
             var colNum = 0
             for ch in colStr {
-                colNum = colNum * 26 + Int(ch.asciiValue! - Character("A").asciiValue!) + 1
+                guard let ascii = ch.asciiValue, let aVal = Character("A").asciiValue else { continue }
+                colNum = colNum * 26 + Int(ascii - aVal) + 1
             }
             let newCol = colNum + colOffset
             let newRow = origRow + rowOffset
@@ -387,21 +440,11 @@ final class STExcelEditorViewModel: ObservableObject {
         case .textNotContains:
             return !cellValue.localizedCaseInsensitiveContains(rule.value1)
         case .duplicates:
-            var count = 0
-            for r in rule.startRow...rule.endRow {
-                for c in rule.startCol...rule.endCol {
-                    if sheet.cell(row: r, column: c).value == cellValue { count += 1 }
-                }
-            }
-            return count > 1
+            let counts = cachedValueCounts(for: rule, sheet: sheet)
+            return (counts[cellValue] ?? 0) > 1
         case .uniqueValues:
-            var count2 = 0
-            for r in rule.startRow...rule.endRow {
-                for c in rule.startCol...rule.endCol {
-                    if sheet.cell(row: r, column: c).value == cellValue { count2 += 1 }
-                }
-            }
-            return count2 == 1
+            let counts = cachedValueCounts(for: rule, sheet: sheet)
+            return (counts[cellValue] ?? 0) == 1
         }
     }
 
@@ -453,7 +496,22 @@ final class STExcelEditorViewModel: ObservableObject {
         }
     }
 
+    /// Cached value frequency counts for duplicates/uniqueValues (avoids O(n²) per cell)
+    private func cachedValueCounts(for rule: STExcelConditionalRule, sheet: STExcelSheet) -> [String: Int] {
+        if let cached = cfValueCountCache[rule.id] { return cached }
+        var counts: [String: Int] = [:]
+        for r in rule.startRow...min(rule.endRow, sheet.rowCount - 1) {
+            for c in rule.startCol...min(rule.endCol, sheet.columnCount - 1) {
+                let val = sheet.cell(row: r, column: c).value
+                counts[val, default: 0] += 1
+            }
+        }
+        cfValueCountCache[rule.id] = counts
+        return counts
+    }
+
     private func collectNumericValues(_ rule: STExcelConditionalRule, sheet: STExcelSheet) -> [Double] {
+        if let cached = cfNumericCache[rule.id] { return cached }
         var values: [Double] = []
         for r in rule.startRow...min(rule.endRow, sheet.rowCount - 1) {
             for c in rule.startCol...min(rule.endCol, sheet.columnCount - 1) {
@@ -462,6 +520,7 @@ final class STExcelEditorViewModel: ObservableObject {
                 }
             }
         }
+        cfNumericCache[rule.id] = values
         return values
     }
 
@@ -486,6 +545,48 @@ final class STExcelEditorViewModel: ObservableObject {
     @Published var hasUnsavedChanges: Bool = false
 
     init() {}
+
+    // MARK: - Batch Sheet Sync
+
+    /// Update all sheet-related properties at once when switching sheets.
+    /// All assignments happen synchronously within one RunLoop tick,
+    /// so SwiftUI coalesces them into a single view update.
+    func batchSyncSheet(
+        rowHeights: [Int: CGFloat],
+        columnWidths: [Int: CGFloat],
+        images: [STExcelEmbeddedImage],
+        shapes: [STExcelEmbeddedShape],
+        frozenRows: Int,
+        frozenCols: Int,
+        charts: [STExcelEmbeddedChart],
+        tables: [STExcelTable],
+        conditionalRules: [STExcelConditionalRule],
+        isSheetProtected: Bool,
+        hiddenRows: Set<Int>,
+        groupedRows: Set<Int>,
+        collapsedGroups: Set<Int>,
+        validationRules: [String: ValidationRule],
+        definedNames: [String: String]
+    ) {
+        self.rowHeights = rowHeights
+        self.columnWidths = columnWidths
+        self.images = images
+        self.shapes = shapes
+        self.frozenRows = frozenRows
+        self.frozenCols = frozenCols
+        self.charts = charts
+        self.tables = tables
+        self.conditionalRules = conditionalRules
+        self.isSheetProtected = isSheetProtected
+        self.hiddenRows = hiddenRows
+        self.groupedRows = groupedRows
+        self.collapsedGroups = collapsedGroups
+        self.validationRules = validationRules
+        self.definedNames = definedNames
+
+        // Rebuild performance caches for the new sheet
+        invalidatePerformanceCaches()
+    }
 
     // MARK: - Selection Updates
 
@@ -527,12 +628,13 @@ final class STExcelEditorViewModel: ObservableObject {
         let oldFormula = cell.formula
 
         if editingValue.hasPrefix("=") {
-            // Store as formula
+            // Store as formula + pre-evaluate so grid never calls formula engine during scroll
             let newFormula = editingValue
             if oldFormula != newFormula {
                 sheet.cells[row][col].formula = newFormula
-                sheet.cells[row][col].value = ""
-                pushUndo(.setCellValue(row: row, col: col, oldValue: oldValue, newValue: ""))
+                let evaluated = STExcelFormulaEngine.evaluate(newFormula, in: sheet)
+                sheet.cells[row][col].value = evaluated
+                pushUndo(.setCellValue(row: row, col: col, oldValue: oldValue, newValue: evaluated))
                 hasUnsavedChanges = true
             }
         } else {
@@ -712,16 +814,19 @@ final class STExcelEditorViewModel: ObservableObject {
         sheet.insertRow(at: row)
         pushUndo(.insertRow(at: row))
         hasUnsavedChanges = true
+        gridRefreshId += 1
         objectWillChange.send()
     }
 
     func deleteRow() {
         guard let sheet, let row = selectedRow, sheet.rowCount > 1 else { return }
+        guard row >= 0, row < sheet.cells.count else { return }
         let cells = sheet.cells[row]
         sheet.deleteRow(at: row)
         pushUndo(.deleteRow(at: row, cells: cells))
         hasUnsavedChanges = true
-        if selectedRow! >= sheet.rowCount { selectedRow = sheet.rowCount - 1 }
+        if let sr = selectedRow, sr >= sheet.rowCount { selectedRow = sheet.rowCount - 1 }
+        gridRefreshId += 1
         objectWillChange.send()
     }
 
@@ -730,16 +835,60 @@ final class STExcelEditorViewModel: ObservableObject {
         sheet.insertColumn(at: col)
         pushUndo(.insertColumn(at: col))
         hasUnsavedChanges = true
+        gridRefreshId += 1
         objectWillChange.send()
     }
 
     func deleteColumn() {
         guard let sheet, let col = selectedCol, sheet.columnCount > 1 else { return }
-        let cells = sheet.cells.map { $0[col] }
+        guard col >= 0, col < sheet.columnCount else { return }
+        let cells = sheet.cells.compactMap { row in col < row.count ? row[col] : nil }
         sheet.deleteColumn(at: col)
         pushUndo(.deleteColumn(at: col, cells: cells))
         hasUnsavedChanges = true
-        if selectedCol! >= sheet.columnCount { selectedCol = sheet.columnCount - 1 }
+        if let sc = selectedCol, sc >= sheet.columnCount { selectedCol = sheet.columnCount - 1 }
+        gridRefreshId += 1
+        objectWillChange.send()
+    }
+
+    // MARK: - Append / Remove Last Row & Column
+
+    func appendRow() {
+        guard let sheet else { return }
+        let newRow = (0..<sheet.columnCount).map { _ in STExcelCell() }
+        sheet.cells.append(newRow)
+        hasUnsavedChanges = true
+        gridRefreshId += 1
+        objectWillChange.send()
+    }
+
+    func appendColumn() {
+        guard let sheet else { return }
+        for r in 0..<sheet.rowCount {
+            sheet.cells[r].append(STExcelCell())
+        }
+        hasUnsavedChanges = true
+        gridRefreshId += 1
+        objectWillChange.send()
+    }
+
+    func deleteLastRow() {
+        guard let sheet, sheet.rowCount > 1 else { return }
+        sheet.cells.removeLast()
+        hasUnsavedChanges = true
+        if let sr = selectedRow, sr >= sheet.rowCount { selectedRow = sheet.rowCount - 1 }
+        gridRefreshId += 1
+        objectWillChange.send()
+    }
+
+    func deleteLastColumn() {
+        guard let sheet, sheet.columnCount > 1 else { return }
+        for r in 0..<sheet.rowCount {
+            sheet.cells[r].removeLast()
+        }
+        hasUnsavedChanges = true
+        if let sc = selectedCol, sc >= sheet.columnCount { selectedCol = sheet.columnCount - 1 }
+        gridRefreshId += 1
         objectWillChange.send()
     }
 

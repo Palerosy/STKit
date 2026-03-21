@@ -38,6 +38,11 @@
 /* Insert Tab */
 "stexcel.chart" = "Diagram";
 "stexcel.picture" = "Billede";
+"stexcel.appendRow" = "Raekke";
+"stexcel.appendColumn" = "Kolonne";
+"stexcel.deleteRow" = "Slet raekke";
+"stexcel.deleteColumn" = "Slet kolonne";
+"stexcel.typeHere" = "Skriv her...";
 
 /* Formulas Tab */
 "stexcel.autoSum" = "Auto-\nsum";

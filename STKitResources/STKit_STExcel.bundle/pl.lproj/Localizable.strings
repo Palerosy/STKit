@@ -33,6 +33,11 @@
 /* Insert Tab */
 "stexcel.chart" = "Wykres";
 "stexcel.picture" = "Obraz";
+"stexcel.appendRow" = "Wiersz";
+"stexcel.appendColumn" = "Kolumna";
+"stexcel.deleteRow" = "Usun wiersz";
+"stexcel.deleteColumn" = "Usun kolumne";
+"stexcel.typeHere" = "Wpisz tutaj...";
 /* Formulas Tab */
 "stexcel.autoSum" = "Auto-\nsuma";
 "stexcel.recalculate" = "Przelicz";

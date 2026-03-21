@@ -15,13 +15,17 @@ enum STExcelReader {
         // 2. Read styles
         let styles = readStyles(from: archive)
 
-        // 3. Read workbook to get sheet names + rIds
+        // 3. Read theme colors (for hyperlink styling)
+        let themeColors = readThemeColors(from: archive)
+        let hyperlinkColor = themeColors[10] ?? "#0563C1"
+
+        // 4. Read workbook to get sheet names + rIds
         let sheetEntries = readSheetEntries(from: archive)
 
-        // 4. Read workbook rels to map rId → file path
+        // 5. Read workbook rels to map rId → file path
         let rels = readWorkbookRels(from: archive)
 
-        // 5. Read each worksheet using correct file paths
+        // 6. Read each worksheet using correct file paths
         var sheets: [STExcelSheet] = []
         for (sheetIndex, entry) in sheetEntries.enumerated() {
             let sheetPath: String
@@ -45,29 +49,76 @@ enum STExcelReader {
                 sheet.groupedRows = ws.groupedRows
                 sheet.dataValidations = ws.dataValidations
 
-                // 6. Read embedded images for this sheet
+                // 7. Read embedded images for this sheet
                 sheet.images = readImages(sheetIndex: sheetIndex + 1, from: archive,
                                           columnWidths: ws.columnWidths, rowHeights: ws.rowHeights)
 
-                // 7. Read shapes
+                // 8. Read shapes
                 sheet.shapes = readShapes(sheetIndex: sheetIndex + 1, from: archive,
                                           columnWidths: ws.columnWidths, rowHeights: ws.rowHeights)
 
-                // 8. Read comments
+                // 9. Read comments
                 readComments(sheetIndex: sheetIndex + 1, from: archive, into: sheet)
 
-                // 9. Read charts
+                // 10. Read charts
                 sheet.charts = readCharts(sheetIndex: sheetIndex + 1, from: archive,
                                           columnWidths: ws.columnWidths, rowHeights: ws.rowHeights)
 
-                // 10. Read tables
+                // 11. Read tables
                 sheet.tables = readTables(sheetIndex: sheetIndex + 1, from: archive)
+
+                // 12. Apply hyperlinks (URL + default blue/underline styling)
+                applyHyperlinks(sheetPath: sheetPath, from: archive, into: sheet,
+                                hyperlinks: ws.hyperlinks, hyperlinkColor: hyperlinkColor)
 
                 sheets.append(sheet)
             }
         }
 
         return sheets.isEmpty ? nil : sheets
+    }
+
+    // MARK: - Hyperlink Application
+
+    /// Resolve hyperlink URLs from sheet rels and apply default styling
+    private static func applyHyperlinks(sheetPath: String, from archive: Archive,
+                                         into sheet: STExcelSheet,
+                                         hyperlinks: [WorksheetParser.HyperlinkEntry],
+                                         hyperlinkColor: String) {
+        guard !hyperlinks.isEmpty else { return }
+
+        // Read sheet rels for hyperlink target URLs
+        let fileName = (sheetPath as NSString).lastPathComponent
+        let dir = (sheetPath as NSString).deletingLastPathComponent
+        let relsPath = "\(dir)/_rels/\(fileName).rels"
+        let hlMap: [String: String]
+        if let relsData = extractData(path: relsPath, from: archive) {
+            let relsParser = SheetRelsParser()
+            let relsXml = XMLParser(data: relsData)
+            relsXml.delegate = relsParser
+            relsXml.parse()
+            hlMap = relsParser.hyperlinkTargets
+        } else {
+            hlMap = [:]
+        }
+
+        for h in hyperlinks {
+            guard h.ref.row < sheet.rowCount, h.ref.col < sheet.columnCount else { continue }
+
+            // Set hyperlink URL
+            if let rId = h.rId, let url = hlMap[rId] {
+                sheet.cells[h.ref.row][h.ref.col].hyperlink = url
+            } else if let location = h.location {
+                sheet.cells[h.ref.row][h.ref.col].hyperlink = location
+            }
+
+            // Apply default hyperlink styling: blue + underline
+            // Only set color if cell doesn't already have custom text color
+            if sheet.cells[h.ref.row][h.ref.col].style.textColor == nil {
+                sheet.cells[h.ref.row][h.ref.col].style.textColor = hyperlinkColor
+            }
+            sheet.cells[h.ref.row][h.ref.col].style.isUnderline = true
+        }
     }
 
     // MARK: - Image Reading
@@ -111,8 +162,10 @@ enum STExcelReader {
         drawingXml.parse()
 
         // 4. Build images
-        let defaultColWidth: CGFloat = 64
-        let defaultRowHeight: CGFloat = 20
+        // Must match grid rendering defaults (STExcelConfiguration)
+        // so anchor-to-pixel conversion is consistent with the writer
+        let defaultColWidth: CGFloat = 100
+        let defaultRowHeight: CGFloat = 40
         var images: [STExcelEmbeddedImage] = []
 
         for entry in drawingParser.imageEntries {
@@ -134,18 +187,53 @@ enum STExcelReader {
 
             var y: CGFloat = 0
             for r in 0..<entry.fromRow {
-                y += rowHeights[r] ?? defaultRowHeight
+                // Clamp row height like grid does — small Excel heights are rendered as defaultRowHeight
+                let rawRh = rowHeights[r] ?? defaultRowHeight
+                let rh = rawRh < defaultRowHeight ? defaultRowHeight : rawRh
+                y += rh
             }
             y += CGFloat(entry.fromRowOff) / 9525.0
 
-            let width = CGFloat(entry.extCx) / 9525.0
-            let height = CGFloat(entry.extCy) / 9525.0
+            // Calculate size: twoCellAnchor uses <to> position, oneCellAnchor uses <ext>
+            let width: CGFloat
+            let height: CGFloat
+            if entry.isTwoCellAnchor {
+                var toX: CGFloat = 0
+                for c in 0..<entry.toCol {
+                    toX += columnWidths[c] ?? defaultColWidth
+                }
+                toX += CGFloat(entry.toColOff) / 9525.0
+                var toY: CGFloat = 0
+                for r in 0..<entry.toRow {
+                    let rawRh = rowHeights[r] ?? defaultRowHeight
+                    let rh = rawRh < defaultRowHeight ? defaultRowHeight : rawRh
+                    toY += rh
+                }
+                toY += CGFloat(entry.toRowOff) / 9525.0
+                width = max(toX - x, 10)
+                height = max(toY - y, 10)
+            } else {
+                width = CGFloat(entry.extCx) / 9525.0
+                height = CGFloat(entry.extCy) / 9525.0
+            }
             let aspect = height > 0 ? width / height : 1.0
 
-            images.append(STExcelEmbeddedImage(
+            var img = STExcelEmbeddedImage(
                 imageData: imageData, x: x, y: y,
                 width: width, height: height, aspectRatio: aspect
-            ))
+            )
+            // Store cell anchors so position/size can be recalculated with actual grid row heights
+            img.anchorRow = entry.fromRow
+            img.anchorCol = entry.fromCol
+            img.anchorRowOffset = CGFloat(entry.fromRowOff) / 9525.0
+            img.anchorColOffset = CGFloat(entry.fromColOff) / 9525.0
+            if entry.isTwoCellAnchor {
+                img.toAnchorRow = entry.toRow
+                img.toAnchorCol = entry.toCol
+                img.toAnchorRowOffset = CGFloat(entry.toRowOff) / 9525.0
+                img.toAnchorColOffset = CGFloat(entry.toColOff) / 9525.0
+            }
+            images.append(img)
         }
 
         return images
@@ -198,8 +286,9 @@ enum STExcelReader {
         drawingXml.parse()
 
         // 3. Build shapes from parsed entries
-        let defaultColWidth: CGFloat = 64
-        let defaultRowHeight: CGFloat = 20
+        // Must match grid rendering defaults (STExcelConfiguration)
+        let defaultColWidth: CGFloat = 100
+        let defaultRowHeight: CGFloat = 40
         var shapes: [STExcelEmbeddedShape] = []
 
         for entry in drawingParser.shapeEntries {
@@ -212,12 +301,34 @@ enum STExcelReader {
 
             var y: CGFloat = 0
             for r in 0..<entry.fromRow {
-                y += rowHeights[r] ?? defaultRowHeight
+                // Clamp row height like grid does
+                let rawRh = rowHeights[r] ?? defaultRowHeight
+                let rh = rawRh < defaultRowHeight ? defaultRowHeight : rawRh
+                y += rh
             }
             y += CGFloat(entry.fromRowOff) / 9525.0
 
-            let width = CGFloat(entry.extCx) / 9525.0
-            let height = CGFloat(entry.extCy) / 9525.0
+            let width: CGFloat
+            let height: CGFloat
+            if entry.isTwoCellAnchor {
+                var toX: CGFloat = 0
+                for c in 0..<entry.toCol {
+                    toX += columnWidths[c] ?? defaultColWidth
+                }
+                toX += CGFloat(entry.toColOff) / 9525.0
+                var toY: CGFloat = 0
+                for r in 0..<entry.toRow {
+                    let rawRh = rowHeights[r] ?? defaultRowHeight
+                    let rh = rawRh < defaultRowHeight ? defaultRowHeight : rawRh
+                    toY += rh
+                }
+                toY += CGFloat(entry.toRowOff) / 9525.0
+                width = max(toX - x, 10)
+                height = max(toY - y, 10)
+            } else {
+                width = CGFloat(entry.extCx) / 9525.0
+                height = CGFloat(entry.extCy) / 9525.0
+            }
 
             let shapeType = shapeTypeFromPreset(entry.presetGeometry)
             let fillColor = colorFromHex(entry.fillColorHex)
@@ -281,8 +392,9 @@ enum STExcelReader {
         drawingXml.parse()
 
         // 4. Build charts
-        let defaultColWidth: CGFloat = 64
-        let defaultRowHeight: CGFloat = 20
+        // Must match grid rendering defaults (STExcelConfiguration)
+        let defaultColWidth: CGFloat = 100
+        let defaultRowHeight: CGFloat = 40
         var charts: [STExcelEmbeddedChart] = []
 
         for entry in drawingParser.chartEntries {
@@ -309,12 +421,34 @@ enum STExcelReader {
 
             var y: CGFloat = 0
             for r in 0..<entry.fromRow {
-                y += rowHeights[r] ?? defaultRowHeight
+                // Clamp row height like grid does
+                let rawRh = rowHeights[r] ?? defaultRowHeight
+                let rh = rawRh < defaultRowHeight ? defaultRowHeight : rawRh
+                y += rh
             }
             y += CGFloat(entry.fromRowOff) / 9525.0
 
-            let width = CGFloat(entry.extCx) / 9525.0
-            let height = CGFloat(entry.extCy) / 9525.0
+            let width: CGFloat
+            let height: CGFloat
+            if entry.isTwoCellAnchor {
+                var toX: CGFloat = 0
+                for c in 0..<entry.toCol {
+                    toX += columnWidths[c] ?? defaultColWidth
+                }
+                toX += CGFloat(entry.toColOff) / 9525.0
+                var toY: CGFloat = 0
+                for r in 0..<entry.toRow {
+                    let rawRh = rowHeights[r] ?? defaultRowHeight
+                    let rh = rawRh < defaultRowHeight ? defaultRowHeight : rawRh
+                    toY += rh
+                }
+                toY += CGFloat(entry.toRowOff) / 9525.0
+                width = max(toX - x, 10)
+                height = max(toY - y, 10)
+            } else {
+                width = CGFloat(entry.extCx) / 9525.0
+                height = CGFloat(entry.extCy) / 9525.0
+            }
 
             // Map parsed chart type to subtype
             let subtype = mapChartSubtype(
@@ -496,7 +630,13 @@ enum STExcelReader {
     private static func readStyles(from archive: Archive) -> ParsedStyles {
         let themeColors = readThemeColors(from: archive)
         guard let data = extractData(path: "xl/styles.xml", from: archive) else { return ParsedStyles() }
-        let parser = StylesParser(themeColors: themeColors)
+        // First pass: extract custom indexed color palette (if any)
+        let colorsPre = CustomIndexedColorsParser()
+        let preXml = XMLParser(data: data)
+        preXml.delegate = colorsPre
+        preXml.parse()
+        // Second pass: parse styles using custom palette
+        let parser = StylesParser(themeColors: themeColors, customIndexedColors: colorsPre.colors)
         let xmlParser = XMLParser(data: data)
         xmlParser.delegate = parser
         xmlParser.parse()
@@ -518,6 +658,7 @@ enum STExcelReader {
         let hiddenRows: Set<Int>
         let groupedRows: Set<Int>
         let dataValidations: [String: STExcelDataValidation]
+        let hyperlinks: [WorksheetParser.HyperlinkEntry]
     }
 
     private static func readWorksheet(path: String, from archive: Archive,
@@ -529,11 +670,24 @@ enum STExcelReader {
         xmlParser.delegate = parser
         xmlParser.parse()
 
-        let maxRow = parser.cells.keys.map(\.row).max() ?? 0
-        let maxCol = parser.cells.keys.map(\.col).max() ?? 0
+        // Use rows/cols with actual content for sizing; styled-but-empty cells
+        // shouldn't inflate the sheet (Excel files often style 1000+ empty rows)
+        let contentMaxRow = parser.cells.filter { !$0.value.value.isEmpty || $0.value.formula != nil }
+                                        .keys.map(\.row).max() ?? 0
+        let contentMaxCol = parser.cells.filter { !$0.value.value.isEmpty || $0.value.formula != nil }
+                                        .keys.map(\.col).max() ?? 0
+        // Also consider merge regions (they may extend beyond content)
+        let mergeMaxRow = parser.mergedRegions.map(\.endRow).max() ?? 0
+        let mergeMaxCol = parser.mergedRegions.map(\.endCol).max() ?? 0
+        let maxRow = max(contentMaxRow, mergeMaxRow)
+        let maxCol = max(contentMaxCol, mergeMaxCol)
 
-        let rows = max(maxRow + 1, 20)
-        let cols = max(maxCol + 1, 10)
+        // Use dimension tag if available (preserves user-added empty rows/cols),
+        // otherwise content + small buffer
+        let dimRows = parser.dimensionRows ?? 0
+        let dimCols = parser.dimensionCols ?? 0
+        let rows = max(maxRow + 1, dimRows, 20) + 10
+        let cols = max(maxCol + 1, dimCols, 10) + 3
 
         var result: [[STExcelCell]] = (0..<rows).map { _ in
             (0..<cols).map { _ in STExcelCell() }
@@ -545,17 +699,34 @@ enum STExcelReader {
             }
         }
 
+        // Pre-evaluate formulas that have no cached value (e.g. from Google Sheets exports).
+        // This runs once at load time so scroll rendering never calls the formula engine.
+        let tempSheet = STExcelSheet(name: "temp", cells: result)
+        for r in 0..<rows {
+            for c in 0..<cols {
+                if result[r][c].value.isEmpty, let formula = result[r][c].formula {
+                    result[r][c].value = STExcelFormulaEngine.evaluate(formula, in: tempSheet)
+                }
+            }
+        }
+
+        // Trim row/col dimensions to actual range — don't carry metadata for 1000+ empty rows
+        let trimmedRowHeights = parser.rowHeights.filter { $0.key < rows }
+        let trimmedColWidths = parser.columnWidths.filter { $0.key < cols }
+        let trimmedHiddenRows = parser.hiddenRows.filter { $0 < rows }
+
         return WorksheetResult(
             cells: result,
             mergedRegions: parser.mergedRegions,
-            columnWidths: parser.columnWidths,
-            rowHeights: parser.rowHeights,
+            columnWidths: trimmedColWidths,
+            rowHeights: trimmedRowHeights,
             frozenRows: parser.frozenRows,
             frozenCols: parser.frozenCols,
             isProtected: parser.isProtected,
-            hiddenRows: parser.hiddenRows,
+            hiddenRows: trimmedHiddenRows,
             groupedRows: parser.groupedRows,
-            dataValidations: parser.dataValidations
+            dataValidations: parser.dataValidations,
+            hyperlinks: parser.hyperlinkEntries
         )
     }
 
@@ -635,7 +806,16 @@ struct ParsedStyles {
         }
 
         if xf.fillId < fills.count {
-            style.fillColor = fills[xf.fillId].fgColor
+            let fill = fills[xf.fillId]
+            switch fill.patternType {
+            case "solid":
+                style.fillColor = fill.fgColor
+            case "none":
+                style.fillColor = nil
+            default:
+                // Other patterns (gray125, etc.): use bgColor if available
+                style.fillColor = fill.bgColor
+            }
         }
 
         if xf.borderId < borders.count {
@@ -669,6 +849,8 @@ struct ParsedFont {
 
 struct ParsedFill {
     var fgColor: String? = nil
+    var bgColor: String? = nil
+    var patternType: String = "none"
 }
 
 struct ParsedBorder {
@@ -749,7 +931,14 @@ private class RelsParser: NSObject, XMLParserDelegate {
     }
 }
 
-private class WorksheetParser: NSObject, XMLParserDelegate {
+fileprivate class WorksheetParser: NSObject, XMLParserDelegate {
+
+    struct HyperlinkEntry {
+        let ref: CellReference
+        let rId: String?
+        let location: String?
+    }
+
     let sharedStrings: [String]
     let styles: ParsedStyles
     var cells: [CellReference: STExcelCell] = [:]
@@ -762,6 +951,9 @@ private class WorksheetParser: NSObject, XMLParserDelegate {
     var hiddenRows: Set<Int> = []
     var groupedRows: Set<Int> = []
     var dataValidations: [String: STExcelDataValidation] = [:]
+    var hyperlinkEntries: [HyperlinkEntry] = []
+    var dimensionRows: Int? = nil
+    var dimensionCols: Int? = nil
 
     private var currentRef: CellReference?
     private var currentType: String?
@@ -785,7 +977,16 @@ private class WorksheetParser: NSObject, XMLParserDelegate {
 
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?,
                 qualifiedName: String?, attributes: [String: String] = [:]) {
-        if elementName == "pane" {
+        if elementName == "dimension" {
+            // <dimension ref="A1:M35"/> — total sheet extent
+            if let ref = attributes["ref"], let colonIdx = ref.lastIndex(of: ":") {
+                let endRef = String(ref[ref.index(after: colonIdx)...])
+                if let cellRef = CellReference(string: endRef) {
+                    dimensionRows = cellRef.row + 1
+                    dimensionCols = cellRef.col + 1
+                }
+            }
+        } else if elementName == "pane" {
             // <pane xSplit="2" ySplit="1" topLeftCell="C2" state="frozen"/>
             if let ySplit = attributes["ySplit"], let val = Int(ySplit) { frozenRows = val }
             if let xSplit = attributes["xSplit"], let val = Int(xSplit) { frozenCols = val }
@@ -807,19 +1008,28 @@ private class WorksheetParser: NSObject, XMLParserDelegate {
             }
         } else if elementName == "col" {
             // <col min="1" max="3" width="15.5" customWidth="1"/>
-            if let minStr = attributes["min"], let maxStr = attributes["max"],
+            // Only store when customWidth="1" — otherwise Excel writes default width
+            // for ALL 16384 columns which wastes memory and slows rendering
+            if attributes["customWidth"] == "1",
+               let minStr = attributes["min"], let maxStr = attributes["max"],
                let minCol = Int(minStr), let maxCol = Int(maxStr),
                let widthStr = attributes["width"], let width = Double(widthStr) {
                 // Excel width is in character units; approximate to points (~7 pts per char)
                 let pts = CGFloat(width * 7.0)
-                for col in minCol...maxCol {
+                // Cap to reasonable column count (don't store 16384 entries)
+                let cappedMax = min(maxCol, 500)
+                for col in minCol...cappedMax {
                     columnWidths[col - 1] = pts  // 0-indexed
                 }
             }
         } else if elementName == "row" {
             // <row r="1" ht="20" customHeight="1" hidden="1" outlineLevel="1"/>
             if let rStr = attributes["r"], let rowNum = Int(rStr) {
-                if let htStr = attributes["ht"], let ht = Double(htStr) {
+                // Store custom row heights for accurate image/shape positioning.
+                // Heights that match Excel's default (~15pt) will be clamped to
+                // app minimum during rendering, but kept here for anchor calculations.
+                if attributes["customHeight"] == "1",
+                   let htStr = attributes["ht"], let ht = Double(htStr) {
                     rowHeights[rowNum - 1] = CGFloat(ht)  // 0-indexed
                 }
                 if attributes["hidden"] == "1" {
@@ -843,6 +1053,18 @@ private class WorksheetParser: NSObject, XMLParserDelegate {
         } else if elementName == "formula2" && insideDataValidation {
             insideDVFormula2 = true
             currentDVFormula2 = ""
+        } else if elementName == "hyperlink" {
+            // <hyperlink ref="A5" r:id="rId1"/> or <hyperlink ref="A5" location="Sheet2!A1"/>
+            if let refStr = attributes["ref"] {
+                let singleRef = refStr.split(separator: ":").first.map(String.init) ?? refStr
+                if let cellRef = CellReference(string: singleRef) {
+                    hyperlinkEntries.append(HyperlinkEntry(
+                        ref: cellRef,
+                        rId: attributes["r:id"],
+                        location: attributes["location"]
+                    ))
+                }
+            }
         }
     }
 
@@ -892,6 +1114,8 @@ private class WorksheetParser: NSObject, XMLParserDelegate {
                 let end = cellRefs.count > 1 ? CellReference(string: cellRefs[1]) : start
                 let endRow = end?.row ?? start.row
                 let endCol = end?.col ?? start.col
+                // Ensure valid range bounds
+                guard endRow >= start.row, endCol >= start.col else { continue }
                 // Limit to prevent memory explosion on huge ranges
                 guard (endRow - start.row + 1) * (endCol - start.col + 1) < 100_000 else { continue }
                 for r in start.row...endRow {
@@ -927,7 +1151,7 @@ private class WorksheetParser: NSObject, XMLParserDelegate {
 
 // MARK: - Theme Color Resolver
 
-private func resolveColor(attrs: [String: String], themeColors: [Int: String]) -> String? {
+private func resolveColor(attrs: [String: String], themeColors: [Int: String], customIndexedColors: [String]? = nil) -> String? {
     // 1. Direct RGB
     if let rgb = attrs["rgb"], rgb.count >= 6 {
         let hex = rgb.count == 8 ? String(rgb.dropFirst(2)) : rgb
@@ -940,9 +1164,11 @@ private func resolveColor(attrs: [String: String], themeColors: [Int: String]) -
         if tint == 0 { return baseHex }
         return applyTint(hex: baseHex, tint: tint)
     }
-    // 3. Indexed color (legacy)
-    if let idxStr = attrs["indexed"], let idx = Int(idxStr), idx < indexedColors.count {
-        return indexedColors[idx]
+    // 3. Indexed color — prefer custom palette from <colors><indexedColors>, fallback to standard
+    if let idxStr = attrs["indexed"], let idx = Int(idxStr) {
+        let palette = customIndexedColors ?? indexedColors
+        let resolved = idx < palette.count ? palette[idx] : (idx < indexedColors.count ? indexedColors[idx] : nil)
+        return resolved
     }
     return nil
 }
@@ -1023,11 +1249,39 @@ private class ThemeParser: NSObject, XMLParserDelegate {
     }
 }
 
+// MARK: - Custom Indexed Colors Parser
+
+/// Pre-parses styles.xml to extract custom indexed color palette (<colors><indexedColors>).
+private class CustomIndexedColorsParser: NSObject, XMLParserDelegate {
+    var colors: [String]? = nil
+    private var insideIndexedColors = false
+    private var collected: [String] = []
+
+    func parser(_ parser: XMLParser, didStartElement el: String, namespaceURI: String?,
+                qualifiedName: String?, attributes attrs: [String: String] = [:]) {
+        if el == "indexedColors" { insideIndexedColors = true }
+        if insideIndexedColors && el == "rgbColor", let rgb = attrs["rgb"] {
+            // ARGB format (e.g. "FF4472C4") → strip alpha → "#4472C4"
+            let hex = rgb.count == 8 ? String(rgb.dropFirst(2)) : rgb
+            collected.append("#\(hex.uppercased())")
+        }
+    }
+
+    func parser(_ parser: XMLParser, didEndElement el: String, namespaceURI: String?,
+                qualifiedName: String?) {
+        if el == "indexedColors" {
+            insideIndexedColors = false
+            if !collected.isEmpty { colors = collected }
+        }
+    }
+}
+
 // MARK: - Styles Parser
 
 private class StylesParser: NSObject, XMLParserDelegate {
     var result = ParsedStyles()
     private let themeColors: [Int: String]
+    private let customIndexedColors: [String]?
 
     private enum Section { case none, fonts, fills, borders, cellXfs, numFmts }
     private var section: Section = .none
@@ -1039,8 +1293,9 @@ private class StylesParser: NSObject, XMLParserDelegate {
     private var insideBorderEdge: String? = nil
     private var insidePatternFill = false
 
-    init(themeColors: [Int: String] = [:]) {
+    init(themeColors: [Int: String] = [:], customIndexedColors: [String]? = nil) {
         self.themeColors = themeColors
+        self.customIndexedColors = customIndexedColors
         super.init()
     }
 
@@ -1063,21 +1318,30 @@ private class StylesParser: NSObject, XMLParserDelegate {
 
         case .fonts:
             if el == "font" { currentFont = ParsedFont() }
-            else if el == "b" { currentFont.isBold = true }
-            else if el == "i" { currentFont.isItalic = true }
-            else if el == "u" { currentFont.isUnderline = true }
-            else if el == "strike" { currentFont.isStrikethrough = true }
+            else if el == "b" { currentFont.isBold = (attrs["val"] ?? "1") != "0" && (attrs["val"] ?? "true") != "false" }
+            else if el == "i" { currentFont.isItalic = (attrs["val"] ?? "1") != "0" && (attrs["val"] ?? "true") != "false" }
+            else if el == "u" {
+                let val = attrs["val"] ?? "single"
+                currentFont.isUnderline = val != "none" && val != "0" && val != "false"
+            }
+            else if el == "strike" { currentFont.isStrikethrough = (attrs["val"] ?? "1") != "0" && (attrs["val"] ?? "true") != "false" }
             else if el == "sz" { currentFont.size = Double(attrs["val"] ?? "11") ?? 11 }
             else if el == "name" { currentFont.name = attrs["val"] ?? "Calibri" }
             else if el == "color" {
-                currentFont.color = resolveColor(attrs: attrs, themeColors: themeColors)
+                currentFont.color = resolveColor(attrs: attrs, themeColors: themeColors, customIndexedColors: customIndexedColors)
             }
 
         case .fills:
             if el == "fill" { currentFill = ParsedFill() }
-            else if el == "patternFill" { insidePatternFill = true }
+            else if el == "patternFill" {
+                insidePatternFill = true
+                currentFill.patternType = attrs["patternType"] ?? "none"
+            }
             else if el == "fgColor" && insidePatternFill {
-                currentFill.fgColor = resolveColor(attrs: attrs, themeColors: themeColors)
+                currentFill.fgColor = resolveColor(attrs: attrs, themeColors: themeColors, customIndexedColors: customIndexedColors)
+            }
+            else if el == "bgColor" && insidePatternFill {
+                currentFill.bgColor = resolveColor(attrs: attrs, themeColors: themeColors, customIndexedColors: customIndexedColors)
             }
 
         case .borders:
@@ -1093,7 +1357,7 @@ private class StylesParser: NSObject, XMLParserDelegate {
                 default: break
                 }
             } else if el == "color" && insideBorderEdge != nil {
-                currentBorder.color = resolveColor(attrs: attrs, themeColors: themeColors)
+                currentBorder.color = resolveColor(attrs: attrs, themeColors: themeColors, customIndexedColors: customIndexedColors)
             }
 
         case .cellXfs:
@@ -1160,6 +1424,7 @@ private class StylesParser: NSObject, XMLParserDelegate {
 private class SheetRelsParser: NSObject, XMLParserDelegate {
     var drawingTarget: String?
     var tableTargets: [String] = []
+    var hyperlinkTargets: [String: String] = [:]  // rId → URL
 
     func parser(_ parser: XMLParser, didStartElement el: String, namespaceURI: String?,
                 qualifiedName: String?, attributes attrs: [String: String] = [:]) {
@@ -1170,6 +1435,8 @@ private class SheetRelsParser: NSObject, XMLParserDelegate {
                 drawingTarget = target
             } else if type.contains("table") {
                 tableTargets.append(target)
+            } else if type.contains("hyperlink"), let id = attrs["Id"] {
+                hyperlinkTargets[id] = target
             }
         }
     }
@@ -1207,9 +1474,14 @@ private class DrawingParser: NSObject, XMLParserDelegate {
         var fromColOff: Int = 0
         var fromRow: Int = 0
         var fromRowOff: Int = 0
+        var toCol: Int = 0
+        var toColOff: Int = 0
+        var toRow: Int = 0
+        var toRowOff: Int = 0
         var extCx: Int = 0
         var extCy: Int = 0
         var embedId: String = ""
+        var isTwoCellAnchor: Bool = false
     }
 
     struct ShapeEntry {
@@ -1217,6 +1489,10 @@ private class DrawingParser: NSObject, XMLParserDelegate {
         var fromColOff: Int = 0
         var fromRow: Int = 0
         var fromRowOff: Int = 0
+        var toCol: Int = 0
+        var toColOff: Int = 0
+        var toRow: Int = 0
+        var toRowOff: Int = 0
         var extCx: Int = 0
         var extCy: Int = 0
         var presetGeometry: String = "rect"
@@ -1225,6 +1501,7 @@ private class DrawingParser: NSObject, XMLParserDelegate {
         var lineWidth: Int = 0
         var rotation: Int = 0
         var text: String = ""
+        var isTwoCellAnchor: Bool = false
     }
 
     struct ChartEntry {
@@ -1232,9 +1509,14 @@ private class DrawingParser: NSObject, XMLParserDelegate {
         var fromColOff: Int = 0
         var fromRow: Int = 0
         var fromRowOff: Int = 0
+        var toCol: Int = 0
+        var toColOff: Int = 0
+        var toRow: Int = 0
+        var toRowOff: Int = 0
         var extCx: Int = 0
         var extCy: Int = 0
         var chartRId: String = ""
+        var isTwoCellAnchor: Bool = false
     }
 
     var imageEntries: [ImageEntry] = []
@@ -1246,6 +1528,7 @@ private class DrawingParser: NSObject, XMLParserDelegate {
     private var currentChartEntry = ChartEntry()
     private var insideAnchor = false
     private var insideFrom = false
+    private var insideTo = false
     private var insidePic = false
     private var insideSp = false
     private var insideSpPr = false
@@ -1268,8 +1551,14 @@ private class DrawingParser: NSObject, XMLParserDelegate {
             currentImageEntry = ImageEntry()
             currentShapeEntry = ShapeEntry()
             currentChartEntry = ChartEntry()
+            let isTwoCell = local == "twoCellAnchor"
+            currentImageEntry.isTwoCellAnchor = isTwoCell
+            currentShapeEntry.isTwoCellAnchor = isTwoCell
+            currentChartEntry.isTwoCellAnchor = isTwoCell
         } else if local == "from" && insideAnchor {
             insideFrom = true
+        } else if local == "to" && insideAnchor {
+            insideTo = true
         } else if local == "ext" && insideAnchor && !insidePic && !insideSp && !insideGraphicFrame {
             let cx = Int(attrs["cx"] ?? "0") ?? 0
             let cy = Int(attrs["cy"] ?? "0") ?? 0
@@ -1318,14 +1607,14 @@ private class DrawingParser: NSObject, XMLParserDelegate {
             currentChartEntry.chartRId = attrs["r:id"] ?? attrs["id"] ?? ""
         }
 
-        if insideFrom {
+        if insideFrom || insideTo {
             currentElement = local
             currentText = ""
         }
     }
 
     func parser(_ parser: XMLParser, foundCharacters string: String) {
-        if insideFrom { currentText += string }
+        if insideFrom || insideTo { currentText += string }
         if insideTxBody && currentElement == "t" { currentText += string }
     }
 
@@ -1359,11 +1648,38 @@ private class DrawingParser: NSObject, XMLParserDelegate {
             }
         }
 
+        if insideTo {
+            switch local {
+            case "col":
+                let val = Int(currentText) ?? 0
+                currentImageEntry.toCol = val
+                currentShapeEntry.toCol = val
+                currentChartEntry.toCol = val
+            case "colOff":
+                let val = Int(currentText) ?? 0
+                currentImageEntry.toColOff = val
+                currentShapeEntry.toColOff = val
+                currentChartEntry.toColOff = val
+            case "row":
+                let val = Int(currentText) ?? 0
+                currentImageEntry.toRow = val
+                currentShapeEntry.toRow = val
+                currentChartEntry.toRow = val
+            case "rowOff":
+                let val = Int(currentText) ?? 0
+                currentImageEntry.toRowOff = val
+                currentShapeEntry.toRowOff = val
+                currentChartEntry.toRowOff = val
+            default: break
+            }
+        }
+
         if local == "t" && insideTxBody {
             currentShapeEntry.text += currentText
             currentElement = ""
         }
         if local == "from" { insideFrom = false }
+        if local == "to" { insideTo = false }
         if local == "pic" { insidePic = false }
         if local == "ln" { insideLn = false }
         if local == "spPr" { insideSpPr = false }
@@ -1549,7 +1865,7 @@ private class ChartXMLParser: NSObject, XMLParserDelegate {
             .replacingOccurrences(of: "$", with: "")
 
         let parts = rangeStr.split(separator: ":").map { String($0) }
-        guard let start = CellReference(string: parts[0]) else { return }
+        guard let first = parts.first, let start = CellReference(string: first) else { return }
         let end = parts.count > 1 ? CellReference(string: parts[1]) : nil
 
         // Update data range bounds

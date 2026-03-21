@@ -33,6 +33,11 @@
 /* Insert Tab */
 "stexcel.chart" = "Graf";
 "stexcel.picture" = "Obrázok";
+"stexcel.appendRow" = "Riadok";
+"stexcel.appendColumn" = "Stlpec";
+"stexcel.deleteRow" = "Zmazat riadok";
+"stexcel.deleteColumn" = "Zmazat stlpec";
+"stexcel.typeHere" = "Piste sem...";
 /* Formulas Tab */
 "stexcel.autoSum" = "Automatický\nSúčet";
 "stexcel.recalculate" = "Prepočítať";

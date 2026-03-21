@@ -38,6 +38,11 @@
 /* Insert Tab */
 "stexcel.chart" = "Bagan";
 "stexcel.picture" = "Gambar";
+"stexcel.appendRow" = "Baris";
+"stexcel.appendColumn" = "Kolom";
+"stexcel.deleteRow" = "Hapus baris";
+"stexcel.deleteColumn" = "Hapus kolom";
+"stexcel.typeHere" = "Ketik di sini...";
 
 /* Formulas Tab */
 "stexcel.autoSum" = "Jumlah\nOtomatis";

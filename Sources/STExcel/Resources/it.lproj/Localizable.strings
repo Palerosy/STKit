@@ -38,6 +38,11 @@
 /* Insert Tab */
 "stexcel.chart" = "Grafico";
 "stexcel.picture" = "Immagine";
+"stexcel.appendRow" = "Riga";
+"stexcel.appendColumn" = "Colonna";
+"stexcel.deleteRow" = "Elim. riga";
+"stexcel.deleteColumn" = "Elim. col.";
+"stexcel.typeHere" = "Digita qui...";
 
 /* Formulas Tab */
 "stexcel.autoSum" = "Somma\nautom.";

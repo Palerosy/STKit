@@ -133,6 +133,28 @@ struct STExcelRibbonInsertTab: View {
                     }
                     .stPresentationDetents([.medium])
                 }
+
+                STExcelRibbonSeparator()
+
+                // Append Row at end
+                STExcelRibbonToolButton(iconName: "plus.rectangle", label: STExcelStrings.appendRow) {
+                    viewModel.appendRow()
+                }
+
+                // Append Column at end
+                STExcelRibbonToolButton(iconName: "plus.rectangle.portrait", label: STExcelStrings.appendColumn) {
+                    viewModel.appendColumn()
+                }
+
+                // Delete last row
+                STExcelRibbonToolButton(iconName: "minus.rectangle", label: STExcelStrings.deleteRow) {
+                    viewModel.deleteLastRow()
+                }
+
+                // Delete last column
+                STExcelRibbonToolButton(iconName: "minus.rectangle.portrait", label: STExcelStrings.deleteColumn) {
+                    viewModel.deleteLastColumn()
+                }
             }
             .padding(.horizontal, 8)
         }
