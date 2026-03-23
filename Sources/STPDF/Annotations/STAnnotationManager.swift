@@ -142,19 +142,16 @@ final class STAnnotationManager: ObservableObject {
         guard let annotation = selectedAnnotation,
               let page = selectedAnnotationPage else { return }
         clearAnnotationSelection()
-        // Deactivate any active tool so eraser/ink don't interfere after delete
         activeTool = nil
-        // Clear the baked appearance stream before removal so PDFKit doesn't
-        // keep rendering the cached image in tile layers
-        // Clear baked appearance stream so tile cache doesn't keep showing the image
-        if let apDict = annotation.value(forAnnotationKey: PDFAnnotationKey(rawValue: "/AP")) {
-            annotation.setValue(nil as AnyObject?, forAnnotationKey: PDFAnnotationKey(rawValue: "/AP"))
-        }
-        page.removeAnnotation(annotation)
+
+        // Rebuild page annotations: remove ALL, then re-add everything except deleted.
+        // This avoids nuclear redraw (which breaks rendering) while ensuring PDFKit
+        // fully refreshes the page including baked appearance streams.
+        let surviving = page.annotations.filter { $0 !== annotation }
+        for a in page.annotations { page.removeAnnotation(a) }
+        for a in surviving { page.addAnnotation(a) }
+
         undoManager.record(.remove(annotation: annotation, page: page))
-        // Nuclear redraw to flush tile cache. We cleared appearance first so
-        // even if PDFKit re-reads the page, the annotation has no visual to render.
-        nuclearPDFViewRedraw()
         STHaptics.impact(.medium)
     }
 
@@ -172,20 +169,20 @@ final class STAnnotationManager: ObservableObject {
     /// Delete all multi-selected annotations
     func deleteMultiSelectedAnnotations() {
         guard let page = multiSelectionPage else { return }
-        let annotations = multiSelectedAnnotations
+        let toDelete = Set(multiSelectedAnnotations.map { ObjectIdentifier($0) })
+        let allAnnotations = multiSelectedAnnotations
         multiSelectedAnnotations.removeAll()
         multiSelectionPage = nil
-        // Deactivate any active tool so eraser/ink don't interfere after delete
         activeTool = nil
-        for annotation in annotations {
-            // Clear baked appearance stream so tile cache doesn't keep showing the image
-        if let apDict = annotation.value(forAnnotationKey: PDFAnnotationKey(rawValue: "/AP")) {
-            annotation.setValue(nil as AnyObject?, forAnnotationKey: PDFAnnotationKey(rawValue: "/AP"))
-        }
-            page.removeAnnotation(annotation)
+
+        // Rebuild page: remove all, re-add survivors
+        let surviving = page.annotations.filter { !toDelete.contains(ObjectIdentifier($0)) }
+        for a in page.annotations { page.removeAnnotation(a) }
+        for a in surviving { page.addAnnotation(a) }
+
+        for annotation in allAnnotations {
             undoManager.record(.remove(annotation: annotation, page: page))
         }
-        nuclearPDFViewRedraw()
         STHaptics.impact(.medium)
     }
 
