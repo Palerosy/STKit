@@ -493,10 +493,12 @@ enum STExcelWriter {
                 }
             }
         }
-        // Also include merged regions
+        // Also include merged regions — clamped to actual cells bounds
+        let maxValidRow = sheet.rowCount - 1
+        let maxValidCol = sheet.columnCount - 1
         for region in sheet.mergedRegions {
-            lastContentRow = max(lastContentRow, region.endRow)
-            lastContentCol = max(lastContentCol, region.endCol)
+            lastContentRow = max(lastContentRow, min(region.endRow, maxValidRow))
+            lastContentCol = max(lastContentCol, min(region.endCol, maxValidCol))
         }
         let dimRef = "A1:\(STExcelSheet.columnLetter(lastContentCol))\(lastContentRow + 1)"
         xml += "<dimension ref=\"\(dimRef)\"/>"
@@ -557,12 +559,17 @@ enum STExcelWriter {
             xml += "<autoFilter ref=\"\(firstTable.rangeString)\"/>"
         }
 
-        // Merge cells
-        if !sheet.mergedRegions.isEmpty {
-            xml += "<mergeCells count=\"\(sheet.mergedRegions.count)\">"
-            for region in sheet.mergedRegions {
+        // Merge cells — skip regions that reference rows/cols beyond the actual grid
+        let validMerges = sheet.mergedRegions.filter {
+            $0.startRow < sheet.rowCount && $0.startCol < sheet.columnCount
+        }
+        if !validMerges.isEmpty {
+            xml += "<mergeCells count=\"\(validMerges.count)\">"
+            for region in validMerges {
+                let clampedEndRow = min(region.endRow, sheet.rowCount - 1)
+                let clampedEndCol = min(region.endCol, sheet.columnCount - 1)
                 let startRef = "\(STExcelSheet.columnLetter(region.startCol))\(region.startRow + 1)"
-                let endRef = "\(STExcelSheet.columnLetter(region.endCol))\(region.endRow + 1)"
+                let endRef = "\(STExcelSheet.columnLetter(clampedEndCol))\(clampedEndRow + 1)"
                 xml += "<mergeCell ref=\"\(startRef):\(endRef)\"/>"
             }
             xml += "</mergeCells>"
