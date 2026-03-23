@@ -142,6 +142,8 @@ final class STAnnotationManager: ObservableObject {
         guard let annotation = selectedAnnotation,
               let page = selectedAnnotationPage else { return }
         clearAnnotationSelection()
+        // Deactivate any active tool so eraser/ink don't interfere after delete
+        activeTool = nil
         page.removeAnnotation(annotation)
         undoManager.record(.remove(annotation: annotation, page: page))
         // Always use nuclear redraw for deletions — saved annotations lose their
@@ -167,6 +169,8 @@ final class STAnnotationManager: ObservableObject {
         let annotations = multiSelectedAnnotations
         multiSelectedAnnotations.removeAll()
         multiSelectionPage = nil
+        // Deactivate any active tool so eraser/ink don't interfere after delete
+        activeTool = nil
         for annotation in annotations {
             page.removeAnnotation(annotation)
             undoManager.record(.remove(annotation: annotation, page: page))
