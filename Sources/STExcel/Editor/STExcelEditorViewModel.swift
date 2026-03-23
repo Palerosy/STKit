@@ -821,6 +821,7 @@ final class STExcelEditorViewModel: ObservableObject {
         hasUnsavedChanges = true
         gridRefreshId += 1
         objectWillChange.send()
+        print("⚠️ [STExcel] insertRow called at \(row) — now \(sheet.rowCount) rows")
     }
 
     func deleteRow() {
@@ -865,6 +866,7 @@ final class STExcelEditorViewModel: ObservableObject {
         hasUnsavedChanges = true
         gridRefreshId += 1
         objectWillChange.send()
+        print("⚠️ [STExcel] appendRow called — now \(sheet.rowCount) rows", Thread.callStackSymbols.prefix(8).joined(separator: "\n"))
     }
 
     func appendColumn() {
@@ -875,6 +877,7 @@ final class STExcelEditorViewModel: ObservableObject {
         hasUnsavedChanges = true
         gridRefreshId += 1
         objectWillChange.send()
+        print("⚠️ [STExcel] appendColumn called — now \(sheet.columnCount) cols", Thread.callStackSymbols.prefix(8).joined(separator: "\n"))
     }
 
     func deleteLastRow() {
