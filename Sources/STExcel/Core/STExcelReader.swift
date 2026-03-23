@@ -683,11 +683,12 @@ enum STExcelReader {
         let maxCol = max(contentMaxCol, mergeMaxCol)
 
         // Use dimension tag if available (preserves user-added empty rows/cols),
-        // otherwise content + small buffer
+        // otherwise content-based sizing.  Do NOT add extra padding — every
+        // save/load cycle was inflating the sheet by +10 rows / +3 cols.
         let dimRows = parser.dimensionRows ?? 0
         let dimCols = parser.dimensionCols ?? 0
-        let rows = max(maxRow + 1, dimRows, 20) + 10
-        let cols = max(maxCol + 1, dimCols, 10) + 3
+        let rows = max(maxRow + 1, dimRows, 20)
+        let cols = max(maxCol + 1, dimCols, 10)
 
         var result: [[STExcelCell]] = (0..<rows).map { _ in
             (0..<cols).map { _ in STExcelCell() }
