@@ -618,6 +618,11 @@ final class STExcelEditorViewModel: ObservableObject {
 
     func commitEdit() {
         guard let sheet, let row = selectedRow, let col = selectedCol else { return }
+        // Bounds check to prevent index-out-of-range crashes
+        guard row >= 0, col >= 0, row < sheet.cells.count, col < sheet.cells[row].count else {
+            isEditing = false
+            return
+        }
         // Block editing if sheet is protected and cell is locked
         if isSheetProtected && sheet.cell(row: row, column: col).style.isLocked {
             isEditing = false

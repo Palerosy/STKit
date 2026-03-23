@@ -5,8 +5,11 @@ import Foundation
 enum STExcelFormulaEngine {
 
     /// Max recursion depth to prevent stack overflow from circular references or deep nesting
-    private static let maxDepth = 20
-    /// Current recursion depth (main-thread only, safe for SwiftUI rendering)
+    private static let maxDepth = 50
+    /// Current recursion depth (main-thread only, safe for SwiftUI rendering).
+    /// Incremented only at the top-level `evaluate` entry-point; inner helpers
+    /// simply check the value so a single formula evaluation always uses one
+    /// consistent counter instead of double-counting across nested calls.
     private static var currentDepth = 0
     /// Cells currently being evaluated — detects circular references
     private static var evaluatingCells: Set<String> = []
@@ -19,7 +22,7 @@ enum STExcelFormulaEngine {
     static func evaluate(_ formula: String, in sheet: STExcelSheet) -> String {
         guard formula.hasPrefix("=") else { return formula }
 
-        // Guard against infinite recursion
+        // Guard against infinite recursion — only the top-level entry increments
         currentDepth += 1
         defer { currentDepth -= 1 }
         guard currentDepth <= maxDepth else { return "#REF!" }
@@ -45,9 +48,7 @@ enum STExcelFormulaEngine {
     // MARK: - Expression Evaluator
 
     private static func evaluateExpression(_ expr: String, in sheet: STExcelSheet) throws -> Any {
-        // Guard against stack overflow from circular or deeply nested formulas
-        currentDepth += 1
-        defer { currentDepth -= 1 }
+        // Check depth limit — do NOT increment here; depth is managed by `evaluate`
         guard currentDepth <= maxDepth else { return "#REF!" as Any }
 
         let trimmed = expr.trimmingCharacters(in: .whitespaces)

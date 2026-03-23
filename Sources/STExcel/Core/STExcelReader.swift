@@ -748,15 +748,24 @@ struct CellReference: Hashable {
     let row: Int
     let col: Int
 
-    /// Parse "A1", "B2", "AA100" etc.
+    /// Parse "A1", "B2", "AA100", "$A$1", "A$1", "$A1" etc.
     init?(string: String) {
+        // Strip absolute-reference markers and leading/trailing whitespace
+        let cleaned = string.replacingOccurrences(of: "$", with: "")
+            .trimmingCharacters(in: .whitespaces)
+        guard !cleaned.isEmpty else { return nil }
         var colStr = ""
         var rowStr = ""
-        for char in string {
+        for char in cleaned {
             if char.isLetter {
+                // Letters must come before digits in a valid cell ref
+                guard rowStr.isEmpty else { return nil }
                 colStr.append(char)
             } else if char.isNumber {
                 rowStr.append(char)
+            } else {
+                // Invalid character
+                return nil
             }
         }
         // Max 3 letters (XFD = 16384 columns in Excel)
@@ -1862,10 +1871,12 @@ private class ChartXMLParser: NSObject, XMLParserDelegate {
 
     /// Extract data range from formula like "Sheet1!$A$2:$B$5" or "'Sheet 1'!$B$1"
     private func parseFormulaRange(_ formula: String) {
-        // Remove sheet name prefix
-        guard let bangIndex = formula.lastIndex(of: "!") else { return }
-        let rangeStr = String(formula[formula.index(after: bangIndex)...])
-            .replacingOccurrences(of: "$", with: "")
+        // Remove sheet name prefix — bail out if formula is empty or has no sheet ref
+        guard !formula.isEmpty,
+              let bangIndex = formula.lastIndex(of: "!") else { return }
+        let afterBang = formula.index(after: bangIndex)
+        guard afterBang < formula.endIndex else { return }
+        let rangeStr = String(formula[afterBang...])
 
         let parts = rangeStr.split(separator: ":").map { String($0) }
         guard let first = parts.first, let start = CellReference(string: first) else { return }
