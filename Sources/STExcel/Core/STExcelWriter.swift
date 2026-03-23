@@ -481,26 +481,10 @@ enum STExcelWriter {
             xml += "</cols>"
         }
 
-        // Dimension — write the extent of actual content, not the full in-memory grid.
-        // This prevents the reader from re-inflating empty trailing rows/cols on reload.
-        var lastContentRow = 0
-        var lastContentCol = 0
-        for (r, row) in sheet.cells.enumerated() {
-            for (c, cell) in row.enumerated() {
-                if !cell.value.isEmpty || cell.style.isCustom || cell.formula != nil {
-                    lastContentRow = max(lastContentRow, r)
-                    lastContentCol = max(lastContentCol, c)
-                }
-            }
-        }
-        // Also include merged regions — clamped to actual cells bounds
-        let maxValidRow = sheet.rowCount - 1
-        let maxValidCol = sheet.columnCount - 1
-        for region in sheet.mergedRegions {
-            lastContentRow = max(lastContentRow, min(region.endRow, maxValidRow))
-            lastContentCol = max(lastContentCol, min(region.endCol, maxValidCol))
-        }
-        let dimRef = "A1:\(STExcelSheet.columnLetter(lastContentCol))\(lastContentRow + 1)"
+        // Dimension — write the full in-memory grid size so user-added empty
+        // rows/columns are preserved on reload.  The reader already trims
+        // oversized external files, so this won't re-inflate them.
+        let dimRef = "A1:\(STExcelSheet.columnLetter(max(0, sheet.columnCount - 1)))\(sheet.rowCount)"
         xml += "<dimension ref=\"\(dimRef)\"/>"
 
         // Sheet data
