@@ -144,28 +144,24 @@ final class STAnnotationManager: ObservableObject {
         clearAnnotationSelection()
         activeTool = nil
 
-        // Strip the appearance stream before removal so the tile cache
-        // cannot re-draw the annotation from stale AP data.
-        annotation.removeValue(forAnnotationKey: .appearanceDictionary)
-
         page.removeAnnotation(annotation)
-        undoManager.record(.remove(annotation: annotation, page: page))
 
-        // NEVER use nuclearPDFViewRedraw (document detach/reattach) here.
-        // On previously saved PDFs it causes PDFKit to restore the entire
-        // page from baked PDF data, reverting the deletion AND corrupting
-        // any subsequent drawing operations.
-        forcePDFViewRedraw()
+        let isStampType = annotation.type == "Stamp" || annotation is STImageAnnotation
+            || annotation is STStampAnnotation || annotation is STSignatureAnnotation
 
-        // Stamp-type annotations have baked appearance streams that may
-        // survive the first tile invalidation. A short-delayed second
-        // redraw ensures CATiledLayer fully regenerates affected tiles.
-        if annotation.type == "Stamp" || annotation is STImageAnnotation
-            || annotation is STStampAnnotation || annotation is STSignatureAnnotation {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) { [weak self] in
-                self?.forcePDFViewRedraw()
-            }
+        if isStampType {
+            // Stamp annotations bake an appearance stream into the page's PDF
+            // data. removeAnnotation only removes from the in-memory list —
+            // CATiledLayer still renders the baked image. Replacing the page
+            // with a fresh copy parsed from serialized data ensures the baked
+            // appearance is gone.
+            let freshPage = replacePageWithFreshCopy(page)
+            undoManager.record(.remove(annotation: annotation, page: freshPage ?? page))
+        } else {
+            undoManager.record(.remove(annotation: annotation, page: page))
         }
+
+        forcePDFViewRedraw()
         STHaptics.impact(.medium)
     }
 
@@ -190,22 +186,47 @@ final class STAnnotationManager: ObservableObject {
 
         var hasStamp = false
         for annotation in allAnnotations {
-            annotation.removeValue(forAnnotationKey: .appearanceDictionary)
             page.removeAnnotation(annotation)
-            undoManager.record(.remove(annotation: annotation, page: page))
             if annotation.type == "Stamp" || annotation is STImageAnnotation
                 || annotation is STStampAnnotation || annotation is STSignatureAnnotation {
                 hasStamp = true
             }
         }
 
-        forcePDFViewRedraw()
+        let targetPage: PDFPage
         if hasStamp {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) { [weak self] in
-                self?.forcePDFViewRedraw()
-            }
+            targetPage = replacePageWithFreshCopy(page) ?? page
+        } else {
+            targetPage = page
         }
+
+        for annotation in allAnnotations {
+            undoManager.record(.remove(annotation: annotation, page: targetPage))
+        }
+
+        forcePDFViewRedraw()
         STHaptics.impact(.medium)
+    }
+
+    // MARK: - Page Refresh
+
+    /// Replace a page with a fresh copy parsed from the document's current
+    /// serialized data. This ensures baked appearance streams from deleted
+    /// stamp/image annotations are fully removed from the page's PDF
+    /// representation and CATiledLayer tile cache.
+    @discardableResult
+    private func replacePageWithFreshCopy(_ page: PDFPage) -> PDFPage? {
+        let pdfDoc = document.pdfDocument
+        let pageIndex = pdfDoc.index(for: page)
+
+        guard let data = pdfDoc.dataRepresentation(),
+              let freshDoc = PDFDocument(data: data),
+              let freshPage = freshDoc.page(at: pageIndex) else { return nil }
+
+        pdfDoc.removePage(at: pageIndex)
+        pdfDoc.insert(freshPage, at: pageIndex)
+        pdfView?.go(to: freshPage)
+        return freshPage
     }
 
     // MARK: - Copy / Paste
