@@ -144,23 +144,28 @@ final class STAnnotationManager: ObservableObject {
         clearAnnotationSelection()
         activeTool = nil
 
-        // Strip the appearance stream before removal so PDFKit cannot
-        // restore the visual from cached/baked AP data during redraw.
+        // Strip the appearance stream before removal so the tile cache
+        // cannot re-draw the annotation from stale AP data.
         annotation.removeValue(forAnnotationKey: .appearanceDictionary)
 
         page.removeAnnotation(annotation)
         undoManager.record(.remove(annotation: annotation, page: page))
 
-        // For stamp-type annotations (signatures, photos, stamps) on previously
-        // saved PDFs, the nuclear redraw (document detach/reattach) can restore
-        // the annotation visual from the document's internal PDF data.
-        // Force a data round-trip so PDFKit's internal state reflects the removal,
-        // then do the nuclear redraw to flush CATiledLayer tile caches.
+        // NEVER use nuclearPDFViewRedraw (document detach/reattach) here.
+        // On previously saved PDFs it causes PDFKit to restore the entire
+        // page from baked PDF data, reverting the deletion AND corrupting
+        // any subsequent drawing operations.
+        forcePDFViewRedraw()
+
+        // Stamp-type annotations have baked appearance streams that may
+        // survive the first tile invalidation. A short-delayed second
+        // redraw ensures CATiledLayer fully regenerates affected tiles.
         if annotation.type == "Stamp" || annotation is STImageAnnotation
             || annotation is STStampAnnotation || annotation is STSignatureAnnotation {
-            _ = document.pdfDocument.dataRepresentation()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) { [weak self] in
+                self?.forcePDFViewRedraw()
+            }
         }
-        nuclearPDFViewRedraw()
         STHaptics.impact(.medium)
     }
 
@@ -194,10 +199,12 @@ final class STAnnotationManager: ObservableObject {
             }
         }
 
+        forcePDFViewRedraw()
         if hasStamp {
-            _ = document.pdfDocument.dataRepresentation()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) { [weak self] in
+                self?.forcePDFViewRedraw()
+            }
         }
-        nuclearPDFViewRedraw()
         STHaptics.impact(.medium)
     }
 
