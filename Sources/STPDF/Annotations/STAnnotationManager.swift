@@ -144,49 +144,18 @@ final class STAnnotationManager: ObservableObject {
         clearAnnotationSelection()
         // Deactivate any active tool so eraser/ink don't interfere after delete
         activeTool = nil
+        // Clear the baked appearance stream before removal so PDFKit doesn't
+        // keep rendering the cached image in tile layers
+        // Clear baked appearance stream so tile cache doesn't keep showing the image
+        if let apDict = annotation.value(forAnnotationKey: PDFAnnotationKey(rawValue: "/AP")) {
+            annotation.setValue(nil as AnyObject?, forAnnotationKey: PDFAnnotationKey(rawValue: "/AP"))
+        }
         page.removeAnnotation(annotation)
         undoManager.record(.remove(annotation: annotation, page: page))
-        // Use safe redraw instead of nuclear. Nuclear redraw (document detach/reattach)
-        // can restore baked annotations from the PDF data stream before save.
-        // Instead: invalidate page display + scale nudge to force tile re-render.
-        safeRedrawAfterDelete()
+        // Nuclear redraw to flush tile cache. We cleared appearance first so
+        // even if PDFKit re-reads the page, the annotation has no visual to render.
+        nuclearPDFViewRedraw()
         STHaptics.impact(.medium)
-    }
-
-    /// Redraw after annotation deletion without nuclear document reset.
-    /// Nuclear redraw can restore deleted annotations from the PDF's baked data stream.
-    private func safeRedrawAfterDelete() {
-        guard let pdfView = pdfView else { return }
-        let scale = pdfView.scaleFactor
-        let wasAutoScales = pdfView.autoScales
-        // Invalidate all page views and layers
-        #if os(iOS)
-        func invalidate(_ view: UIView) {
-            view.setNeedsDisplay()
-            view.layer.setNeedsDisplay()
-            for sublayer in view.layer.sublayers ?? [] { sublayer.setNeedsDisplay() }
-            for child in view.subviews { invalidate(child) }
-        }
-        invalidate(pdfView)
-        #elseif os(macOS)
-        func invalidate(_ view: NSView) {
-            view.needsDisplay = true
-            view.layer?.setNeedsDisplay()
-            for sublayer in view.layer?.sublayers ?? [] { sublayer.setNeedsDisplay() }
-            for child in view.subviews { invalidate(child) }
-        }
-        invalidate(pdfView)
-        #endif
-        // Scale nudge to force CATiledLayer to re-render tiles
-        pdfView.scaleFactor = scale + 0.001
-        DispatchQueue.main.async { [weak pdfView] in
-            guard let pdfView else { return }
-            if wasAutoScales {
-                pdfView.autoScales = true
-            } else {
-                pdfView.scaleFactor = scale
-            }
-        }
     }
 
     // MARK: - Multi-Selection
@@ -209,10 +178,14 @@ final class STAnnotationManager: ObservableObject {
         // Deactivate any active tool so eraser/ink don't interfere after delete
         activeTool = nil
         for annotation in annotations {
+            // Clear baked appearance stream so tile cache doesn't keep showing the image
+        if let apDict = annotation.value(forAnnotationKey: PDFAnnotationKey(rawValue: "/AP")) {
+            annotation.setValue(nil as AnyObject?, forAnnotationKey: PDFAnnotationKey(rawValue: "/AP"))
+        }
             page.removeAnnotation(annotation)
             undoManager.record(.remove(annotation: annotation, page: page))
         }
-        safeRedrawAfterDelete()
+        nuclearPDFViewRedraw()
         STHaptics.impact(.medium)
     }
 
