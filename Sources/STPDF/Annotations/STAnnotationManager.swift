@@ -146,10 +146,47 @@ final class STAnnotationManager: ObservableObject {
         activeTool = nil
         page.removeAnnotation(annotation)
         undoManager.record(.remove(annotation: annotation, page: page))
-        // Always use nuclear redraw for deletions — saved annotations lose their
-        // custom subclass and forcePDFViewRedraw can't clear baked appearance streams.
-        nuclearPDFViewRedraw()
+        // Use safe redraw instead of nuclear. Nuclear redraw (document detach/reattach)
+        // can restore baked annotations from the PDF data stream before save.
+        // Instead: invalidate page display + scale nudge to force tile re-render.
+        safeRedrawAfterDelete()
         STHaptics.impact(.medium)
+    }
+
+    /// Redraw after annotation deletion without nuclear document reset.
+    /// Nuclear redraw can restore deleted annotations from the PDF's baked data stream.
+    private func safeRedrawAfterDelete() {
+        guard let pdfView = pdfView else { return }
+        let scale = pdfView.scaleFactor
+        let wasAutoScales = pdfView.autoScales
+        // Invalidate all page views and layers
+        #if os(iOS)
+        func invalidate(_ view: UIView) {
+            view.setNeedsDisplay()
+            view.layer.setNeedsDisplay()
+            for sublayer in view.layer.sublayers ?? [] { sublayer.setNeedsDisplay() }
+            for child in view.subviews { invalidate(child) }
+        }
+        invalidate(pdfView)
+        #elseif os(macOS)
+        func invalidate(_ view: NSView) {
+            view.needsDisplay = true
+            view.layer?.setNeedsDisplay()
+            for sublayer in view.layer?.sublayers ?? [] { sublayer.setNeedsDisplay() }
+            for child in view.subviews { invalidate(child) }
+        }
+        invalidate(pdfView)
+        #endif
+        // Scale nudge to force CATiledLayer to re-render tiles
+        pdfView.scaleFactor = scale + 0.001
+        DispatchQueue.main.async { [weak pdfView] in
+            guard let pdfView else { return }
+            if wasAutoScales {
+                pdfView.autoScales = true
+            } else {
+                pdfView.scaleFactor = scale
+            }
+        }
     }
 
     // MARK: - Multi-Selection
@@ -175,7 +212,7 @@ final class STAnnotationManager: ObservableObject {
             page.removeAnnotation(annotation)
             undoManager.record(.remove(annotation: annotation, page: page))
         }
-        nuclearPDFViewRedraw()
+        safeRedrawAfterDelete()
         STHaptics.impact(.medium)
     }
 
