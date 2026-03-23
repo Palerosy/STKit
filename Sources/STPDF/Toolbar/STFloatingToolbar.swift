@@ -82,13 +82,13 @@ struct STFloatingToolbar: View {
                                active: false,
                                disabled: !annotationManager.undoManager.canUndo) {
                         annotationManager.undoManager.undo()
-                        annotationManager.nuclearPDFViewRedraw()
+                        annotationManager.resetPageViews()
                     }
                     iconButton("arrow.uturn.forward", label: STStrings.redo,
                                active: false,
                                disabled: !annotationManager.undoManager.canRedo) {
                         annotationManager.undoManager.redo()
-                        annotationManager.nuclearPDFViewRedraw()
+                        annotationManager.resetPageViews()
                     }
 
                     divider

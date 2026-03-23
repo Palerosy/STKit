@@ -15,7 +15,7 @@ struct STAnnotationToolbar: View {
                 HStack(spacing: 12) {
                     Button {
                         annotationManager.undoManager.undo()
-                        annotationManager.nuclearPDFViewRedraw()
+                        annotationManager.resetPageViews()
                     } label: {
                         Image(systemName: "arrow.uturn.backward")
                             .font(.system(size: 16, weight: .medium))
@@ -24,7 +24,7 @@ struct STAnnotationToolbar: View {
 
                     Button {
                         annotationManager.undoManager.redo()
-                        annotationManager.nuclearPDFViewRedraw()
+                        annotationManager.resetPageViews()
                     } label: {
                         Image(systemName: "arrow.uturn.forward")
                             .font(.system(size: 16, weight: .medium))

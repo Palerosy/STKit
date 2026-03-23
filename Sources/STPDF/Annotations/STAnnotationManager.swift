@@ -150,18 +150,17 @@ final class STAnnotationManager: ObservableObject {
             || annotation is STStampAnnotation || annotation is STSignatureAnnotation
 
         if isStampType {
-            // Stamp annotations bake an appearance stream into the page's PDF
-            // data. removeAnnotation only removes from the in-memory list —
-            // CATiledLayer still renders the baked image. Replacing the page
-            // with a fresh copy parsed from serialized data ensures the baked
-            // appearance is gone.
+            // Stamp annotations bake an appearance stream into the page's
+            // PDF data. removeAnnotation only removes from the in-memory
+            // list — CATiledLayer still renders the baked image. Replace
+            // the page with a fresh copy so the baked AP stream is gone.
             let freshPage = replacePageWithFreshCopy(page)
             undoManager.record(.remove(annotation: annotation, page: freshPage ?? page))
         } else {
             undoManager.record(.remove(annotation: annotation, page: page))
         }
 
-        forcePDFViewRedraw()
+        resetPageViews()
         STHaptics.impact(.medium)
     }
 
@@ -204,16 +203,15 @@ final class STAnnotationManager: ObservableObject {
             undoManager.record(.remove(annotation: annotation, page: targetPage))
         }
 
-        forcePDFViewRedraw()
+        resetPageViews()
         STHaptics.impact(.medium)
     }
 
     // MARK: - Page Refresh
 
     /// Replace a page with a fresh copy parsed from the document's current
-    /// serialized data. This ensures baked appearance streams from deleted
-    /// stamp/image annotations are fully removed from the page's PDF
-    /// representation and CATiledLayer tile cache.
+    /// serialized data. This removes baked appearance streams from deleted
+    /// stamp/image annotations at the PDF data level.
     @discardableResult
     private func replacePageWithFreshCopy(_ page: PDFPage) -> PDFPage? {
         let pdfDoc = document.pdfDocument
@@ -227,6 +225,30 @@ final class STAnnotationManager: ObservableObject {
         pdfDoc.insert(freshPage, at: pageIndex)
         pdfView?.go(to: freshPage)
         return freshPage
+    }
+
+    /// Recreate the PDFView's page views by toggling usePageViewController.
+    /// This destroys all CATiledLayer tile caches and forces a complete
+    /// re-render from the current page state — without detaching the
+    /// document (which would restore baked data on saved PDFs).
+    func resetPageViews() {
+        guard let pdfView = pdfView else { return }
+        let currentPage = pdfView.currentPage
+        let scale = pdfView.scaleFactor
+        let wasAutoScales = pdfView.autoScales
+        #if os(iOS)
+        pdfView.usePageViewController(false)
+        pdfView.usePageViewController(true)
+        isPageVCEnabled = true
+        #endif
+        if let page = currentPage {
+            pdfView.go(to: page)
+        }
+        if wasAutoScales {
+            pdfView.autoScales = true
+        } else {
+            pdfView.scaleFactor = scale
+        }
     }
 
     // MARK: - Copy / Paste
@@ -730,7 +752,7 @@ final class STAnnotationManager: ObservableObject {
         let clamped = max(0, min(toIndex, newOrder.count))
         newOrder.insert(annotation, at: clamped)
         for a in newOrder { page.addAnnotation(a) }
-        nuclearPDFViewRedraw()
+        resetPageViews()
         // Re-select so visuals refresh
         selectAnnotation(annotation, on: page)
     }
@@ -952,7 +974,7 @@ final class STAnnotationManager: ObservableObject {
         selectedStampType = nil
         activeTool = nil
         selectAnnotation(annotation, on: page)
-        forcePDFViewRedraw()
+        resetPageViews()
 
         STHaptics.impact(.light)
     }
@@ -976,7 +998,7 @@ final class STAnnotationManager: ObservableObject {
         // Switch to selection mode and auto-select the new annotation
         activeTool = nil
         selectAnnotation(annotation, on: page)
-        forcePDFViewRedraw()
+        resetPageViews()
 
         STHaptics.impact(.light)
     }
@@ -995,7 +1017,7 @@ final class STAnnotationManager: ObservableObject {
         selectedPhotoImage = nil
         activeTool = nil
         selectAnnotation(annotation, on: page)
-        forcePDFViewRedraw()
+        resetPageViews()
 
         STHaptics.impact(.light)
     }
@@ -1119,10 +1141,8 @@ final class STAnnotationManager: ObservableObject {
                     pageIndex: pageIndex,
                     previousPage: originalPage
                 ))
-                // Nuclear redraw — overlay hides CATiledLayer flicker.
-                // Must use nuclear (nil→re-set) so PDFView refreshes its internal
-                // page references; direct re-set of same reference is ignored.
-                nuclearPDFViewRedraw()
+                // Reset page views — overlay hides CATiledLayer flicker.
+                resetPageViews()
                 // Wait for CATiledLayer to render new tiles behind overlay
                 try? await Task.sleep(nanoseconds: 300_000_000)
                 STHaptics.impact(.medium)

@@ -18,7 +18,7 @@ struct STPDFRibbonInsertTab: View {
                     isDisabled: !annotationManager.undoManager.canUndo
                 ) {
                     annotationManager.undoManager.undo()
-                    annotationManager.nuclearPDFViewRedraw()
+                    annotationManager.resetPageViews()
                 }
 
                 // Redo
@@ -28,7 +28,7 @@ struct STPDFRibbonInsertTab: View {
                     isDisabled: !annotationManager.undoManager.canRedo
                 ) {
                     annotationManager.undoManager.redo()
-                    annotationManager.nuclearPDFViewRedraw()
+                    annotationManager.resetPageViews()
                 }
 
                 STPDFRibbonSeparator()
