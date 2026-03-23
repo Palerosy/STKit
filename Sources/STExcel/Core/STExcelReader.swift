@@ -682,13 +682,19 @@ enum STExcelReader {
         let maxRow = max(contentMaxRow, mergeMaxRow)
         let maxCol = max(contentMaxCol, mergeMaxCol)
 
-        // Use dimension tag if available (preserves user-added empty rows/cols),
-        // otherwise content-based sizing.  Do NOT add extra padding — every
-        // save/load cycle was inflating the sheet by +10 rows / +3 cols.
+        // Size the grid to fit actual content.  The dimension tag from external
+        // files can be huge (e.g. 1000 rows with custom heights but only 50 rows
+        // of data) so we ignore it when it far exceeds content.  Our own writer
+        // already writes a tight dimension, so this only trims external files.
+        let contentRows = maxRow + 1                          // rows with data or merges
+        let contentCols = maxCol + 1
         let dimRows = parser.dimensionRows ?? 0
         let dimCols = parser.dimensionCols ?? 0
-        let rows = max(maxRow + 1, dimRows, 20)
-        let cols = max(maxCol + 1, dimCols, 10)
+        // Trust dimension only when it's close to content (within 2x or < 200 extra)
+        let effectiveDimRows = (dimRows <= contentRows * 2 + 200) ? dimRows : contentRows
+        let effectiveDimCols = (dimCols <= contentCols * 2 + 50) ? dimCols : contentCols
+        let rows = max(contentRows, effectiveDimRows, 1)
+        let cols = max(contentCols, effectiveDimCols, 1)
 
         var result: [[STExcelCell]] = (0..<rows).map { _ in
             (0..<cols).map { _ in STExcelCell() }
