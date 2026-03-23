@@ -144,14 +144,23 @@ final class STAnnotationManager: ObservableObject {
         clearAnnotationSelection()
         activeTool = nil
 
-        // Rebuild page annotations: remove ALL, then re-add everything except deleted.
-        // This avoids nuclear redraw (which breaks rendering) while ensuring PDFKit
-        // fully refreshes the page including baked appearance streams.
-        let surviving = page.annotations.filter { $0 !== annotation }
-        for a in page.annotations { page.removeAnnotation(a) }
-        for a in surviving { page.addAnnotation(a) }
+        // Strip the appearance stream before removal so PDFKit cannot
+        // restore the visual from cached/baked AP data during redraw.
+        annotation.removeValue(forAnnotationKey: .appearanceDictionary)
 
+        page.removeAnnotation(annotation)
         undoManager.record(.remove(annotation: annotation, page: page))
+
+        // For stamp-type annotations (signatures, photos, stamps) on previously
+        // saved PDFs, the nuclear redraw (document detach/reattach) can restore
+        // the annotation visual from the document's internal PDF data.
+        // Force a data round-trip so PDFKit's internal state reflects the removal,
+        // then do the nuclear redraw to flush CATiledLayer tile caches.
+        if annotation.type == "Stamp" || annotation is STImageAnnotation
+            || annotation is STStampAnnotation || annotation is STSignatureAnnotation {
+            _ = document.pdfDocument.dataRepresentation()
+        }
+        nuclearPDFViewRedraw()
         STHaptics.impact(.medium)
     }
 
@@ -169,20 +178,26 @@ final class STAnnotationManager: ObservableObject {
     /// Delete all multi-selected annotations
     func deleteMultiSelectedAnnotations() {
         guard let page = multiSelectionPage else { return }
-        let toDelete = Set(multiSelectedAnnotations.map { ObjectIdentifier($0) })
         let allAnnotations = multiSelectedAnnotations
         multiSelectedAnnotations.removeAll()
         multiSelectionPage = nil
         activeTool = nil
 
-        // Rebuild page: remove all, re-add survivors
-        let surviving = page.annotations.filter { !toDelete.contains(ObjectIdentifier($0)) }
-        for a in page.annotations { page.removeAnnotation(a) }
-        for a in surviving { page.addAnnotation(a) }
-
+        var hasStamp = false
         for annotation in allAnnotations {
+            annotation.removeValue(forAnnotationKey: .appearanceDictionary)
+            page.removeAnnotation(annotation)
             undoManager.record(.remove(annotation: annotation, page: page))
+            if annotation.type == "Stamp" || annotation is STImageAnnotation
+                || annotation is STStampAnnotation || annotation is STSignatureAnnotation {
+                hasStamp = true
+            }
         }
+
+        if hasStamp {
+            _ = document.pdfDocument.dataRepresentation()
+        }
+        nuclearPDFViewRedraw()
         STHaptics.impact(.medium)
     }
 
